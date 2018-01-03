@@ -51,7 +51,6 @@ class Login extends Component {
   }
 
   onPressSingIn() {
-    console.log('hola mundo4444555566666');
     this.setState({
       authenticating: true,
       placeholder: 'Ingresa tu correo electrónico...',
@@ -148,8 +147,6 @@ class Login extends Component {
             });
           // etc
         }
-
-        console.log(errorMessage);
       });
   }
 

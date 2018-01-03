@@ -1,22 +1,37 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, View, StatusBar, KeyboardAvoidingView } from 'react-native';
+import {
+  ActivityIndicator,
+  View,
+  StatusBar,
+  KeyboardAvoidingView,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import * as firebase from 'firebase';
 import { Container } from '../components/Container';
 
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
-// import { Logo } from '../components/Logo';
+import { Logo } from '../components/Logo';
+import { Form } from '../components/Form';
 import { TextIndication } from '../components/TextIndication';
+import { manejarError } from '../comun/helper';
 
 class CrearCuenta extends Component {
-  state = {
-    usuario: '',
-    password: '',
-    email: '',
-    authenticating: false,
-    indication: '',
-  };
+  constructor() {
+    super();
+    this.onPressCrearCuenta = this.onPressCrearCuenta.bind(this);
+    this.actualizarCredenciales = this.actualizarCredenciales.bind(this);
+    this.state = {
+      email: '',
+      authenticating: false,
+      password: '',
+      indication: '',
+      placeholder: 'Ingresa tu correo electrónico...',
+      placeholderc: 'Contraseña...',
+    };
+  }
 
   componentWillMount() {
     const firebaseConfig = {
@@ -28,12 +43,19 @@ class CrearCuenta extends Component {
     }
   }
 
+  actualizarCredenciales(credenciales) {
+    this.setState({
+      email: credenciales['email'],
+      password: credenciales['password'],
+    });
+    //this.onPressSingIn();
+  }
   onPressCrearCuenta() {
     this.setState({
       authenticating: true,
       indication: '',
     });
-    console.log('hola mundo');
+
     const auth = firebase.auth();
     const emailAddress = this.state.email;
     const password = this.state.password;
@@ -44,30 +66,98 @@ class CrearCuenta extends Component {
         this.setState({
           authenticating: false,
         });
-        console.log('Request para crear usuario enviado'); // Request sent.
+        //console.log('Request para crear usuario enviado'); // Request sent.
       })
       .catch(error => {
         // Handle Errors here.
+
         const errorCode = error.code;
         const errorMessage = error.message;
 
         switch (errorCode) {
+          case 'auth/user-disabled':
+            this.setState({
+              placeholderc: 'Contraseña...',
+              password: '',
+              email: '',
+              authenticating: false,
+              placeholder: 'Ingresa tu correo electrónico...',
+              indication: 'El correo electrónico ha sido deshabilitado',
+            });
+            break;
           case 'auth/email-already-in-use':
             this.setState({
+              placeholderc: 'Contraseña...',
+              password: '',
+              email: '',
               authenticating: false,
+              placeholder: 'Ingresa tu correo electrónico...',
               indication: 'El correo electrónico no es válido, ya se encuentra registrado',
+            });
+            break;
+
+          case 'auth/weak-password':
+            this.setState({
+              placeholderc: 'Contraseña...',
+              password: '',
+              authenticating: false,
+              placeholder: 'Ingresa tu correo electrónico...',
+              indication: 'El password debe tener al menos 6 carcacteres',
             });
             break;
           case 'auth/invalid-email':
             this.setState({
+              placeholderc: 'Contraseña...',
+              password: '',
+              email: '',
               authenticating: false,
+              placeholder: 'Ingresa tu correo electrónico...',
               indication: 'El correo electrónico no tiene un formato válido',
             });
             break;
-          case 'auth/weak-password':
+          case 'auth/user-not-found':
             this.setState({
+              placeholderc: 'Contraseña...',
+              password: '',
+              email: '',
               authenticating: false,
-              indication: 'El password debe tener al menos 6 carcacteres',
+              placeholder: 'Ingresa tu correo electrónico...',
+              indication: 'El correo electrónico no se encuentra registrado',
+            });
+            break;
+          case 'auth/wrong-password':
+            // this.inputCorreo.placeholder = emailAddress;
+
+            this.setState({
+              placeholderc: 'Contraseña...',
+              password: '',
+              authenticating: false,
+              placeholder: emailAddress,
+              indication: 'La contraseña es incorrecta',
+            });
+            break;
+
+          case 'auth/network-request-failed':
+            // this.inputCorreo.placeholder = emailAddress;
+
+            this.setState({
+              placeholderc: password,
+              authenticating: false,
+              placeholder: emailAddress,
+              indication: 'Problema de conexión a internet',
+            });
+            break;
+
+          case 'auth/too-many-requests':
+            // this.inputCorreo.placeholder = emailAddress;
+
+            this.setState({
+              placeholderc: 'Contraseña...',
+              password: '',
+              email: '',
+              authenticating: false,
+              placeholder: 'Ingresa tu correo electrónico...',
+              indication: 'Muchos intentos fallidos, intenta luego',
             });
             break;
           default:
@@ -77,64 +167,65 @@ class CrearCuenta extends Component {
             });
           // etc
         }
-
-        // ...
-        console.log(errorMessage);
-        console.log(errorCode);
       });
   }
 
-  renderCurrentState() {
-    if (this.state.authenticating) {
-      return (
-        <View style={styles.form}>
-          <StatusBar translucent={false} barStyle="light-content" />
-          <ActivityIndicator size="large" />
-        </View>
-      );
-    }
-
-    return (
-      <View style={styles.form}>
-        <StatusBar translucent={false} barStyle="light-content" />
-        <KeyboardAvoidingView behavior="padding">
-          <Input
-            placeholder="Usuario"
-            label="Usuario"
-            onChangeText={usuario => this.setState({ usuario })}
-            autoCapitalize="none"
-            underlineColorAndroid="#4f6d7a"
-          />
-          <Input
-            placeholder="Ingresa tu correo electrónico..."
-            label="Correo electrónico"
-            onChangeText={email => this.setState({ email })}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            underlineColorAndroid="#4f6d7a"
-          />
-          <Input
-            onChangeText={password => this.setState({ password })}
-            placeholder="Ingresa tu contraseña..."
-            label="Contraseña"
-            secureTextEntry
-            autoCapitalize="none"
-            underlineColorAndroid="#4f6d7a"
-          />
-          <Button onPress={() => this.onPressCrearCuenta()}>Crear cuenta</Button>
-          <TextIndication description={this.state.indication} />
-        </KeyboardAvoidingView>
-      </View>
-    );
-  }
   render() {
-    return <Container>{this.renderCurrentState()}</Container>;
+    return (
+      <Container>
+        <View style={styles.form}>
+          <StatusBar translucent={false} barStyle="light-content" backgroundColor="#1c313a" />
+
+          <Logo />
+          <KeyboardAvoidingView behavior="padding" style={styles.form}>
+            <Form
+              type="Registrarse"
+              singUp={this.onPressCrearCuenta}
+              actualizar={this.actualizarCredenciales}
+              placeholder={this.state.placeholder}
+              email={this.state.email}
+              password={this.state.password}
+              placeholderc={this.state.placeholderc}
+              authenticating={this.state.authenticating}
+            />
+          </KeyboardAvoidingView>
+
+          <TextIndication description={this.state.indication} />
+
+          <View style={styles.signupTextCont}>
+            <TouchableOpacity>
+              <Text style={styles.signupButton}>Entrar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Container>
+    );
   }
 }
 
 const styles = EStyleSheet.create({
   form: {
-    flex: 1,
+    flexGrow: 1,
+    justifyContent: 'space-between',
+  },
+  signupTextCont: {
+    flexGrow: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    paddingVertical: 16,
+    flexDirection: 'row',
+  },
+  signupText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '500',
+    paddingHorizontal: 20,
+  },
+  signupButton: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '500',
+    paddingHorizontal: 20,
   },
 });
 
