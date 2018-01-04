@@ -1,22 +1,12 @@
 import React, { Component } from 'react';
-import {
-  ActivityIndicator,
-  View,
-  StatusBar,
-  KeyboardAvoidingView,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import { View, StatusBar, KeyboardAvoidingView, Text, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import * as firebase from 'firebase';
 import { Container } from '../components/Container';
 
-import { Input } from '../components/Input';
-import { Button } from '../components/Button';
 import { Logo } from '../components/Logo';
 import { FormContrasena } from '../components/FormContrasena';
 import { TextIndication } from '../components/TextIndication';
-import { manejarError } from '../comun/helper';
 
 class ReiniciarContrasena extends Component {
   constructor() {
@@ -43,13 +33,6 @@ class ReiniciarContrasena extends Component {
     }
   }
 
-  actualizarCredenciales(credenciales) {
-    this.setState({
-      email: credenciales['email'],
-      password: credenciales['password'],
-    });
-    //this.onPressSingIn();
-  }
   onPressReiniciarContrasena() {
     this.setState({
       authenticating: true,
@@ -72,13 +55,12 @@ class ReiniciarContrasena extends Component {
           indication:
             'Revisa tu correo electrónico y sigue las intrucciones para reiniciar tu contraseña',
         });
-        //console.log('Email enviado'); // Request sent.
+        // console.log('Email enviado'); // Request sent.
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle Errors here.
 
         const errorCode = error.code;
-        const errorMessage = error.message;
 
         switch (errorCode) {
           case 'auth/user-disabled':
@@ -176,6 +158,13 @@ class ReiniciarContrasena extends Component {
       });
   }
 
+  actualizarCredenciales(credenciales) {
+    this.setState({
+      email: credenciales.email,
+      password: credenciales.password,
+    });
+    // this.onPressSingIn();
+  }
   render() {
     return (
       <Container>
@@ -232,6 +221,18 @@ const styles = EStyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     paddingHorizontal: 20,
+  },
+  button: {
+    width: 300,
+    backgroundColor: '#1c313a',
+    borderRadius: 25,
+    marginVertical: 10,
+    paddingVertical: 13,
+  },
+  containerb: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

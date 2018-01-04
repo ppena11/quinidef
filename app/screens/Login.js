@@ -44,10 +44,10 @@ class Login extends Component {
 
   actualizarCredenciales(credenciales) {
     this.setState({
-      email: credenciales['email'],
-      password: credenciales['password'],
+      email: credenciales.email,
+      password: credenciales.password,
     });
-    //this.onPressSingIn();
+    // this.onPressSingIn();
   }
 
   onPressSingIn() {
@@ -68,7 +68,7 @@ class Login extends Component {
         });
         console.log('Logueado...'); // //logueado
       })
-      .catch(error => {
+      .catch((error) => {
         // con An error happened.
 
         const errorCode = error.code;

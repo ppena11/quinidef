@@ -13,7 +13,7 @@ export default class Form extends Component<{}> {
 
   registrare(email) {
     const credenciales = {
-      email: email,
+      email,
       password: this.props.password,
     };
     this.props.actualizar(credenciales);
@@ -22,7 +22,7 @@ export default class Form extends Component<{}> {
   registrarp(password) {
     const credenciales = {
       email: this.props.email,
-      password: password,
+      password,
     };
     this.props.actualizar(credenciales);
   }
@@ -58,7 +58,7 @@ export default class Form extends Component<{}> {
           style={styles.inputBox}
           underlineColorAndroid="rgba(0,0,0,0)"
           placeholder={this.props.placeholderc}
-          secureTextEntry={true}
+          secureTextEntry
           placeholderTextColor="#ffffff"
           autoCapitalize="none"
           onSubmitEditing={() => this.registrar()}

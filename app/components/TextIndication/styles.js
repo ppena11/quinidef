@@ -11,7 +11,7 @@ export default EStyleSheet.create({
     flexDirection: 'row',
   },
   label: {
-    width: '80%',
+    width: '90%',
     paddingBottom: 0,
     color: '$white',
     fontSize: 17,
