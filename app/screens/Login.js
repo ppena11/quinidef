@@ -19,6 +19,9 @@ import { RecuperarContrasena } from '../components/RecuperarContrasena';
 import { Form } from '../components/Form';
 
 class Login extends Component {
+  static navigationOptions = {
+    header: null,
+  };
   constructor() {
     super();
     this.onPressSingIn = this.onPressSingIn.bind(this);
