@@ -11,14 +11,14 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import * as firebase from 'firebase';
 import { Container } from '../components/Container';
 
-import { Input } from '../components/Input';
-import { Button } from '../components/Button';
 import { Logo } from '../components/Logo';
 import { Form } from '../components/Form';
 import { TextIndication } from '../components/TextIndication';
-import { manejarError } from '../comun/helper';
 
 class CrearCuenta extends Component {
+  static navigationOptions = {
+    header: null,
+  };
   constructor() {
     super();
     this.onPressCrearCuenta = this.onPressCrearCuenta.bind(this);
@@ -43,13 +43,6 @@ class CrearCuenta extends Component {
     }
   }
 
-  actualizarCredenciales(credenciales) {
-    this.setState({
-      email: credenciales['email'],
-      password: credenciales['password'],
-    });
-    //this.onPressSingIn();
-  }
   onPressCrearCuenta() {
     this.setState({
       authenticating: true,
@@ -58,7 +51,7 @@ class CrearCuenta extends Component {
 
     const auth = firebase.auth();
     const emailAddress = this.state.email;
-    const password = this.state.password;
+    const { password } = this.state;
 
     auth
       .createUserWithEmailAndPassword(emailAddress, password)
@@ -66,13 +59,12 @@ class CrearCuenta extends Component {
         this.setState({
           authenticating: false,
         });
-        //console.log('Request para crear usuario enviado'); // Request sent.
+        // console.log('Request para crear usuario enviado'); // Request sent.
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle Errors here.
 
         const errorCode = error.code;
-        const errorMessage = error.message;
 
         switch (errorCode) {
           case 'auth/user-disabled':
@@ -170,7 +162,16 @@ class CrearCuenta extends Component {
       });
   }
 
+  actualizarCredenciales(credenciales) {
+    this.setState({
+      email: credenciales.email,
+      password: credenciales.password,
+    });
+    // this.onPressSingIn();
+  }
+
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <Container>
         <View style={styles.form}>
@@ -193,7 +194,7 @@ class CrearCuenta extends Component {
           <TextIndication description={this.state.indication} />
 
           <View style={styles.signupTextCont}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigate('Home')}>
               <Text style={styles.signupButton}>Entrar</Text>
             </TouchableOpacity>
           </View>

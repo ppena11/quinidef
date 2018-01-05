@@ -1,29 +1,19 @@
 import React, { Component } from 'react';
-import {
-  ActivityIndicator,
-  View,
-  StatusBar,
-  KeyboardAvoidingView,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import { View, StatusBar, Text, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import * as firebase from 'firebase';
+
 import { Container } from '../components/Container';
 
-import { Input } from '../components/Input';
-import { Button } from '../components/Button';
 import { Logo } from '../components/Logo';
-import { FormContrasena } from '../components/FormContrasena';
 import { TextIndication } from '../components/TextIndication';
-import { manejarError } from '../comun/helper';
 
 class ConfirmacionCorreo extends Component {
-  aceptar() {
-    console.log('EPALE');
-  }
+  static navigationOptions = {
+    header: null,
+  };
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <Container>
         <View style={styles.form}>
@@ -33,13 +23,13 @@ class ConfirmacionCorreo extends Component {
 
           <TextIndication description="Revisa tu correo electrónico y sigue las intrucciones para reiniciar tu contraseña" />
           <View style={styles.containerb}>
-            <TouchableOpacity style={styles.button} onPress={() => this.aceptar()}>
+            <TouchableOpacity style={styles.button} onPress={() => navigate('Home')}>
               <Text style={styles.buttonText}>Aceptar</Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.signupTextCont}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigate('Home')}>
               <Text style={styles.signupButton}>Entrar</Text>
             </TouchableOpacity>
           </View>

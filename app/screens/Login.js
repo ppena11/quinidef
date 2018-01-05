@@ -1,21 +1,11 @@
 import React, { Component } from 'react';
-import {
-  ActivityIndicator,
-  TouchableOpacity,
-  View,
-  StatusBar,
-  KeyboardAvoidingView,
-  Text,
-} from 'react-native';
+import { TouchableOpacity, View, StatusBar, KeyboardAvoidingView, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import * as firebase from 'firebase';
 import { Container } from '../components/Container';
 
-import { Input } from '../components/Input';
-import { Button } from '../components/Button';
 import { Logo } from '../components/Logo';
 import { TextIndication } from '../components/TextIndication';
-import { RecuperarContrasena } from '../components/RecuperarContrasena';
 import { Form } from '../components/Form';
 
 class Login extends Component {
@@ -45,14 +35,6 @@ class Login extends Component {
     }
   }
 
-  actualizarCredenciales(credenciales) {
-    this.setState({
-      email: credenciales.email,
-      password: credenciales.password,
-    });
-    // this.onPressSingIn();
-  }
-
   onPressSingIn() {
     this.setState({
       authenticating: true,
@@ -61,7 +43,7 @@ class Login extends Component {
 
     const auth = firebase.auth();
     const emailAddress = this.state.email;
-    const password = this.state.password;
+    const { password } = this.state;
 
     auth
       .signInWithEmailAndPassword(emailAddress, password)
@@ -69,13 +51,14 @@ class Login extends Component {
         this.setState({
           authenticating: false,
         });
-        console.log('Logueado...'); // //logueado
+
+        const { navigate } = this.props.navigation;
+        navigate('Log');
       })
       .catch((error) => {
         // con An error happened.
 
         const errorCode = error.code;
-        const errorMessage = error.message;
 
         switch (errorCode) {
           case 'auth/user-disabled':
@@ -153,7 +136,16 @@ class Login extends Component {
       });
   }
 
+  actualizarCredenciales(credenciales) {
+    this.setState({
+      email: credenciales.email,
+      password: credenciales.password,
+    });
+    // this.onPressSingIn();
+  }
+
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <Container>
         <View style={styles.form}>
@@ -176,8 +168,10 @@ class Login extends Component {
           <TextIndication description={this.state.indication} />
 
           <View style={styles.signupTextCont}>
-            <Text style={styles.signupText}>Recuperar contraseña</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigate('ReiniciarContrasena')}>
+              <Text style={styles.signupText}>Recuperar contraseña</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigate('CrearCuenta')}>
               <Text style={styles.signupButton}> Registrate</Text>
             </TouchableOpacity>
           </View>

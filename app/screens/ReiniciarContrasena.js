@@ -9,6 +9,9 @@ import { FormContrasena } from '../components/FormContrasena';
 import { TextIndication } from '../components/TextIndication';
 
 class ReiniciarContrasena extends Component {
+  static navigationOptions = {
+    header: null,
+  };
   constructor() {
     super();
     this.onPressReiniciarContrasena = this.onPressReiniciarContrasena.bind(this);
@@ -41,7 +44,7 @@ class ReiniciarContrasena extends Component {
 
     const auth = firebase.auth();
     const emailAddress = this.state.email;
-    const password = this.state.password;
+    const { password } = this.state;
 
     auth
 
@@ -55,7 +58,9 @@ class ReiniciarContrasena extends Component {
           indication:
             'Revisa tu correo electrónico y sigue las intrucciones para reiniciar tu contraseña',
         });
-        // console.log('Email enviado'); // Request sent.
+
+        const { navigate } = this.props.navigation;
+        navigate('ConfirmacionCorreo');
       })
       .catch((error) => {
         // Handle Errors here.
@@ -166,6 +171,7 @@ class ReiniciarContrasena extends Component {
     // this.onPressSingIn();
   }
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <Container>
         <View style={styles.form}>
@@ -188,7 +194,7 @@ class ReiniciarContrasena extends Component {
           <TextIndication description={this.state.indication} />
 
           <View style={styles.signupTextCont}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigate('Home')}>
               <Text style={styles.signupButton}>Entrar</Text>
             </TouchableOpacity>
           </View>
