@@ -1,34 +1,31 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard } from 'react-native';
-import PropTypes from 'prop-types';
+import { Text, View, TextInput, TouchableOpacity, Keyboard } from 'react-native';
+
+import { connect } from 'react-redux';
 import styles from './styles';
+
+import { emailChanged, recuperarEmail, salirSistema } from '../../actions';
 
 import { Spinner } from '../Spinner';
 
-export default class Form extends Component<{}> {
+class FormContrasena extends Component<{}> {
   constructor() {
     super();
     this.registrar = this.registrar.bind(this);
   }
 
   registrare(email) {
-    const credenciales = {
-      email: email,
-      password: this.props.password,
-    };
-    this.props.actualizar(credenciales);
-  }
-
-  registrarp(password) {
-    const credenciales = {
-      email: this.props.email,
-      password: password,
-    };
-    this.props.actualizar(credenciales);
+    this.props.emailChanged(email);
   }
 
   registrar() {
-    this.props.singUp();
+    const { email } = this.props;
+    if (this.props.type === 'Salir del sistema') {
+      this.props.salirSistema();
+    } else {
+      this.props.recuperarEmail(email);
+    }
+
     Keyboard.dismiss();
   }
 
@@ -62,3 +59,12 @@ export default class Form extends Component<{}> {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  email: state.auth.email,
+  password: state.auth.password,
+  placeholder: state.auth.placeholder,
+  authenticating: state.auth.authenticating,
+});
+
+export default connect(mapStateToProps, { emailChanged, recuperarEmail, salirSistema })(FormContrasena);

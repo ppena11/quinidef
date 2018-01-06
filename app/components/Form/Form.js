@@ -1,35 +1,39 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard } from 'react-native';
+import { connect } from 'react-redux';
+import { Text, View, TextInput, TouchableOpacity, Keyboard } from 'react-native';
+
 import PropTypes from 'prop-types';
+
+import { emailChanged, passwordChanged, loginUser, createUser } from '../../actions';
+
 import styles from './styles';
 
 import { Spinner } from '../Spinner';
 
-export default class Form extends Component<{}> {
+class Form extends Component<{}> {
   constructor() {
     super();
     this.registrar = this.registrar.bind(this);
   }
 
   registrare(email) {
-    const credenciales = {
-      email,
-      password: this.props.password,
-    };
-    this.props.actualizar(credenciales);
+    this.props.emailChanged(email);
   }
 
   registrarp(password) {
-    const credenciales = {
-      email: this.props.email,
-      password,
-    };
-    this.props.actualizar(credenciales);
+    this.props.passwordChanged(password);
   }
 
   registrar() {
-    this.props.singUp();
+    const { email, password } = this.props;
+    // this.props.singUp();
     Keyboard.dismiss();
+
+    if (this.props.type === 'Entrar') {
+      this.props.loginUser({ email, password });
+    } else {
+      this.props.createUser({ email, password });
+    }
   }
 
   renderSpinner() {
@@ -73,3 +77,19 @@ export default class Form extends Component<{}> {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  email: state.auth.email,
+  password: state.auth.password,
+  placeholder: state.auth.placeholder,
+  placeholderc: state.auth.placeholderc,
+  error: state.auth.error,
+  authenticating: state.auth.authenticating,
+});
+
+export default connect(mapStateToProps, {
+  emailChanged,
+  passwordChanged,
+  loginUser,
+  createUser,
+})(Form);

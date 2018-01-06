@@ -1,0 +1,13 @@
+export const EMAIL_CHANGED = 'email_changed';
+export const PASSWORD_CHANGED = 'password_changed';
+export const LOGIN_USER_SUCCESS = 'login_user_success';
+export const LOGIN_USER_FAIL = 'login_user_fail';
+export const LOGIN_USER = 'login_user';
+export const CREATE_USER_FAIL = 'create_user_fail';
+export const GO_TO_MAIN = 'go_to_main';
+export const GO_TO_EMAIL_CONFIRMATION = 'go_to_email_confirmation';
+export const EMAIL_ENVIADO = 'email_enviado';
+export const GO_TO_HOME = 'go_to_email_home';
+export const GO_TO_CREAR_CUENTA = 'go_to_crear_cuenta';
+export const GO_TO_REINICIAR_CUENTA = 'go_to_reiniciar_cuenta';
+export const EXIT_SUCCESS = 'exit_success';

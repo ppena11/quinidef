@@ -2,189 +2,21 @@ import React, { Component } from 'react';
 import { View, StatusBar, KeyboardAvoidingView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import * as firebase from 'firebase';
+import { connect } from 'react-redux';
 import { Container } from '../components/Container';
 
 import { Logo } from '../components/Logo';
 import { FormContrasena } from '../components/FormContrasena';
 import { TextIndication } from '../components/TextIndication';
+import { gotohome } from '../actions';
 
 class Home extends Component {
   static navigationOptions = {
     header: null,
   };
-  constructor() {
-    super();
-    this.onPressHome = this.onPressHome.bind(this);
-    this.actualizarCredenciales = this.actualizarCredenciales.bind(this);
-    this.state = {
-      email: '',
-      authenticating: false,
-      password: '',
-      indication: '',
-      placeholder: 'Ingresa tu correo electrónico...',
-      placeholderc: 'Contraseña...',
-    };
-  }
 
-  componentWillMount() {
-    const firebaseConfig = {
-      apiKey: 'AIzaSyBTNTx1cp-bZ3SquR9d6btC974MUnsPMb0',
-      authDomain: 'react-native-firebase-20f8d.firebaseapp.com',
-    };
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
-    const user = firebase.auth().currentUser;
-
-    if (user) {
-      // User is signed in.
-
-      this.setState({
-        email: '',
-        authenticating: false,
-        password: '',
-        indication: '',
-        placeholder: user.email,
-        placeholderc: 'Contraseña...',
-      });
-    } else {
-      // No user is signed in.
-    }
-  }
-
-  onPressHome() {
-    this.setState({
-      authenticating: true,
-      indication: '',
-    });
-
-    const auth = firebase.auth();
-    const emailAddress = this.state.email;
-    const { password } = this.state;
-
-    auth
-
-      .signOut()
-      .then(() => {
-        this.setState({
-          authenticating: false,
-        });
-
-        this.setState({
-          indication:
-            'Revisa tu correo electrónico y sigue las intrucciones para reiniciar tu contraseña',
-        });
-
-        const { navigate } = this.props.navigation;
-        navigate('Home');
-      })
-      .catch((error) => {
-        // Handle Errors here.
-
-        const errorCode = error.code;
-
-        switch (errorCode) {
-          case 'auth/user-disabled':
-            this.setState({
-              placeholderc: 'Contraseña...',
-              password: '',
-              email: '',
-              authenticating: false,
-              placeholder: 'Ingresa tu correo electrónico...',
-              indication: 'El correo electrónico ha sido deshabilitado',
-            });
-            break;
-          case 'auth/email-already-in-use':
-            this.setState({
-              placeholderc: 'Contraseña...',
-              password: '',
-              email: '',
-              authenticating: false,
-              placeholder: 'Ingresa tu correo electrónico...',
-              indication: 'El correo electrónico no es válido, ya se encuentra registrado',
-            });
-            break;
-
-          case 'auth/weak-password':
-            this.setState({
-              placeholderc: 'Contraseña...',
-              password: '',
-              authenticating: false,
-              placeholder: 'Ingresa tu correo electrónico...',
-              indication: 'El password debe tener al menos 6 carcacteres',
-            });
-            break;
-          case 'auth/invalid-email':
-            this.setState({
-              placeholderc: 'Contraseña...',
-              password: '',
-              email: '',
-              authenticating: false,
-              placeholder: 'Ingresa tu correo electrónico...',
-              indication: 'El correo electrónico no tiene un formato válido',
-            });
-            break;
-          case 'auth/user-not-found':
-            this.setState({
-              placeholderc: 'Contraseña...',
-              password: '',
-              email: '',
-              authenticating: false,
-              placeholder: 'Ingresa tu correo electrónico...',
-              indication: 'El correo electrónico no se encuentra registrado',
-            });
-            break;
-          case 'auth/wrong-password':
-            // this.inputCorreo.placeholder = emailAddress;
-
-            this.setState({
-              placeholderc: 'Contraseña...',
-              password: '',
-              authenticating: false,
-              placeholder: emailAddress,
-              indication: 'La contraseña es incorrecta',
-            });
-            break;
-
-          case 'auth/network-request-failed':
-            // this.inputCorreo.placeholder = emailAddress;
-
-            this.setState({
-              placeholderc: password,
-              authenticating: false,
-              placeholder: emailAddress,
-              indication: 'Problema de conexión a internet',
-            });
-            break;
-
-          case 'auth/too-many-requests':
-            // this.inputCorreo.placeholder = emailAddress;
-
-            this.setState({
-              placeholderc: 'Contraseña...',
-              password: '',
-              email: '',
-              authenticating: false,
-              placeholder: 'Ingresa tu correo electrónico...',
-              indication: 'Muchos intentos fallidos, intenta luego',
-            });
-            break;
-          default:
-            this.setState({
-              authenticating: false,
-              indication: errorCode,
-            });
-          // etc
-        }
-      });
-  }
-
-  actualizarCredenciales(credenciales) {
-    this.setState({
-      email: credenciales.email,
-      password: credenciales.password,
-    });
-    // this.onPressSingIn();
+  confirmar() {
+    this.props.gotohome();
   }
   render() {
     const { navigate } = this.props.navigation;
@@ -195,19 +27,10 @@ class Home extends Component {
 
           <Logo />
           <KeyboardAvoidingView behavior="padding" style={styles.form}>
-            <FormContrasena
-              type="Salir del sistema"
-              singUp={this.onPressHome}
-              actualizar={this.actualizarCredenciales}
-              placeholder={this.state.placeholder}
-              email={this.state.email}
-              password={this.state.password}
-              placeholderc={this.state.placeholderc}
-              authenticating={this.state.authenticating}
-            />
+            <FormContrasena type="Salir del sistema" />
           </KeyboardAvoidingView>
 
-          <TextIndication description={this.state.indication} />
+          <TextIndication description={this.props.user.email} />
         </View>
       </Container>
     );
@@ -252,4 +75,9 @@ const styles = EStyleSheet.create({
   },
 });
 
-export default Home;
+const mapStateToProps = state => ({
+  error: state.auth.error,
+  user: state.auth.user,
+});
+
+export default connect(mapStateToProps, { gotohome })(Home);
