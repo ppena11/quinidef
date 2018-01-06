@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Text, View, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 
-import PropTypes from 'prop-types';
-
-import { emailChanged, passwordChanged, loginUser, createUser } from '../../actions';
-
+import { connect } from 'react-redux';
 import styles from './styles';
+
+import { emailChanged, recuperarEmail, salirSistema } from '../../actions';
 
 import { Spinner } from '../Spinner';
 
-class Form extends Component<{}> {
+class FormContrasena extends Component<{}> {
   constructor() {
     super();
     this.registrar = this.registrar.bind(this);
@@ -20,20 +18,15 @@ class Form extends Component<{}> {
     this.props.emailChanged(email);
   }
 
-  registrarp(password) {
-    this.props.passwordChanged(password);
-  }
-
   registrar() {
-    const { email, password } = this.props;
-    // this.props.singUp();
-    Keyboard.dismiss();
-
-    if (this.props.type === 'Entrar') {
-      this.props.loginUser({ email, password });
+    const { email } = this.props;
+    if (this.props.type === 'Salir del sistema') {
+      this.props.salirSistema();
     } else {
-      this.props.createUser({ email, password });
+      this.props.recuperarEmail(email);
     }
+
+    Keyboard.dismiss();
   }
 
   renderSpinner() {
@@ -58,18 +51,7 @@ class Form extends Component<{}> {
           onChangeText={email => this.registrare(email)}
           value={this.props.email}
         />
-        <TextInput
-          style={styles.inputBox}
-          underlineColorAndroid="rgba(0,0,0,0)"
-          placeholder={this.props.placeholderc}
-          secureTextEntry
-          placeholderTextColor="#ffffff"
-          autoCapitalize="none"
-          onSubmitEditing={() => this.registrar()}
-          ref={input => (this.password = input)}
-          onChangeText={password => this.registrarp(password)}
-          value={this.props.password}
-        />
+
         <TouchableOpacity style={styles.button} onPress={() => this.registrar()}>
           {this.renderSpinner()}
         </TouchableOpacity>
@@ -82,14 +64,7 @@ const mapStateToProps = state => ({
   email: state.auth.email,
   password: state.auth.password,
   placeholder: state.auth.placeholder,
-  placeholderc: state.auth.placeholderc,
-  error: state.auth.error,
   authenticating: state.auth.authenticating,
 });
 
-export default connect(mapStateToProps, {
-  emailChanged,
-  passwordChanged,
-  loginUser,
-  createUser,
-})(Form);
+export default connect(mapStateToProps, { emailChanged, recuperarEmail, salirSistema })(FormContrasena);

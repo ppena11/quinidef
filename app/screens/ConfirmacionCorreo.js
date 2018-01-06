@@ -1,23 +1,17 @@
 import React, { Component } from 'react';
-import { View, StatusBar, KeyboardAvoidingView } from 'react-native';
+import { View, StatusBar, Text, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import * as firebase from 'firebase';
-import { connect } from 'react-redux';
+
 import { Container } from '../components/Container';
 
 import { Logo } from '../components/Logo';
-import { FormContrasena } from '../components/FormContrasena';
 import { TextIndication } from '../components/TextIndication';
-import { gotohome } from '../actions';
 
-class Home extends Component {
+class ConfirmacionCorreo extends Component {
   static navigationOptions = {
     header: null,
   };
 
-  confirmar() {
-    this.props.gotohome();
-  }
   render() {
     const { navigate } = this.props.navigation;
     return (
@@ -26,11 +20,19 @@ class Home extends Component {
           <StatusBar translucent={false} barStyle="light-content" backgroundColor="#1c313a" />
 
           <Logo />
-          <KeyboardAvoidingView behavior="padding" style={styles.form}>
-            <FormContrasena type="Salir del sistema" />
-          </KeyboardAvoidingView>
 
-          <TextIndication description={this.props.user.email} />
+          <TextIndication description="Revisa tu correo electrónico y sigue las intrucciones para reiniciar tu contraseña" />
+          <View style={styles.containerb}>
+            <TouchableOpacity style={styles.button} onPress={() => navigate('Home')}>
+              <Text style={styles.buttonText}>Aceptar</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.signupTextCont}>
+            <TouchableOpacity onPress={() => navigate('Home')}>
+              <Text style={styles.signupButton}>Entrar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Container>
     );
@@ -62,11 +64,20 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 20,
   },
   button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 16,
+    flexDirection: 'row',
     width: 300,
     backgroundColor: '#1c313a',
     borderRadius: 25,
     marginVertical: 10,
-    paddingVertical: 13,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#ffffff',
+    textAlign: 'center',
   },
   containerb: {
     flexGrow: 1,
@@ -75,9 +86,4 @@ const styles = EStyleSheet.create({
   },
 });
 
-const mapStateToProps = state => ({
-  error: state.auth.error,
-  user: state.auth.user,
-});
-
-export default connect(mapStateToProps, { gotohome })(Home);
+export default ConfirmacionCorreo;

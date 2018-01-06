@@ -1,23 +1,28 @@
 import React, { Component } from 'react';
-import { View, StatusBar, KeyboardAvoidingView } from 'react-native';
+import { View, StatusBar, KeyboardAvoidingView, Text, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import * as firebase from 'firebase';
 import { connect } from 'react-redux';
 import { Container } from '../components/Container';
+
+import { gotohome } from '../actions';
 
 import { Logo } from '../components/Logo';
 import { FormContrasena } from '../components/FormContrasena';
 import { TextIndication } from '../components/TextIndication';
-import { gotohome } from '../actions';
 
-class Home extends Component {
+class ReiniciarContrasena extends Component<{}> {
   static navigationOptions = {
     header: null,
   };
+  constructor() {
+    super();
+    this.confirmar = this.confirmar.bind(this);
+  }
 
   confirmar() {
     this.props.gotohome();
   }
+
   render() {
     const { navigate } = this.props.navigation;
     return (
@@ -27,10 +32,16 @@ class Home extends Component {
 
           <Logo />
           <KeyboardAvoidingView behavior="padding" style={styles.form}>
-            <FormContrasena type="Salir del sistema" />
+            <FormContrasena type="Reiniciar contraseña" />
           </KeyboardAvoidingView>
 
-          <TextIndication description={this.props.user.email} />
+          <TextIndication description={this.props.error} />
+
+          <View style={styles.signupTextCont}>
+            <TouchableOpacity onPress={() => this.confirmar()}>
+              <Text style={styles.signupButton}>Entrar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Container>
     );
@@ -77,7 +88,6 @@ const styles = EStyleSheet.create({
 
 const mapStateToProps = state => ({
   error: state.auth.error,
-  user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { gotohome })(Home);
+export default connect(mapStateToProps, { gotohome })(ReiniciarContrasena);
