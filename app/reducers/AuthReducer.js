@@ -45,7 +45,7 @@ export default (state = INITIAL_STATE, action) => {
       };
 
     case LOGIN_USER:
-      return { ...state, authenticating: true };
+      return { ...state, authenticating: true, error: '' };
 
     case EMAIL_ENVIADO:
       return {
