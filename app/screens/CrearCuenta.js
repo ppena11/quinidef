@@ -14,8 +14,9 @@ class CrearCuenta extends Component {
     header: null,
   };
 
-  confirmar() {
-    this.props.gotohome();
+  confirmar(navigate) {
+    this.props.gotohome(); // Limpiar el formulario
+    navigate('Home');
   }
 
   render() {
@@ -33,7 +34,7 @@ class CrearCuenta extends Component {
           <TextIndication description={this.props.error} />
 
           <View style={styles.signupTextCont}>
-            <TouchableOpacity onPress={() => this.confirmar()}>
+            <TouchableOpacity onPress={() => this.confirmar(navigate)}>
               <Text style={styles.signupButton}>Entrar</Text>
             </TouchableOpacity>
           </View>

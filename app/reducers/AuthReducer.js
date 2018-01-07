@@ -9,9 +9,8 @@ import {
   CREATE_USER_FAIL,
   EMAIL_ENVIADO,
   GO_TO_HOME,
-  GO_TO_REINICIAR_CUENTA,
-  GO_TO_CREAR_CUENTA,
   EXIT_SUCCESS,
+  LOGIN_LIMPIAR_FORMULARIO,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -66,16 +65,7 @@ export default (state = INITIAL_STATE, action) => {
         error: '',
       };
 
-    case GO_TO_CREAR_CUENTA:
-      return {
-        ...state,
-        authenticating: false,
-        password: '',
-        placeholderc: 'Contraseña...',
-        error: '',
-      };
-
-    case GO_TO_REINICIAR_CUENTA:
+    case LOGIN_LIMPIAR_FORMULARIO:
       return {
         ...state,
         authenticating: false,
