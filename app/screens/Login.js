@@ -69,13 +69,11 @@ const styles = EStyleSheet.create({
     color: '#ffffff',
     fontSize: 16,
     fontWeight: '500',
-    paddingHorizontal: 20,
   },
   signupButton: {
     color: '#ffffff',
     fontSize: 16,
     fontWeight: '500',
-    paddingHorizontal: 20,
   },
 });
 

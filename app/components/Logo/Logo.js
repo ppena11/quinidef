@@ -6,7 +6,7 @@ import styles from './styles';
 const Logo = () => (
   <View style={styles.container}>
     <Image
-      resizeMode="contain"
+      // resizeMode="contain"
       style={styles.containerImage}
       source={require('./images/copa1.png')}
     />

@@ -8,17 +8,17 @@ export default EStyleSheet.create({
   },
 
   inputBox: {
-    width: 300,
-    backgroundColor: 'rgba(255, 255,255,0.2)',
+    flex: 8,
+    backgroundColor: '$fondoBotonInput',
     borderRadius: 25,
     paddingHorizontal: 16,
     fontSize: 16,
-    color: '#ffffff',
+    color: '$white',
     marginVertical: 10,
   },
   button: {
-    width: 300,
-    backgroundColor: '#1c313a',
+    flex: 8,
+    backgroundColor: '$fondoBotonPrincipal',
     borderRadius: 25,
     marginVertical: 10,
     paddingVertical: 13,
@@ -26,7 +26,7 @@ export default EStyleSheet.create({
   buttonText: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#ffffff',
+    color: '$white',
     textAlign: 'center',
   },
 });
