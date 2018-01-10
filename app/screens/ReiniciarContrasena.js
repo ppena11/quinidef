@@ -62,20 +62,20 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
   },
   signupText: {
-    color: '#ffffff',
+    color: '$white',
     fontSize: 16,
     fontWeight: '500',
     paddingHorizontal: 20,
   },
   signupButton: {
-    color: '#ffffff',
+    color: '$white',
     fontSize: 16,
     fontWeight: '500',
     paddingHorizontal: 20,
   },
   button: {
     width: 300,
-    backgroundColor: '#1c313a',
+    backgroundColor: '$fondoBotonPrincipal',
     borderRadius: 25,
     marginVertical: 10,
     paddingVertical: 13,

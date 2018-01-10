@@ -52,13 +52,13 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
   },
   signupText: {
-    color: '#ffffff',
+    color: '$white',
     fontSize: 16,
     fontWeight: '500',
     paddingHorizontal: 20,
   },
   signupButton: {
-    color: '#ffffff',
+    color: '$white',
     fontSize: 16,
     fontWeight: '500',
     paddingHorizontal: 20,
@@ -66,17 +66,17 @@ const styles = EStyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 16,
+    paddingVertical: 10,
     flexDirection: 'row',
     width: 300,
-    backgroundColor: '#1c313a',
+    backgroundColor: '$fondoBotonPrincipal',
     borderRadius: 25,
     marginVertical: 10,
   },
   buttonText: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#ffffff',
+    color: '$white',
     textAlign: 'center',
   },
   containerb: {
