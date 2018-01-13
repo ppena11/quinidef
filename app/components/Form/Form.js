@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, View, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 
+import EStyleSheet from 'react-native-extended-stylesheet';
 import PropTypes from 'prop-types';
 
 import { emailChanged, passwordChanged, loginUser, createUser } from '../../actions';
@@ -45,34 +46,46 @@ class Form extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
-        <TextInput
-          style={styles.inputBox}
-          underlineColorAndroid="rgba(0,0,0,0)"
-          placeholder={this.props.placeholder}
-          placeholderTextColor="#ffffff"
-          selectionColor="#fff"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          onSubmitEditing={() => this.password.focus()}
-          ref={input => (this.email = input)}
-          onChangeText={email => this.registrare(email)}
-          value={this.props.email}
-        />
-        <TextInput
-          style={styles.inputBox}
-          underlineColorAndroid="rgba(0,0,0,0)"
-          placeholder={this.props.placeholderc}
-          secureTextEntry
-          placeholderTextColor="#ffffff"
-          autoCapitalize="none"
-          onSubmitEditing={() => this.registrar()}
-          ref={input => (this.password = input)}
-          onChangeText={password => this.registrarp(password)}
-          value={this.props.password}
-        />
-        <TouchableOpacity style={styles.button} onPress={() => this.registrar()}>
-          {this.renderSpinner()}
-        </TouchableOpacity>
+        <View style={styles2.conta}>
+          <View style={styles2.vire} />
+          <TextInput
+            style={styles.inputBox}
+            underlineColorAndroid="rgba(0,0,0,0)"
+            placeholder={this.props.placeholder}
+            placeholderTextColor="#ffffff"
+            selectionColor="#fff"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            onSubmitEditing={() => this.password.focus()}
+            ref={input => (this.email = input)}
+            onChangeText={email => this.registrare(email)}
+            value={this.props.email}
+          />
+          <View style={styles2.vire} />
+        </View>
+        <View style={styles2.conta}>
+          <View style={styles2.vire} />
+          <TextInput
+            style={styles.inputBox}
+            underlineColorAndroid="rgba(0,0,0,0)"
+            placeholder={this.props.placeholderc}
+            secureTextEntry
+            placeholderTextColor="#ffffff"
+            autoCapitalize="none"
+            onSubmitEditing={() => this.registrar()}
+            ref={input => (this.password = input)}
+            onChangeText={password => this.registrarp(password)}
+            value={this.props.password}
+          />
+          <View style={styles2.vire} />
+        </View>
+        <View style={styles2.conta}>
+          <View style={styles2.vire} />
+          <TouchableOpacity style={styles.button} onPress={() => this.registrar()}>
+            {this.renderSpinner()}
+          </TouchableOpacity>
+          <View style={styles2.vire} />
+        </View>
       </View>
     );
   }
@@ -93,3 +106,26 @@ export default connect(mapStateToProps, {
   loginUser,
   createUser,
 })(Form);
+
+const styles2 = EStyleSheet.create({
+  conta: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  vire: {
+    flex: 1,
+  },
+  signupText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '500',
+    paddingHorizontal: 20,
+  },
+  signupButton: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '500',
+    paddingHorizontal: 20,
+  },
+});

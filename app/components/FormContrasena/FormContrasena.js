@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Keyboard } from 'react-native';
-
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import styles from './styles';
 
@@ -38,23 +38,30 @@ class FormContrasena extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
-        <TextInput
-          style={styles.inputBox}
-          underlineColorAndroid="rgba(0,0,0,0)"
-          placeholder={this.props.placeholder}
-          placeholderTextColor="#ffffff"
-          selectionColor="#fff"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          onSubmitEditing={() => this.password.focus()}
-          ref={input => (this.email = input)}
-          onChangeText={email => this.registrare(email)}
-          value={this.props.email}
-        />
+        <View style={styles2.conta}>
+          <View style={styles2.vire} />
+          <TextInput
+            style={styles.inputBox}
+            underlineColorAndroid="rgba(0,0,0,0)"
+            placeholder={this.props.placeholder}
+            placeholderTextColor="#ffffff"
+            selectionColor="#fff"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            ref={input => (this.email = input)}
+            onChangeText={email => this.registrare(email)}
+            value={this.props.email}
+          />
+          <View style={styles2.vire} />
+        </View>
 
-        <TouchableOpacity style={styles.button} onPress={() => this.registrar()}>
-          {this.renderSpinner()}
-        </TouchableOpacity>
+        <View style={styles2.conta}>
+          <View style={styles2.vire} />
+          <TouchableOpacity style={styles.button} onPress={() => this.registrar()}>
+            {this.renderSpinner()}
+          </TouchableOpacity>
+          <View style={styles2.vire} />
+        </View>
       </View>
     );
   }
@@ -68,3 +75,26 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, { emailChanged, recuperarEmail, salirSistema })(FormContrasena);
+
+const styles2 = EStyleSheet.create({
+  conta: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  vire: {
+    flex: 1,
+  },
+  signupText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '500',
+    paddingHorizontal: 20,
+  },
+  signupButton: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '500',
+    paddingHorizontal: 20,
+  },
+});

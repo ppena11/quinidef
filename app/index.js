@@ -10,6 +10,8 @@ import RootNavigator from './config/routes';
 EStyleSheet.build({
   $primaryBlue: '#4f6d7a',
   $white: '#ffffff',
+  $fondoBotonPrincipal: '#1c313a',
+  $fondoBotonInput: 'rgba(255, 255,255,0.2)',
 });
 
 const App = ({ dispatch, nav }) => (
@@ -36,6 +38,18 @@ export default class extends Component {
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in.
+
+        console.log('Usuario auth');
+      } else {
+        // No user is signed in.
+
+        console.log('Usuario desauth');
+      }
+    });
   }
 
   render() {

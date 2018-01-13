@@ -7,22 +7,27 @@ import CrearCuenta from '../screens/CrearCuenta';
 import ConfirmacionCorreo from '../screens/ConfirmacionCorreo';
 import Home from '../screens/Home';
 
-const RootNavigator = StackNavigator({
-  Home: {
-    screen: Login,
+const stackRouterConfig = { initialRouteName: 'Home' };
+
+const RootNavigator = StackNavigator(
+  {
+    Home: {
+      screen: Login,
+    },
+    ReiniciarContrasena: {
+      screen: ReiniciarContrasena,
+    },
+    CrearCuenta: {
+      screen: CrearCuenta,
+    },
+    ConfirmacionCorreo: {
+      screen: ConfirmacionCorreo,
+    },
+    Log: {
+      screen: Home,
+    },
   },
-  ReiniciarContrasena: {
-    screen: ReiniciarContrasena,
-  },
-  CrearCuenta: {
-    screen: CrearCuenta,
-  },
-  ConfirmacionCorreo: {
-    screen: ConfirmacionCorreo,
-  },
-  Log: {
-    screen: Home,
-  },
-});
+  stackRouterConfig,
+);
 
 export default RootNavigator;

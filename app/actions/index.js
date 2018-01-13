@@ -9,12 +9,12 @@ import {
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGIN_USER,
+  LOGIN_LIMPIAR_FORMULARIO,
   GO_TO_MAIN,
   GO_TO_EMAIL_CONFIRMATION,
   EMAIL_ENVIADO,
   GO_TO_HOME,
-  GO_TO_REINICIAR_CUENTA,
-  GO_TO_CREAR_CUENTA,
+  GO_TO_LOGOUT,
 } from './types';
 
 export const emailChanged = text => ({
@@ -33,17 +33,13 @@ export const salirSistema = () => (dispatch) => {
     .auth()
     .signOut()
     .then((user) => {
-      salidaSuccess(dispatch, user);
+      salidaSuccess(dispatch);
     })
     .catch(error => loginUserFail(dispatch, error));
 };
 
-export const reiniciarCuenta = () => ({
-  type: GO_TO_REINICIAR_CUENTA,
-});
-
-export const crearCuenta = () => ({
-  type: GO_TO_CREAR_CUENTA,
+export const limpiarFormularioLogin = () => ({
+  type: LOGIN_LIMPIAR_FORMULARIO,
 });
 
 export const loginUser = ({ email, password }) => (dispatch) => {
@@ -99,7 +95,7 @@ const createUserSuccess = (dispatch, user) => {
 
 const salidaSuccess = (dispatch) => {
   dispatch({ type: EXIT_SUCCESS });
-  dispatch({ type: GO_TO_HOME });
+  dispatch({ type: GO_TO_LOGOUT });
 };
 
 export const gotohome = text => ({

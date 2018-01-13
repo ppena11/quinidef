@@ -1,13 +1,7 @@
 import { NavigationActions } from 'react-navigation';
 import RootNavigator from '../config/routes';
 
-import {
-  GO_TO_MAIN,
-  GO_TO_EMAIL_CONFIRMATION,
-  GO_TO_HOME,
-  GO_TO_CREAR_CUENTA,
-  GO_TO_REINICIAR_CUENTA,
-} from '../actions/types';
+import { GO_TO_MAIN, GO_TO_EMAIL_CONFIRMATION, GO_TO_LOGOUT } from '../actions/types';
 
 const initialState = RootNavigator.router.getStateForAction(NavigationActions.init());
 
@@ -27,29 +21,9 @@ export default (state = initialState, action) => {
       );
       break;
 
-    case GO_TO_CREAR_CUENTA:
-      nextState = RootNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'CrearCuenta' }),
-        state,
-      );
-      break;
-
-    case GO_TO_REINICIAR_CUENTA:
-      nextState = RootNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'ReiniciarContrasena' }),
-        state,
-      );
-      break;
-
-    case GO_TO_HOME:
+    case GO_TO_LOGOUT:
       nextState = RootNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'Home' }),
-        state,
-      );
-      break;
-    case 'Logout':
-      nextState = RootNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'Login' }),
         state,
       );
       break;

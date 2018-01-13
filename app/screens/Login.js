@@ -8,19 +8,21 @@ import { Logo } from '../components/Logo';
 import { TextIndication } from '../components/TextIndication';
 import { Form } from '../components/Form';
 
-import { reiniciarCuenta, crearCuenta } from '../actions';
+import { limpiarFormularioLogin } from '../actions';
 
 class Login extends Component {
   static navigationOptions = {
     header: null,
   };
 
-  reiniciar() {
-    this.props.reiniciarCuenta();
+  reiniciar(navigate) {
+    this.props.limpiarFormularioLogin();
+    navigate('ReiniciarContrasena');
   }
 
-  crear() {
-    this.props.crearCuenta();
+  crear(navigate) {
+    // this.props.limpiarFormularioLogin();
+    navigate('CrearCuenta');
   }
 
   render() {
@@ -38,10 +40,10 @@ class Login extends Component {
           <TextIndication description={this.props.error} />
 
           <View style={styles.signupTextCont}>
-            <TouchableOpacity onPress={() => this.reiniciar()}>
+            <TouchableOpacity onPress={() => this.reiniciar(navigate)}>
               <Text style={styles.signupText}>Recuperar contraseña</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.crear()}>
+            <TouchableOpacity onPress={() => this.crear(navigate)}>
               <Text style={styles.signupButton}> Registrate</Text>
             </TouchableOpacity>
           </View>
@@ -64,16 +66,14 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
   },
   signupText: {
-    color: '#ffffff',
+    color: '$white',
     fontSize: 16,
     fontWeight: '500',
-    paddingHorizontal: 20,
   },
   signupButton: {
-    color: '#ffffff',
+    color: '$white',
     fontSize: 16,
     fontWeight: '500',
-    paddingHorizontal: 20,
   },
 });
 
@@ -81,4 +81,4 @@ const mapStateToProps = state => ({
   error: state.auth.error,
 });
 
-export default connect(mapStateToProps, { reiniciarCuenta, crearCuenta })(Login);
+export default connect(mapStateToProps, { limpiarFormularioLogin })(Login);
