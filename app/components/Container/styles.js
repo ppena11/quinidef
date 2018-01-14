@@ -4,7 +4,7 @@ export default EStyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '$primaryBlue',
+    backgroundColor: '$primaryBackground',
     flexDirection: 'column',
   },
 });

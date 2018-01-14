@@ -8,7 +8,7 @@ import store from './config/store';
 import RootNavigator from './config/routes';
 
 EStyleSheet.build({
-  $primaryBlue: '#4f6d7a',
+  $primaryBackground: '#4f6d7a',
   $white: '#ffffff',
   $fondoBotonPrincipal: '#1c313a',
   $fondoBotonInput: 'rgba(255, 255,255,0.2)',
