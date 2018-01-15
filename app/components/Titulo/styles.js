@@ -10,16 +10,15 @@ export default EStyleSheet.create({
     flex: 1,
   },
   text: {
-    fontSize: 16,
+    fontSize: 26,
     fontWeight: '500',
     color: '$white',
     textAlign: 'center',
   },
-  button: {
+  centro: {
     flex: 8,
-    backgroundColor: '$fondoBotonPrincipal',
+    backgroundColor: '$primaryBackground',
     borderRadius: 25,
     marginVertical: 10,
-    paddingVertical: 10,
   },
 });

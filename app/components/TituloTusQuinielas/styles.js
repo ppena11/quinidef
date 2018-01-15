@@ -6,20 +6,16 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  lateral: {
-    flex: 1,
-  },
   text: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: '500',
     color: '$white',
     textAlign: 'center',
   },
-  button: {
-    flex: 8,
-    backgroundColor: '$fondoBotonPrincipal',
+  centro: {
+    flex: 1,
+    backgroundColor: '$primaryBackground',
     borderRadius: 25,
     marginVertical: 10,
-    paddingVertical: 10,
   },
 });
