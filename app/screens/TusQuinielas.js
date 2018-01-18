@@ -41,9 +41,9 @@ class TusQuinielas extends Component {
             <Titulo>MIS QUINIELAS</Titulo>
           </View>
 
-          <View style={styles.cuerpo}>
+          <ScrollView style={styles.cuerpo}>
             <ListView dataSource={this.dataSource} renderRow={this.renderRow} />
-          </View>
+          </ScrollView>
 
           <View style={styles.bottom}>
             <BotonPrincipal onPress={() => this.test()}>Unirse a una Quiniela</BotonPrincipal>
