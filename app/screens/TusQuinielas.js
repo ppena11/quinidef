@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { StatusBar, ListView } from 'react-native';
+import { StatusBar, ListView, View, ScrollView } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { connect } from 'react-redux';
 import { Container } from '../components/Container';
 
 import { BotonPrincipal } from '../components/BotonPrincipal';
 import { Titulo } from '../components/Titulo';
-import { TituloTusQuinielas } from '../components/TituloTusQuinielas';
-import { QuinielaItem } from '../components/QuinielaItem';
+
+import { Qx } from '../components/Qx';
 
 class TusQuinielas extends Component {
   static navigationOptions = {
@@ -18,7 +19,8 @@ class TusQuinielas extends Component {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
-    this.DataSource = ds.cloneWithRows(this.props.quinielas);
+    console.log(this.props.quinielas);
+    this.dataSource = ds.cloneWithRows(this.props.quinielas);
   }
 
   test() {
@@ -26,7 +28,7 @@ class TusQuinielas extends Component {
   }
 
   renderRow(quiniela) {
-    return <QuinielaItem quiniela={quiniela} />;
+    return <Qx quiniela={quiniela} />;
   }
 
   render() {
@@ -34,16 +36,43 @@ class TusQuinielas extends Component {
     return (
       <Container>
         <StatusBar translucent={false} barStyle="light-content" backgroundColor="#00244f" />
-        <Titulo>MIS QUINIELAS</Titulo>
-        <TituloTusQuinielas />
+        <View style={styles.form}>
+          <View style={styles.titulo}>
+            <Titulo>MIS QUINIELAS</Titulo>
+          </View>
 
-        <ListView dataSource={this.DataSource} renderRow={this.renderRow} />
-        <BotonPrincipal onPress={() => this.test()}>Unirse a una Quiniela</BotonPrincipal>
-        <BotonPrincipal onPress={() => this.test()}>Crea tu Quiniela</BotonPrincipal>
+          <View style={styles.cuerpo}>
+            <ListView dataSource={this.dataSource} renderRow={this.renderRow} />
+          </View>
+
+          <View style={styles.bottom}>
+            <BotonPrincipal onPress={() => this.test()}>Unirse a una Quiniela</BotonPrincipal>
+            <BotonPrincipal onPress={() => this.test()}>Crea tu Quiniela</BotonPrincipal>
+          </View>
+        </View>
       </Container>
     );
   }
 }
+
+const styles = EStyleSheet.create({
+  form: {
+    flex: 1,
+
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+  },
+  titulo: {
+    padding: 20,
+  },
+  cuerpo: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  bottom: {
+    padding: 20,
+  },
+});
 
 const mapStateToProps = state => ({
   error: state.auth.error,

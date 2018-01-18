@@ -11,3 +11,4 @@ export const EMAIL_ENVIADO = 'email_enviado';
 export const GO_TO_HOME = 'go_to_email_home';
 export const GO_TO_LOGOUT = 'go_to_logout';
 export const EXIT_SUCCESS = 'exit_success';
+export const QUINIELA_UPDATE = 'QUINIELA_UPDATE';
