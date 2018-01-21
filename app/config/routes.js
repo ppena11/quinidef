@@ -8,7 +8,7 @@ import ConfirmacionCorreo from '../screens/ConfirmacionCorreo';
 import Home from '../screens/Home';
 import TusQuinielas from '../screens/TusQuinielas';
 
-const stackRouterConfig = { initialRouteName: 'TusQuinielas' };
+const stackRouterConfig = { initialRouteName: 'Home' };
 
 const RootNavigator = StackNavigator(
   {

@@ -34,6 +34,7 @@ export default class extends Component {
     const firebaseConfig = {
       apiKey: 'AIzaSyBTNTx1cp-bZ3SquR9d6btC974MUnsPMb0',
       authDomain: 'react-native-firebase-20f8d.firebaseapp.com',
+      databaseURL: 'https://react-native-firebase-20f8d.firebaseio.com',
     };
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);

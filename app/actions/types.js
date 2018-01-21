@@ -12,3 +12,5 @@ export const GO_TO_HOME = 'go_to_email_home';
 export const GO_TO_LOGOUT = 'go_to_logout';
 export const EXIT_SUCCESS = 'exit_success';
 export const QUINIELA_UPDATE = 'QUINIELA_UPDATE';
+export const BUSCAR_QUINIELAS_EXITO = 'BUSCAR_QUINIELAS_EXITO';
+export const BUSCAR_QUINIELAS_FAIL = 'BUSCAR_QUINIELAS_FAIL';

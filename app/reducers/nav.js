@@ -10,7 +10,7 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case GO_TO_MAIN:
       nextState = RootNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'Log' }),
+        NavigationActions.navigate({ routeName: 'TusQuinielas' }),
         state,
       );
       break;
