@@ -4,13 +4,13 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
 
 import { connect } from 'react-redux';
-import { buscarQuinielas } from '../actions';
+import { buscarQuinielasAdministradas } from '../actions';
 import { Container } from '../components/Container';
 
 import { BotonPrincipal } from '../components/BotonPrincipal';
 import { Titulo } from '../components/Titulo';
 
-import { Qx } from '../components/Qx';
+import { Qxa } from '../components/Qxa';
 
 class TusQuinielas extends Component {
   static navigationOptions = {
@@ -18,7 +18,7 @@ class TusQuinielas extends Component {
   };
 
   componentWillMount() {
-    this.props.buscarQuinielas();
+    this.props.buscarQuinielasAdministradas();
     this.createDataSource(this.props);
   }
 
@@ -36,17 +36,18 @@ class TusQuinielas extends Component {
     this.dataSource = ds.cloneWithRows(quinielas);
   }
 
-  test(navigate) {
-    console.log('TEST');
-    // navigate('Home');
+  crear(navigate) {
+    // console.log('TEST');
+    navigate('CreaciondeQuiniela');
   }
 
-  crear(navigate) {
-    navigate('QuinielasAdministradas');
+  tusquinielas(navigate) {
+    // console.log('TEST2');
+    navigate('TusQuinielas');
   }
 
   renderRow(quiniela) {
-    return <Qx quiniela={quiniela} />;
+    return <Qxa quiniela={quiniela} />;
   }
 
   render() {
@@ -56,7 +57,7 @@ class TusQuinielas extends Component {
         <StatusBar translucent={false} barStyle="light-content" backgroundColor="#00244f" />
         <View style={styles.form}>
           <View style={styles.titulo}>
-            <Titulo>MIS QUINIELAS</Titulo>
+            <Titulo>MIS QUINIELAS ADMINISTRADAS</Titulo>
           </View>
 
           <ScrollView style={styles.cuerpo}>
@@ -64,8 +65,12 @@ class TusQuinielas extends Component {
           </ScrollView>
 
           <View style={styles.bottom}>
-            <BotonPrincipal onPress={() => this.test()}>Unirse a una Quiniela</BotonPrincipal>
-            <BotonPrincipal onPress={() => this.crear(navigate)}>Crea tu Quiniela</BotonPrincipal>
+            <BotonPrincipal onPress={() => this.crear(navigate)}>
+              Crear una nueva Quiniela
+            </BotonPrincipal>
+            <BotonPrincipal onPress={() => this.tusquinielas(navigate)}>
+              Tus Quinielas
+            </BotonPrincipal>
           </View>
         </View>
       </Container>
@@ -92,8 +97,8 @@ const styles = EStyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const quinielas = _.map(state.quinielas, (val, uid) => ({ ...val, uid }));
+  const quinielas = _.map(state.quinielasadmin, (val, uid) => ({ ...val, uid }));
   return { quinielas };
 };
 
-export default connect(mapStateToProps, { buscarQuinielas })(TusQuinielas);
+export default connect(mapStateToProps, { buscarQuinielasAdministradas })(TusQuinielas);

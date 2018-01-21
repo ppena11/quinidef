@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
 
 import { connect } from 'react-redux';
-import { buscarQuinielas } from '../actions';
+import { buscarTorneos } from '../actions';
 import { Container } from '../components/Container';
 
 import { BotonPrincipal } from '../components/BotonPrincipal';
@@ -18,7 +18,7 @@ class TusQuinielas extends Component {
   };
 
   componentWillMount() {
-    this.props.buscarQuinielas();
+    this.props.buscarTorneos();
     this.createDataSource(this.props);
   }
 
@@ -28,28 +28,29 @@ class TusQuinielas extends Component {
     this.createDataSource(nextProps);
   }
 
-  createDataSource({ quinielas }) {
+  createDataSource({ torneos }) {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
 
-    this.dataSource = ds.cloneWithRows(quinielas);
+    this.dataSource = ds.cloneWithRows(torneos);
   }
 
-  test(navigate) {
+  crear(navigate) {
     console.log('TEST');
     // navigate('Home');
   }
 
-  crear(navigate) {
+  cancelar(navigate) {
     navigate('QuinielasAdministradas');
   }
 
-  renderRow(quiniela) {
-    return <Qx quiniela={quiniela} />;
+  renderRow(torneo) {
+    return <Qx torneo={torneo} />;
   }
 
   render() {
+    console.log(this.props);
     const { navigate } = this.props.navigation;
     return (
       <Container>
@@ -59,13 +60,9 @@ class TusQuinielas extends Component {
             <Titulo>MIS QUINIELAS</Titulo>
           </View>
 
-          <ScrollView style={styles.cuerpo}>
-            <ListView enableEmptySections dataSource={this.dataSource} renderRow={this.renderRow} />
-          </ScrollView>
-
           <View style={styles.bottom}>
-            <BotonPrincipal onPress={() => this.test()}>Unirse a una Quiniela</BotonPrincipal>
-            <BotonPrincipal onPress={() => this.crear(navigate)}>Crea tu Quiniela</BotonPrincipal>
+            <BotonPrincipal onPress={() => this.crear()}>Crear</BotonPrincipal>
+            <BotonPrincipal onPress={() => this.cancelar(navigate)}>Cancelar</BotonPrincipal>
           </View>
         </View>
       </Container>
@@ -92,8 +89,9 @@ const styles = EStyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const quinielas = _.map(state.quinielas, (val, uid) => ({ ...val, uid }));
-  return { quinielas };
+  // console.log(state.torneos);
+  const torneos = _.map(state.torneos, (val, uid) => ({ ...val, uid }));
+  return { torneos };
 };
 
-export default connect(mapStateToProps, { buscarQuinielas })(TusQuinielas);
+export default connect(mapStateToProps, { buscarTorneos })(TusQuinielas);
