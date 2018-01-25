@@ -1,48 +1,49 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, View, TextInput, TouchableOpacity, Keyboard } from 'react-native';
-
 import EStyleSheet from 'react-native-extended-stylesheet';
 import PropTypes from 'prop-types';
 
 import { emailChanged, passwordChanged, loginUser, createUser } from '../../actions';
-
 import styles from './styles';
-
 import { Spinner } from '../Spinner';
+import color from '../../comun/colors';
 
-class Form extends Component<{}> {
+//class Form extends Component<{}> {
+class Form extends Component {
   constructor() {
     super();
     this.registrar = this.registrar.bind(this);
   }
 
-  registrare(email) {
+  registrarEmail(email) {
     this.props.emailChanged(email);
   }
 
-  registrarp(password) {
+  registrarPassword(password) {
     this.props.passwordChanged(password);
   }
 
   registrar() {
-    const { email, password } = this.props;
-    // this.props.singUp();
     Keyboard.dismiss();
+    const { email, password } = this.props;
 
     if (this.props.type === 'Entrar') {
       this.props.loginUser({ email, password });
-    } else {
-      this.props.createUser({ email, password });
+    }
+
+    if (this.props.type === 'Registrarse') {
+      this.props.createUser({ email, password });      
     }
   }
 
-  renderSpinner() {
+  status() {
     if (this.props.authenticating) {
       return <Spinner style={styles.buttonText} size="small" />;
     }
     return <Text style={styles.buttonText}>{this.props.type}</Text>;
   }
+
   render() {
     return (
       <View style={styles.container}>
@@ -50,15 +51,15 @@ class Form extends Component<{}> {
           <View style={styles2.vire} />
           <TextInput
             style={styles.inputBox}
-            underlineColorAndroid="rgba(0,0,0,0)"
+            underlineColorAndroid = {color.$underlineColorAndroid}
             placeholder={this.props.placeholder}
-            placeholderTextColor="#ffffff"
-            selectionColor="#fff"
+            placeholderTextColor = {color.$placeholderTextColor}
+            selectionColor = {color.$selectionColor}
             keyboardType="email-address"
             autoCapitalize="none"
             onSubmitEditing={() => this.password.focus()}
             ref={input => (this.email = input)}
-            onChangeText={email => this.registrare(email)}
+            onChangeText={email => this.registrarEmail(email)}
             value={this.props.email}
           />
           <View style={styles2.vire} />
@@ -67,14 +68,15 @@ class Form extends Component<{}> {
           <View style={styles2.vire} />
           <TextInput
             style={styles.inputBox}
-            underlineColorAndroid="rgba(0,0,0,0)"
+            underlineColorAndroid={color.$underlineColorAndroid}
             placeholder={this.props.placeholderc}
-            secureTextEntry
-            placeholderTextColor="#ffffff"
+            secureTextEntry = {true}
+            placeholderTextColor = {color.$placeholderTextColor}
+            selectionColor = {color.$selectionColor}
             autoCapitalize="none"
             onSubmitEditing={() => this.registrar()}
             ref={input => (this.password = input)}
-            onChangeText={password => this.registrarp(password)}
+            onChangeText={password => this.registrarPassword(password)}
             value={this.props.password}
           />
           <View style={styles2.vire} />
@@ -82,7 +84,7 @@ class Form extends Component<{}> {
         <View style={styles2.conta}>
           <View style={styles2.vire} />
           <TouchableOpacity style={styles.button} onPress={() => this.registrar()}>
-            {this.renderSpinner()}
+            {this.status()}
           </TouchableOpacity>
           <View style={styles2.vire} />
         </View>
@@ -117,13 +119,13 @@ const styles2 = EStyleSheet.create({
     flex: 1,
   },
   signupText: {
-    color: '#ffffff',
+    color: color.$signupTextColor,
     fontSize: 16,
     fontWeight: '500',
     paddingHorizontal: 20,
   },
   signupButton: {
-    color: '#ffffff',
+    color: color.$signupButtonColor,
     fontSize: 16,
     fontWeight: '500',
     paddingHorizontal: 20,

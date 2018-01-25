@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { StatusBar, ListView, View, ScrollView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
 import { connect } from 'react-redux';
+
 import { Container } from '../components/Container';
 
 import { BotonPrincipal } from '../components/BotonPrincipal';
 import { Titulo } from '../components/Titulo';
 
 import { Qx } from '../components/Qx';
+
+import color from '../comun/colors';
 
 class TusQuinielas extends Component {
   static navigationOptions = {
@@ -35,7 +37,7 @@ class TusQuinielas extends Component {
     const { navigate } = this.props.navigation;
     return (
       <Container>
-        <StatusBar translucent={false} barStyle="light-content" backgroundColor="#00244f" />
+        <StatusBar translucent={false} barStyle="light-content" backgroundColor={color.$statusBarBackgroundColor} />
         <View style={styles.form}>
           <View style={styles.titulo}>
             <Titulo>MIS QUINIELAS</Titulo>
@@ -67,7 +69,6 @@ const styles = EStyleSheet.create({
   },
   cuerpo: {
     flex: 1,
-    alignItems: 'center',
   },
   bottom: {
     padding: 20,

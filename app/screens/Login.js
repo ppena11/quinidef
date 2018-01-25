@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { TouchableOpacity, View, StatusBar, KeyboardAvoidingView, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
-import { Container } from '../components/Container';
 
+import { Container } from '../components/Container';
 import { Logo } from '../components/Logo';
 import { TextIndication } from '../components/TextIndication';
 import { Form } from '../components/Form';
-
 import { limpiarFormularioLogin } from '../actions';
+import color from '../comun/colors';
 
 class Login extends Component {
   static navigationOptions = {
@@ -30,7 +30,7 @@ class Login extends Component {
     return (
       <Container>
         <View style={styles.form}>
-          <StatusBar translucent={false} barStyle="light-content" backgroundColor="#1c313a" />
+          <StatusBar translucent={false} barStyle="light-content" backgroundColor={color.$statusBarBackgroundColor} />
 
           <Logo />
           <KeyboardAvoidingView behavior="padding" style={styles.form}>
@@ -44,7 +44,7 @@ class Login extends Component {
               <Text style={styles.signupText}>Recuperar contraseña</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.crear(navigate)}>
-              <Text style={styles.signupButton}> Registrate</Text>
+              <Text style={styles.signupButton}> Registrarse</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -66,12 +66,12 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
   },
   signupText: {
-    color: '$white',
+    color: color.$signupTextColor,
     fontSize: 16,
     fontWeight: '500',
   },
   signupButton: {
-    color: '$white',
+    color: color.$signupButtonColor,
     fontSize: 16,
     fontWeight: '500',
   },

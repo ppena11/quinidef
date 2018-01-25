@@ -8,10 +8,12 @@ import store from './config/store';
 import RootNavigator from './config/routes';
 
 EStyleSheet.build({
+/*
   $primaryBackground: '#084b7c',
   $white: '#ffffff',
   $fondoBotonPrincipal: '#00244f',
-  $fondoBotonInput: 'rgba(255, 255,255,0.2)',
+  $fondoBotonInput: 'rgba(255, 255,255,0.2)'
+*/
 });
 
 const App = ({ dispatch, nav }) => (

@@ -1,44 +1,46 @@
+export const defaultplaceholder = 'Correo electrónico...';
+export const defaultplaceholderc = 'Contraseña...';
+
 export function manejarError(errorCode) {
   switch (errorCode) {
     case 'auth/user-disabled':
       return {
-        placeholderc: 'Contraseña...',
+        placeholderc: defaultplaceholderc,
         password: '',
         email: '',
         authenticating: false,
-        placeholder: 'Ingresa tu correo electrónico...',
-        error: 'El correo electrónico ha sido deshabilitado',
+        placeholder: defaultplaceholder,
+        error: 'Correo electrónico deshabilitado',
       };
       break;
     case 'auth/invalid-email':
       return {
-        placeholderc: 'Contraseña...',
+        placeholderc: defaultplaceholderc,
         password: '',
         email: '',
         authenticating: false,
-        placeholder: 'Ingresa tu correo electrónico...',
-        error: 'El correo electrónico no tiene un formato válido',
+        placeholder: defaultplaceholder,
+        error: 'Correo electrónico inválido',
       };
       break;
     case 'auth/user-not-found':
       return {
-        placeholderc: 'Contraseña...',
+        placeholderc: defaultplaceholderc,
         password: '',
         email: '',
         authenticating: false,
-        placeholder: 'Ingresa tu correo electrónico...',
-        error: 'El correo electrónico no se encuentra registrado',
+        placeholder: defaultplaceholder,
+        error: 'Correo electrónico no registrado',
       };
       break;
     case 'auth/wrong-password':
       // this.inputCorreo.placeholder = emailAddress;
-
       return {
-        placeholderc: 'Contraseña...',
+        placeholderc: defaultplaceholderc,
         password: '',
         authenticating: false,
         // placeholder: emailAddress,
-        error: 'La contraseña es incorrecta',
+        error: 'Contraseña incorrecta',
       };
       break;
 
@@ -57,33 +59,33 @@ export function manejarError(errorCode) {
       // this.inputCorreo.placeholder = emailAddress;
 
       return {
-        placeholderc: 'Contraseña...',
+        placeholderc: defaultplaceholderc,
         password: '',
         email: '',
         authenticating: false,
-        placeholder: 'Ingresa tu correo electrónico...',
-        error: 'Muchos intentos fallidos, intenta luego',
+        placeholder: defaultplaceholder,
+        error: 'Muchos intentos fallidos, intente luego',
       };
       break;
 
     case 'auth/email-already-in-use':
       return {
-        placeholderc: 'Contraseña...',
+        placeholderc: defaultplaceholderc,
         password: '',
         email: '',
         authenticating: false,
-        placeholder: 'Ingresa tu correo electrónico...',
-        error: 'El correo electrónico no es válido, ya se encuentra registrado',
+        placeholder: defaultplaceholder,
+        error: 'Correo electrónico ya registrado',
       };
       break;
 
     case 'auth/weak-password':
       return {
-        placeholderc: 'Contraseña...',
+        placeholderc: defaultplaceholderc,
         password: '',
         authenticating: false,
-        placeholder: 'Ingresa tu correo electrónico...',
-        error: 'El password debe tener al menos 6 carcacteres',
+        placeholder: defaultplaceholder,
+        error: 'El password debe tener al menos 6 caracteres',
       };
       break;
 

@@ -1,4 +1,4 @@
-import { manejarError } from '../comun/helper';
+import { manejarError, defaultplaceholder, defaultplaceholderc } from '../comun/helper';
 
 import {
   EMAIL_CHANGED,
@@ -18,8 +18,8 @@ const INITIAL_STATE = {
   password: '',
   user: '',
   error: '',
-  placeholder: 'Ingresa tu correo electrónico...',
-  placeholderc: 'Contraseña...',
+  placeholder: defaultplaceholder,
+  placeholderc: defaultplaceholderc,
   authenticating: false,
 };
 
@@ -52,7 +52,7 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         authenticating: false,
         password: '',
-        placeholderc: 'Contraseña...',
+        placeholderc: defaultplaceholderc,
         error: '',
       };
 
@@ -61,7 +61,7 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         authenticating: false,
         password: '',
-        placeholderc: 'Contraseña...',
+        placeholderc: defaultplaceholderc,
         error: '',
       };
 
@@ -70,7 +70,7 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         authenticating: false,
         password: '',
-        placeholderc: 'Contraseña...',
+        placeholderc: defaultplaceholderc,
         error: '',
       };
 

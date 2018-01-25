@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import AuthReducer from './AuthReducer';
 import QuinielasReducer from './QuinielasReducer';
-import nav from './nav';
+import NavigationReducer from './NavigationReducer';
 
 export default combineReducers({
   auth: AuthReducer,
-  nav,
+  nav: NavigationReducer,
   quinielas: QuinielasReducer,
 });
