@@ -64,16 +64,21 @@ class TusQuinielas extends Component {
             <ListView enableEmptySections dataSource={this.dataSource} renderRow={this.renderRow} />
           </ScrollView>
 
-          <TextInput
-            style={styles.inputBox}
-            underlineColorAndroid="rgba(0,0,0,0)"
-            placeholder="Nombre de la quiniela"
-            placeholderTextColor="#ffffff"
-            selectionColor="#fff"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            onSubmitEditing={() => this.crear()}
-          />
+          <View style={styles2.conta}>
+            <View style={styles2.vire} />
+            <TextInput
+              style={styles.inputBox}
+              underlineColorAndroid="rgba(0,0,0,0)"
+              placeholder="Nombre de la quiniela"
+              placeholderTextColor="#ffffff"
+              selectionColor="#fff"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              onChangeText={email => this.registrare(email)}
+              value={this.props.email}
+            />
+            <View style={styles2.vire} />
+          </View>
 
           <View style={styles.bottom}>
             <BotonPrincipal onPress={() => this.crear()}>Crear</BotonPrincipal>
@@ -92,6 +97,15 @@ const styles = EStyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'column',
   },
+  inputBox: {
+    flex: 8,
+    backgroundColor: '$fondoBotonInput',
+    borderRadius: 25,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    color: '$white',
+    marginVertical: 10,
+  },
   titulo: {
     padding: 20,
   },
@@ -100,6 +114,29 @@ const styles = EStyleSheet.create({
   },
   bottom: {
     padding: 20,
+  },
+});
+
+const styles2 = EStyleSheet.create({
+  conta: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  vire: {
+    flex: 1,
+  },
+  signupText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '500',
+    paddingHorizontal: 20,
+  },
+  signupButton: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '500',
+    paddingHorizontal: 20,
   },
 });
 
