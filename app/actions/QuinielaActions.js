@@ -3,6 +3,7 @@ import {
   QUINIELA_UPDATE,
   BUSCAR_QUINIELAS_EXITO,
   BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO,
+  NOMBRE_QUINIELA_CAMBIO,
 } from './types';
 
 export const QuinielaUpdate = ({ prop, value }) => ({
@@ -33,5 +34,20 @@ export const buscarQuinielasAdministradas = () => {
       .on('value', (snapshot) => {
         dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
       });
+  };
+};
+
+export const nombreQuinielaCambio = text => ({
+  type: NOMBRE_QUINIELA_CAMBIO,
+  payload: text,
+});
+
+export const crearQuiniela = ({ quinielaNombre }) => {
+  const { currentUser } = firebase.auth();
+  return () => {
+    firebase
+      .database()
+      .ref(`/users/${currentUser.uid}/quinielasadministradas`)
+      .push({ quinielaNombre });
   };
 };

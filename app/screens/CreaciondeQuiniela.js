@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
 
 import { connect } from 'react-redux';
-import { buscarTorneos } from '../actions';
+import { nombreQuinielaCambio, buscarTorneos, crearQuiniela } from '../actions';
 import { Container } from '../components/Container';
 
 import { BotonPrincipal } from '../components/BotonPrincipal';
@@ -38,7 +38,10 @@ class TusQuinielas extends Component {
 
   crear(navigate) {
     console.log('TEST');
+    console.log(this.props.quinielaNombre);
     // navigate('Home');
+    const { quinielaNombre } = this.props;
+    this.props.crearQuiniela({ quinielaNombre });
   }
 
   cancelar(navigate) {
@@ -49,8 +52,12 @@ class TusQuinielas extends Component {
     return <TorneoItem torneo={torneo} />;
   }
 
+  registrare(nombreQuiniela) {
+    this.props.nombreQuinielaCambio(nombreQuiniela);
+  }
+
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     const { navigate } = this.props.navigation;
     return (
       <Container>
@@ -74,7 +81,7 @@ class TusQuinielas extends Component {
               selectionColor="#fff"
               keyboardType="email-address"
               autoCapitalize="none"
-              onChangeText={email => this.registrare(email)}
+              onChangeText={nombreQuiniela => this.registrare(nombreQuiniela)}
               value={this.props.email}
             />
             <View style={styles2.vire} />
@@ -143,7 +150,11 @@ const styles2 = EStyleSheet.create({
 const mapStateToProps = (state) => {
   // console.log(state.torneos);
   const torneos = _.map(state.torneos, (val, uid) => ({ ...val, uid }));
-  return { torneos };
+  return {
+    torneos,
+    quinielaNombre: state.creacionquinielas.nombreQuiniela,
+    torneo: state.creacionquinielas.torneo,
+  };
 };
 
-export default connect(mapStateToProps, { buscarTorneos })(TusQuinielas);
+export default connect(mapStateToProps, { buscarTorneos, nombreQuinielaCambio, crearQuiniela })(TusQuinielas);
