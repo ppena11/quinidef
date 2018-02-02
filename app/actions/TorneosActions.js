@@ -4,7 +4,7 @@ import { BUSCAR_TORNEOS_EXITO } from './types';
 export const buscarTorneos = () => (dispatch) => {
   firebase
     .database()
-    .ref('/ligas')
+    .ref('/competiciones')
     .on('value', (snapshot) => {
       dispatch({ type: BUSCAR_TORNEOS_EXITO, payload: snapshot.val() });
     });

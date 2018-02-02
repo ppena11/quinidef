@@ -5,8 +5,8 @@ import styles from './styles';
 
 class TorneoItem extends Component {
   render() {
-    const { uid } = this.props.torneo;
-    return <Text>{uid}</Text>;
+    const { info } = this.props.torneo;
+    return <Text>{info.nombre}</Text>;
   }
 }
 

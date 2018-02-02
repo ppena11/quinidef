@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { StatusBar, ListView, View, ScrollView, TextInput } from 'react-native';
+import { StatusBar, ListView, View, ScrollView, TextInput, Picker } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
 
 import { connect } from 'react-redux';
-import { nombreQuinielaCambio, buscarTorneos, crearQuiniela } from '../actions';
+import { nombreQuinielaCambio, buscarTorneos, crearQuiniela, nombreTorneoCambio } from '../actions';
 import { Container } from '../components/Container';
 
 import { BotonPrincipal } from '../components/BotonPrincipal';
@@ -40,8 +40,8 @@ class TusQuinielas extends Component {
     console.log('TEST');
     console.log(this.props.quinielaNombre);
     // navigate('Home');
-    const { quinielaNombre } = this.props;
-    this.props.crearQuiniela({ quinielaNombre });
+    const { quinielaNombre, torneo } = this.props;
+    this.props.crearQuiniela({ quinielaNombre, torneo });
   }
 
   cancelar(navigate) {
@@ -54,6 +54,10 @@ class TusQuinielas extends Component {
 
   registrare(nombreQuiniela) {
     this.props.nombreQuinielaCambio(nombreQuiniela);
+  }
+
+  registrart(nombreTorneo) {
+    this.props.nombreTorneoCambio(nombreTorneo);
   }
 
   render() {
@@ -157,4 +161,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { buscarTorneos, nombreQuinielaCambio, crearQuiniela })(TusQuinielas);
+export default connect(mapStateToProps, {
+  buscarTorneos,
+  nombreQuinielaCambio,
+  nombreTorneoCambio,
+  crearQuiniela,
+})(TusQuinielas);

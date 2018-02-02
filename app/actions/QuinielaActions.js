@@ -4,6 +4,7 @@ import {
   BUSCAR_QUINIELAS_EXITO,
   BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO,
   NOMBRE_QUINIELA_CAMBIO,
+  NOMBRE_TORNEO_CAMBIO,
 } from './types';
 
 export const QuinielaUpdate = ({ prop, value }) => ({
@@ -42,12 +43,17 @@ export const nombreQuinielaCambio = text => ({
   payload: text,
 });
 
-export const crearQuiniela = ({ quinielaNombre }) => {
+export const nombreTorneroCambio = text => ({
+  type: NOMBRE_TORNEO_CAMBIO,
+  payload: text,
+});
+
+export const crearQuiniela = ({ quinielaNombre, torneo }) => {
   const { currentUser } = firebase.auth();
   return () => {
     firebase
       .database()
       .ref(`/users/${currentUser.uid}/quinielasadministradas`)
-      .push({ quinielaNombre });
+      .push({ quinielaNombre, torneo });
   };
 };
