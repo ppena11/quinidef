@@ -43,7 +43,7 @@ export const nombreQuinielaCambio = text => ({
   payload: text,
 });
 
-export const nombreTorneroCambio = text => ({
+export const nombreTorneoCambio = text => ({
   type: NOMBRE_TORNEO_CAMBIO,
   payload: text,
 });

@@ -58,10 +58,15 @@ class TusQuinielas extends Component {
 
   registrart(nombreTorneo) {
     this.props.nombreTorneoCambio(nombreTorneo);
+
+    // <ScrollView style={styles.cuerpo}>
+    // <ListView enableEmptySections dataSource={this.dataSource} renderRow={this.renderRow} />
+    // </ScrollView>
   }
 
   render() {
-    // console.log(this.props);
+    // Object.keys(this.props.torneos).map(key => console.log(this.props.torneos[key].info.nombre)); // if you have a bunch of keys value pair
+
     const { navigate } = this.props.navigation;
     return (
       <Container>
@@ -71,9 +76,21 @@ class TusQuinielas extends Component {
             <Titulo>CREA TU QUINIELA</Titulo>
           </View>
 
-          <ScrollView style={styles.cuerpo}>
-            <ListView enableEmptySections dataSource={this.dataSource} renderRow={this.renderRow} />
-          </ScrollView>
+          <Picker
+            selectedValue={this.props.torneo}
+            mode="dropdown"
+            onValueChange={(itemValue) => {
+              console.log(itemValue);
+              this.registrart(itemValue);
+            }}
+          >
+            {Object.keys(this.props.torneos).map(key => (
+              <Picker.Item
+                label={this.props.torneos[key].info.nombre}
+                value={this.props.torneos[key].info.nombre}
+              />
+            ))}
+          </Picker>
 
           <View style={styles2.conta}>
             <View style={styles2.vire} />
