@@ -39,18 +39,6 @@ export default class extends Component {
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
-
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        // User is signed in.
-
-        console.log('Usuario auth');
-      } else {
-        // No user is signed in.
-
-        console.log('Usuario desauth');
-      }
-    });
   }
 
   render() {

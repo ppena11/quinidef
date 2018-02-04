@@ -11,6 +11,8 @@ import {
   GO_TO_HOME,
   EXIT_SUCCESS,
   LOGIN_LIMPIAR_FORMULARIO,
+  LOGIN_USER1,
+  LOGGED_USER1,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -21,6 +23,7 @@ const INITIAL_STATE = {
   placeholder: 'Ingresa tu correo electrónico...',
   placeholderc: 'Contraseña...',
   authenticating: false,
+  init: true,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -30,6 +33,12 @@ export default (state = INITIAL_STATE, action) => {
 
     case PASSWORD_CHANGED:
       return { ...state, password: action.payload };
+
+    case LOGIN_USER1:
+      return { ...state, init: true };
+
+    case LOGGED_USER1:
+      return { ...state, init: false };
 
     case EXIT_SUCCESS:
       return {

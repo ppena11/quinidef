@@ -1,7 +1,7 @@
 import { NavigationActions } from 'react-navigation';
 import RootNavigator from '../config/routes';
 
-import { GO_TO_MAIN, GO_TO_EMAIL_CONFIRMATION, GO_TO_LOGOUT } from '../actions/types';
+import { GO_TO_MAIN, GO_TO_EMAIL_CONFIRMATION, GO_TO_LOGOUT, GO_TO_LOG } from '../actions/types';
 
 const initialState = RootNavigator.router.getStateForAction(NavigationActions.init());
 
@@ -11,6 +11,12 @@ export default (state = initialState, action) => {
     case GO_TO_MAIN:
       nextState = RootNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'TusQuinielas' }),
+        state,
+      );
+      break;
+    case GO_TO_LOG:
+      nextState = RootNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'Home' }),
         state,
       );
       break;
