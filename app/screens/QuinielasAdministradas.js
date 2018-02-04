@@ -57,7 +57,7 @@ class TusQuinielas extends Component {
         <StatusBar translucent={false} barStyle="light-content" backgroundColor="#00244f" />
         <View style={styles.form}>
           <View style={styles.titulo}>
-            <Titulo>MIS QUINIELAS ADMINISTRADAS</Titulo>
+            <Titulo>QUINIELAS ADMINISTRADAS</Titulo>
           </View>
 
           <ScrollView style={styles.cuerpo}>
@@ -66,7 +66,7 @@ class TusQuinielas extends Component {
 
           <View style={styles.bottom}>
             <BotonPrincipal onPress={() => this.crear(navigate)}>
-              Crear una nueva Quiniela
+              Crear una nueva quiniela
             </BotonPrincipal>
             <BotonPrincipal onPress={() => this.tusquinielas(navigate)}>
               Tus Quinielas
@@ -97,7 +97,10 @@ const styles = EStyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const quinielas = _.map(state.quinielasadmin, (val, uid) => ({ ...val, uid }));
+  const tt = _.map(state.quinielasadmin, (val, uid) => ({ ...val, uid }));
+  console.log(tt);
+  const quinielas = _.orderBy(tt, ['quinielaNombre'], ['asc']);
+  console.log(quinielas);
   return { quinielas };
 };
 

@@ -20,12 +20,29 @@ class TusQuinielas extends Component {
   componentWillMount() {
     this.props.buscarTorneos();
     this.createDataSource(this.props);
+    Object.keys(this.props.torneos).map((key) => {
+      if (this.props.torneos[key].info.selected == true) {
+        this.registrart(this.props.torneos[key].info.nombre);
+        console.log(`WILL MOUNT....  ${this.props.torneos[key].info.nombre}`);
+      }
+    });
   }
 
   componentWillReceiveProps(nextProps) {
     // nextPropos are the next set of props that this componnet will receive
     // this.props is still the old set of props
     this.createDataSource(nextProps);
+    Object.keys(nextProps.torneos).map((key) => {
+      if (nextProps.torneos[key].info.selected == true) {
+        // this.registrart(nextProps.torneos[key].info.nombre);
+        console.log(`THIS PRPOS TORNEO....  ${this.props.torneo}`);
+
+        if (this.props.torneo == 'Rusia 2018') {
+          this.registrart(nextProps.torneos[key].info.nombre);
+        }
+        console.log(`NEXT PROPS....  ${nextProps.torneos[key].info.nombre}`);
+      }
+    });
   }
 
   createDataSource({ torneos }) {
@@ -57,6 +74,7 @@ class TusQuinielas extends Component {
   }
 
   registrart(nombreTorneo) {
+    this.setState({ selected: nombreTorneo });
     this.props.nombreTorneoCambio(nombreTorneo);
 
     // <ScrollView style={styles.cuerpo}>
@@ -76,38 +94,45 @@ class TusQuinielas extends Component {
             <Titulo>CREA TU QUINIELA</Titulo>
           </View>
 
-          <Picker
-            selectedValue={this.props.torneo}
-            mode="dropdown"
-            onValueChange={(itemValue) => {
-              console.log(itemValue);
-              this.registrart(itemValue);
-            }}
-          >
-            {Object.keys(this.props.torneos).map(key => (
-              <Picker.Item
-                label={this.props.torneos[key].info.nombre}
-                value={this.props.torneos[key].info.nombre}
+          <View>
+            <View style={styles2.conta}>
+              <View style={styles2.vire} />
+              <Picker
+                style={styles.inputBox1}
+                selectedValue={this.props.torneo}
+                onValueChange={(itemValue) => {
+                  console.log(itemValue);
+                  this.registrart(itemValue);
+                }}
+              >
+                {Object.keys(this.props.torneos).map(key => (
+                  <Picker.Item
+                    label={this.props.torneos[key].info.nombre}
+                    value={this.props.torneos[key].info.nombre}
+                    key={key}
+                  />
+                ))}
+              </Picker>
+              <View style={styles2.vire} />
+            </View>
+
+            <View style={styles2.conta}>
+              <View style={styles2.vire} />
+
+              <TextInput
+                style={styles.inputBox}
+                underlineColorAndroid="rgba(0,0,0,0)"
+                placeholder="Nombre de la quiniela"
+                placeholderTextColor="#ffffff"
+                selectionColor="#fff"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                onChangeText={nombreQuiniela => this.registrare(nombreQuiniela)}
+                value={this.props.email}
               />
-            ))}
-          </Picker>
-
-          <View style={styles2.conta}>
-            <View style={styles2.vire} />
-            <TextInput
-              style={styles.inputBox}
-              underlineColorAndroid="rgba(0,0,0,0)"
-              placeholder="Nombre de la quiniela"
-              placeholderTextColor="#ffffff"
-              selectionColor="#fff"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              onChangeText={nombreQuiniela => this.registrare(nombreQuiniela)}
-              value={this.props.email}
-            />
-            <View style={styles2.vire} />
+              <View style={styles2.vire} />
+            </View>
           </View>
-
           <View style={styles.bottom}>
             <BotonPrincipal onPress={() => this.crear()}>Crear</BotonPrincipal>
             <BotonPrincipal onPress={() => this.cancelar(navigate)}>Cancelar</BotonPrincipal>
@@ -124,6 +149,12 @@ const styles = EStyleSheet.create({
 
     justifyContent: 'space-between',
     flexDirection: 'column',
+  },
+  inputBox1: {
+    flex: 8,
+
+    color: '#FFF',
+    marginVertical: 10,
   },
   inputBox: {
     flex: 8,
@@ -171,10 +202,13 @@ const styles2 = EStyleSheet.create({
 const mapStateToProps = (state) => {
   // console.log(state.torneos);
   const torneos = _.map(state.torneos, (val, uid) => ({ ...val, uid }));
+  const tt = _.orderBy(torneos, ['info.nombre'], ['des']);
+  console.log(tt);
   return {
     torneos,
     quinielaNombre: state.creacionquinielas.nombreQuiniela,
     torneo: state.creacionquinielas.torneo,
+    selected: state.selected,
   };
 };
 
