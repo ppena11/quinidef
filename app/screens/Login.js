@@ -22,14 +22,14 @@ class Login extends Component {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // User is signed in.
-        this.props.logeddUser1();
+        this.props.logeddUser1(); //  Inicializando == false (init)
         console.log('Usuario auth');
-        navigate('QuinielasAdministradas');
+        // navigate('QuinielasAdministradas');
         // this.props.usuarioRegistrado();
       } else {
         // No user is signed in.
         // this.props.loginUser1();
-        this.props.logeddUser1();
+        this.props.logeddUser1(); // Inicializando == false (init)
         console.log('Usuario desauth');
       }
     });
@@ -46,9 +46,6 @@ class Login extends Component {
   }
 
   renderSpinner(navigate) {
-    if (this.props.init) {
-      return <Spinner style={styles.buttonText} size="small" />;
-    }
     return (
       <View style={styles.form}>
         <StatusBar translucent={false} barStyle="light-content" backgroundColor="#1c313a" />
@@ -74,6 +71,28 @@ class Login extends Component {
 
   render() {
     const { navigate } = this.props.navigation;
+    let render = 'no';
+    const { currentUser } = firebase.auth();
+
+    console.log(`PROBANDO EL USER... ${firebase.auth()}`);
+    console.log(currentUser);
+    if (!this.props.init) {
+      console.log(`ENENENENENEEN EL USER... ${firebase.auth()}`);
+      console.log(currentUser);
+      if (currentUser != undefined) {
+        navigate('TusQuinielas'); // Ir al menu de las quinielas del usuario
+      } else {
+        render = 'yes'; // Desplegar el login
+      }
+    }
+
+    if (render != 'yes') {
+      return (
+        <Container>
+          <Spinner style={styles.buttonText} size="small" />
+        </Container>
+      );
+    }
     return <Container>{this.renderSpinner(navigate)}</Container>;
   }
 }

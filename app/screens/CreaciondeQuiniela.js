@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar, ListView, View, ScrollView, TextInput, Picker } from 'react-native';
+import { StatusBar, ListView, View, TextInput, Picker, Keyboard } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
 
@@ -54,11 +54,11 @@ class TusQuinielas extends Component {
   }
 
   crear(navigate) {
-    console.log('TEST');
-    console.log(this.props.quinielaNombre);
-    // navigate('Home');
+    Keyboard.dismiss();
+
     const { quinielaNombre, torneo } = this.props;
     this.props.crearQuiniela({ quinielaNombre, torneo });
+    navigate('QuinielasAdministradas');
   }
 
   cancelar(navigate) {
