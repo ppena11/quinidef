@@ -8,9 +8,9 @@ import store from './config/store';
 import RootNavigator from './config/routes';
 
 EStyleSheet.build({
-  $primaryBlue: '#4f6d7a',
+  $primaryBackground: '#084b7c',
   $white: '#ffffff',
-  $fondoBotonPrincipal: '#1c313a',
+  $fondoBotonPrincipal: '#00244f',
   $fondoBotonInput: 'rgba(255, 255,255,0.2)',
 });
 
@@ -34,22 +34,11 @@ export default class extends Component {
     const firebaseConfig = {
       apiKey: 'AIzaSyBTNTx1cp-bZ3SquR9d6btC974MUnsPMb0',
       authDomain: 'react-native-firebase-20f8d.firebaseapp.com',
+      databaseURL: 'https://react-native-firebase-20f8d.firebaseio.com',
     };
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
-
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        // User is signed in.
-
-        console.log('Usuario auth');
-      } else {
-        // No user is signed in.
-
-        console.log('Usuario desauth');
-      }
-    });
   }
 
   render() {
