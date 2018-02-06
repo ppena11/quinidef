@@ -21,3 +21,4 @@ export const NOMBRE_TORNEO_CAMBIO = 'NOMBRE_TORNEO_CAMBIO';
 export const GO_TO_LOG = 'GO_TO_LOG';
 export const LOGIN_USER1 = 'LOGIN_USER1';
 export const LOGGED_USER1 = 'LOGGED_USER1';
+export const GO_TO_ADMINISTRADAS = 'GO_TO_ADMINISTRADAS';

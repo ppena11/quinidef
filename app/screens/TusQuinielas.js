@@ -20,14 +20,12 @@ class TusQuinielas extends Component {
   componentWillMount() {
     this.props.buscarQuinielas();
     this.createDataSource(this.props);
-    console.log(`will mount: ${this.props}`);
   }
 
   componentWillReceiveProps(nextProps) {
     // nextPropos are the next set of props that this componnet will receive
     // this.props is still the old set of props
     this.createDataSource(nextProps);
-    console.log(`NEXT PRPOS: ${nextProps}`);
   }
 
   createDataSource({ quinielas }) {

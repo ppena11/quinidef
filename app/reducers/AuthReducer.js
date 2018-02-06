@@ -35,7 +35,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, password: action.payload };
 
     case LOGIN_USER1:
-      return { ...state, init: true };
+      return { ...state, user: action.payload };
 
     case LOGGED_USER1:
       return { ...state, init: false };

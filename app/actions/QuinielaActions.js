@@ -5,6 +5,9 @@ import {
   BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO,
   NOMBRE_QUINIELA_CAMBIO,
   NOMBRE_TORNEO_CAMBIO,
+  GO_TO_MAIN,
+  CREATE_QUINIELA_FAIL,
+  GO_TO_ADMINISTRADAS,
 } from './types';
 
 export const QuinielaUpdate = ({ prop, value }) => ({
@@ -48,12 +51,22 @@ export const nombreTorneoCambio = text => ({
   payload: text,
 });
 
-export const crearQuiniela = ({ quinielaNombre, torneo }) => {
+export const crearQuiniela = ({ quinielaNombre, torneo }) => (dispatch) => {
   const { currentUser } = firebase.auth();
-  return () => {
-    firebase
-      .database()
-      .ref(`/users/${currentUser.uid}/quinielasadministradas`)
-      .push({ quinielaNombre, torneo });
-  };
+  firebase
+    .database()
+    .ref(`/users/${currentUser.uid}/quinielasadministradas`)
+    .push({ quinielaNombre, torneo })
+    .then(() => {
+      crearQuinielaExito(dispatch);
+    })
+    .catch(error => crearQuinielaError(dispatch, error));
+};
+
+const crearQuinielaExito = (dispatch) => {
+  dispatch({ type: GO_TO_ADMINISTRADAS });
+};
+
+const crearQuinielaError = (dispatch, error) => {
+  dispatch({ type: CREATE_QUINIELA_FAIL, payload: error });
 };

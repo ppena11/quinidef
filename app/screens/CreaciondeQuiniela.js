@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar, ListView, View, TextInput, Picker, Keyboard } from 'react-native';
+import { StatusBar, ListView, View, TextInput, Picker, Keyboard, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
 
@@ -35,12 +35,10 @@ class TusQuinielas extends Component {
     Object.keys(nextProps.torneos).map((key) => {
       if (nextProps.torneos[key].info.selected == true) {
         // this.registrart(nextProps.torneos[key].info.nombre);
-        console.log(`THIS PRPOS TORNEO....  ${this.props.torneo}`);
 
         if (this.props.torneo == 'Rusia 2018') {
           this.registrart(nextProps.torneos[key].info.nombre);
         }
-        console.log(`NEXT PROPS....  ${nextProps.torneos[key].info.nombre}`);
       }
     });
   }
@@ -58,10 +56,10 @@ class TusQuinielas extends Component {
 
     const { quinielaNombre, torneo } = this.props;
     this.props.crearQuiniela({ quinielaNombre, torneo });
-    navigate('QuinielasAdministradas');
   }
 
   cancelar(navigate) {
+    Keyboard.dismiss();
     navigate('QuinielasAdministradas');
   }
 
@@ -134,6 +132,7 @@ class TusQuinielas extends Component {
             </View>
           </View>
           <View style={styles.bottom}>
+            <Text>{this.props.error}</Text>
             <BotonPrincipal onPress={() => this.crear()}>Crear</BotonPrincipal>
             <BotonPrincipal onPress={() => this.cancelar(navigate)}>Cancelar</BotonPrincipal>
           </View>
@@ -203,11 +202,12 @@ const mapStateToProps = (state) => {
   // console.log(state.torneos);
   const torneos = _.map(state.torneos, (val, uid) => ({ ...val, uid }));
   const tt = _.orderBy(torneos, ['info.nombre'], ['des']);
-  console.log(tt);
+
   return {
     torneos,
     quinielaNombre: state.creacionquinielas.nombreQuiniela,
     torneo: state.creacionquinielas.torneo,
+    error: state.creacionquinielas.error,
     selected: state.selected,
   };
 };

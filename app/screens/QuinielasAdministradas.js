@@ -26,6 +26,7 @@ class TusQuinielas extends Component {
     // nextPropos are the next set of props that this componnet will receive
     // this.props is still the old set of props
     this.createDataSource(nextProps);
+    console.log(nextProps);
   }
 
   createDataSource({ quinielas }) {
@@ -98,9 +99,9 @@ const styles = EStyleSheet.create({
 
 const mapStateToProps = (state) => {
   const tt = _.map(state.quinielasadmin, (val, uid) => ({ ...val, uid }));
-  console.log(tt);
+
   const quinielas = _.orderBy(tt, ['quinielaNombre'], ['asc']);
-  console.log(quinielas);
+
   return { quinielas };
 };
 

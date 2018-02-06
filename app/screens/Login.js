@@ -24,6 +24,7 @@ class Login extends Component {
         // User is signed in.
         this.props.logeddUser1(); //  Inicializando == false (init)
         console.log('Usuario auth');
+        this.props.loginUser1(firebase.auth().uid); //  Registrar el usuario en el estado
         // navigate('QuinielasAdministradas');
         // this.props.usuarioRegistrado();
       } else {
@@ -33,6 +34,15 @@ class Login extends Component {
         console.log('Usuario desauth');
       }
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // nextPropos are the next set of props that this componnet will receive
+    // this.props is still the old set of props
+    const { navigate } = this.props.navigation;
+    if (nextProps.user != '') {
+      navigate('TusQuinielas'); // Ir al menu de las quinielas del usuario
+    }
   }
 
   reiniciar(navigate) {
@@ -72,16 +82,11 @@ class Login extends Component {
   render() {
     const { navigate } = this.props.navigation;
     let render = 'no';
-    const { currentUser } = firebase.auth();
 
-    console.log(`PROBANDO EL USER... ${firebase.auth()}`);
-    console.log(currentUser);
     if (!this.props.init) {
-      console.log(`ENENENENENEEN EL USER... ${firebase.auth()}`);
-      console.log(currentUser);
-      if (currentUser != undefined) {
-        navigate('TusQuinielas'); // Ir al menu de las quinielas del usuario
-      } else {
+      // Inicalizada la aplicacion
+      if (this.props.user == '') {
+        // El usuario no esta registrado
         render = 'yes'; // Desplegar el login
       }
     }
@@ -124,6 +129,7 @@ const styles = EStyleSheet.create({
 const mapStateToProps = state => ({
   error: state.auth.error,
   init: state.auth.init,
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps, {
