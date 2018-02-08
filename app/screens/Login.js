@@ -2,18 +2,48 @@ import React, { Component } from 'react';
 import { TouchableOpacity, View, StatusBar, KeyboardAvoidingView, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
+import firebase from 'firebase';
 
 import { Container } from '../components/Container';
 import { Logo } from '../components/Logo';
 import { TextIndication } from '../components/TextIndication';
 import { Form } from '../components/Form';
-import { limpiarFormularioLogin } from '../actions';
+import { Spinner } from '../components/Spinner';
+import { limpiarFormularioLogin, usuarioRegistrado, loginUser1, logeddUser1 } from '../actions';
 import color from '../comun/colors';
 
 class Login extends Component {
   static navigationOptions = {
     header: null,
   };
+
+  componentDidMount() {
+    const { navigate } = this.props.navigation;
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in.
+        this.props.logeddUser1(); //  Inicializando == false (init)
+        console.log('Usuario auth');
+        this.props.loginUser1(firebase.auth().uid); //  Registrar el usuario en el estado
+        // navigate('QuinielasAdministradas');
+        // this.props.usuarioRegistrado();
+      } else {
+        // No user is signed in.
+        // this.props.loginUser1();
+        this.props.logeddUser1(); // Inicializando == false (init)
+        console.log('Usuario desauth');
+      }
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // nextPropos are the next set of props that this componnet will receive
+    // this.props is still the old set of props
+    const { navigate } = this.props.navigation;
+    if (nextProps.user != '') {
+      navigate('TusQuinielas'); // Ir al menu de las quinielas del usuario
+    }
+  }
 
   reiniciar(navigate) {
     this.props.limpiarFormularioLogin();
@@ -25,31 +55,50 @@ class Login extends Component {
     navigate('CrearCuenta');
   }
 
+  renderSpinner(navigate) {
+    return (
+      <View style={styles.form}>
+        <StatusBar translucent={false} barStyle="light-content" backgroundColor={color.$statusBarBackgroundColor} />
+
+        <Logo />
+        <KeyboardAvoidingView behavior="padding" style={styles.form}>
+          <Form type="Entrar" />
+        </KeyboardAvoidingView>
+
+        <TextIndication description={this.props.error} />
+
+        <View style={styles.signupTextCont}>
+          <TouchableOpacity onPress={() => this.reiniciar(navigate)}>
+            <Text style={styles.signupText}>Recuperar contraseña</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.crear(navigate)}>
+            <Text style={styles.signupButton}> Registrate</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
   render() {
     const { navigate } = this.props.navigation;
-    return (
-      <Container>
-        <View style={styles.form}>
-          <StatusBar translucent={false} barStyle="light-content" backgroundColor={color.$statusBarBackgroundColor} />
+    let render = 'no';
 
-          <Logo />
-          <KeyboardAvoidingView behavior="padding" style={styles.form}>
-            <Form type="Entrar" />
-          </KeyboardAvoidingView>
+    if (!this.props.init) {
+      // Inicalizada la aplicacion
+      if (this.props.user == '') {
+        // El usuario no esta registrado
+        render = 'yes'; // Desplegar el login
+      }
+    }
 
-          <TextIndication description={this.props.error} />
-
-          <View style={styles.signupTextCont}>
-            <TouchableOpacity onPress={() => this.reiniciar(navigate)}>
-              <Text style={styles.signupText}>Recuperar contraseña</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.crear(navigate)}>
-              <Text style={styles.signupButton}> Registrarse</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Container>
-    );
+    if (render != 'yes') {
+      return (
+        <Container>
+          <Spinner style={styles.buttonText} size="small" />
+        </Container>
+      );
+    }
+    return <Container>{this.renderSpinner(navigate)}</Container>;
   }
 }
 
@@ -79,6 +128,13 @@ const styles = EStyleSheet.create({
 
 const mapStateToProps = state => ({
   error: state.auth.error,
+  init: state.auth.init,
+  user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { limpiarFormularioLogin })(Login);
+export default connect(mapStateToProps, {
+  limpiarFormularioLogin,
+  usuarioRegistrado,
+  loginUser1,
+  logeddUser1,
+})(Login);

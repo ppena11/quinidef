@@ -5,7 +5,8 @@ import styles from './styles';
 
 class Qx extends Component {
   render() {
-    return <Text>{this.props.quiniela}</Text>;
+    const { name } = this.props.quiniela;
+    return <Text>{name}</Text>;
   }
 }
 

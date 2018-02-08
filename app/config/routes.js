@@ -7,6 +7,8 @@ import CrearCuenta from '../screens/CrearCuenta';
 import ConfirmacionCorreo from '../screens/ConfirmacionCorreo';
 import Home from '../screens/Home';
 import TusQuinielas from '../screens/TusQuinielas';
+import QuinielasAdministradas from '../screens/QuinielasAdministradas';
+import CreaciondeQuiniela from '../screens/CreaciondeQuiniela';
 
 const stackRouterConfig = { initialRouteName: 'Home' };
 
@@ -29,6 +31,12 @@ const RootNavigator = StackNavigator(
     },
     TusQuinielas: {
       screen: TusQuinielas,
+    },
+    QuinielasAdministradas: {
+      screen: QuinielasAdministradas,
+    },
+    CreaciondeQuiniela: {
+      screen: CreaciondeQuiniela,
     },
   },
   stackRouterConfig,

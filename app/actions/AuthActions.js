@@ -15,6 +15,8 @@ import {
   EMAIL_ENVIADO,
   GO_TO_HOME,
   GO_TO_LOGOUT,
+  LOGIN_USER1,
+  LOGGED_USER1,
 } from './types';
 
 export const emailChanged = text => ({
@@ -24,6 +26,20 @@ export const emailChanged = text => ({
 
 export const passwordChanged = text => ({
   type: PASSWORD_CHANGED,
+  payload: text,
+});
+
+export const usuarioRegistrado = () => (dispatch) => {
+  dispatch({ type: GO_TO_MAIN });
+};
+
+export const loginUser1 = text => ({
+  type: LOGIN_USER1,
+  payload: text,
+});
+
+export const logeddUser1 = text => ({
+  type: LOGGED_USER1,
   payload: text,
 });
 
