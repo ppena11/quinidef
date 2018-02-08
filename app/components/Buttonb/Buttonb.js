@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
+import color from '../../comun/colors';
+
 const Buttonb = ({ onPress, children }) => {
   const { containerStyle, bottonStyle } = styles;
   return (
@@ -12,7 +14,7 @@ const Buttonb = ({ onPress, children }) => {
 
 const styles = {
   containerStyle: {
-    color: '#fff',
+    color: color.$buttonbColor,
     alignSelf: 'center',
     fontSize: 16,
     fontWeight: '600',
@@ -24,7 +26,7 @@ const styles = {
     alignSelf: 'stretch',
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: '#00244f',
+    borderColor: color.$buttonbBorderColor,
     marginLeft: 5,
     marginRight: 5,
   },

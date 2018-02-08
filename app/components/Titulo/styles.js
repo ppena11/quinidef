@@ -1,4 +1,5 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import color from '../../comun/colors';
 
 export default EStyleSheet.create({
   container: {
@@ -12,12 +13,12 @@ export default EStyleSheet.create({
   text: {
     fontSize: 26,
     fontWeight: '500',
-    color: '$white',
+    color: color.$tituloTextColor,
     textAlign: 'center',
   },
   centro: {
     flex: 8,
-    backgroundColor: '$primaryBackground',
+    backgroundColor: color.$primaryBackground,
     borderRadius: 25,
     marginVertical: 10,
   },

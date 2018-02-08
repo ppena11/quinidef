@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import styles from './styles';
 
 import { emailChanged, recuperarEmail, salirSistema } from '../../actions';
-
 import { Spinner } from '../Spinner';
+import color from '../../comun/colors';
 
 class FormContrasena extends Component<{}> {
   constructor() {
@@ -44,8 +44,8 @@ class FormContrasena extends Component<{}> {
             style={styles.inputBox}
             underlineColorAndroid="rgba(0,0,0,0)"
             placeholder={this.props.placeholder}
-            placeholderTextColor="#ffffff"
-            selectionColor="#fff"
+            placeholderTextColor={color.$placeholderTextColor}
+            selectionColor={color.$selectionColor}
             keyboardType="email-address"
             autoCapitalize="none"
             ref={input => (this.email = input)}
@@ -86,13 +86,13 @@ const styles2 = EStyleSheet.create({
     flex: 1,
   },
   signupText: {
-    color: '#ffffff',
+    color: color.$signupTextColor,
     fontSize: 16,
     fontWeight: '500',
     paddingHorizontal: 20,
   },
   signupButton: {
-    color: '#ffffff',
+    color: color.$signupButtonColor,
     fontSize: 16,
     fontWeight: '500',
     paddingHorizontal: 20,

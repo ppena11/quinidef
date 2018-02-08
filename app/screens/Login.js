@@ -3,14 +3,14 @@ import { TouchableOpacity, View, StatusBar, KeyboardAvoidingView, Text } from 'r
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
-import { Container } from '../components/Container';
 
+import { Container } from '../components/Container';
 import { Logo } from '../components/Logo';
 import { TextIndication } from '../components/TextIndication';
 import { Form } from '../components/Form';
 import { Spinner } from '../components/Spinner';
-
 import { limpiarFormularioLogin, usuarioRegistrado, loginUser1, logeddUser1 } from '../actions';
+import color from '../comun/colors';
 
 class Login extends Component {
   static navigationOptions = {
@@ -58,7 +58,7 @@ class Login extends Component {
   renderSpinner(navigate) {
     return (
       <View style={styles.form}>
-        <StatusBar translucent={false} barStyle="light-content" backgroundColor="#1c313a" />
+        <StatusBar translucent={false} barStyle="light-content" backgroundColor={color.$statusBarBackgroundColor} />
 
         <Logo />
         <KeyboardAvoidingView behavior="padding" style={styles.form}>
@@ -115,12 +115,12 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
   },
   signupText: {
-    color: '$white',
+    color: color.$signupTextColor,
     fontSize: 16,
     fontWeight: '500',
   },
   signupButton: {
-    color: '$white',
+    color: color.$signupButtonColor,
     fontSize: 16,
     fontWeight: '500',
   },
