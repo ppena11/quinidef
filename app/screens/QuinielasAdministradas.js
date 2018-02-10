@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import { StatusBar, ListView, View, ScrollView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
-
 import { connect } from 'react-redux';
+
 import { buscarQuinielasAdministradas } from '../actions';
 import { Container } from '../components/Container';
-
 import { BotonPrincipal } from '../components/BotonPrincipal';
 import { Titulo } from '../components/Titulo';
-
 import { Qxa } from '../components/Qxa';
+import color from '../comun/colors';
 
 class TusQuinielas extends Component {
   static navigationOptions = {
@@ -55,7 +54,7 @@ class TusQuinielas extends Component {
     const { navigate } = this.props.navigation;
     return (
       <Container>
-        <StatusBar translucent={false} barStyle="light-content" backgroundColor="#00244f" />
+        <StatusBar translucent={false} barStyle="light-content" backgroundColor={color.$statusBarBackgroundColor} />
         <View style={styles.form}>
           <View style={styles.titulo}>
             <Titulo>QUINIELAS ADMINISTRADAS</Titulo>

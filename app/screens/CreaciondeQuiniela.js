@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import { StatusBar, ListView, View, TextInput, Picker, Keyboard, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
-
 import { connect } from 'react-redux';
+
 import { nombreQuinielaCambio, buscarTorneos, crearQuiniela, nombreTorneoCambio } from '../actions';
 import { Container } from '../components/Container';
-
 import { BotonPrincipal } from '../components/BotonPrincipal';
 import { Titulo } from '../components/Titulo';
-
 import { TorneoItem } from '../components/TorneoItem';
+import color from '../comun/colors';
 
 class TusQuinielas extends Component {
   static navigationOptions = {
@@ -86,7 +85,7 @@ class TusQuinielas extends Component {
     const { navigate } = this.props.navigation;
     return (
       <Container>
-        <StatusBar translucent={false} barStyle="light-content" backgroundColor="#00244f" />
+        <StatusBar translucent={false} barStyle="light-content" backgroundColor={color.$statusBarBackgroundColor} />
         <View style={styles.form}>
           <View style={styles.titulo}>
             <Titulo>CREA TU QUINIELA</Titulo>
@@ -119,10 +118,10 @@ class TusQuinielas extends Component {
 
               <TextInput
                 style={styles.inputBox}
-                underlineColorAndroid="rgba(0,0,0,0)"
-                placeholder="Nombre de la quiniela"
-                placeholderTextColor="#ffffff"
-                selectionColor="#fff"
+                underlineColorAndroid={color.$underlineColorAndroid}
+                placeholder="Nombre de la quiniela..."
+                placeholderTextColor={color.$placeholderTextColor}
+                selectionColor={color.$selectionColor}
                 keyboardType="email-address"
                 autoCapitalize="none"
                 onChangeText={nombreQuiniela => this.registrare(nombreQuiniela)}
@@ -152,16 +151,16 @@ const styles = EStyleSheet.create({
   inputBox1: {
     flex: 8,
 
-    color: '#FFF',
+    color: color.$formInputBoxColor,
     marginVertical: 10,
   },
   inputBox: {
     flex: 8,
-    backgroundColor: '$fondoBotonInput',
+    backgroundColor: color.$fondoBotonInput,
     borderRadius: 25,
     paddingHorizontal: 16,
     fontSize: 16,
-    color: '$white',
+    color: color.$formInputBoxColor,
     marginVertical: 10,
   },
   titulo: {
@@ -185,13 +184,13 @@ const styles2 = EStyleSheet.create({
     flex: 1,
   },
   signupText: {
-    color: '#ffffff',
+    color: color.$signupTextColor,
     fontSize: 16,
     fontWeight: '500',
     paddingHorizontal: 20,
   },
   signupButton: {
-    color: '#ffffff',
+    color: color.$signupButtonColor,
     fontSize: 16,
     fontWeight: '500',
     paddingHorizontal: 20,

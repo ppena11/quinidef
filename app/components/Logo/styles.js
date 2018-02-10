@@ -1,5 +1,6 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Dimensions } from 'react-native';
+import color from '../../comun/colors';
 
 const imageWidth = Dimensions.get('window').width / 3;
 const imageHeight = Dimensions.get('window').height / 5;
@@ -21,6 +22,6 @@ export default EStyleSheet.create({
     fontSize: 18,
     letterSpacing: -0.5,
     marginTop: 15,
-    color: '$white',
+    color: color.$logoTextColor,
   },
 });

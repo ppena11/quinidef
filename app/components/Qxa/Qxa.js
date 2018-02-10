@@ -4,6 +4,7 @@ import { Text, View, Image } from 'react-native';
 import { Card } from '../Card';
 import { CardSection } from '../CardSection';
 import { Buttonb } from '../Buttonb';
+import color from '../../comun/colors';
 
 class Qxa extends Component {
   render() {
@@ -42,11 +43,11 @@ const styles = {
   },
   headerTextStyle: {
     fontSize: 18,
-    color: '#fff',
+    color: color.$qxaHeaderTextStyle,
   },
   headerTextStyle2: {
     fontSize: 12,
-    color: '#fff',
+    color: color.$qxaHeaderTextStyle2,
   },
   thumbnailStyle: {
     height: 50,
