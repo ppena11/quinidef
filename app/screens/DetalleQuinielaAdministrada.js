@@ -25,6 +25,7 @@ class TusQuinielas extends Component {
     // nextPropos are the next set of props that this componnet will receive
     // this.props is still the old set of props
     this.createDataSource(nextProps);
+    console.log(nextProps);
   }
 
   createDataSource({ quinielas }) {
@@ -51,7 +52,6 @@ class TusQuinielas extends Component {
 
   render() {
     const { navigate } = this.props.navigation;
-    console.log(this.props.navigation);
     return (
       <Container>
         <StatusBar
@@ -61,12 +61,8 @@ class TusQuinielas extends Component {
         />
         <View style={styles.form}>
           <View style={styles.titulo}>
-            <Titulo>QUINIELAS ADMINISTRADAS</Titulo>
+            <Titulo>DETALLE QUINIELAS ADMINISTRADAS</Titulo>
           </View>
-
-          <ScrollView style={styles.cuerpo}>
-            <ListView enableEmptySections dataSource={this.dataSource} renderRow={this.renderRow} />
-          </ScrollView>
 
           <View style={styles.bottom}>
             <BotonPrincipal onPress={() => this.crear(navigate)}>

@@ -85,7 +85,11 @@ class TusQuinielas extends Component {
     const { navigate } = this.props.navigation;
     return (
       <Container>
-        <StatusBar translucent={false} barStyle="light-content" backgroundColor={color.$statusBarBackgroundColor} />
+        <StatusBar
+          translucent={false}
+          barStyle="light-content"
+          backgroundColor={color.$statusBarBackgroundColor}
+        />
         <View style={styles.form}>
           <View style={styles.titulo}>
             <Titulo>CREA TU QUINIELA</Titulo>
@@ -98,7 +102,6 @@ class TusQuinielas extends Component {
                 style={styles.inputBox1}
                 selectedValue={this.props.torneo}
                 onValueChange={(itemValue) => {
-                  console.log(itemValue);
                   this.registrart(itemValue);
                 }}
               >

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, Image } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
 import { Card } from '../Card';
 import { CardSection } from '../CardSection';
@@ -7,7 +8,11 @@ import { Buttonb } from '../Buttonb';
 import color from '../../comun/colors';
 
 class Qxa extends Component {
+  onRowPress() {
+    this.props.navigation.navigate('DetalleQuinielaAdministrada');
+  }
   render() {
+    console.log(this.props.navigation);
     const { quinielaNombre, torneo } = this.props.quiniela;
     const {
       headerContentStyle,
@@ -29,7 +34,7 @@ class Qxa extends Component {
         </CardSection>
 
         <CardSection>
-          <Buttonb onPress={() => console.log(quinielaNombre)}>Configurar...</Buttonb>
+          <Buttonb onPress={() => this.onRowPress()}>Configurar...</Buttonb>
         </CardSection>
       </Card>
     );
@@ -60,4 +65,5 @@ const styles = {
     marginRight: 10,
   },
 };
-export default Qxa;
+
+export default withNavigation(Qxa);
