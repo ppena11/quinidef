@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar, ListView, View, ScrollView } from 'react-native';
+import { StatusBar, ListView, View, Switch, FlatList, ScrollView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -8,7 +8,7 @@ import { buscarQuinielasAdministradas } from '../actions';
 import { Container } from '../components/Container';
 import { BotonPrincipal } from '../components/BotonPrincipal';
 import { Titulo } from '../components/Titulo';
-import { Qxa } from '../components/Qxa';
+import { QuinielaAdminItem } from '../components/QuinielaAdminItem';
 import color from '../comun/colors';
 
 class TusQuinielas extends Component {
@@ -17,41 +17,46 @@ class TusQuinielas extends Component {
   };
 
   componentWillMount() {
-    this.props.buscarQuinielasAdministradas();
-    this.createDataSource(this.props);
+    // this.props.buscarQuinielasAdministradas();
+    // this.createDataSource(this.props);
+    // const { quinielaNombre, torneo } = this.props.quiniela;
+    // console.log(_.map(this.props.navigation.state.params.quiniela.Users, (val, uid) => ({ ...val, uid })));
   }
 
   componentWillReceiveProps(nextProps) {
     // nextPropos are the next set of props that this componnet will receive
     // this.props is still the old set of props
-    this.createDataSource(nextProps);
-    console.log(nextProps);
+    // this.createDataSource(nextProps);
   }
 
   createDataSource({ quinielas }) {
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-    });
-
-    this.dataSource = ds.cloneWithRows(quinielas);
+    // const ds = new ListView.DataSource({
+    //  rowHasChanged: (r1, r2) => r1 !== r2,
+    // });
+    // this.dataSource = ds.cloneWithRows(quinielas);
   }
 
   crear(navigate) {
     // console.log('TEST');
-    navigate('CreaciondeQuiniela');
+    // navigate('CreaciondeQuiniela');
   }
 
-  tusquinielas(navigate) {
+  tusquinielas(goBack) {
     // console.log('TEST2');
-    navigate('TusQuinielas');
+    goBack();
   }
 
   renderRow(quiniela) {
-    return <Qxa quiniela={quiniela} />;
+    return <QuinielaAdminItem quiniela={quiniela} />;
+  }
+
+  pressed(e) {
+    console.log(`E...  ${e}`);
+    console.log(this.value);
   }
 
   render() {
-    const { navigate } = this.props.navigation;
+    const { navigate, goBack } = this.props.navigation;
     return (
       <Container>
         <StatusBar
@@ -61,16 +66,22 @@ class TusQuinielas extends Component {
         />
         <View style={styles.form}>
           <View style={styles.titulo}>
-            <Titulo>DETALLE QUINIELAS ADMINISTRADAS</Titulo>
+            <Titulo>{this.props.navigation.state.params.quiniela.quinielaNombre}</Titulo>
           </View>
 
+          <ScrollView style={styles.cuerpo}>
+            <FlatList
+              data={_.map(this.props.navigation.state.params.quiniela.Users, (val, uid) => ({
+                ...val,
+                uid,
+              }))}
+              renderItem={({ item }) => this.renderRow(item)}
+            />
+          </ScrollView>
+
           <View style={styles.bottom}>
-            <BotonPrincipal onPress={() => this.crear(navigate)}>
-              Crear una nueva quiniela
-            </BotonPrincipal>
-            <BotonPrincipal onPress={() => this.tusquinielas(navigate)}>
-              Tus Quinielas
-            </BotonPrincipal>
+            <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal>
+            <BotonPrincipal onPress={() => this.tusquinielas(goBack)}>Tus Quinielas</BotonPrincipal>
           </View>
         </View>
       </Container>

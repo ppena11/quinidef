@@ -22,7 +22,7 @@ class TusQuinielas extends Component {
     Object.keys(this.props.torneos).map((key) => {
       if (this.props.torneos[key].info.selected == true) {
         this.registrart(this.props.torneos[key].info.nombre);
-        console.log(`WILL MOUNT....  ${this.props.torneos[key].info.nombre}`);
+        // console.log(`WILL MOUNT....  ${this.props.torneos[key].info.nombre}`);
       }
     });
   }
@@ -57,9 +57,9 @@ class TusQuinielas extends Component {
     this.props.crearQuiniela({ quinielaNombre, torneo });
   }
 
-  cancelar(navigate) {
+  cancelar(goBack) {
     Keyboard.dismiss();
-    navigate('QuinielasAdministradas');
+    goBack();
   }
 
   renderRow(torneo) {
@@ -82,7 +82,7 @@ class TusQuinielas extends Component {
   render() {
     // Object.keys(this.props.torneos).map(key => console.log(this.props.torneos[key].info.nombre)); // if you have a bunch of keys value pair
 
-    const { navigate } = this.props.navigation;
+    const { navigate, goBack } = this.props.navigation;
     return (
       <Container>
         <StatusBar
@@ -136,7 +136,7 @@ class TusQuinielas extends Component {
           <View style={styles.bottom}>
             <Text>{this.props.error}</Text>
             <BotonPrincipal onPress={() => this.crear()}>Crear</BotonPrincipal>
-            <BotonPrincipal onPress={() => this.cancelar(navigate)}>Cancelar</BotonPrincipal>
+            <BotonPrincipal onPress={() => this.cancelar(goBack)}>Cancelar</BotonPrincipal>
           </View>
         </View>
       </Container>

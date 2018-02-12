@@ -40,9 +40,9 @@ class TusQuinielas extends Component {
     navigate('CreaciondeQuiniela');
   }
 
-  tusquinielas(navigate) {
+  tusquinielas(goBack) {
     // console.log('TEST2');
-    navigate('TusQuinielas');
+    goBack();
   }
 
   renderRow(quiniela) {
@@ -50,8 +50,8 @@ class TusQuinielas extends Component {
   }
 
   render() {
-    const { navigate } = this.props.navigation;
-    console.log(this.props.navigation);
+    const { navigate, goBack } = this.props.navigation;
+    // console.log(this.props.navigation);
     return (
       <Container>
         <StatusBar
@@ -72,9 +72,7 @@ class TusQuinielas extends Component {
             <BotonPrincipal onPress={() => this.crear(navigate)}>
               Crear una nueva quiniela
             </BotonPrincipal>
-            <BotonPrincipal onPress={() => this.tusquinielas(navigate)}>
-              Tus Quinielas
-            </BotonPrincipal>
+            <BotonPrincipal onPress={() => this.tusquinielas(goBack)}>Tus Quinielas</BotonPrincipal>
           </View>
         </View>
       </Container>

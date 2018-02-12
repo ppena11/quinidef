@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, Switch } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
 import { Card } from '../Card';
@@ -7,22 +7,28 @@ import { CardSection } from '../CardSection';
 import { Buttonb } from '../Buttonb';
 import color from '../../comun/colors';
 
-class Qxa extends Component {
+class QuinielaAdminItem extends Component {
   onRowPress() {
     this.props.navigation.navigate('DetalleQuinielaAdministrada', {
       quiniela: this.props.quiniela,
     });
   }
 
+  pressed(e) {
+    console.log(e);
+  }
+
   render() {
-    const { quinielaNombre, torneo } = this.props.quiniela;
+    const { Name, Status } = this.props.quiniela;
     const {
       headerContentStyle,
       headerTextStyle,
       headerTextStyle2,
       thumbnailStyle,
       thumbnailContainerStyle,
+      switchStyle,
     } = styles;
+    console.log(Status);
     return (
       <Card>
         <CardSection>
@@ -30,13 +36,9 @@ class Qxa extends Component {
             <Image style={thumbnailStyle} source={require('../Logo/images/copa1.png')} />
           </View>
           <View style={headerContentStyle}>
-            <Text style={headerTextStyle}>{quinielaNombre}</Text>
-            <Text style={headerTextStyle2}>{torneo}</Text>
+            <Text style={headerTextStyle}>{Name}</Text>
+            <Switch style={switchStyle} onValueChange={e => this.pressed(e)} value={Status} />
           </View>
-        </CardSection>
-
-        <CardSection>
-          <Buttonb onPress={() => this.onRowPress()}>Configurar...</Buttonb>
         </CardSection>
       </Card>
     );
@@ -45,12 +47,22 @@ class Qxa extends Component {
 
 const styles = {
   headerContentStyle: {
-    flexDirection: 'column',
-    justifyContent: 'space-around',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   headerTextStyle: {
     fontSize: 18,
     color: color.$qxaHeaderTextStyle,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  switchStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 10,
+    marginRight: 10,
   },
   headerTextStyle2: {
     fontSize: 12,
@@ -68,4 +80,4 @@ const styles = {
   },
 };
 
-export default withNavigation(Qxa);
+export default withNavigation(QuinielaAdminItem);
