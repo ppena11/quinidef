@@ -53,11 +53,26 @@ export const nombreTorneoCambio = text => ({
 
 export const crearQuiniela = ({ quinielaNombre, torneo }) => (dispatch) => {
   const { currentUser } = firebase.auth();
-  firebase
+
+  const postData = { quinielaNombre, torneo, admin: currentUser.uid };
+
+  // Get a key for a new Post.
+  const newPostKey = firebase
     .database()
-    .ref(`/users/${currentUser.uid}/quinielasadministradas`)
-    .push({ quinielaNombre, torneo })
-    .then(() => {
+    .ref()
+    .child('posts')
+    .push().key;
+
+  // Write the new post's data simultaneously in the posts list and the user's post list.
+  const updates = {};
+  updates[`/users/${currentUser.uid}/quinielasadministradas/${newPostKey}`] = postData;
+  updates[`/quinielas/${newPostKey}`] = postData;
+
+  return firebase
+    .database()
+    .ref()
+    .update(updates)
+    .then((snap) => {
       crearQuinielaExito(dispatch);
     })
     .catch(error => crearQuinielaError(dispatch, error));
