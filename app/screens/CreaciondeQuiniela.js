@@ -108,7 +108,7 @@ class TusQuinielas extends Component {
                 {Object.keys(this.props.torneos).map(key => (
                   <Picker.Item
                     label={this.props.torneos[key].info.nombre}
-                    value={this.props.torneos[key].info.nombre}
+                    value={this.props.torneos[key].uid}
                     key={key}
                   />
                 ))}

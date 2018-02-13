@@ -34,7 +34,9 @@ export const buscarQuinielasAdministradas = () => {
   return (dispatch) => {
     firebase
       .database()
-      .ref(`/users/${currentUser.uid}/quinielasadministradas`)
+      .ref('/quinielas')
+      .orderByChild('admin')
+      .equalTo(currentUser.uid)
       .on('value', (snapshot) => {
         dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
       });
@@ -65,7 +67,7 @@ export const crearQuiniela = ({ quinielaNombre, torneo }) => (dispatch) => {
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
-  updates[`/users/${currentUser.uid}/quinielasadministradas/${newPostKey}`] = postData;
+  // updates[`/users/${currentUser.uid}/quinielasadministradas/${newPostKey}`] = postData;
   updates[`/quinielas/${newPostKey}`] = postData;
 
   return firebase
