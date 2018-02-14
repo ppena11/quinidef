@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
-import { StatusBar, ListView, View, Switch, FlatList, ScrollView } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  StatusBar,
+  Keyboard,
+  ListView,
+  View,
+  TextInput,
+  FlatList,
+  ScrollView,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -11,10 +20,25 @@ import { Titulo } from '../components/Titulo';
 import { QuinielaAdminItem } from '../components/QuinielaAdminItem';
 import color from '../comun/colors';
 
-class TusQuinielas extends Component {
+class DetalleQuinielaAdministrada extends Component {
   static navigationOptions = {
     header: null,
   };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      users: _.map(this.props.navigation.state.params.quiniela.Users, (val, uid) => ({
+        ...val,
+        uid,
+      })),
+      filteredUsers: _.map(this.props.navigation.state.params.quiniela.Users, (val, uid) => ({
+        ...val,
+        uid,
+      })),
+      q: '',
+    };
+  }
 
   componentWillMount() {
     // this.props.buscarQuinielasAdministradas();
@@ -51,10 +75,21 @@ class TusQuinielas extends Component {
   }
 
   pressed(e) {
-    console.log(`E...  ${e}`);
-    console.log(this.value);
+    Keyboard.dismiss();
   }
 
+  filtrarQuinielas(qi) {
+    const q = qi.toLowerCase();
+    this.setState({ q }, () => this.filterList());
+  }
+
+  filterList() {
+    let users = this.state.users;
+    const q = this.state.q;
+
+    users = users.filter(user => user.Name.toLowerCase().indexOf(q) != -1);
+    this.setState({ filteredUsers: users });
+  }
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
@@ -68,13 +103,25 @@ class TusQuinielas extends Component {
           <View style={styles.titulo}>
             <Titulo>{this.props.navigation.state.params.quiniela.quinielaNombre}</Titulo>
           </View>
+          <View style={styles2.conta}>
+            <View style={styles2.vire} />
+            <TextInput
+              style={styles.inputBox}
+              underlineColorAndroid={color.$underlineColorAndroid}
+              placeholder="Buscar..."
+              placeholderTextColor={color.$placeholderTextColor}
+              selectionColor={color.$selectionColor}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              onSubmitEditing={() => this.pressed()}
+              onChangeText={q => this.filtrarQuinielas(q)}
+            />
+            <View style={styles2.vire} />
+          </View>
 
           <ScrollView style={styles.cuerpo}>
             <FlatList
-              data={_.map(this.props.navigation.state.params.quiniela.Users, (val, uid) => ({
-                ...val,
-                uid,
-              }))}
+              data={this.state.filteredUsers}
               renderItem={({ item }) => this.renderRow(item)}
             />
           </ScrollView>
@@ -99,14 +146,43 @@ const styles = EStyleSheet.create({
   titulo: {
     padding: 20,
   },
-  cuerpo: {
-    flex: 1,
-  },
+  cuerpo: {},
   bottom: {
     padding: 20,
   },
+  inputBox: {
+    flex: 8,
+    backgroundColor: color.$fondoBotonInput,
+    borderRadius: 25,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    color: color.$formInputBoxColor,
+    marginVertical: 10,
+  },
 });
 
+const styles2 = EStyleSheet.create({
+  conta: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  vire: {
+    flex: 1,
+  },
+  signupText: {
+    color: color.$signupTextColor,
+    fontSize: 16,
+    fontWeight: '500',
+    paddingHorizontal: 20,
+  },
+  signupButton: {
+    color: color.$signupButtonColor,
+    fontSize: 16,
+    fontWeight: '500',
+    paddingHorizontal: 20,
+  },
+});
 const mapStateToProps = (state) => {
   const tt = _.map(state.quinielasadmin, (val, uid) => ({ ...val, uid }));
 
@@ -115,4 +191,4 @@ const mapStateToProps = (state) => {
   return { quinielas };
 };
 
-export default connect(mapStateToProps, { buscarQuinielasAdministradas })(TusQuinielas);
+export default connect(mapStateToProps, { buscarQuinielasAdministradas })(DetalleQuinielaAdministrada);
