@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StatusBar, ListView, View, ScrollView } from 'react-native';
+import { StatusBar, ListView, View, FlatList, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
+import firebase from 'firebase';
 
 import { connect } from 'react-redux';
 import { buscarQuinielas } from '../actions';
@@ -28,25 +29,19 @@ class TusQuinielas extends Component {
   }
 
   createDataSource({ quinielas }) {
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-    });
-
-    this.dataSource = ds.cloneWithRows(quinielas);
+    this.DataSource = _.values(quinielas);
   }
 
-  test(navigate) {
-    console.log('TEST');
-    // navigate('Home');
+  unirseAQuiniela(navigate) {
+    //navigate('UnirseAQuiniela');
   }
 
   crear(navigate) {
     navigate('QuinielasAdministradas');
   }
 
-  renderRow(quiniela) {
-    return <Qx quiniela={quiniela} />;
-  }
+  _renderItem = ({item}) => (<Qx quiniela={item}/>);
+  _keyExtractor = (item) => item.uid + item.nick;
 
   render() {
     const { navigate } = this.props.navigation;
@@ -58,13 +53,19 @@ class TusQuinielas extends Component {
             <Titulo>MIS QUINIELAS</Titulo>
           </View>
 
-          <ScrollView style={styles.cuerpo}>
-            <ListView enableEmptySections dataSource={this.dataSource} renderRow={this.renderRow} />
-          </ScrollView>
+          <FlatList
+            data = {this.DataSource}
+            renderItem={this._renderItem}
+            keyExtractor={this._keyExtractor}
+          />
 
           <View style={styles.bottom}>
-            <BotonPrincipal onPress={() => this.test()}>Unirse a una Quiniela</BotonPrincipal>
-            <BotonPrincipal onPress={() => this.crear(navigate)}>Crea tu Quiniela</BotonPrincipal>
+            <BotonPrincipal onPress={() => this.unirseAQuiniela(navigate)}>
+              Unirse a una Quiniela
+            </BotonPrincipal>
+            <BotonPrincipal onPress={() => this.crear(navigate)}>
+              Crea tu Quiniela
+            </BotonPrincipal>
           </View>
         </View>
       </Container>
