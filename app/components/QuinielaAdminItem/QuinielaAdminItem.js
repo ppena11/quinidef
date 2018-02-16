@@ -28,7 +28,7 @@ class QuinielaAdminItem extends Component {
       thumbnailContainerStyle,
       switchStyle,
     } = styles;
-    console.log(Status);
+
     return (
       <Card>
         <CardSection>
@@ -37,7 +37,11 @@ class QuinielaAdminItem extends Component {
           </View>
           <View style={headerContentStyle}>
             <Text style={headerTextStyle}>{Name}</Text>
-            <Switch style={switchStyle} onValueChange={e => this.pressed(e)} value={Status} />
+            <Switch
+              style={switchStyle}
+              onValueChange={value => this.setState({ toggled: value })}
+              value={Status}
+            />
           </View>
         </CardSection>
       </Card>

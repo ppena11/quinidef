@@ -37,6 +37,7 @@ class DetalleQuinielaAdministrada extends Component {
         uid,
       })),
       q: '',
+      menu: 'yes',
     };
   }
 
@@ -45,6 +46,8 @@ class DetalleQuinielaAdministrada extends Component {
     // this.createDataSource(this.props);
     // const { quinielaNombre, torneo } = this.props.quiniela;
     // console.log(_.map(this.props.navigation.state.params.quiniela.Users, (val, uid) => ({ ...val, uid })));
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
+    this.keyboardWillHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,6 +55,19 @@ class DetalleQuinielaAdministrada extends Component {
     // this.props is still the old set of props
     // this.createDataSource(nextProps);
   }
+
+  componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
+  }
+
+  keyboardWillShow = () => {
+    this.setState({ menu: 'no' });
+  };
+
+  keyboardWillHide = () => {
+    this.setState({ menu: 'yes' });
+  };
 
   createDataSource({ quinielas }) {
     // const ds = new ListView.DataSource({
@@ -90,6 +106,19 @@ class DetalleQuinielaAdministrada extends Component {
     users = users.filter(user => user.Name.toLowerCase().indexOf(q) != -1);
     this.setState({ filteredUsers: users });
   }
+
+  menustatus({ navigate, goBack }) {
+    if (this.state.menu === 'yes') {
+      return (
+        <View>
+          <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal>
+          <BotonPrincipal onPress={() => this.tusquinielas(goBack)}>Tus Quinielas</BotonPrincipal>
+        </View>
+      );
+    }
+    return <View />;
+  }
+
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
@@ -119,17 +148,14 @@ class DetalleQuinielaAdministrada extends Component {
             <View style={styles2.vire} />
           </View>
 
-          <ScrollView style={styles.cuerpo}>
+          <View style={styles.cuerpo}>
             <FlatList
               data={this.state.filteredUsers}
               renderItem={({ item }) => this.renderRow(item)}
             />
-          </ScrollView>
-
-          <View style={styles.bottom}>
-            <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal>
-            <BotonPrincipal onPress={() => this.tusquinielas(goBack)}>Tus Quinielas</BotonPrincipal>
           </View>
+
+          <View style={styles.bottom}>{this.menustatus({ navigate, goBack })}</View>
         </View>
       </Container>
     );
@@ -146,7 +172,7 @@ const styles = EStyleSheet.create({
   titulo: {
     padding: 20,
   },
-  cuerpo: {},
+  cuerpo: { flex: 1 },
   bottom: {
     padding: 20,
   },
