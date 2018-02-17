@@ -36,6 +36,10 @@ class TusQuinielas extends Component {
     //navigate('UnirseAQuiniela');
   }
 
+  logout (navigate) {
+    firebase.auth().signOut();
+  }
+
   crear(navigate) {
     navigate('QuinielasAdministradas');
   }
@@ -45,10 +49,16 @@ class TusQuinielas extends Component {
 
   render() {
     const { navigate } = this.props.navigation;
+    if(this.DataSource.length == 0) console.log("No eres parte de ninguna quiniela");
+
     return (
       <Container>
         <StatusBar translucent={false} barStyle="light-content" backgroundColor={color.$statusBarBackgroundColor} />
         <View style={styles.form}>
+          <BotonPrincipal onPress={() => this.logout(navigate)}>
+            Salir
+          </BotonPrincipal>
+          
           <View style={styles.titulo}>
             <Titulo>MIS QUINIELAS</Titulo>
           </View>
