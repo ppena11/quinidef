@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { StatusBar, ListView, View, FlatList, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
+import { connect } from 'react-redux';
 import firebase from 'firebase';
 
-import { connect } from 'react-redux';
 import { buscarQuinielas } from '../actions';
 import { Container } from '../components/Container';
 import { BotonPrincipal } from '../components/BotonPrincipal';
@@ -33,7 +33,7 @@ class TusQuinielas extends Component {
   }
 
   unirseAQuiniela(navigate) {
-    //navigate('UnirseAQuiniela');
+    navigate('UnirseAQuiniela');
   }
 
   logout (navigate) {
