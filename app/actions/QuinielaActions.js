@@ -8,6 +8,7 @@ import {
   GO_TO_MAIN,
   CREATE_QUINIELA_FAIL,
   GO_TO_ADMINISTRADAS,
+  ULTIMA_QUINIELA_UPDATE,
 } from './types';
 
 export const QuinielaUpdate = ({ prop, value }) => ({
@@ -34,14 +35,36 @@ export const buscarQuinielasAdministradas = () => {
   return (dispatch) => {
     firebase
       .database()
-      .ref('/quinielas')
-      .orderByChild('admin')
-      .equalTo(currentUser.uid)
-      .on('value', (snapshot) => {
+      .ref(`/users/${currentUser.uid}/quinielasadministradas/`)
+      .orderByChild('adminr')
+
+      .limitToFirst(15)
+      .once('value', (snapshot) => {
         dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
       });
   };
 };
+
+export const buscarQuinielasAdministradasMax = (max) => {
+  const { currentUser } = firebase.auth();
+  console.log(`max ${max}`);
+  return (dispatch) => {
+    firebase
+      .database()
+      .ref(`/users/${currentUser.uid}/quinielasadministradas/`)
+      .orderByChild('adminr')
+      .startAt(max)
+      .limitToFirst(15)
+      .once('value', (snapshot) => {
+        dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
+      });
+  };
+};
+
+export const ultimaQuinielasAdministrada = last => ({
+  type: ULTIMA_QUINIELA_UPDATE,
+  payload: last,
+});
 
 export const nombreQuinielaCambio = text => ({
   type: NOMBRE_QUINIELA_CAMBIO,
@@ -56,8 +79,6 @@ export const nombreTorneoCambio = text => ({
 export const crearQuiniela = ({ quinielaNombre, torneo }) => (dispatch) => {
   const { currentUser } = firebase.auth();
 
-  const postData = { quinielaNombre, torneo, admin: currentUser.uid };
-
   // Get a key for a new Post.
   const newPostKey = firebase
     .database()
@@ -65,9 +86,17 @@ export const crearQuiniela = ({ quinielaNombre, torneo }) => (dispatch) => {
     .child('posts')
     .push().key;
 
+  const adminr = currentUser.uid + newPostKey;
+  const postData = {
+    quinielaNombre,
+    torneo,
+    admin: currentUser.uid,
+    adminr,
+  };
+
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
-  // updates[`/users/${currentUser.uid}/quinielasadministradas/${newPostKey}`] = postData;
+  updates[`/users/${currentUser.uid}/quinielasadministradas/${newPostKey}`] = postData;
   updates[`/quinielas/${newPostKey}`] = postData;
 
   return firebase

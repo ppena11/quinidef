@@ -21,7 +21,7 @@ class TusQuinielas extends Component {
     this.createDataSource(this.props);
     Object.keys(this.props.torneos).map((key) => {
       if (this.props.torneos[key].info.selected == true) {
-        this.registrart(this.props.torneos[key].info.nombre);
+        this.registrart(this.props.torneos[key].uid);
         // console.log(`WILL MOUNT....  ${this.props.torneos[key].info.nombre}`);
       }
     });
@@ -36,7 +36,7 @@ class TusQuinielas extends Component {
         // this.registrart(nextProps.torneos[key].info.nombre);
 
         if (this.props.torneo == 'Rusia 2018') {
-          this.registrart(nextProps.torneos[key].info.nombre);
+          this.registrart(nextProps.torneos[key].uid);
         }
       }
     });

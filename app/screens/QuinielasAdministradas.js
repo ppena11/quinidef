@@ -1,38 +1,64 @@
 import React, { Component } from 'react';
-import { StatusBar, ListView, View, ScrollView } from 'react-native';
+import { StatusBar, ListView, View, ScrollView, FlatList } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 
-import { buscarQuinielasAdministradas } from '../actions';
+import {
+  buscarQuinielasAdministradas,
+  buscarQuinielasAdministradasMax,
+  ultimaQuinielasAdministrada,
+} from '../actions';
+
 import { Container } from '../components/Container';
 import { BotonPrincipal } from '../components/BotonPrincipal';
 import { Titulo } from '../components/Titulo';
 import { Qxa } from '../components/Qxa';
 import color from '../comun/colors';
 
-class TusQuinielas extends Component {
+class QuinielasAdministradas extends Component {
   static navigationOptions = {
     header: null,
   };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      last: '',
+    };
+  }
 
   componentWillMount() {
     this.props.buscarQuinielasAdministradas();
-    this.createDataSource(this.props);
+    //  this.createDataSource(this.props);
+  }
+
+  componentDidMount() {
+    console.log(`DID MOUNT TT1 ${this.props.tt1}`);
+    // this.props.ultimaQuinielasAdministrada('12324324');
   }
 
   componentWillReceiveProps(nextProps) {
     // nextPropos are the next set of props that this componnet will receive
     // this.props is still the old set of props
-    this.createDataSource(nextProps);
-  }
+    //  this.createDataSource(nextProps);
+    // console.log(`WILL RECEIVE PROPS TT1 ${nextProps.tt1}`);
+    // console.log(`nextProps.tt1  ${nextProps.tt1}`);
+    console.log(`nextProps.ultima  ${nextProps.ultima}`);
 
-  createDataSource({ quinielas }) {
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-    });
+    if (nextProps.ultima === '') {
+      const last = nextProps.tt1.pop();
+      nextProps.ultimaQuinielasAdministrada(last.adminr);
+    }
 
-    this.dataSource = ds.cloneWithRows(quinielas);
+    if (nextProps.ultima !== this.props.ultima) {
+      const last = nextProps.tt1.pop();
+      console.log(`nextProps.ultima DIFERE  ${nextProps.ultima}`);
+      console.log(`this.props.utilma DIFERE  ${this.props.ultima}`);
+      console.log(`DIFERENTES  ${nextProps.tt1}`);
+      nextProps.ultimaQuinielasAdministrada(last.adminr);
+      //
+    }
   }
 
   crear(navigate) {
@@ -49,9 +75,28 @@ class TusQuinielas extends Component {
     return <Qxa quiniela={quiniela} />;
   }
 
+  handleLoadMore = () => {
+    if (Object.keys(this.props.quinielas).length !== 0) {
+      console.log('Llego al finalllllllll');
+      // console.log(this.props.quinielas);
+      // this.props.buscarQuinielasAdministradasMax(this.props.ultima);
+    }
+    if (Object.keys(this.props.quinielas).length >= 14) {
+      console.log(`tamano ${Object.keys(this.props.quinielas).length}`);
+      // console.log(this.props.quinielas);
+      this.props.ultimaQuinielasAdministrada(this.props.tt1.pop().adminr);
+      this.props.buscarQuinielasAdministradasMax(this.props.ultima);
+    }
+
+    // this.props.buscarQuinielasAdministradasMax(this.props.ultima);
+  };
+
   render() {
     const { navigate, goBack } = this.props.navigation;
-    // console.log(this.props.navigation);
+
+    // this.props.ultimaQuinielasAdministrada('2342354345');
+    // console.log(`EPALE.... ${this.props.ultima}`);
+    // console.log(`RENDER TT1 ${this.props.tt1}`);
     return (
       <Container>
         <StatusBar
@@ -64,9 +109,16 @@ class TusQuinielas extends Component {
             <Titulo>QUINIELAS ADMINISTRADAS</Titulo>
           </View>
 
-          <ScrollView style={styles.cuerpo}>
-            <ListView enableEmptySections dataSource={this.dataSource} renderRow={this.renderRow} />
-          </ScrollView>
+          <View style={styles.cuerpo}>
+            <FlatList
+              data={this.props.quinielas}
+              keyExtractor={item => item.adminr}
+              renderItem={({ item }) => this.renderRow(item)}
+              onEndReached={this.handleLoadMore}
+              initialNumToRender={10}
+              onEndReachedThershold={0}
+            />
+          </View>
 
           <View style={styles.bottom}>
             <BotonPrincipal onPress={() => this.crear(navigate)}>
@@ -100,10 +152,22 @@ const styles = EStyleSheet.create({
 
 const mapStateToProps = (state) => {
   const tt = _.map(state.quinielasadmin, (val, uid) => ({ ...val, uid }));
+  const tt1 = tt; // console.log(tt);
+  const quinielas = tt;
+  if (tt != undefined) {
+    const last = tt.pop();
+    if (last != undefined) {
+      // this.props.ultimaQuinielasAdministrada(last.adminr);
+    }
+  }
 
-  const quinielas = _.orderBy(tt, ['quinielaNombre'], ['asc']);
+  // const quinielas = _.orderBy(tt, ['quinielaNombre'], ['asc']);
 
-  return { quinielas };
+  return { tt1, quinielas, ultima: state.quinielalast.last };
 };
 
-export default connect(mapStateToProps, { buscarQuinielasAdministradas })(TusQuinielas);
+export default connect(mapStateToProps, {
+  buscarQuinielasAdministradas,
+  ultimaQuinielasAdministrada,
+  buscarQuinielasAdministradasMax,
+})(QuinielasAdministradas);

@@ -4,7 +4,8 @@ import QuinielasReducer from './QuinielasReducer';
 import QuinielasAdminReducer from './QuinielasAdminReducer';
 import CreacionQuinielaReducer from './CreacionQuinielaReducer';
 import TorneosReducer from './TorneosReducer';
-//import nav from './nav';
+import QuinielaUltimaReducer from './QuinielaUltimaReducer';
+// import nav from './nav';
 import NavigationReducer from './NavigationReducer';
 
 export default combineReducers({
@@ -14,4 +15,5 @@ export default combineReducers({
   quinielasadmin: QuinielasAdminReducer,
   torneos: TorneosReducer,
   creacionquinielas: CreacionQuinielaReducer,
+  quinielalast: QuinielaUltimaReducer,
 });
