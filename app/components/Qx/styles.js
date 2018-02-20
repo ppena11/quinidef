@@ -2,21 +2,26 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import color from '../../comun/colors';
 
 export default EStyleSheet.create({
-  container: {
-    flexDirection: 'row',
+  headerContentStyle: {
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+  },
+  headerTextStyle: {
+    fontSize: 18,
+    color: color.$qxaHeaderTextStyle,
+  },
+  headerTextStyle2: {
+    fontSize: 12,
+    color: color.$qxaHeaderTextStyle2,
+  },
+  thumbnailStyle: {
+    height: 50,
+    width: 50,
+  },
+  thumbnailContainerStyle: {
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  text: {
-    fontSize: 20,
-    fontWeight: '500',
-    color: color.$logoTextColor,
-    textAlign: 'center',
-  },
-  centro: {
-    flex: 1,
-    backgroundColor: color.$primaryBackground,
-    borderRadius: 25,
-    marginVertical: 10,
+    marginLeft: 10,
+    marginRight: 10,
   },
 });
