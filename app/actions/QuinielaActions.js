@@ -9,6 +9,8 @@ import {
   CREATE_QUINIELA_FAIL,
   GO_TO_ADMINISTRADAS,
   ULTIMA_QUINIELA_UPDATE,
+  ULTIMA_QUINIELA_LLEGO,
+  RESET_QUINIELAS_ADMIN,
 } from './types';
 
 export const QuinielaUpdate = ({ prop, value }) => ({
@@ -39,15 +41,20 @@ export const buscarQuinielasAdministradas = () => {
       .orderByChild('adminr')
 
       .limitToFirst(15)
-      .once('value', (snapshot) => {
+      .on('value', (snapshot) => {
         dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
+
+        if (snapshot.exists()) {
+          if (Object.keys(snapshot.val()).length < 15) {
+            dispatch({ type: ULTIMA_QUINIELA_LLEGO });
+          }
+        }
       });
   };
 };
 
 export const buscarQuinielasAdministradasMax = (max) => {
   const { currentUser } = firebase.auth();
-  console.log(`max ${max}`);
   return (dispatch) => {
     firebase
       .database()
@@ -55,8 +62,13 @@ export const buscarQuinielasAdministradasMax = (max) => {
       .orderByChild('adminr')
       .startAt(max)
       .limitToFirst(15)
-      .once('value', (snapshot) => {
+      .on('value', (snapshot) => {
         dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
+        if (snapshot.exists()) {
+          if (Object.keys(snapshot.val()).length < 15) {
+            dispatch({ type: ULTIMA_QUINIELA_LLEGO });
+          }
+        }
       });
   };
 };
@@ -64,6 +76,14 @@ export const buscarQuinielasAdministradasMax = (max) => {
 export const ultimaQuinielasAdministrada = last => ({
   type: ULTIMA_QUINIELA_UPDATE,
   payload: last,
+});
+
+export const ultimaQuinielasLlego = () => ({
+  type: ULTIMA_QUINIELA_LLEGO,
+});
+
+export const resetQuinielasAdmin = () => ({
+  type: RESET_QUINIELAS_ADMIN,
 });
 
 export const nombreQuinielaCambio = text => ({

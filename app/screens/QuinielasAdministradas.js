@@ -8,6 +8,8 @@ import {
   buscarQuinielasAdministradas,
   buscarQuinielasAdministradasMax,
   ultimaQuinielasAdministrada,
+  ultimaQuinielasLlego,
+  resetQuinielasAdmin,
 } from '../actions';
 
 import { Container } from '../components/Container';
@@ -20,21 +22,15 @@ class QuinielasAdministradas extends Component {
   static navigationOptions = {
     header: null,
   };
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      last: '',
-    };
-  }
 
   componentWillMount() {
     this.props.buscarQuinielasAdministradas();
+
     //  this.createDataSource(this.props);
   }
 
   componentDidMount() {
-    console.log(`DID MOUNT TT1 ${this.props.tt1}`);
+    // console.log(`DID MOUNT TT1 ${this.props.tt1}`);
     // this.props.ultimaQuinielasAdministrada('12324324');
   }
 
@@ -44,21 +40,25 @@ class QuinielasAdministradas extends Component {
     //  this.createDataSource(nextProps);
     // console.log(`WILL RECEIVE PROPS TT1 ${nextProps.tt1}`);
     // console.log(`nextProps.tt1  ${nextProps.tt1}`);
-    console.log(`nextProps.ultima  ${nextProps.ultima}`);
+    // console.log(`thisProps. ${this.props.navigation}`);
+    // console.log(`nextProps. ${nextProps.navigation}`);
+    // console.log(`tamanoProps ${Object.keys(this.props.quinielas).length}`);
+    // if (Object.keys(this.props.quinielas).length > 15) {
+    //  this.listRef.scrollToIndex({ index: 13, animated: true });
+    // }
 
     if (nextProps.ultima === '') {
-      const last = nextProps.tt1.pop();
-      nextProps.ultimaQuinielasAdministrada(last.adminr);
+      if (Object.keys(this.props.quinielas).length != 0) {
+        const last = nextProps.tt1.pop();
+        if (last !== undefined) {
+          nextProps.ultimaQuinielasAdministrada(last.adminr);
+        }
+      }
     }
+  }
 
-    if (nextProps.ultima !== this.props.ultima) {
-      const last = nextProps.tt1.pop();
-      console.log(`nextProps.ultima DIFERE  ${nextProps.ultima}`);
-      console.log(`this.props.utilma DIFERE  ${this.props.ultima}`);
-      console.log(`DIFERENTES  ${nextProps.tt1}`);
-      nextProps.ultimaQuinielasAdministrada(last.adminr);
-      //
-    }
+  componentWillUnmount() {
+    this.props.resetQuinielasAdmin();
   }
 
   crear(navigate) {
@@ -77,15 +77,18 @@ class QuinielasAdministradas extends Component {
 
   handleLoadMore = () => {
     if (Object.keys(this.props.quinielas).length !== 0) {
-      console.log('Llego al finalllllllll');
+      // console.log('Llego al finalllllllll');
+      // console.log(`tamano llego al final ${Object.keys(this.props.quinielas).length}`);
+
       // console.log(this.props.quinielas);
       // this.props.buscarQuinielasAdministradasMax(this.props.ultima);
-    }
-    if (Object.keys(this.props.quinielas).length >= 14) {
-      console.log(`tamano ${Object.keys(this.props.quinielas).length}`);
-      // console.log(this.props.quinielas);
-      this.props.ultimaQuinielasAdministrada(this.props.tt1.pop().adminr);
-      this.props.buscarQuinielasAdministradasMax(this.props.ultima);
+
+      if (this.props.llegoalfinal != 'yes') {
+        // console.log(this.props.quinielas);
+
+        this.props.ultimaQuinielasAdministrada(this.props.tt1.pop().adminr);
+        this.props.buscarQuinielasAdministradasMax(this.props.ultima);
+      }
     }
 
     // this.props.buscarQuinielasAdministradasMax(this.props.ultima);
@@ -97,6 +100,7 @@ class QuinielasAdministradas extends Component {
     // this.props.ultimaQuinielasAdministrada('2342354345');
     // console.log(`EPALE.... ${this.props.ultima}`);
     // console.log(`RENDER TT1 ${this.props.tt1}`);
+
     return (
       <Container>
         <StatusBar
@@ -115,8 +119,10 @@ class QuinielasAdministradas extends Component {
               keyExtractor={item => item.adminr}
               renderItem={({ item }) => this.renderRow(item)}
               onEndReached={this.handleLoadMore}
-              initialNumToRender={10}
-              onEndReachedThershold={0}
+              onEndReachedThershold={0.99}
+              ref={(ref) => {
+                this.listRef = ref;
+              }}
             />
           </View>
 
@@ -153,21 +159,31 @@ const styles = EStyleSheet.create({
 const mapStateToProps = (state) => {
   const tt = _.map(state.quinielasadmin, (val, uid) => ({ ...val, uid }));
   const tt1 = tt; // console.log(tt);
-  const quinielas = tt;
-  if (tt != undefined) {
-    const last = tt.pop();
-    if (last != undefined) {
-      // this.props.ultimaQuinielasAdministrada(last.adminr);
+
+  if (state.quinielalast.ultima != 'yes') {
+    if (tt != undefined) {
+      const last = tt.pop();
+      if (last != undefined) {
+        // this.props.ultimaQuinielasAdministrada(last.adminr);
+      }
     }
   }
+  const quinielas = tt;
 
   // const quinielas = _.orderBy(tt, ['quinielaNombre'], ['asc']);
 
-  return { tt1, quinielas, ultima: state.quinielalast.last };
+  return {
+    tt1,
+    quinielas,
+    ultima: state.quinielalast.last,
+    llegoalfinal: state.quinielalast.ultima,
+  };
 };
 
 export default connect(mapStateToProps, {
   buscarQuinielasAdministradas,
   ultimaQuinielasAdministrada,
   buscarQuinielasAdministradasMax,
+  ultimaQuinielasLlego,
+  resetQuinielasAdmin,
 })(QuinielasAdministradas);

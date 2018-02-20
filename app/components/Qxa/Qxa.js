@@ -34,10 +34,6 @@ class Qxa extends Component {
             <Text style={headerTextStyle2}>{torneo}</Text>
           </View>
         </CardSection>
-
-        <CardSection>
-          <Buttonb onPress={() => this.onRowPress()}>Configurar...</Buttonb>
-        </CardSection>
       </Card>
     );
   }
