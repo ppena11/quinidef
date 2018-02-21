@@ -4,7 +4,14 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 
-import { nombreQuinielaCambio, buscarTorneos, crearQuiniela, nombreTorneoCambio } from '../actions';
+import {
+  nombreQuinielaCambio,
+  buscarTorneos,
+  crearQuiniela,
+  nombreTorneoCambio,
+  reloadedQuinielasAdmin,
+  reloadingQuinielas,
+} from '../actions';
 import { Container } from '../components/Container';
 import { BotonPrincipal } from '../components/BotonPrincipal';
 import { Titulo } from '../components/Titulo';
@@ -50,11 +57,13 @@ class TusQuinielas extends Component {
     this.dataSource = ds.cloneWithRows(torneos);
   }
 
-  crear(navigate) {
+  crear(goBack) {
     Keyboard.dismiss();
+    this.props.reloadingQuinielas();
 
     const { quinielaNombre, torneo } = this.props;
     this.props.crearQuiniela({ quinielaNombre, torneo });
+    // goBack();
   }
 
   cancelar(goBack) {
@@ -135,7 +144,7 @@ class TusQuinielas extends Component {
           </View>
           <View style={styles.bottom}>
             <Text>{this.props.error}</Text>
-            <BotonPrincipal onPress={() => this.crear()}>Crear</BotonPrincipal>
+            <BotonPrincipal onPress={() => this.crear(goBack)}>Crear</BotonPrincipal>
             <BotonPrincipal onPress={() => this.cancelar(goBack)}>Cancelar</BotonPrincipal>
           </View>
         </View>
@@ -219,4 +228,6 @@ export default connect(mapStateToProps, {
   nombreQuinielaCambio,
   nombreTorneoCambio,
   crearQuiniela,
+  reloadedQuinielasAdmin,
+  reloadingQuinielas,
 })(TusQuinielas);
