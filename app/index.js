@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Provider, connect } from 'react-redux';
 import firebase from 'firebase';
-import { addNavigationHelpers } from 'react-navigation';
+import { addNavigationHelpers, YellowBox } from 'react-navigation';
+import _ from 'lodash';
 
 import store from './config/store';
 import RootNavigator from './config/routes';
 
 EStyleSheet.build({
-/*
+  /*
   $primaryBackground: '#084b7c',
   $white: '#ffffff',
   $fondoBotonPrincipal: '#00244f',
@@ -41,6 +42,7 @@ export default class extends Component {
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
+    console.ignoredYellowBox = ['Setting a timer'];
   }
 
   render() {

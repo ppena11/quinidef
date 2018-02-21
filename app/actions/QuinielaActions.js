@@ -8,6 +8,9 @@ import {
   GO_TO_MAIN,
   CREATE_QUINIELA_FAIL,
   GO_TO_ADMINISTRADAS,
+  ULTIMA_QUINIELA_UPDATE,
+  ULTIMA_QUINIELA_LLEGO,
+  RESET_QUINIELAS_ADMIN,
 } from './types';
 
 export const QuinielaUpdate = ({ prop, value }) => ({
@@ -34,12 +37,54 @@ export const buscarQuinielasAdministradas = () => {
   return (dispatch) => {
     firebase
       .database()
-      .ref(`/users/${currentUser.uid}/quinielasadministradas`)
+      .ref(`/users/${currentUser.uid}/quinielasadministradas/`)
+      .orderByChild('adminr')
+
+      .limitToFirst(15)
       .on('value', (snapshot) => {
         dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
+
+        if (snapshot.exists()) {
+          if (Object.keys(snapshot.val()).length < 15) {
+            dispatch({ type: ULTIMA_QUINIELA_LLEGO });
+          }
+        }
       });
   };
 };
+
+export const buscarQuinielasAdministradasMax = (max) => {
+  const { currentUser } = firebase.auth();
+  return (dispatch) => {
+    firebase
+      .database()
+      .ref(`/users/${currentUser.uid}/quinielasadministradas/`)
+      .orderByChild('adminr')
+      .startAt(max)
+      .limitToFirst(15)
+      .on('value', (snapshot) => {
+        dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
+        if (snapshot.exists()) {
+          if (Object.keys(snapshot.val()).length < 15) {
+            dispatch({ type: ULTIMA_QUINIELA_LLEGO });
+          }
+        }
+      });
+  };
+};
+
+export const ultimaQuinielasAdministrada = last => ({
+  type: ULTIMA_QUINIELA_UPDATE,
+  payload: last,
+});
+
+export const ultimaQuinielasLlego = () => ({
+  type: ULTIMA_QUINIELA_LLEGO,
+});
+
+export const resetQuinielasAdmin = () => ({
+  type: RESET_QUINIELAS_ADMIN,
+});
 
 export const nombreQuinielaCambio = text => ({
   type: NOMBRE_QUINIELA_CAMBIO,
@@ -53,11 +98,32 @@ export const nombreTorneoCambio = text => ({
 
 export const crearQuiniela = ({ quinielaNombre, torneo }) => (dispatch) => {
   const { currentUser } = firebase.auth();
-  firebase
+
+  // Get a key for a new Post.
+  const newPostKey = firebase
     .database()
-    .ref(`/users/${currentUser.uid}/quinielasadministradas`)
-    .push({ quinielaNombre, torneo })
-    .then(() => {
+    .ref()
+    .child('posts')
+    .push().key;
+
+  const adminr = currentUser.uid + newPostKey;
+  const postData = {
+    quinielaNombre,
+    torneo,
+    admin: currentUser.uid,
+    adminr,
+  };
+
+  // Write the new post's data simultaneously in the posts list and the user's post list.
+  const updates = {};
+  updates[`/users/${currentUser.uid}/quinielasadministradas/${newPostKey}`] = postData;
+  updates[`/quinielas/${newPostKey}`] = postData;
+
+  return firebase
+    .database()
+    .ref()
+    .update(updates)
+    .then((snap) => {
       crearQuinielaExito(dispatch);
     })
     .catch(error => crearQuinielaError(dispatch, error));
