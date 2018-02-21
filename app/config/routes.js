@@ -12,44 +12,42 @@ import CreaciondeQuiniela from '../screens/CreaciondeQuiniela';
 import DetalleQuinielaAdministrada from '../screens/DetalleQuinielaAdministrada';
 import UnirseAQuiniela from '../screens/UnirseAQuiniela';
 
-
 const stackRouterConfig = { initialRouteName: 'Home' };
 
-const RootNavigator = StackNavigator(
-  {
-    Home: {
-      screen: Login,
-    },
-    ReiniciarContrasena: {
-      screen: ReiniciarContrasena,
-    },
-    CrearCuenta: {
-      screen: CrearCuenta,
-    },
-    ConfirmacionCorreo: {
-      screen: ConfirmacionCorreo,
-    },
-    Log: {
-      screen: Home,
-    },
-    TusQuinielas: {
-      screen: TusQuinielas,
-    },
-    QuinielasAdministradas: {
-      screen: QuinielasAdministradas,
-    },
-    CreaciondeQuiniela: {
-      screen: CreaciondeQuiniela,
-    },
+const RootNavigator = StackNavigator({
+  Home: {
+    screen: Login,
+  },
+  ReiniciarContrasena: {
+    screen: ReiniciarContrasena,
+  },
+  CrearCuenta: {
+    screen: CrearCuenta,
+  },
+  ConfirmacionCorreo: {
+    screen: ConfirmacionCorreo,
+  },
+  Log: {
+    screen: Home,
+  },
+  TusQuinielas: {
+    screen: TusQuinielas,
+  },
+  QuinielasAdministradas: {
+    screen: QuinielasAdministradas,
+  },
+  CreaciondeQuiniela: {
+    screen: CreaciondeQuiniela,
+  },
 
-    DetalleQuinielaAdministrada: {
-      screen: DetalleQuinielaAdministrada,
+  DetalleQuinielaAdministrada: {
+    screen: DetalleQuinielaAdministrada,
 
     UnirseAQuiniela: {
       screen: UnirseAQuiniela,
     },
   },
   stackRouterConfig,
-);
+});
 
 export default RootNavigator;
