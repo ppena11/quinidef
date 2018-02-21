@@ -21,8 +21,8 @@ export const buscarQuinielas = () => {
   return (dispatch) => {
     firebase
       .database()
-      .ref(`/users/${currentUser.uid}/quinielas`)
-      .on('value', (snapshot) => {
+        .ref(`/users/${currentUser.uid}/quinielas`)
+        .on('value', (snapshot) => {
         dispatch({ type: BUSCAR_QUINIELAS_EXITO, payload: snapshot.val() });
       });
   };
