@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import _ from 'lodash';
 import {
   QUINIELA_UPDATE,
   BUSCAR_QUINIELAS_EXITO,
@@ -11,6 +12,9 @@ import {
   ULTIMA_QUINIELA_UPDATE,
   ULTIMA_QUINIELA_LLEGO,
   RESET_QUINIELAS_ADMIN,
+  RELOADED_QUINIELAS_ADMIN,
+  ULTIMA_QUINIELA_LLEGO_NO,
+  RELOADING,
 } from './types';
 
 export const QuinielaUpdate = ({ prop, value }) => ({
@@ -24,8 +28,8 @@ export const buscarQuinielas = () => {
   return (dispatch) => {
     firebase
       .database()
-        .ref(`/users/${currentUser.uid}/quinielas`)
-        .on('value', (snapshot) => {
+      .ref(`/users/${currentUser.uid}/quinielas`)
+      .on('value', (snapshot) => {
         dispatch({ type: BUSCAR_QUINIELAS_EXITO, payload: snapshot.val() });
       });
   };
@@ -39,10 +43,14 @@ export const buscarQuinielasAdministradas = () => {
       .database()
       .ref(`/users/${currentUser.uid}/quinielasadministradas/`)
       .orderByChild('adminr')
-
+      .startAt()
       .limitToFirst(15)
       .on('value', (snapshot) => {
         dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
+        dispatch({
+          type: ULTIMA_QUINIELA_UPDATE,
+          payload: _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).pop().adminr,
+        });
 
         if (snapshot.exists()) {
           if (Object.keys(snapshot.val()).length < 15) {
@@ -64,7 +72,12 @@ export const buscarQuinielasAdministradasMax = (max) => {
       .limitToFirst(15)
       .on('value', (snapshot) => {
         dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
+        dispatch({
+          type: ULTIMA_QUINIELA_UPDATE,
+          payload: _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).pop().adminr,
+        });
         if (snapshot.exists()) {
+          console.log(`TESTTTTTT ${_.map(snapshot.val(), (val, uid) => ({ ...val, uid })).pop().adminr}`);
           if (Object.keys(snapshot.val()).length < 15) {
             dispatch({ type: ULTIMA_QUINIELA_LLEGO });
           }
@@ -82,8 +95,20 @@ export const ultimaQuinielasLlego = () => ({
   type: ULTIMA_QUINIELA_LLEGO,
 });
 
+export const reloadingQuinielas = () => ({
+  type: RELOADING,
+});
+
+export const ultimaQuinielasLlegoNo = () => ({
+  type: ULTIMA_QUINIELA_LLEGO_NO,
+});
+
 export const resetQuinielasAdmin = () => ({
   type: RESET_QUINIELAS_ADMIN,
+});
+
+export const reloadedQuinielasAdmin = () => ({
+  type: RELOADED_QUINIELAS_ADMIN,
 });
 
 export const nombreQuinielaCambio = text => ({

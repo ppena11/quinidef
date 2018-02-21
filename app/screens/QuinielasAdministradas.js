@@ -10,6 +10,8 @@ import {
   ultimaQuinielasAdministrada,
   ultimaQuinielasLlego,
   resetQuinielasAdmin,
+  reloadedQuinielasAdmin,
+  ultimaQuinielasLlegoNo,
 } from '../actions';
 
 import { Container } from '../components/Container';
@@ -29,12 +31,18 @@ class QuinielasAdministradas extends Component {
     //  this.createDataSource(this.props);
   }
 
-  componentDidMount() {
-    // console.log(`DID MOUNT TT1 ${this.props.tt1}`);
-    // this.props.ultimaQuinielasAdministrada('12324324');
-  }
-
   componentWillReceiveProps(nextProps) {
+    // console.log(`llegoalfinal NEXT1 ${nextProps.llegoalfinal}`);
+    // console.log(`llegoalfinal this ${this.props.llegoalfinal}`);
+
+    if (nextProps.reload == 'yes') {
+      this.listRef.scrollToIndex({ index: 0, viewPosition: 0, animated: true });
+      nextProps.ultimaQuinielasLlegoNo();
+      nextProps.reloadedQuinielasAdmin();
+      nextProps.resetQuinielasAdmin();
+      nextProps.buscarQuinielasAdministradas();
+    }
+
     // nextPropos are the next set of props that this componnet will receive
     // this.props is still the old set of props
     //  this.createDataSource(nextProps);
@@ -46,19 +54,6 @@ class QuinielasAdministradas extends Component {
     // if (Object.keys(this.props.quinielas).length > 15) {
     //  this.listRef.scrollToIndex({ index: 13, animated: true });
     // }
-
-    if (nextProps.ultima === '') {
-      if (Object.keys(this.props.quinielas).length != 0) {
-        const last = nextProps.tt1.pop();
-        if (last !== undefined) {
-          nextProps.ultimaQuinielasAdministrada(last.adminr);
-        }
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    this.props.resetQuinielasAdmin();
   }
 
   crear(navigate) {
@@ -86,7 +81,6 @@ class QuinielasAdministradas extends Component {
       if (this.props.llegoalfinal != 'yes') {
         // console.log(this.props.quinielas);
 
-        this.props.ultimaQuinielasAdministrada(this.props.tt1.pop().adminr);
         this.props.buscarQuinielasAdministradasMax(this.props.ultima);
       }
     }
@@ -100,6 +94,7 @@ class QuinielasAdministradas extends Component {
     // this.props.ultimaQuinielasAdministrada('2342354345');
     // console.log(`EPALE.... ${this.props.ultima}`);
     // console.log(`RENDER TT1 ${this.props.tt1}`);
+    console.log(`llegoalfinal this render ${this.props.llegoalfinal}`);
 
     return (
       <Container>
@@ -177,6 +172,7 @@ const mapStateToProps = (state) => {
     quinielas,
     ultima: state.quinielalast.last,
     llegoalfinal: state.quinielalast.ultima,
+    reload: state.quinielalast.reload,
   };
 };
 
@@ -186,4 +182,6 @@ export default connect(mapStateToProps, {
   buscarQuinielasAdministradasMax,
   ultimaQuinielasLlego,
   resetQuinielasAdmin,
+  reloadedQuinielasAdmin,
+  ultimaQuinielasLlegoNo,
 })(QuinielasAdministradas);
