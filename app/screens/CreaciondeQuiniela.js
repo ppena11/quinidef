@@ -21,8 +21,8 @@ class TusQuinielas extends Component {
     this.createDataSource(this.props);
     Object.keys(this.props.torneos).map((key) => {
       if (this.props.torneos[key].info.selected == true) {
-        this.registrart(this.props.torneos[key].info.nombre);
-        console.log(`WILL MOUNT....  ${this.props.torneos[key].info.nombre}`);
+        this.registrart(this.props.torneos[key].uid);
+        // console.log(`WILL MOUNT....  ${this.props.torneos[key].info.nombre}`);
       }
     });
   }
@@ -36,7 +36,7 @@ class TusQuinielas extends Component {
         // this.registrart(nextProps.torneos[key].info.nombre);
 
         if (this.props.torneo == 'Rusia 2018') {
-          this.registrart(nextProps.torneos[key].info.nombre);
+          this.registrart(nextProps.torneos[key].uid);
         }
       }
     });
@@ -57,9 +57,9 @@ class TusQuinielas extends Component {
     this.props.crearQuiniela({ quinielaNombre, torneo });
   }
 
-  cancelar(navigate) {
+  cancelar(goBack) {
     Keyboard.dismiss();
-    navigate('QuinielasAdministradas');
+    goBack();
   }
 
   renderRow(torneo) {
@@ -82,10 +82,14 @@ class TusQuinielas extends Component {
   render() {
     // Object.keys(this.props.torneos).map(key => console.log(this.props.torneos[key].info.nombre)); // if you have a bunch of keys value pair
 
-    const { navigate } = this.props.navigation;
+    const { navigate, goBack } = this.props.navigation;
     return (
       <Container>
-        <StatusBar translucent={false} barStyle="light-content" backgroundColor={color.$statusBarBackgroundColor} />
+        <StatusBar
+          translucent={false}
+          barStyle="light-content"
+          backgroundColor={color.$statusBarBackgroundColor}
+        />
         <View style={styles.form}>
           <View style={styles.titulo}>
             <Titulo>CREA TU QUINIELA</Titulo>
@@ -98,14 +102,13 @@ class TusQuinielas extends Component {
                 style={styles.inputBox1}
                 selectedValue={this.props.torneo}
                 onValueChange={(itemValue) => {
-                  console.log(itemValue);
                   this.registrart(itemValue);
                 }}
               >
                 {Object.keys(this.props.torneos).map(key => (
                   <Picker.Item
                     label={this.props.torneos[key].info.nombre}
-                    value={this.props.torneos[key].info.nombre}
+                    value={this.props.torneos[key].uid}
                     key={key}
                   />
                 ))}
@@ -133,7 +136,7 @@ class TusQuinielas extends Component {
           <View style={styles.bottom}>
             <Text>{this.props.error}</Text>
             <BotonPrincipal onPress={() => this.crear()}>Crear</BotonPrincipal>
-            <BotonPrincipal onPress={() => this.cancelar(navigate)}>Cancelar</BotonPrincipal>
+            <BotonPrincipal onPress={() => this.cancelar(goBack)}>Cancelar</BotonPrincipal>
           </View>
         </View>
       </Container>

@@ -1,9 +1,13 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 
 import color from '../../comun/colors';
 
-const CardSection = props => <View style={styles.containerStyle}>{props.children}</View>;
+const CardSection = props => (
+  <TouchableOpacity>
+    <View style={styles.containerStyle}>{props.children}</View>
+  </TouchableOpacity>
+);
 
 const styles = {
   containerStyle: {
