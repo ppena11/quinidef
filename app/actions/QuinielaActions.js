@@ -43,14 +43,22 @@ export const buscarQuinielasAdministradas = () => {
       .database()
       .ref(`/users/${currentUser.uid}/quinielasadministradas/`)
       .orderByChild('adminr')
-      .startAt()
-      .limitToFirst(15)
+
+      .limitToLast(15)
       .on('value', (snapshot) => {
-        dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
-        dispatch({
-          type: ULTIMA_QUINIELA_UPDATE,
-          payload: _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).pop().adminr,
-        });
+        if (snapshot.exists()) {
+          const tt1 = _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).reverse();
+          const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
+          console.log(`TTTT ${tt}`);
+          const dd = tt.reverse().pop().adminr;
+          console.log(`DDDD ${dd}`);
+
+          dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
+          dispatch({
+            type: ULTIMA_QUINIELA_UPDATE,
+            payload: dd,
+          });
+        }
 
         if (snapshot.exists()) {
           if (Object.keys(snapshot.val()).length < 15) {
@@ -68,14 +76,22 @@ export const buscarQuinielasAdministradasMax = (max) => {
       .database()
       .ref(`/users/${currentUser.uid}/quinielasadministradas/`)
       .orderByChild('adminr')
-      .startAt(max)
-      .limitToFirst(15)
+      .endAt(max)
+      .limitToLast(15)
       .on('value', (snapshot) => {
-        dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
-        dispatch({
-          type: ULTIMA_QUINIELA_UPDATE,
-          payload: _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).pop().adminr,
-        });
+        if (snapshot.exists()) {
+          const tt1 = _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).reverse();
+          const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
+          console.log(`TTTT ${tt}`);
+          const dd = tt.reverse().pop().adminr;
+          console.log(`DDDD ${dd}`);
+
+          dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
+          dispatch({
+            type: ULTIMA_QUINIELA_UPDATE,
+            payload: dd,
+          });
+        }
         if (snapshot.exists()) {
           console.log(`TESTTTTTT ${_.map(snapshot.val(), (val, uid) => ({ ...val, uid })).pop().adminr}`);
           if (Object.keys(snapshot.val()).length < 15) {

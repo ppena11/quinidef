@@ -26,7 +26,7 @@ class QuinielasAdministradas extends Component {
   };
 
   componentWillMount() {
-    this.props.buscarQuinielasAdministradas();
+    this.props.buscarQuinielasAdministradas(); // Busca las quinielas administradas :)
 
     //  this.createDataSource(this.props);
   }
@@ -36,11 +36,11 @@ class QuinielasAdministradas extends Component {
     // console.log(`llegoalfinal this ${this.props.llegoalfinal}`);
 
     if (nextProps.reload == 'yes') {
-      this.listRef.scrollToIndex({ index: 0, viewPosition: 0, animated: true });
-      nextProps.ultimaQuinielasLlegoNo();
-      nextProps.reloadedQuinielasAdmin();
-      nextProps.resetQuinielasAdmin();
-      nextProps.buscarQuinielasAdministradas();
+      // this.listRef.scrollToIndex({ index: 0, viewPosition: 0, animated: true }); // Coloca la lista al principio del scroll
+      nextProps.ultimaQuinielasLlegoNo(); // Resetea el indicador para continaur con la proxima bsuqueda
+      nextProps.reloadedQuinielasAdmin(); // Reinicia el indicador para evitar que se realice la carga de la primera quiniela
+      nextProps.resetQuinielasAdmin(); // Borra todas las quinielas existentes anteriormente
+      nextProps.buscarQuinielasAdministradas(); // Busca nuevamente las quinielas administradas :)
     }
 
     // nextPropos are the next set of props that this componnet will receive
@@ -163,9 +163,9 @@ const mapStateToProps = (state) => {
       }
     }
   }
-  const quinielas = tt;
+  // const quinielas = tt;
 
-  // const quinielas = _.orderBy(tt, ['quinielaNombre'], ['asc']);
+  const quinielas = _.orderBy(tt, ['uid'], ['desc']);
 
   return {
     tt1,
