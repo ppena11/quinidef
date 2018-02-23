@@ -36,7 +36,7 @@ class QuinielasAdministradas extends Component {
     // console.log(`llegoalfinal this ${this.props.llegoalfinal}`);
 
     if (nextProps.reload == 'yes') {
-      // this.listRef.scrollToIndex({ index: 0, viewPosition: 0, animated: true }); // Coloca la lista al principio del scroll
+      this.listRef.scrollToIndex({ index: 0, viewPosition: 0, animated: true }); // Coloca la lista al principio del scroll
       nextProps.ultimaQuinielasLlegoNo(); // Resetea el indicador para continaur con la proxima bsuqueda
       nextProps.reloadedQuinielasAdmin(); // Reinicia el indicador para evitar que se realice la carga de la primera quiniela
       nextProps.resetQuinielasAdmin(); // Borra todas las quinielas existentes anteriormente
@@ -155,7 +155,7 @@ const mapStateToProps = (state) => {
   const tt = _.map(state.quinielasadmin, (val, uid) => ({ ...val, uid }));
   const tt1 = tt; // console.log(tt);
 
-  if (state.quinielalast.ultima != 'yes') {
+  if (state.quinielalast.mostrarTodas != 'yes') {
     if (tt != undefined) {
       const last = tt.pop();
       if (last != undefined) {

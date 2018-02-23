@@ -7,7 +7,12 @@ import {
   RELOADING,
 } from '../actions/types';
 
-const INITIAL_STATE = { last: '', ultima: 'no', reload: 'no' };
+const INITIAL_STATE = {
+  last: '',
+  ultima: 'no',
+  reload: 'no',
+  mostrarTodas: 'yes',
+};
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -18,7 +23,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, ultima: 'yes' };
 
     case ULTIMA_QUINIELA_LLEGO_NO:
-      return { ...state, ultima: 'no' };
+      return { ...state, ultima: 'no', mostrarTodas: 'no' };
 
     case RELOADING:
       return { ...state, reload: 'yes' };

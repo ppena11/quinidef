@@ -82,15 +82,15 @@ export const buscarQuinielasAdministradasMax = (max) => {
         if (snapshot.exists()) {
           const tt1 = _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).reverse();
           const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
-          console.log(`TTTT ${tt}`);
+          console.log(`XXXXXXXX ${tt}`);
           const dd = tt.reverse().pop().adminr;
-          console.log(`DDDD ${dd}`);
-
-          dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
+          console.log(`ZZZZZZZZ ${dd}`);
+          ultimaQuinielasLlegoNo();
           dispatch({
             type: ULTIMA_QUINIELA_UPDATE,
             payload: dd,
           });
+          dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
         }
         if (snapshot.exists()) {
           console.log(`TESTTTTTT ${_.map(snapshot.val(), (val, uid) => ({ ...val, uid })).pop().adminr}`);
@@ -171,7 +171,7 @@ export const crearQuiniela = ({ quinielaNombre, torneo }) => (dispatch) => {
 };
 
 const crearQuinielaExito = (dispatch) => {
-  dispatch({ type: GO_TO_ADMINISTRADAS });
+  // dispatch({ type: GO_TO_ADMINISTRADAS });
 };
 
 const crearQuinielaError = (dispatch, error) => {
