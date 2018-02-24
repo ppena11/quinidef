@@ -63,7 +63,7 @@ class TusQuinielas extends Component {
 
     const { quinielaNombre, torneo } = this.props;
     this.props.crearQuiniela({ quinielaNombre, torneo });
-    // goBack();
+    goBack();
   }
 
   cancelar(goBack) {

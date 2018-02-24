@@ -15,6 +15,8 @@ import {
   RELOADED_QUINIELAS_ADMIN,
   ULTIMA_QUINIELA_LLEGO_NO,
   RELOADING,
+  BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO_T,
+  MOSTRAR_TODAS_QUINIELA_ADMIN,
 } from './types';
 
 export const QuinielaUpdate = ({ prop, value }) => ({
@@ -35,6 +37,83 @@ export const buscarQuinielas = () => {
   };
 };
 
+export const buscarQuinielasAdministradasT = (queryText) => {
+  const { currentUser } = firebase.auth();
+
+  return (dispatch) => {
+    firebase
+      .database()
+      .ref(`/users/${currentUser.uid}/quinielasadministradas/`)
+
+      .orderByChild('quinielaNombrer')
+      .startAt(queryText)
+      .endAt(`${queryText}\uf8ff`)
+      .limitToLast(15)
+
+      .on('value', (snapshot) => {
+        if (snapshot.exists()) {
+          const tt1 = _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).reverse();
+          const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
+          console.log(`TTTT ${tt}`);
+          const dd = tt.reverse().pop().quinielaNombrer;
+          console.log(`DDDD ${dd}`);
+          ultimaQuinielasLlegoNo();
+          dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO_T, payload: snapshot.val() });
+          dispatch({
+            type: ULTIMA_QUINIELA_UPDATE,
+            payload: dd,
+          });
+          dispatch({ type: MOSTRAR_TODAS_QUINIELA_ADMIN });
+        } else {
+          dispatch({ type: RESET_QUINIELAS_ADMIN });
+        }
+
+        if (snapshot.exists()) {
+          if (Object.keys(snapshot.val()).length < 15) {
+            dispatch({ type: ULTIMA_QUINIELA_LLEGO });
+            dispatch({ type: MOSTRAR_TODAS_QUINIELA_ADMIN });
+          }
+        }
+      });
+  };
+};
+
+export const buscarQuinielasAdministradasMaxT = (max, queryText) => {
+  const { currentUser } = firebase.auth();
+  return (dispatch) => {
+    firebase
+      .database()
+      .ref(`/users/${currentUser.uid}/quinielasadministradas/`)
+      .orderByChild('quinielaNombrer')
+      .startAt(max)
+      .endAt(`${queryText}\uf8ff`)
+      .limitToLast(15)
+      .orderByChild('adminr')
+
+      .on('value', (snapshot) => {
+        if (snapshot.exists()) {
+          const tt1 = _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).reverse();
+          const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
+          console.log(`XXXXXXXX ${tt}`);
+          const dd = tt.reverse().pop().quinielaNombrer;
+          console.log(`ZZZZZZZZ ${dd}`);
+          ultimaQuinielasLlegoNo();
+          dispatch({
+            type: ULTIMA_QUINIELA_UPDATE,
+            payload: dd,
+          });
+          dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
+        }
+        if (snapshot.exists()) {
+          console.log(`TESTTTTTT ${_.map(snapshot.val(), (val, uid) => ({ ...val, uid })).pop().adminr}`);
+          if (Object.keys(snapshot.val()).length < 15) {
+            dispatch({ type: ULTIMA_QUINIELA_LLEGO });
+          }
+        }
+      });
+  };
+};
+
 export const buscarQuinielasAdministradas = () => {
   const { currentUser } = firebase.auth();
 
@@ -42,15 +121,23 @@ export const buscarQuinielasAdministradas = () => {
     firebase
       .database()
       .ref(`/users/${currentUser.uid}/quinielasadministradas/`)
-      .orderByChild('adminr')
-      .startAt()
-      .limitToFirst(15)
+      .orderByChild('quinielaNombrer')
+
+      .limitToLast(15)
       .on('value', (snapshot) => {
-        dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
-        dispatch({
-          type: ULTIMA_QUINIELA_UPDATE,
-          payload: _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).pop().adminr,
-        });
+        if (snapshot.exists()) {
+          const tt1 = _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).reverse();
+          const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
+          console.log(`TTTT ${tt}`);
+          const dd = tt.reverse().pop().quinielaNombrer;
+          console.log(`DDDD ${dd}`);
+          ultimaQuinielasLlegoNo();
+          dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
+          dispatch({
+            type: ULTIMA_QUINIELA_UPDATE,
+            payload: dd,
+          });
+        }
 
         if (snapshot.exists()) {
           if (Object.keys(snapshot.val()).length < 15) {
@@ -67,17 +154,27 @@ export const buscarQuinielasAdministradasMax = (max) => {
     firebase
       .database()
       .ref(`/users/${currentUser.uid}/quinielasadministradas/`)
-      .orderByChild('adminr')
-      .startAt(max)
-      .limitToFirst(15)
+      .orderByChild('quinielaNombrer')
+      .endAt(max)
+      .limitToLast(15)
       .on('value', (snapshot) => {
-        dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
-        dispatch({
-          type: ULTIMA_QUINIELA_UPDATE,
-          payload: _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).pop().adminr,
-        });
         if (snapshot.exists()) {
-          console.log(`TESTTTTTT ${_.map(snapshot.val(), (val, uid) => ({ ...val, uid })).pop().adminr}`);
+          const tt1 = _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).reverse();
+          const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
+          console.log(`XXXXXXXX ${tt}`);
+          const dd = tt.reverse().pop().quinielaNombrer;
+          console.log(`ZZZZZZZZ ${dd}`);
+          ultimaQuinielasLlegoNo();
+          dispatch({
+            type: ULTIMA_QUINIELA_UPDATE,
+            payload: dd,
+          });
+          dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
+        }
+        if (snapshot.exists()) {
+          console.log(`TESTTTTTT ${
+            _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).pop().quinielaNombrer
+          }`);
           if (Object.keys(snapshot.val()).length < 15) {
             dispatch({ type: ULTIMA_QUINIELA_LLEGO });
           }
@@ -132,11 +229,13 @@ export const crearQuiniela = ({ quinielaNombre, torneo }) => (dispatch) => {
     .push().key;
 
   const adminr = currentUser.uid + newPostKey;
+  const quinielaNombrer = quinielaNombre + newPostKey;
   const postData = {
     quinielaNombre,
     torneo,
     admin: currentUser.uid,
     adminr,
+    quinielaNombrer,
   };
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
@@ -155,7 +254,7 @@ export const crearQuiniela = ({ quinielaNombre, torneo }) => (dispatch) => {
 };
 
 const crearQuinielaExito = (dispatch) => {
-  dispatch({ type: GO_TO_ADMINISTRADAS });
+  // dispatch({ type: GO_TO_ADMINISTRADAS });
 };
 
 const crearQuinielaError = (dispatch, error) => {

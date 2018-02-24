@@ -2,6 +2,7 @@ import {
   QUINIELA_UPDATE,
   BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO,
   RESET_QUINIELAS_ADMIN,
+  BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO_T,
 } from '../actions/types';
 
 const INITIAL_STATE = {};
@@ -13,6 +14,9 @@ export default (state = INITIAL_STATE, action) => {
 
     case BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO:
       return { ...state, ...action.payload };
+
+    case BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO_T:
+      return { ...INITIAL_STATE, ...action.payload };
 
     case RESET_QUINIELAS_ADMIN:
       return { ...INITIAL_STATE };
