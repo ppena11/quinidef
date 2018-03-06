@@ -41,14 +41,14 @@ class TusQuinielas extends Component {
   }
 
   logout2 (navigate) {
-    //firebase.auth().signOut();
-    navigate('Home');
-  }
+    firebase.auth().signOut();
+    navigate('CargandoInicio');
+}
 
   logout = async (navigate) => {
     try {
         await firebase.auth().signOut();
-        navigate('Home');
+        navigate('CargandoInicio');
     } catch (e) {
         console.error(e);
     }

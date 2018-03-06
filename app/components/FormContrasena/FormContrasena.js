@@ -42,7 +42,7 @@ class FormContrasena extends Component<{}> {
           <View style={styles2.vire} />
           <TextInput
             style={styles.inputBox}
-            underlineColorAndroid="rgba(0,0,0,0)"
+            underlineColorAndroid = {color.$underlineColorAndroid}
             placeholder={this.props.placeholder}
             placeholderTextColor={color.$placeholderTextColor}
             selectionColor={color.$selectionColor}

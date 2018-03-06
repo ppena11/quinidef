@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View, StatusBar, KeyboardAvoidingView, Text } from 'react-native';
+import { TouchableOpacity, View, StatusBar, KeyboardAvoidingView, Text, BackHandler } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
@@ -19,6 +19,9 @@ class Login extends Component {
 
   componentDidMount() {
     const { navigate } = this.props.navigation;
+
+    BackHandler.addEventListener('hardwareBackPress', () => BackHandler.exitApp());
+
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // User is signed in.
@@ -55,30 +58,35 @@ class Login extends Component {
     navigate('CrearCuenta');
   }
 
-  renderSpinner(navigate) {
+//  renderSpinner(navigate) {
+  render() {
+    const { navigate } = this.props.navigation;
+
     return (
-      <View style={styles.form}>
-        <StatusBar translucent={false} barStyle="light-content" backgroundColor={color.$statusBarBackgroundColor} />
+      <Container>
+        <View style={styles.form}>
+          <StatusBar translucent={false} barStyle="light-content" backgroundColor={color.$statusBarBackgroundColor} />
 
-        <Logo />
-        <KeyboardAvoidingView behavior="padding" style={styles.form}>
-          <Form type="Entrar" />
-        </KeyboardAvoidingView>
+          <Logo />
+          <KeyboardAvoidingView behavior="padding" style={styles.form}>
+            <Form type="Entrar" />
+          </KeyboardAvoidingView>
 
-        <TextIndication description={this.props.error} />
+          <TextIndication description={this.props.error} />
 
-        <View style={styles.signupTextCont}>
-          <TouchableOpacity onPress={() => this.reiniciar(navigate)}>
-            <Text style={styles.signupText}>Recuperar contraseña</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.crear(navigate)}>
-            <Text style={styles.signupButton}> Registrate</Text>
-          </TouchableOpacity>
+          <View style={styles.signupTextCont}>
+            <TouchableOpacity onPress={() => this.reiniciar(navigate)}>
+              <Text style={styles.signupText}>Recuperar contraseña</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.crear(navigate)}>
+              <Text style={styles.signupButton}> Registrate</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </Container>
     );
   }
-
+/*
   render() {
     const { navigate } = this.props.navigation;
     let render = 'no';
@@ -100,6 +108,7 @@ class Login extends Component {
     }
     return <Container>{this.renderSpinner(navigate)}</Container>;
   }
+*/
 }
 
 const styles = EStyleSheet.create({
