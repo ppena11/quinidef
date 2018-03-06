@@ -94,7 +94,7 @@ class Login extends Component {
     if (render != 'yes') {
       return (
         <Container>
-          <Spinner style={styles.buttonText} size="small" />
+          <Spinner style={styles.buttonText} size="large" />
         </Container>
       );
     }

@@ -21,19 +21,18 @@ class UnirseAQuiniela extends Component {
  
   buscarCodigo () {
     alert("Aquí se debe buscar el código. Generado Aleatorio: " + this.generaCodigo());
-    console.error (this.props.navigation);
   }
 
   generaCodigo () {
-    var caracteresePosibles = ['A','B','C','D','E','F','G','H','I','J',
+    var caracteresPosibles = ['A','B','C','D','E','F','G','H','I','J',
                                'K','L','M','N','O','P','Q','R','S','T',
                                'U','V','W','X','Y','Z','0','1','2','3',
                                '4','5','6','7','8','9'];    // Combinaciones posibles: 1.679.616
     var codigo;
-    codigo = this.elementoAleatorio(caracteresePosibles);
-    codigo += this.elementoAleatorio(caracteresePosibles);
-    codigo += this.elementoAleatorio(caracteresePosibles);
-    codigo += this.elementoAleatorio(caracteresePosibles);
+    codigo = this.elementoAleatorio(caracteresPosibles);
+    codigo += this.elementoAleatorio(caracteresPosibles);
+    codigo += this.elementoAleatorio(caracteresPosibles);
+    codigo += this.elementoAleatorio(caracteresPosibles);
     return codigo;
   }
 
@@ -44,7 +43,6 @@ class UnirseAQuiniela extends Component {
   }
 
   cancelar (navigate) {
-    //navigate('TusQuinielas');
     this.props.navigation.goBack();
   }
 
