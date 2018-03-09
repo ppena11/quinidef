@@ -83,6 +83,7 @@ class DetalleQuinielaAdministrada extends Component {
 
   tusquinielas(goBack) {
     // console.log('TEST2');
+    this.props.reloadingQuinielas();
     goBack();
   }
 

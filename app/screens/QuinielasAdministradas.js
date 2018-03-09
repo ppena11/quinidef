@@ -13,9 +13,11 @@ import {
   ultimaQuinielasLlego,
   resetQuinielasAdmin,
   reloadedQuinielasAdmin,
+  reloadingQuinielas,
   ultimaQuinielasLlegoNo,
   mostrarMenu,
   esconderMenu,
+  BuscarQuinielaTexto,
 } from '../actions';
 
 import { Container } from '../components/Container';
@@ -52,7 +54,7 @@ class QuinielasAdministradas extends Component {
     if (nextProps.reload == 'yes') {
       // this.listRef.scrollToIndex({ index: 0, viewPosition: 0, animated: true }); // Coloca la lista al principio del scroll
       nextProps.ultimaQuinielasLlegoNo(); // Resetea el indicador para continaur con la proxima bsuqueda
-      nextProps.reloadedQuinielasAdmin(); // Reinicia el indicador para evitar que se realice la carga de la primera quiniela
+      nextProps.reloadedQuinielasAdmin(); // Reinicia el indicador para evitar que se realice la carga de la primera quiniela y borra el estado de busqueda
       nextProps.resetQuinielasAdmin(); // Borra todas las quinielas existentes anteriormente
       nextProps.buscarQuinielasAdministradas(); // Busca nuevamente las quinielas administradas :)
     }
@@ -88,6 +90,9 @@ class QuinielasAdministradas extends Component {
   }
 
   filtrarQuinielas(qi) {
+    this.props.BuscarQuinielaTexto(qi);
+    const text = this.props.buscarTexto;
+
     if (qi.length > 0) {
       this.props.buscarQuinielasAdministradasT(qi);
     }
@@ -106,6 +111,7 @@ class QuinielasAdministradas extends Component {
 
   tusquinielas(goBack) {
     // console.log('TEST2');
+    this.props.reloadingQuinielas();
     goBack();
   }
 
@@ -123,8 +129,14 @@ class QuinielasAdministradas extends Component {
 
       if (this.props.llegoalfinal != 'yes') {
         // console.log(this.props.quinielas);
-
-        this.props.buscarQuinielasAdministradasMax(this.props.ultima);
+        if (this.props.buscarTexto.length == 0) {
+          this.props.buscarQuinielasAdministradasMax(this.props.ultima);
+        } else {
+          // console.log(`BUSCANDO MAS --- APUNTADOR ${this.props.ultima} ---- TEXTO --- ${
+          //  this.props.buscarTexto
+          // }`);
+          this.props.buscarQuinielasAdministradasMaxT(this.props.ultima, this.props.buscarTexto);
+        }
       }
     }
 
@@ -149,7 +161,7 @@ class QuinielasAdministradas extends Component {
     // this.props.ultimaQuinielasAdministrada('2342354345');
     // console.log(`EPALE.... ${this.props.ultima}`);
     // console.log(`RENDER TT1 ${this.props.tt1}`);
-    console.log(`llegoalfinal this render ${this.props.llegoalfinal}`);
+    // console.log(`llegoalfinal this render ${this.props.llegoalfinal}`);
 
     return (
       <Container>
@@ -254,7 +266,6 @@ const mapStateToProps = (state) => {
   const tt1 = tt; // console.log(tt);
 
   if (state.quinielalast.mostrarTodas != 'yes') {
-    console.log('PORQUE NO QUIERE MOSTRAR TODAS');
     if (tt != undefined) {
       const last = tt.pop();
       if (last != undefined) {
@@ -266,6 +277,8 @@ const mapStateToProps = (state) => {
 
   const quinielas = _.orderBy(tt, ['uid'], ['desc']);
 
+  // const quinielas = tt;
+
   return {
     tt1,
     quinielas,
@@ -273,6 +286,7 @@ const mapStateToProps = (state) => {
     llegoalfinal: state.quinielalast.ultima,
     reload: state.quinielalast.reload,
     mostrarMenus: state.quinielalast.mostrarMenu,
+    buscarTexto: state.quinielalast.buscar,
   };
 };
 
@@ -288,4 +302,6 @@ export default connect(mapStateToProps, {
   ultimaQuinielasLlegoNo,
   mostrarMenu,
   esconderMenu,
+  BuscarQuinielaTexto,
+  reloadingQuinielas,
 })(QuinielasAdministradas);

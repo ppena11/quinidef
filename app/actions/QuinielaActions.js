@@ -17,11 +17,18 @@ import {
   RELOADING,
   BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO_T,
   MOSTRAR_TODAS_QUINIELA_ADMIN,
+  BUSCAR_QUINIELA_UPDATE,
+  OCULTAR_ULTIMA_QUINIELA_ADMIN,
 } from './types';
 
 export const QuinielaUpdate = ({ prop, value }) => ({
   type: QUINIELA_UPDATE,
   payload: { prop, value },
+});
+
+export const BuscarQuinielaTexto = value => ({
+  type: BUSCAR_QUINIELA_UPDATE,
+  payload: value,
 });
 
 export const buscarQuinielas = () => {
@@ -44,24 +51,26 @@ export const buscarQuinielasAdministradasT = (queryText) => {
     firebase
       .database()
       .ref(`/users/${currentUser.uid}/quinielasadministradas/`)
-
+      .limitToFirst(15)
       .orderByChild('quinielaNombrer')
       .startAt(queryText)
       .endAt(`${queryText}\uf8ff`)
-      .limitToLast(15)
 
       .on('value', (snapshot) => {
         if (snapshot.exists()) {
-          const tt1 = _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).reverse();
           const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
-          console.log(`TTTT ${tt}`);
-          const dd = tt.reverse().pop().quinielaNombrer;
-          console.log(`DDDD ${dd}`);
-          ultimaQuinielasLlegoNo();
-          dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO_T, payload: snapshot.val() });
+          const dd = tt;
+          const dd1 = dd.pop().quinielaNombrer;
+          // console.log(`APUNTADOR INICIAL CON BUSQUEDA TEXTO ${dd1}`);
+          dispatch({
+            type: ULTIMA_QUINIELA_LLEGO_NO,
+          });
+
+          dispatch({ type: RESET_QUINIELAS_ADMIN });
+          dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
           dispatch({
             type: ULTIMA_QUINIELA_UPDATE,
-            payload: dd,
+            payload: dd1,
           });
           dispatch({ type: MOSTRAR_TODAS_QUINIELA_ADMIN });
         } else {
@@ -69,9 +78,12 @@ export const buscarQuinielasAdministradasT = (queryText) => {
         }
 
         if (snapshot.exists()) {
+          // console.log(`TAMOANO DE QUINIELAS BUSQUEDA TEXTO INICIAL  ${Object.keys(snapshot.val()).length}`);
           if (Object.keys(snapshot.val()).length < 15) {
             dispatch({ type: ULTIMA_QUINIELA_LLEGO });
             dispatch({ type: MOSTRAR_TODAS_QUINIELA_ADMIN });
+          } else {
+            dispatch({ type: OCULTAR_ULTIMA_QUINIELA_ADMIN });
           }
         }
       });
@@ -87,27 +99,29 @@ export const buscarQuinielasAdministradasMaxT = (max, queryText) => {
       .orderByChild('quinielaNombrer')
       .startAt(max)
       .endAt(`${queryText}\uf8ff`)
-      .limitToLast(15)
-      .orderByChild('adminr')
-
+      .limitToFirst(15)
       .on('value', (snapshot) => {
         if (snapshot.exists()) {
-          const tt1 = _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).reverse();
           const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
-          console.log(`XXXXXXXX ${tt}`);
-          const dd = tt.reverse().pop().quinielaNombrer;
-          console.log(`ZZZZZZZZ ${dd}`);
-          ultimaQuinielasLlegoNo();
+          const dd = tt.reverse();
+          const dd1 = dd.pop().quinielaNombrer;
+          // console.log(`APUNTADOR sec CON BUSQUEDA TEXTO ${dd1}`);
+          dispatch({
+            type: ULTIMA_QUINIELA_LLEGO_NO,
+          });
           dispatch({
             type: ULTIMA_QUINIELA_UPDATE,
-            payload: dd,
+            payload: dd1,
           });
           dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
         }
         if (snapshot.exists()) {
-          console.log(`TESTTTTTT ${_.map(snapshot.val(), (val, uid) => ({ ...val, uid })).pop().adminr}`);
+          // console.log(`TAMOANO DE QUINIELAS BUSQUEDA TEXTO SIGUIENTE  ${Object.keys(snapshot.val()).length}`);
           if (Object.keys(snapshot.val()).length < 15) {
             dispatch({ type: ULTIMA_QUINIELA_LLEGO });
+            dispatch({ type: MOSTRAR_TODAS_QUINIELA_ADMIN });
+          } else {
+            dispatch({ type: OCULTAR_ULTIMA_QUINIELA_ADMIN });
           }
         }
       });
@@ -121,27 +135,33 @@ export const buscarQuinielasAdministradas = () => {
     firebase
       .database()
       .ref(`/users/${currentUser.uid}/quinielasadministradas/`)
-      .orderByChild('quinielaNombrer')
+      .orderByKey()
 
       .limitToLast(15)
       .on('value', (snapshot) => {
         if (snapshot.exists()) {
-          const tt1 = _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).reverse();
           const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
-          console.log(`TTTT ${tt}`);
-          const dd = tt.reverse().pop().quinielaNombrer;
-          console.log(`DDDD ${dd}`);
-          ultimaQuinielasLlegoNo();
+
+          const dd = tt.reverse();
+          const dd1 = dd.pop().uid;
+          // console.log(`APUNTADOR INICIAL  ${dd1}`);
+
+          dispatch({
+            type: ULTIMA_QUINIELA_LLEGO_NO,
+          });
           dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
           dispatch({
             type: ULTIMA_QUINIELA_UPDATE,
-            payload: dd,
+            payload: dd1,
           });
         }
 
         if (snapshot.exists()) {
           if (Object.keys(snapshot.val()).length < 15) {
             dispatch({ type: ULTIMA_QUINIELA_LLEGO });
+            dispatch({ type: MOSTRAR_TODAS_QUINIELA_ADMIN });
+          } else {
+            dispatch({ type: OCULTAR_ULTIMA_QUINIELA_ADMIN });
           }
         }
       });
@@ -154,27 +174,26 @@ export const buscarQuinielasAdministradasMax = (max) => {
     firebase
       .database()
       .ref(`/users/${currentUser.uid}/quinielasadministradas/`)
-      .orderByChild('quinielaNombrer')
+      .orderByKey()
       .endAt(max)
       .limitToLast(15)
       .on('value', (snapshot) => {
         if (snapshot.exists()) {
-          const tt1 = _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).reverse();
           const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
-          console.log(`XXXXXXXX ${tt}`);
-          const dd = tt.reverse().pop().quinielaNombrer;
-          console.log(`ZZZZZZZZ ${dd}`);
-          ultimaQuinielasLlegoNo();
+
+          const dd = tt.reverse();
+          const dd1 = dd.pop().uid;
+
+          // console.log(`APUNTADOR CON MAX ${dd1}`);
+          dispatch({
+            type: ULTIMA_QUINIELA_LLEGO_NO,
+          });
           dispatch({
             type: ULTIMA_QUINIELA_UPDATE,
-            payload: dd,
+            payload: dd1,
           });
           dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
-        }
-        if (snapshot.exists()) {
-          console.log(`TESTTTTTT ${
-            _.map(snapshot.val(), (val, uid) => ({ ...val, uid })).pop().quinielaNombrer
-          }`);
+
           if (Object.keys(snapshot.val()).length < 15) {
             dispatch({ type: ULTIMA_QUINIELA_LLEGO });
           }
