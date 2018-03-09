@@ -42,13 +42,13 @@ class TusQuinielas extends Component {
 
   logout2 (navigate) {
     firebase.auth().signOut();
-    navigate('CargandoInicio');
+    navigate('CargandoHome');
 }
 
   logout = async (navigate) => {
     try {
         await firebase.auth().signOut();
-        navigate('CargandoInicio');
+        navigate('CargandoHome');
     } catch (e) {
         console.error(e);
     }

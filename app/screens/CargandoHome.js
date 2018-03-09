@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, BackHandler } from 'react-native';
+import { View, BackHandler, Image } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
@@ -7,7 +7,7 @@ import firebase from 'firebase';
 import { Container } from '../components/Container';
 import { Spinner } from '../components/Spinner';
 
-class CargandoInicio extends Component {
+class CargandoHome extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -24,24 +24,38 @@ class CargandoInicio extends Component {
       }
     });
   }
- 
+
   render() {
     return (
       <Container>
-        <View style={styles.spinnerStyle}>
+        <View style={styles.viewImgStyle}>
+          <Image style={styles.imgStyle} source={require('../components/Logo/images/copa1.png')} />
+        </View>
+        <View style={styles.viewStyle}>
           <Spinner size="large" />
         </View>
+        <View style={styles.viewStyle}/>
       </Container>
     );
   }
 }
 
 const styles = EStyleSheet.create({
-  spinnerStyle: {
-    flex: 1,
+  viewImgStyle: {
+    flex: 3,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 10,
+  },
+  imgStyle: {
+    height: 200,
+    width: 200,
+  },
+  viewStyle: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
@@ -49,4 +63,4 @@ const mapStateToProps = (state) => ({
   error: state.auth.error,
 });
 
-export default connect(mapStateToProps, {})(CargandoInicio);
+export default connect(mapStateToProps, {})(CargandoHome);
