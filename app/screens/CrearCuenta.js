@@ -17,7 +17,7 @@ class CrearCuenta extends Component {
 
   confirmar(navigate) {
     this.props.gotohome(); // Limpiar el formulario
-    navigate('Home');
+    navigate('Login');
   }
 
   render() {
