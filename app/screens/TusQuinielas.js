@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar, ListView, View, FlatList, Text } from 'react-native';
+import { StatusBar, ListView, View, FlatList, Text, BackHandler } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -16,6 +16,10 @@ class TusQuinielas extends Component {
   static navigationOptions = {
     header: null,
   };
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', () => this.props.navigation.goBack())
+  }
 
   componentWillMount() {
     this.props.buscarQuinielas();
@@ -36,8 +40,18 @@ class TusQuinielas extends Component {
     navigate('UnirseAQuiniela');
   }
 
-  logout (navigate) {
+  logout2 (navigate) {
     firebase.auth().signOut();
+    navigate('CargandoHome');
+}
+
+  logout = async (navigate) => {
+    try {
+        await firebase.auth().signOut();
+        navigate('CargandoHome');
+    } catch (e) {
+        console.error(e);
+    }
   }
 
   crear(navigate) {
@@ -49,13 +63,12 @@ class TusQuinielas extends Component {
 
   render() {
     const { navigate } = this.props.navigation;
-    if(this.DataSource.length == 0) console.log("No eres parte de ninguna quiniela");
 
     return (
       <Container>
         <StatusBar translucent={false} barStyle="light-content" backgroundColor={color.$statusBarBackgroundColor} />
         <View style={styles.form}>
-          <BotonPrincipal onPress={() => this.logout(navigate)}>
+          <BotonPrincipal onPress={() => this.logout2(navigate)}>
             Salir
           </BotonPrincipal>
           
@@ -63,11 +76,13 @@ class TusQuinielas extends Component {
             <Titulo>MIS QUINIELAS</Titulo>
           </View>
 
+          {(this.DataSource.length > 0)?
           <FlatList
             data = {this.DataSource}
             renderItem={this._renderItem}
             keyExtractor={this._keyExtractor}
           />
+          :<Text>No eres parte de ninguna quiniela</Text>}
 
           <View style={styles.bottom}>
             <BotonPrincipal onPress={() => this.unirseAQuiniela(navigate)}>

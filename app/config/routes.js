@@ -11,12 +11,13 @@ import QuinielasAdministradas from '../screens/QuinielasAdministradas';
 import CreaciondeQuiniela from '../screens/CreaciondeQuiniela';
 import DetalleQuinielaAdministrada from '../screens/DetalleQuinielaAdministrada';
 import UnirseAQuiniela from '../screens/UnirseAQuiniela';
+import CargandoHome from '../screens/CargandoHome';
 
-const stackRouterConfig = { initialRouteName: 'Home' };
+const stackRouterConfig = { initialRouteName: 'CargandoHome' };
 
 const RootNavigator = StackNavigator(
   {
-    Home: {
+    Login: {
       screen: Login,
     },
     ReiniciarContrasena: {
@@ -40,13 +41,15 @@ const RootNavigator = StackNavigator(
     CreaciondeQuiniela: {
       screen: CreaciondeQuiniela,
     },
-
     DetalleQuinielaAdministrada: {
       screen: DetalleQuinielaAdministrada,
     },
     UnirseAQuiniela: {
       screen: UnirseAQuiniela,
     },
+    CargandoHome: {
+      screen: CargandoHome,
+    }
   },
   stackRouterConfig,
 );

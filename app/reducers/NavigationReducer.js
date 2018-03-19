@@ -33,7 +33,7 @@ export default (state = initialState, action) => {
       break;
     case GO_TO_LOG:
       nextState = RootNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'Home' }),
+        NavigationActions.navigate({ routeName: 'Login' }),
         state,
       );
       break;
@@ -46,7 +46,7 @@ export default (state = initialState, action) => {
 
     case GO_TO_LOGOUT:
       nextState = RootNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'Home' }),
+        NavigationActions.navigate({ routeName: 'Login' }),
         state,
       );
       break;
