@@ -1,7 +1,4 @@
-import {
-  QUINIELA_UPDATE,
-  BUSCAR_QUINIELAS_EXITO,
-} from '../actions/types';
+import { QUINIELA_UPDATE, BUSCAR_QUINIELAS_EXITO } from '../actions/types';
 
 const INITIAL_STATE = {};
 

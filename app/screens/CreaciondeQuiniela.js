@@ -9,6 +9,7 @@ import {
   buscarTorneos,
   crearQuiniela,
   nombreTorneoCambio,
+  idTorneoCambio,
   reloadedQuinielasAdmin,
   reloadingQuinielas,
 } from '../actions';
@@ -28,7 +29,8 @@ class TusQuinielas extends Component {
     this.createDataSource(this.props);
     Object.keys(this.props.torneos).map((key) => {
       if (this.props.torneos[key].info.selected == true) {
-        this.registrart(this.props.torneos[key].uid);
+        this.registrart(this.props.torneos[key].info.nombre);
+        this.registrartID(this.props.torneos[key].uid);
         // console.log(`WILL MOUNT....  ${this.props.torneos[key].info.nombre}`);
       }
     });
@@ -43,6 +45,7 @@ class TusQuinielas extends Component {
         // this.registrart(nextProps.torneos[key].info.nombre);
 
         if (this.props.torneo == 'Rusia 2018') {
+          this.registrart(nextProps.torneos[key].info.nombre);
           this.registrart(nextProps.torneos[key].uid);
         }
       }
@@ -61,8 +64,8 @@ class TusQuinielas extends Component {
     Keyboard.dismiss();
     this.props.reloadingQuinielas();
 
-    const { quinielaNombre, torneo } = this.props;
-    this.props.crearQuiniela({ quinielaNombre, torneo });
+    const { quinielaNombre, torneo, torneoid } = this.props;
+    this.props.crearQuiniela({ quinielaNombre, torneo, torneoid });
     goBack();
   }
 
@@ -82,6 +85,14 @@ class TusQuinielas extends Component {
   registrart(nombreTorneo) {
     this.setState({ selected: nombreTorneo });
     this.props.nombreTorneoCambio(nombreTorneo);
+
+    // <ScrollView style={styles.cuerpo}>
+    // <ListView enableEmptySections dataSource={this.dataSource} renderRow={this.renderRow} />
+    // </ScrollView>
+  }
+
+  registrartID(idTorneo) {
+    this.props.idTorneoCambio(idTorneo);
 
     // <ScrollView style={styles.cuerpo}>
     // <ListView enableEmptySections dataSource={this.dataSource} renderRow={this.renderRow} />
@@ -110,14 +121,15 @@ class TusQuinielas extends Component {
               <Picker
                 style={styles.inputBox1}
                 selectedValue={this.props.torneo}
-                onValueChange={(itemValue) => {
+                onValueChange={(itemValue, x, y) => {
                   this.registrart(itemValue);
+                  this.registrartID(this.props.torneos[x].uid);
                 }}
               >
                 {Object.keys(this.props.torneos).map(key => (
                   <Picker.Item
                     label={this.props.torneos[key].info.nombre}
-                    value={this.props.torneos[key].uid}
+                    value={this.props.torneos[key].info.nombre}
                     key={key}
                   />
                 ))}
@@ -218,6 +230,7 @@ const mapStateToProps = (state) => {
     torneos,
     quinielaNombre: state.creacionquinielas.nombreQuiniela,
     torneo: state.creacionquinielas.torneo,
+    torneoid: state.creacionquinielas.torneoid,
     error: state.creacionquinielas.error,
     selected: state.selected,
   };
@@ -227,6 +240,7 @@ export default connect(mapStateToProps, {
   buscarTorneos,
   nombreQuinielaCambio,
   nombreTorneoCambio,
+  idTorneoCambio,
   crearQuiniela,
   reloadedQuinielasAdmin,
   reloadingQuinielas,

@@ -1,25 +1,64 @@
 import React, { Component } from 'react';
-import { Text, View, Image, Switch } from 'react-native';
+import { Text, View, Image, Switch, TouchableOpacity } from 'react-native';
 import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { Card } from '../Card';
 import { CardSection } from '../CardSection';
-import { Buttonb } from '../Buttonb';
 import color from '../../comun/colors';
 
+import { cambiarEstatusQuiniela } from '../../actions';
+
 class QuinielaAdminItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { toggled: false };
+  }
+
   onRowPress() {
-    this.props.navigation.navigate('DetalleQuinielaAdministrada', {
+    this.props.navigation.navigate('EliminarApuesta', {
+      jugador: this.props.jugador,
+      jugadores: this.props.jugadores,
       quiniela: this.props.quiniela,
+      quinielan: this.props.quinielan,
     });
+  }
+  componentWillMount() {
+    const {
+      activo, puntos, nombre, uid,
+    } = this.props.jugador;
+    this.setState({ toggled: this.props.jugadores[uid].activo });
+  }
+
+  componentDidMount() {
+    const {
+      activo, puntos, nombre, uid,
+    } = this.props.jugador;
+    this.setState({ toggled: this.props.jugadores[uid].activo });
   }
 
   pressed(e) {
-    console.log(e);
+    const {
+      activo, puntos, nombre, uid,
+    } = this.props.jugador;
+    this.props.cambiarEstatusQuiniela(this.props.jugador, this.props.quiniela, e);
+
+    this.setState({ toggled: this.props.jugadores[uid].activo });
+  }
+
+  iconstatus(uid) {
+    if (!this.props.jugadores[uid].activo) {
+      return <Image style={styles.thumbnailStyle} source={require('../Logo/images/borrar1.png')} />;
+    }
+    return <Image style={styles.thumbnailStyle} />;
   }
 
   render() {
-    const { Name, Status } = this.props.quiniela;
+    const {
+      activo, puntos, nombre, uid,
+    } = this.props.jugador;
+
     const {
       headerContentStyle,
       headerTextStyle,
@@ -32,17 +71,17 @@ class QuinielaAdminItem extends Component {
     return (
       <Card>
         <CardSection>
-          <View style={thumbnailContainerStyle}>
-            <Image style={thumbnailStyle} source={require('../Logo/images/copa1.png')} />
-          </View>
-          <View style={headerContentStyle}>
-            <Text style={headerTextStyle}>{Name}</Text>
+          <TouchableOpacity style={thumbnailContainerStyle} onPress={() => this.onRowPress()}>
+            {this.iconstatus(uid)}
+          </TouchableOpacity>
+          <TouchableOpacity style={headerContentStyle}>
+            <Text style={headerTextStyle}>{nombre}</Text>
             <Switch
               style={switchStyle}
-              onValueChange={value => this.setState({ toggled: value })}
-              value={Status}
+              onValueChange={value => this.pressed(value)}
+              value={this.props.jugadores[uid].activo}
             />
-          </View>
+          </TouchableOpacity>
         </CardSection>
       </Card>
     );
@@ -73,15 +112,20 @@ const styles = {
     color: color.$qxaHeaderTextStyle2,
   },
   thumbnailStyle: {
-    height: 50,
-    width: 50,
+    height: 25,
+    width: 25,
   },
   thumbnailContainerStyle: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 5,
+    marginRight: 5,
   },
 };
 
-export default withNavigation(QuinielaAdminItem);
+const mapStateToProps = (state) => {
+  const jugadores = state.jugadoresadmin;
+  return { jugadores };
+};
+
+export default connect(mapStateToProps, { cambiarEstatusQuiniela })(withNavigation(QuinielaAdminItem));

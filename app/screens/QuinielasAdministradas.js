@@ -264,15 +264,8 @@ const styles2 = EStyleSheet.create({
 const mapStateToProps = (state) => {
   const tt = _.map(state.quinielasadmin, (val, uid) => ({ ...val, uid }));
   const tt1 = tt; // console.log(tt);
+  // console.log(state.quinielasadmin);
 
-  if (state.quinielalast.mostrarTodas != 'yes') {
-    if (tt != undefined) {
-      const last = tt.pop();
-      if (last != undefined) {
-        // this.props.ultimaQuinielasAdministrada(last.adminr);
-      }
-    }
-  }
   // const quinielas = tt;
 
   const quinielas = _.orderBy(tt, ['uid'], ['desc']);

@@ -19,6 +19,8 @@ import {
   MOSTRAR_TODAS_QUINIELA_ADMIN,
   BUSCAR_QUINIELA_UPDATE,
   OCULTAR_ULTIMA_QUINIELA_ADMIN,
+  CAMBIAR_ID_TORNEO,
+  ID_TORNEO_CAMBIO,
 } from './types';
 
 export const QuinielaUpdate = ({ prop, value }) => ({
@@ -100,7 +102,7 @@ export const buscarQuinielasAdministradasMaxT = (max, queryText) => {
       .startAt(max)
       .endAt(`${queryText}\uf8ff`)
       .limitToFirst(15)
-      .on('value', (snapshot) => {
+      .once('value', (snapshot) => {
         if (snapshot.exists()) {
           const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
           const dd = tt.reverse();
@@ -138,7 +140,7 @@ export const buscarQuinielasAdministradas = () => {
       .orderByKey()
 
       .limitToLast(15)
-      .on('value', (snapshot) => {
+      .once('value', (snapshot) => {
         if (snapshot.exists()) {
           const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
 
@@ -146,10 +148,39 @@ export const buscarQuinielasAdministradas = () => {
           const dd1 = dd.pop().uid;
           // console.log(`APUNTADOR INICIAL  ${dd1}`);
 
+          // const root = snapshot.ref.root;
+
+          // dd.map((q, index, array) => {
+          // const mgr_promise = root.child(`/torneos/${q.torneo}/`).once('value');
+          // let arr1 = [];
+          // mgr_promise.then((snap) => {
+          // q.torneo = snap.val().info.nombre;
+
+          // array[index].torneo = snap.val().info.nombre;
+          // console.log(array);
+          // arr1 = array.slice(index, index + 1);
+
+          // dispatch({
+          //  type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO,
+          //  payload: _.keyBy(arr1, 'uid'),
+          // });
+          // });
+          // });
+
+          // console.log('ASHKJHSAKJHKJAKJAD');
+          // console.log(_.keyBy(dd, 'uid'));
+
           dispatch({
             type: ULTIMA_QUINIELA_LLEGO_NO,
           });
-          dispatch({ type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO, payload: snapshot.val() });
+          dispatch({
+            type: MOSTRAR_TODAS_QUINIELA_ADMIN,
+          });
+          dispatch({
+            type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO,
+            payload: snapshot.val(),
+          });
+
           dispatch({
             type: ULTIMA_QUINIELA_UPDATE,
             payload: dd1,
@@ -157,6 +188,7 @@ export const buscarQuinielasAdministradas = () => {
         }
 
         if (snapshot.exists()) {
+          // console.log(`TAMANO DE LA DATA ${Object.keys(snapshot.val()).length}`);
           if (Object.keys(snapshot.val()).length < 15) {
             dispatch({ type: ULTIMA_QUINIELA_LLEGO });
             dispatch({ type: MOSTRAR_TODAS_QUINIELA_ADMIN });
@@ -168,6 +200,28 @@ export const buscarQuinielasAdministradas = () => {
   };
 };
 
+async function cambiarT(dispatch, t) {
+  const x = await cambiarTorneo(dispatch, t);
+}
+
+export const cambiarTorneo = (dispatch, q) => {
+  const r = q;
+  // console.log(r);
+  firebase
+    .database()
+    .ref(`/torneos/${q.torneo}/`)
+
+    .once('value', (snapshot) => {
+      if (snapshot.exists()) {
+        q.torneo = snapshot.val().info.nombre;
+        dispatch({
+          type: CAMBIAR_ID_TORNEO,
+          payload: q,
+        });
+      }
+    });
+};
+
 export const buscarQuinielasAdministradasMax = (max) => {
   const { currentUser } = firebase.auth();
   return (dispatch) => {
@@ -177,7 +231,7 @@ export const buscarQuinielasAdministradasMax = (max) => {
       .orderByKey()
       .endAt(max)
       .limitToLast(15)
-      .on('value', (snapshot) => {
+      .once('value', (snapshot) => {
         if (snapshot.exists()) {
           const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
 
@@ -196,6 +250,9 @@ export const buscarQuinielasAdministradasMax = (max) => {
 
           if (Object.keys(snapshot.val()).length < 15) {
             dispatch({ type: ULTIMA_QUINIELA_LLEGO });
+            dispatch({ type: MOSTRAR_TODAS_QUINIELA_ADMIN });
+          } else {
+            dispatch({ type: OCULTAR_ULTIMA_QUINIELA_ADMIN });
           }
         }
       });
@@ -237,7 +294,12 @@ export const nombreTorneoCambio = text => ({
   payload: text,
 });
 
-export const crearQuiniela = ({ quinielaNombre, torneo }) => (dispatch) => {
+export const idTorneoCambio = text => ({
+  type: ID_TORNEO_CAMBIO,
+  payload: text,
+});
+
+export const crearQuiniela = ({ quinielaNombre, torneo, torneoid }) => (dispatch) => {
   const { currentUser } = firebase.auth();
 
   // Get a key for a new Post.
@@ -252,6 +314,7 @@ export const crearQuiniela = ({ quinielaNombre, torneo }) => (dispatch) => {
   const postData = {
     quinielaNombre,
     torneo,
+    torneoid,
     admin: currentUser.uid,
     adminr,
     quinielaNombrer,

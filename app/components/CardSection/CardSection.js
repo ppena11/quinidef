@@ -3,10 +3,10 @@ import { View, TouchableOpacity } from 'react-native';
 
 import color from '../../comun/colors';
 
-const CardSection = props => (
-  <TouchableOpacity>
-    <View style={styles.containerStyle}>{props.children}</View>
-  </TouchableOpacity>
+const CardSection = ({ onPress, children }) => (
+  <View onPress={onPress}>
+    <View style={styles.containerStyle}>{children}</View>
+  </View>
 );
 
 const styles = {

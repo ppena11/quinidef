@@ -11,6 +11,7 @@ import QuinielasAdministradas from '../screens/QuinielasAdministradas';
 import CreaciondeQuiniela from '../screens/CreaciondeQuiniela';
 import DetalleQuinielaAdministrada from '../screens/DetalleQuinielaAdministrada';
 import UnirseAQuiniela from '../screens/UnirseAQuiniela';
+import EliminarApuesta from '../screens/EliminarApuesta';
 
 const stackRouterConfig = { initialRouteName: 'Home' };
 
@@ -46,6 +47,9 @@ const RootNavigator = StackNavigator(
     },
     UnirseAQuiniela: {
       screen: UnirseAQuiniela,
+    },
+    EliminarApuesta: {
+      screen: EliminarApuesta,
     },
   },
   stackRouterConfig,

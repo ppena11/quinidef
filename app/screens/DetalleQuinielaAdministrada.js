@@ -13,7 +13,14 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 
-import { buscarQuinielasAdministradas } from '../actions';
+import {
+  buscarJugadoresAdministradas,
+  buscarJugadoresAdministradasT,
+  buscarJugadoresAdministradasMaxT,
+  buscarJugadoresAdministradasMax,
+  BuscarJugadorTexto,
+  reloadingJugadores,
+} from '../actions';
 import { Container } from '../components/Container';
 import { BotonPrincipal } from '../components/BotonPrincipal';
 import { Titulo } from '../components/Titulo';
@@ -42,10 +49,12 @@ class DetalleQuinielaAdministrada extends Component {
   }
 
   componentWillMount() {
-    // this.props.buscarQuinielasAdministradas();
+    // Buscar los jugaroes de la quiniela y su estado
     // this.createDataSource(this.props);
     // const { quinielaNombre, torneo } = this.props.quiniela;
     // console.log(_.map(this.props.navigation.state.params.quiniela.Users, (val, uid) => ({ ...val, uid })));
+
+    this.props.buscarJugadoresAdministradas(this.props.navigation.state.params.quiniela.uid);
     this.keyboardWillShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
     this.keyboardWillHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
   }
@@ -78,26 +87,40 @@ class DetalleQuinielaAdministrada extends Component {
 
   crear(navigate) {
     // console.log('TEST');
-    // navigate('CreaciondeQuiniela');
+    // navigate('EliminarApuesta');
   }
 
   tusquinielas(goBack) {
     // console.log('TEST2');
-    this.props.reloadingQuinielas();
+    this.props.reloadingJugadores();
     goBack();
   }
 
-  renderRow(quiniela) {
-    return <QuinielaAdminItem quiniela={quiniela} />;
+  renderRow(jugador) {
+    return (
+      <QuinielaAdminItem
+        jugador={jugador}
+        quiniela={this.props.navigation.state.params.quiniela.uid}
+        quinielan={this.props.navigation.state.params.quiniela.quinielaNombre}
+      />
+    );
   }
 
   pressed(e) {
     Keyboard.dismiss();
   }
 
-  filtrarQuinielas(qi) {
-    const q = qi.toLowerCase();
-    this.setState({ q }, () => this.filterList());
+  filtrarJugadores(qi) {
+    this.props.reloadingJugadores();
+    this.props.BuscarJugadorTexto(qi);
+    const text = this.props.buscarTexto;
+
+    if (qi.length > 0) {
+      this.props.buscarJugadoresAdministradasT(qi, this.props.navigation.state.params.quiniela.uid);
+    }
+    if (qi.length == 0) {
+      this.props.buscarJugadoresAdministradas(this.props.navigation.state.params.quiniela.uid);
+    }
   }
 
   filterList() {
@@ -108,12 +131,43 @@ class DetalleQuinielaAdministrada extends Component {
     this.setState({ filteredUsers: users });
   }
 
+  handleLoadMore = () => {
+    if (Object.keys(this.props.jugadores).length !== 0) {
+      // console.log('Llego al finalllllllll');
+      // console.log(`tamano llego al final ${Object.keys(this.props.quinielas).length}`);
+
+      // console.log(this.props.quinielas);
+      // this.props.buscarQuinielasAdministradasMax(this.props.ultima);
+
+      if (this.props.llegoalfinal != 'yes') {
+        // console.log(this.props.quinielas);
+        if (this.props.buscarTexto.length == 0) {
+          this.props.buscarJugadoresAdministradasMax(
+            this.props.ultima,
+            this.props.navigation.state.params.quiniela.uid,
+          );
+        } else {
+          // console.log(`BUSCANDO MAS --- APUNTADOR ${this.props.ultima} ---- TEXTO --- ${
+          //  this.props.buscarTexto
+          // }`);
+          this.props.buscarJugadoresAdministradasMaxT(
+            this.props.ultima,
+            this.props.buscarTexto,
+            this.props.navigation.state.params.quiniela.uid,
+          );
+        }
+      }
+    }
+
+    // this.props.buscarQuinielasAdministradasMax(this.props.ultima);
+  };
+
   menustatus({ navigate, goBack }) {
     if (this.state.menu === 'yes') {
       return (
         <View>
-          <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal>
-          <BotonPrincipal onPress={() => this.tusquinielas(goBack)}>Tus Quinielas</BotonPrincipal>
+          {/* <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal> */}
+          <BotonPrincipal onPress={() => this.tusquinielas(goBack)}>Regresar</BotonPrincipal>
         </View>
       );
     }
@@ -122,6 +176,7 @@ class DetalleQuinielaAdministrada extends Component {
 
   render() {
     const { navigate, goBack } = this.props.navigation;
+
     return (
       <Container>
         <StatusBar
@@ -138,21 +193,28 @@ class DetalleQuinielaAdministrada extends Component {
             <TextInput
               style={styles.inputBox}
               underlineColorAndroid={color.$underlineColorAndroid}
-              placeholder="Buscar..."
+              placeholder="Buscar usuario..."
               placeholderTextColor={color.$placeholderTextColor}
               selectionColor={color.$selectionColor}
               keyboardType="email-address"
               autoCapitalize="none"
               onSubmitEditing={() => this.pressed()}
-              onChangeText={q => this.filtrarQuinielas(q)}
+              onChangeText={q => this.filtrarJugadores(q)}
             />
+
             <View style={styles2.vire} />
           </View>
 
           <View style={styles.cuerpo}>
             <FlatList
-              data={this.state.filteredUsers}
+              data={this.props.jugadores}
+              keyExtractor={item => item.uid}
               renderItem={({ item }) => this.renderRow(item)}
+              onEndReached={this.handleLoadMore}
+              onEndReachedThershold={0}
+              ref={(ref) => {
+                this.listRef = ref;
+              }}
             />
           </View>
 
@@ -211,11 +273,25 @@ const styles2 = EStyleSheet.create({
   },
 });
 const mapStateToProps = (state) => {
-  const tt = _.map(state.quinielasadmin, (val, uid) => ({ ...val, uid }));
+  const tt = _.map(state.jugadoresadmin, (val, uid) => ({ ...val, uid }));
 
-  const quinielas = _.orderBy(tt, ['quinielaNombre'], ['asc']);
+  const jugadores = _.orderBy(tt, ['nombre'], ['asc']);
 
-  return { quinielas };
+  return {
+    jugadores,
+    ultima: state.jugadorlast.last,
+    llegoalfinal: state.jugadorlast.ultima,
+    reload: state.jugadorlast.reload,
+    mostrarMenus: state.jugadorlast.mostrarMenu,
+    buscarTexto: state.jugadorlast.buscar,
+  };
 };
 
-export default connect(mapStateToProps, { buscarQuinielasAdministradas })(DetalleQuinielaAdministrada);
+export default connect(mapStateToProps, {
+  buscarJugadoresAdministradas,
+  buscarJugadoresAdministradasT,
+  buscarJugadoresAdministradasMaxT,
+  buscarJugadoresAdministradasMax,
+  BuscarJugadorTexto,
+  reloadingJugadores,
+})(DetalleQuinielaAdministrada);

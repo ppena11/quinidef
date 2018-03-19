@@ -36,7 +36,7 @@ class TusQuinielas extends Component {
     navigate('UnirseAQuiniela');
   }
 
-  logout (navigate) {
+  logout(navigate) {
     firebase.auth().signOut();
   }
 
@@ -44,27 +44,29 @@ class TusQuinielas extends Component {
     navigate('QuinielasAdministradas');
   }
 
-  _renderItem = ({item}) => (<Qx quiniela={item}/>);
-  _keyExtractor = (item) => item.uid + item.nick;
+  _renderItem = ({ item }) => <Qx quiniela={item} />;
+  _keyExtractor = item => item.uid + item.nick;
 
   render() {
     const { navigate } = this.props.navigation;
-    if(this.DataSource.length == 0) console.log("No eres parte de ninguna quiniela");
+    // if(this.DataSource.length == 0) console.log("No eres parte de ninguna quiniela");
 
     return (
       <Container>
-        <StatusBar translucent={false} barStyle="light-content" backgroundColor={color.$statusBarBackgroundColor} />
+        <StatusBar
+          translucent={false}
+          barStyle="light-content"
+          backgroundColor={color.$statusBarBackgroundColor}
+        />
         <View style={styles.form}>
-          <BotonPrincipal onPress={() => this.logout(navigate)}>
-            Salir
-          </BotonPrincipal>
-          
+          <BotonPrincipal onPress={() => this.logout(navigate)}>Salir</BotonPrincipal>
+
           <View style={styles.titulo}>
             <Titulo>MIS QUINIELAS</Titulo>
           </View>
 
           <FlatList
-            data = {this.DataSource}
+            data={this.DataSource}
             renderItem={this._renderItem}
             keyExtractor={this._keyExtractor}
           />
@@ -73,9 +75,7 @@ class TusQuinielas extends Component {
             <BotonPrincipal onPress={() => this.unirseAQuiniela(navigate)}>
               Unirse a una Quiniela
             </BotonPrincipal>
-            <BotonPrincipal onPress={() => this.crear(navigate)}>
-              Crea tu Quiniela
-            </BotonPrincipal>
+            <BotonPrincipal onPress={() => this.crear(navigate)}>Crea tu Quiniela</BotonPrincipal>
           </View>
         </View>
       </Container>

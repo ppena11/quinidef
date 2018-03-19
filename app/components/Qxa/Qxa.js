@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
 import { Card } from '../Card';
@@ -26,13 +26,13 @@ class Qxa extends Component {
     return (
       <Card>
         <CardSection>
-          <View style={thumbnailContainerStyle}>
+          <TouchableOpacity onPress={() => this.onRowPress()} style={thumbnailContainerStyle}>
             <Image style={thumbnailStyle} source={require('../Logo/images/copa1.png')} />
-          </View>
-          <View style={headerContentStyle}>
+          </TouchableOpacity>
+          <TouchableOpacity style={headerContentStyle}>
             <Text style={headerTextStyle}>{quinielaNombre}</Text>
             <Text style={headerTextStyle2}>{torneo}</Text>
-          </View>
+          </TouchableOpacity>
         </CardSection>
       </Card>
     );
