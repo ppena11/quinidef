@@ -102,6 +102,7 @@ class DetalleQuinielaAdministrada extends Component {
         jugador={jugador}
         quiniela={this.props.navigation.state.params.quiniela.uid}
         quinielan={this.props.navigation.state.params.quiniela.quinielaNombre}
+        codigo={this.props.navigation.state.params.quiniela.codigo}
       />
     );
   }

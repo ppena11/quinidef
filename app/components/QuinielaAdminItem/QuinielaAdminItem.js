@@ -22,6 +22,7 @@ class QuinielaAdminItem extends Component {
       jugadores: this.props.jugadores,
       quiniela: this.props.quiniela,
       quinielan: this.props.quinielan,
+      codigo: this.props.codigo,
     });
   }
   componentWillMount() {

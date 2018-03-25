@@ -47,10 +47,23 @@ class EliminarApuesta extends Component {
       })),
       q: '',
       menu: 'yes',
+      inputfield: '',
+      warning: 'no',
     };
+
+    this.updateInputValue = this.updateInputValue.bind(this);
+    this.eliminarTest1 = this.eliminarTest1.bind(this);
   }
 
-  componentWillUnmount() {}
+  componentWillMount() {
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
+    this.keyboardWillHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
+  }
 
   keyboardWillShow = () => {
     this.setState({ menu: 'no' });
@@ -71,6 +84,29 @@ class EliminarApuesta extends Component {
     goBack();
   }
 
+  eliminarTest1(goBack) {
+    const {
+      jugador, quiniela, quinielan, jugadores, codigo,
+    } = this.props.navigation.state.params;
+    // console.log('TEST');
+    // navigate('CreaciondeQuiniela');
+
+    if (codigo == this.state.inputfield) {
+      this.props.eliminarJugador(jugador, quiniela, quinielan, jugadores);
+      goBack();
+    } else {
+      this.setState({ warning: 'yes' });
+    }
+  }
+
+  updateInputValue(t) {
+    // console.log('TEST');
+    // navigate('CreaciondeQuiniela');
+    this.setState({ inputfield: t });
+    this.setState({ warning: 'no' });
+    // console.log(`ttttttttttttttttttttttttttt : ${t}`);
+  }
+
   tusquinielas(goBack) {
     // console.log('TEST2');
     // this.props.reloadingJugadores();
@@ -81,21 +117,32 @@ class EliminarApuesta extends Component {
     Keyboard.dismiss();
   }
 
-  menustatus({ navigate, goBack }) {
+  menustatus(jugador) {
     if (this.state.menu === 'yes') {
-      return (
-        <View>
-          {/* <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal> */}
-          <BotonPrincipal onPress={() => this.eliminar(goBack)}>Eliminar jugador...</BotonPrincipal>
-          <BotonPrincipal onPress={() => this.tusquinielas(goBack)}>Cancelar</BotonPrincipal>
-        </View>
-      );
+      return <Titulo>Eliminar jugador</Titulo>;
+    }
+    return <View />;
+  }
+
+  warning() {
+    if (this.state.warning === 'yes') {
+      return <Text style={styles.warning}>El codigo no coincide {'\n'}</Text>;
+    }
+    return <Text />;
+  }
+
+  menustatus1(jugador) {
+    if (this.state.menu !== 'yes') {
+      return <Text style={styles.subtitulo1} />;
     }
     return <View />;
   }
 
   render() {
     const { navigate, goBack } = this.props.navigation;
+    const {
+      jugador, quiniela, quinielan, jugadores,
+    } = this.props.navigation.state.params;
 
     return (
       <Container>
@@ -106,18 +153,45 @@ class EliminarApuesta extends Component {
         />
         <View style={styles.form}>
           <View style={styles.titulo}>
-            <Titulo>{this.props.navigation.state.params.quinielan}</Titulo>
-            <Text style={styles.subtitulo}>Eliminar jugador de la quiniela {'\n'} </Text>
+            {this.menustatus(jugador.nombre)}
             <Text style={styles.subtitulo1}>
-              Introduce el codigo de activacion {'\n'}para eliminar este usuario {'\n'}
+              {this.warning()}
+              <Text>
+                Introduce el codigo de activacion para {'\n'} eliminar a{' '}
+                <Text style={styles.bold}>{jugador.nombre}</Text>
+              </Text>
             </Text>
+            <View style={styles2.conta}>
+              <View style={styles2.vire} />
+              <TextInput
+                style={styles.inputBox}
+                underlineColorAndroid={color.$underlineColorAndroid}
+                placeholder="Codigo"
+                placeholderTextColor={color.$placeholderTextColor}
+                selectionColor={color.$selectionColor}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                onSubmitEditing={() => this.eliminarTest1(goBack)}
+                onChangeText={t => this.updateInputValue(t)}
+                value={this.state.inputfield}
+              />
+              <View style={styles2.vire} />
+            </View>
             <Text style={styles.subtitulo1}>
-              Codigo de activacion: 1234 {'\n'}Jugador:{' '}
-              {this.props.navigation.state.params.jugador.nombre}
+              Codigo de activacion: {this.props.navigation.state.params.codigo}{' '}
             </Text>
+            {this.menustatus1(jugador.nombre)}
           </View>
 
-          <View style={styles.bottom}>{this.menustatus({ navigate, goBack })}</View>
+          <View style={styles.bottom}>
+            <View>
+              {/* <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal> */}
+              <BotonPrincipal onPress={() => this.eliminarTest1(goBack)}>
+                Eliminar jugador...
+              </BotonPrincipal>
+              <BotonPrincipal onPress={() => this.tusquinielas(goBack)}>Cancelar</BotonPrincipal>
+            </View>
+          </View>
         </View>
       </Container>
     );
@@ -130,6 +204,14 @@ const styles = EStyleSheet.create({
 
     justifyContent: 'space-between',
     flexDirection: 'column',
+  },
+  bold: {
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  warning: {
+    fontWeight: 'bold',
+    fontSize: 20,
   },
   subtitulo: {
     fontSize: 15,
@@ -145,7 +227,7 @@ const styles = EStyleSheet.create({
     textAlign: 'center',
   },
   titulo: {
-    padding: 0,
+    padding: 20,
     marginVertical: 0,
   },
   cuerpo: { flex: 1 },
