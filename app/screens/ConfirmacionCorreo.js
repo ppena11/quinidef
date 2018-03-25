@@ -23,13 +23,13 @@ class ConfirmacionCorreo extends Component {
 
           <TextIndication description="Revisa tu correo electrónico y sigue las intrucciones para reiniciar tu contraseña" />
           <View style={styles.containerb}>
-            <TouchableOpacity style={styles.button} onPress={() => navigate('Home')}>
+            <TouchableOpacity style={styles.button} onPress={() => navigate('Login')}>
               <Text style={styles.buttonText}>Aceptar</Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.signupTextCont}>
-            <TouchableOpacity onPress={() => navigate('Home')}>
+            <TouchableOpacity onPress={() => navigate('Login')}>
               <Text style={styles.signupButton}>Entrar</Text>
             </TouchableOpacity>
           </View>
