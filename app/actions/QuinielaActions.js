@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import _ from 'lodash';
+import { generarCodigo } from '../comun/helper';
 import {
   QUINIELA_UPDATE,
   BUSCAR_QUINIELAS_EXITO,
@@ -21,6 +22,7 @@ import {
   OCULTAR_ULTIMA_QUINIELA_ADMIN,
   CAMBIAR_ID_TORNEO,
   ID_TORNEO_CAMBIO,
+  ACTUALIZAR_CODIGO_QUINIELA,
 } from './types';
 
 export const QuinielaUpdate = ({ prop, value }) => ({
@@ -299,7 +301,9 @@ export const idTorneoCambio = text => ({
   payload: text,
 });
 
-export const crearQuiniela = ({ quinielaNombre, torneo, torneoid }) => (dispatch) => {
+export const crearQuiniela = ({
+  quinielaNombre, torneo, torneoid, codigoq,
+}) => (dispatch) => {
   const { currentUser } = firebase.auth();
 
   // Get a key for a new Post.
@@ -311,6 +315,7 @@ export const crearQuiniela = ({ quinielaNombre, torneo, torneoid }) => (dispatch
 
   const adminr = currentUser.uid + newPostKey;
   const quinielaNombrer = quinielaNombre + newPostKey;
+  const quinielaID = newPostKey;
   const postData = {
     quinielaNombre,
     torneo,
@@ -318,22 +323,85 @@ export const crearQuiniela = ({ quinielaNombre, torneo, torneoid }) => (dispatch
     admin: currentUser.uid,
     adminr,
     quinielaNombrer,
+    codigoq,
+    quinielaID,
   };
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
+
   updates[`/users/${currentUser.uid}/quinielasadministradas/${newPostKey}`] = postData;
   updates[`/quinielas/${newPostKey}`] = postData;
+  updates[`/quinielas/codigos/${codigoq}`] = postData;
 
   return firebase
     .database()
     .ref()
     .update(updates)
     .then((snap) => {
+      asignarCodigoQuiniela(codigoq, newPostKey);
+    })
+    .catch(error => crearQuinielaError(dispatch, error));
+};
+
+export const asignarCodigoQuiniela = ({ codigoq, newPostKey }) => (dispatch) => {
+  const postData1 = {
+    [codigoq]: newPostKey,
+  };
+  console.log('QUE VAINA TAN DE PiNGA');
+  // Write the new post's data simultaneously in the posts list and the user's post list.
+
+  const updates1 = {};
+
+  updates1['/quinielas/codigos'] = postData1;
+
+  return firebase
+    .database()
+    .ref()
+    .update(updates1)
+    .then((snap) => {
       crearQuinielaExito(dispatch);
     })
     .catch(error => crearQuinielaError(dispatch, error));
 };
+
+export const crearCodigoQuiniela = codigo => dispatch =>
+  firebase
+    .database()
+    .ref(`/quinielas/codigos/${codigo}`)
+    .transaction(
+      (currentData) => {
+        const test = {
+          1234: 32323,
+          4321: 34234234,
+          5345: 345345345,
+          5453: 53453453,
+        };
+
+        if (currentData === null) {
+          return codigo;
+        }
+        return null;
+      },
+
+      // Abort the transaction.
+      (error, committed, snapshot) => {
+        if (error) {
+          //  console.log('Transaction failed abnormally!', error);
+        } else if (!committed) {
+          // console.log('We aborted the transaction (because ada already exists).');
+          // const codigoNew = generarCodigo();
+          // crearCodigoQuiniela(codigoNew);
+        } else {
+          // console.log('User ada added!');
+        }
+        // console.log("Ada's data: ", snapshot.val());
+        dispatch({
+          type: ACTUALIZAR_CODIGO_QUINIELA,
+          payload: codigo,
+        });
+      },
+    );
 
 const crearQuinielaExito = (dispatch) => {
   // dispatch({ type: GO_TO_ADMINISTRADAS });

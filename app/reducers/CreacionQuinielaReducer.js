@@ -3,6 +3,7 @@ import {
   NOMBRE_TORNEO_CAMBIO,
   CREATE_QUINIELA_FAIL,
   ID_TORNEO_CAMBIO,
+  ACTUALIZAR_CODIGO_QUINIELA,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -10,6 +11,7 @@ const INITIAL_STATE = {
   torneo: 'Rusia 2018',
   error: '',
   torneoid: '',
+  codigo: '',
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -22,6 +24,9 @@ export default (state = INITIAL_STATE, action) => {
 
     case ID_TORNEO_CAMBIO:
       return { ...state, torneoid: action.payload };
+
+    case ACTUALIZAR_CODIGO_QUINIELA:
+      return { ...state, codigo: action.payload };
 
     case CREATE_QUINIELA_FAIL:
       return { ...state, error: 'Revisa tu conexion a Internet' };

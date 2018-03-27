@@ -12,12 +12,14 @@ import {
   idTorneoCambio,
   reloadedQuinielasAdmin,
   reloadingQuinielas,
+  crearCodigoQuiniela,
 } from '../actions';
 import { Container } from '../components/Container';
 import { BotonPrincipal } from '../components/BotonPrincipal';
 import { Titulo } from '../components/Titulo';
 import { TorneoItem } from '../components/TorneoItem';
 import color from '../comun/colors';
+import { generarCodigo } from '../comun/helper';
 
 class TusQuinielas extends Component {
   static navigationOptions = {
@@ -39,6 +41,7 @@ class TusQuinielas extends Component {
   componentWillReceiveProps(nextProps) {
     // nextPropos are the next set of props that this componnet will receive
     // this.props is still the old set of props
+
     this.createDataSource(nextProps);
     Object.keys(nextProps.torneos).map((key) => {
       if (nextProps.torneos[key].info.selected == true) {
@@ -62,10 +65,35 @@ class TusQuinielas extends Component {
 
   crear(goBack) {
     Keyboard.dismiss();
+    const codigo = generarCodigo();
     this.props.reloadingQuinielas();
 
     const { quinielaNombre, torneo, torneoid } = this.props;
-    this.props.crearQuiniela({ quinielaNombre, torneo, torneoid });
+
+    // const code = this.props.crearCodigoQuiniela(codigo);
+    const link = this.props.crearCodigoQuiniela;
+    const link2 = this.props.crearQuiniela;
+
+    async function run(codigos, links, link21, quinielaNombre, torneo, torneoid) {
+      const code = await links(codigos);
+      // const link4 = link3.codigo;
+      // console.log(link4);
+      const items = code.snapshot.toJSON();
+      //  codigoq = items[Object.keys(items)[Object.keys(items).length - 1]];
+
+      if (items) {
+        const codigoq = items;
+
+        link21({
+          quinielaNombre,
+          torneo,
+          torneoid,
+          codigoq,
+        });
+      }
+    }
+    run(codigo, link, link2, quinielaNombre, torneo, torneoid);
+
     goBack();
   }
 
@@ -103,6 +131,7 @@ class TusQuinielas extends Component {
     // Object.keys(this.props.torneos).map(key => console.log(this.props.torneos[key].info.nombre)); // if you have a bunch of keys value pair
 
     const { navigate, goBack } = this.props.navigation;
+
     return (
       <Container>
         <StatusBar
@@ -231,6 +260,7 @@ const mapStateToProps = (state) => {
     quinielaNombre: state.creacionquinielas.nombreQuiniela,
     torneo: state.creacionquinielas.torneo,
     torneoid: state.creacionquinielas.torneoid,
+    codigo: state.creacionquinielas.codigo,
     error: state.creacionquinielas.error,
     selected: state.selected,
   };
@@ -244,4 +274,5 @@ export default connect(mapStateToProps, {
   crearQuiniela,
   reloadedQuinielasAdmin,
   reloadingQuinielas,
+  crearCodigoQuiniela,
 })(TusQuinielas);
