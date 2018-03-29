@@ -7,6 +7,7 @@ import TorneosReducer from './TorneosReducer';
 import QuinielaUltimaReducer from './QuinielaUltimaReducer';
 import JugadorUltimoReducer from './JugadorUltimoReducer';
 import JugadoresAdminReducer from './JugadoresAdminReducer';
+import CodigosReducer from './CodigosReducer';
 // import nav from './nav';
 import NavigationReducer from './NavigationReducer';
 
@@ -20,4 +21,5 @@ export default combineReducers({
   quinielalast: QuinielaUltimaReducer,
   jugadorlast: JugadorUltimoReducer,
   jugadoresadmin: JugadoresAdminReducer,
+  codigos: CodigosReducer,
 });

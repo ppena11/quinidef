@@ -316,6 +316,7 @@ export const crearQuiniela = ({
   const adminr = currentUser.uid + newPostKey;
   const quinielaNombrer = quinielaNombre + newPostKey;
   const quinielaID = newPostKey;
+  const recibirAbonados = true;
   const postData = {
     quinielaNombre,
     torneo,
@@ -326,13 +327,17 @@ export const crearQuiniela = ({
     codigoq,
     quinielaID,
   };
+  const postData1 = {
+    recibirAbonados,
+    quinielaID,
+  };
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
 
   updates[`/users/${currentUser.uid}/quinielasadministradas/${newPostKey}`] = postData;
   updates[`/quinielas/${newPostKey}`] = postData;
-  updates[`/quinielas/codigos/${codigoq}`] = postData;
+  updates[`/quinielas/codigos/${codigoq}`] = postData1;
 
   return firebase
     .database()
@@ -344,11 +349,41 @@ export const crearQuiniela = ({
     .catch(error => crearQuinielaError(dispatch, error));
 };
 
+export const agregarJugador = quiniela => (dispatch) => {
+  const { currentUser } = firebase.auth();
+
+  const newPostKey = firebase
+    .database()
+    .ref()
+    .child('posts')
+    .push().key;
+
+  const postData = {
+    puntos: 0,
+    activo: false,
+    jid: currentUser.uid,
+    nombre: 'Pedro Pablo',
+  };
+
+  // Write the new post's data simultaneously in the posts list and the user's post list.
+  const updates = {};
+  updates[`/quinielas/${quiniela}/clasificacion/${newPostKey}`] = postData;
+
+  return firebase
+    .database()
+    .ref()
+    .update(updates)
+    .then((snap) => {
+      // asignarCodigoQuiniela(codigoq, newPostKey);
+    })
+    .catch(error => crearQuinielaError(dispatch, error));
+};
+
 export const asignarCodigoQuiniela = ({ codigoq, newPostKey }) => (dispatch) => {
   const postData1 = {
     [codigoq]: newPostKey,
   };
-  console.log('QUE VAINA TAN DE PiNGA');
+
   // Write the new post's data simultaneously in the posts list and the user's post list.
 
   const updates1 = {};
@@ -365,10 +400,12 @@ export const asignarCodigoQuiniela = ({ codigoq, newPostKey }) => (dispatch) => 
     .catch(error => crearQuinielaError(dispatch, error));
 };
 
-export const crearCodigoQuiniela = codigo => dispatch =>
-  firebase
+export const crearCodigoQuiniela = codigo => (dispatch) => {
+  const codigoNew = generarCodigo();
+
+  return firebase
     .database()
-    .ref(`/quinielas/codigos/${codigo}`)
+    .ref(`/quinielas/codigos/${codigoNew}`)
     .transaction(
       (currentData) => {
         const test = {
@@ -379,29 +416,27 @@ export const crearCodigoQuiniela = codigo => dispatch =>
         };
 
         if (currentData === null) {
-          return codigo;
+          return codigoNew;
         }
-        return null;
       },
 
       // Abort the transaction.
       (error, committed, snapshot) => {
         if (error) {
-          //  console.log('Transaction failed abnormally!', error);
+          console.log('Transaction failed abnormally!', error);
         } else if (!committed) {
-          // console.log('We aborted the transaction (because ada already exists).');
-          // const codigoNew = generarCodigo();
-          // crearCodigoQuiniela(codigoNew);
+          console.log('We aborted the transaction (because ada already exists).');
         } else {
-          // console.log('User ada added!');
+          console.log('User ada added!');
         }
-        // console.log("Ada's data: ", snapshot.val());
         dispatch({
           type: ACTUALIZAR_CODIGO_QUINIELA,
-          payload: codigo,
+          payload: codigoNew,
         });
+        // console.log("Ada's data: ", snapshot.val());
       },
     );
+};
 
 const crearQuinielaExito = (dispatch) => {
   // dispatch({ type: GO_TO_ADMINISTRADAS });

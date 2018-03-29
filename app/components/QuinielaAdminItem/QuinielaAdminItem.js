@@ -41,7 +41,7 @@ class QuinielaAdminItem extends Component {
 
   pressed(e) {
     const {
-      activo, puntos, nombre, uid,
+      activo, puntos, nombre, uid, jid,
     } = this.props.jugador;
     this.props.cambiarEstatusQuiniela(this.props.jugador, this.props.quiniela, e);
 

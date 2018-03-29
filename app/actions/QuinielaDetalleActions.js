@@ -184,6 +184,7 @@ export const cambiarEstatusQuiniela = (apuesta, quiniela, status) => (dispatch) 
     activo: apuesta.activo,
     nombre: apuesta.nombre,
     puntos: apuesta.puntos,
+    jid: apuesta.jid,
   };
 
   // Write the new post's data simultaneously in the posts list and the user's post list.

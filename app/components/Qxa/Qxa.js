@@ -15,7 +15,8 @@ class Qxa extends Component {
   }
 
   render() {
-    const { quinielaNombre, torneo } = this.props.quiniela;
+    const { quinielaNombre, torneo, codigoq } = this.props.quiniela;
+
     const {
       headerContentStyle,
       headerTextStyle,
@@ -30,7 +31,9 @@ class Qxa extends Component {
             <Image style={thumbnailStyle} source={require('../Logo/images/copa1.png')} />
           </TouchableOpacity>
           <TouchableOpacity style={headerContentStyle}>
-            <Text style={headerTextStyle}>{quinielaNombre}</Text>
+            <Text style={headerTextStyle}>
+              {quinielaNombre} - Código: {codigoq}
+            </Text>
             <Text style={headerTextStyle2}>{torneo}</Text>
           </TouchableOpacity>
         </CardSection>

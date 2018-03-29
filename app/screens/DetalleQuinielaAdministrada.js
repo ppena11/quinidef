@@ -102,7 +102,7 @@ class DetalleQuinielaAdministrada extends Component {
         jugador={jugador}
         quiniela={this.props.navigation.state.params.quiniela.uid}
         quinielan={this.props.navigation.state.params.quiniela.quinielaNombre}
-        codigo={this.props.navigation.state.params.quiniela.codigo}
+        codigo={this.props.navigation.state.params.quiniela.codigoq}
       />
     );
   }
@@ -187,7 +187,10 @@ class DetalleQuinielaAdministrada extends Component {
         />
         <View style={styles.form}>
           <View style={styles.titulo}>
-            <Titulo>{this.props.navigation.state.params.quiniela.quinielaNombre}</Titulo>
+            <Titulo>
+              {this.props.navigation.state.params.quiniela.quinielaNombre} -{' '}
+              {this.props.navigation.state.params.quiniela.codigoq}
+            </Titulo>
           </View>
           <View style={styles2.conta}>
             <View style={styles2.vire} />

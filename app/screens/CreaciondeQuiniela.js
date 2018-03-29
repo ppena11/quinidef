@@ -49,7 +49,7 @@ class TusQuinielas extends Component {
 
         if (this.props.torneo == 'Rusia 2018') {
           this.registrart(nextProps.torneos[key].info.nombre);
-          this.registrart(nextProps.torneos[key].uid);
+          this.registrartID(nextProps.torneos[key].uid);
         }
       }
     });
@@ -76,12 +76,14 @@ class TusQuinielas extends Component {
 
     async function run(codigos, links, link21, quinielaNombre, torneo, torneoid) {
       const code = await links(codigos);
+      const newCodigo = generarCodigo();
       // const link4 = link3.codigo;
       // console.log(link4);
       const items = code.snapshot.toJSON();
+      console.log(typeof items);
       //  codigoq = items[Object.keys(items)[Object.keys(items).length - 1]];
 
-      if (items) {
+      if (typeof items !== 'object') {
         const codigoq = items;
 
         link21({
@@ -90,6 +92,10 @@ class TusQuinielas extends Component {
           torneoid,
           codigoq,
         });
+      } else {
+        console.log(newCodigo);
+        codigos = newCodigo;
+        run(newCodigo, links, link21, quinielaNombre, torneo, torneoid);
       }
     }
     run(codigo, link, link2, quinielaNombre, torneo, torneoid);
