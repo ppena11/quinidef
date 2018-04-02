@@ -1,12 +1,19 @@
-import { manejarError, defaultplaceholder, defaultplaceholderc } from '../comun/helper';
+import {
+  manejarError,
+  defaultplaceholder,
+  defaultplaceholderc,
+  defaultplaceholdern,
+} from '../comun/helper';
 
 import {
   EMAIL_CHANGED,
+  NOMBRE_CHANGED,
   PASSWORD_CHANGED,
   LOGIN_USER,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   CREATE_USER_FAIL,
+  CREATE_USER_FAILED,
   EMAIL_ENVIADO,
   GO_TO_HOME,
   EXIT_SUCCESS,
@@ -17,10 +24,12 @@ import {
 
 const INITIAL_STATE = {
   email: '',
+  nombre: '',
   password: '',
   user: '',
   error: '',
   placeholder: defaultplaceholder,
+  placeholdern: defaultplaceholdern,
   placeholderc: defaultplaceholderc,
   authenticating: false,
   init: true,
@@ -30,6 +39,9 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case EMAIL_CHANGED:
       return { ...state, email: action.payload };
+
+    case NOMBRE_CHANGED:
+      return { ...state, nombre: action.payload };
 
     case PASSWORD_CHANGED:
       return { ...state, password: action.payload };
@@ -50,7 +62,6 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         ...INITIAL_STATE,
-        user: action.payload,
       };
 
     case LOGIN_USER:
@@ -88,6 +99,9 @@ export default (state = INITIAL_STATE, action) => {
 
     case CREATE_USER_FAIL:
       return { ...state, ...manejarError(action.payload.code) };
+
+    case CREATE_USER_FAILED:
+      return { ...state, ...manejarError(action.payload) };
 
     default:
       return state;

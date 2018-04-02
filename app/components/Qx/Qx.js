@@ -11,7 +11,9 @@ class Qx extends Component {
   }
 
   render() {
-    const { uid, nick, status } = this.props.quiniela;
+    const {
+      uid, nombreapuesta, activo, torneo, quinielaNombre,
+    } = this.props.quiniela;
     const {
       headerContentStyle,
       headerTextStyle,
@@ -21,18 +23,20 @@ class Qx extends Component {
     } = styles;
 
     return (
-      <TouchableOpacity onPress={() => this.touch(uid + " - " + nick)}>
-      <Card>
-        <CardSection>
-          <View style={thumbnailContainerStyle}>
-            <Image style={thumbnailStyle} source={require('../Logo/images/copa1.png')} />
-          </View>
-          <View style={headerContentStyle}>
-            <Text style={headerTextStyle}>{uid}</Text>
-            <Text style={headerTextStyle2}>{nick} - {status?"Activado":"No Activado"}</Text>
-          </View>
-        </CardSection>
-      </Card>
+      <TouchableOpacity onPress={() => this.touch(`${torneo} - ${nombreapuesta}`)}>
+        <Card>
+          <CardSection>
+            <View style={thumbnailContainerStyle}>
+              <Image style={thumbnailStyle} source={require('../Logo/images/copa1.png')} />
+            </View>
+            <View style={headerContentStyle}>
+              <Text style={headerTextStyle}>{nombreapuesta}</Text>
+              <Text style={headerTextStyle2}>
+                {torneo} - {quinielaNombre} - {activo ? 'Activado' : 'No Activado'}
+              </Text>
+            </View>
+          </CardSection>
+        </Card>
       </TouchableOpacity>
     );
   }

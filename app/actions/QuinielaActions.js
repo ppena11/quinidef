@@ -42,7 +42,7 @@ export const buscarQuinielas = () => {
     firebase
       .database()
       .ref(`/users/${currentUser.uid}/quinielas`)
-      .on('value', (snapshot) => {
+      .once('value', (snapshot) => {
         dispatch({ type: BUSCAR_QUINIELAS_EXITO, payload: snapshot.val() });
       });
   };
@@ -60,7 +60,7 @@ export const buscarQuinielasAdministradasT = (queryText) => {
       .startAt(queryText)
       .endAt(`${queryText}\uf8ff`)
 
-      .on('value', (snapshot) => {
+      .once('value', (snapshot) => {
         if (snapshot.exists()) {
           const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
           const dd = tt;
@@ -336,7 +336,7 @@ export const crearQuiniela = ({
   const updates = {};
 
   updates[`/users/${currentUser.uid}/quinielasadministradas/${newPostKey}`] = postData;
-  updates[`/quinielas/${newPostKey}`] = postData;
+  updates[`/quinielas/${newPostKey}/info`] = postData;
   updates[`/quinielas/codigos/${codigoq}`] = postData1;
 
   return firebase
@@ -349,7 +349,13 @@ export const crearQuiniela = ({
     .catch(error => crearQuinielaError(dispatch, error));
 };
 
-export const agregarJugador = quiniela => (dispatch) => {
+export const agregarJugador = (
+  quiniela,
+  nombreapuesta,
+  torneo,
+  torneoid,
+  quinielaNombre,
+) => (dispatch) => {
   const { currentUser } = firebase.auth();
 
   const newPostKey = firebase
@@ -362,12 +368,28 @@ export const agregarJugador = quiniela => (dispatch) => {
     puntos: 0,
     activo: false,
     jid: currentUser.uid,
-    nombre: 'Pedro Pablo',
+    nombreapuesta,
+    torneo,
+    torneoid,
+    quinielaNombre,
+    quiniela,
+  };
+
+  const postData1 = {
+    puntos: 0,
+    activo: false,
+    jid: currentUser.uid,
+    nombre: nombreapuesta,
+    torneo,
+    torneoid,
+    quinielaNombre,
+    quiniela,
   };
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
-  updates[`/quinielas/${quiniela}/clasificacion/${newPostKey}`] = postData;
+  updates[`/quinielas/${quiniela}/clasificacion/${newPostKey}`] = postData1;
+  updates[`/users/${currentUser.uid}/quinielas/${newPostKey}`] = postData;
 
   return firebase
     .database()
@@ -445,3 +467,23 @@ const crearQuinielaExito = (dispatch) => {
 const crearQuinielaError = (dispatch, error) => {
   dispatch({ type: CREATE_QUINIELA_FAIL, payload: error });
 };
+
+export const buscarQuiniela = quiniela => dispatch =>
+  firebase
+    .database()
+    .ref(`/quinielas/${quiniela}/info`)
+    .once('value', (snapshot) => {
+      dispatch({
+        type: ULTIMA_QUINIELA_LLEGO_NO,
+      });
+    });
+
+export const buscarAdmin = uid => dispatch =>
+  firebase
+    .database()
+    .ref(`/users/${uid}/info`)
+    .once('value', (snapshot) => {
+      dispatch({
+        type: ULTIMA_QUINIELA_LLEGO_NO,
+      });
+    });

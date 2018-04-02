@@ -1,5 +1,6 @@
 export const defaultplaceholder = 'Correo electrónico...';
 export const defaultplaceholderc = 'Contraseña...';
+export const defaultplaceholdern = 'Nombre...';
 
 export function manejarError(errorCode) {
   switch (errorCode) {
@@ -21,6 +22,13 @@ export function manejarError(errorCode) {
         authenticating: false,
         placeholder: defaultplaceholder,
         error: 'Correo electrónico inválido',
+      };
+      break;
+    case 'auth/invalid-name':
+      return {
+        placeholdern: defaultplaceholdern,
+        authenticating: false,
+        error: 'Nombre inválido',
       };
       break;
     case 'auth/user-not-found':

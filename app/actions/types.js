@@ -1,10 +1,12 @@
 export const EMAIL_CHANGED = 'email_changed';
+export const NOMBRE_CHANGED = 'NOMBRE_changed';
 export const PASSWORD_CHANGED = 'password_changed';
 export const LOGIN_USER_SUCCESS = 'login_user_success';
 export const LOGIN_USER_FAIL = 'login_user_fail';
 export const LOGIN_USER = 'login_user';
 export const LOGIN_LIMPIAR_FORMULARIO = 'login_limpiar_formulario';
 export const CREATE_USER_FAIL = 'create_user_fail';
+export const CREATE_USER_FAILED = 'CREATE_USER_FAILED';
 export const GO_TO_MAIN = 'go_to_main';
 export const GO_TO_EMAIL_CONFIRMATION = 'go_to_email_confirmation';
 export const EMAIL_ENVIADO = 'email_enviado';

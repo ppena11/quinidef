@@ -147,7 +147,7 @@ class QuinielasAdministradas extends Component {
     if (this.props.mostrarMenus === 'yes') {
       return (
         <View>
-          <BotonPrincipal onPress={() => this.crear(navigate)}>Crear Quiniela</BotonPrincipal>
+          <BotonPrincipal onPress={() => this.crear(navigate)}>Organizar Quiniela</BotonPrincipal>
           <BotonPrincipal onPress={() => this.tusquinielas(goBack)}>Tus Quinielas</BotonPrincipal>
         </View>
       );
@@ -157,6 +157,7 @@ class QuinielasAdministradas extends Component {
 
   render() {
     const { navigate, goBack } = this.props.navigation;
+    console.log('PORQUE ENTRA AQUI QUINIELAS ADMINISTRADAS???');
 
     // this.props.ultimaQuinielasAdministrada('2342354345');
     // console.log(`EPALE.... ${this.props.ultima}`);

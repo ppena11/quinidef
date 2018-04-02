@@ -6,6 +6,7 @@ import firebase from 'firebase';
 
 import { Container } from '../components/Container';
 import { Spinner } from '../components/Spinner';
+import { buscarQuinielas, buscarQuinielasAdministradas } from '../actions';
 
 class CargandoHome extends Component {
   static navigationOptions = {
@@ -14,9 +15,9 @@ class CargandoHome extends Component {
 
   componentDidMount() {
     const { navigate } = this.props.navigation;
-    //BackHandler.addEventListener('hardwareBackPress', () => this.props.navigation.goBack());
+    // BackHandler.addEventListener('hardwareBackPress', () => this.props.navigation.goBack());
 
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         navigate('TusQuinielas');
       } else {
@@ -34,7 +35,7 @@ class CargandoHome extends Component {
         <View style={styles.viewStyle}>
           <Spinner size="large" />
         </View>
-        <View style={styles.viewStyle}/>
+        <View style={styles.viewStyle} />
       </Container>
     );
   }
@@ -59,7 +60,7 @@ const styles = EStyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   error: state.auth.error,
 });
 

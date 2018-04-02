@@ -6,6 +6,7 @@ import {
   EXIT_SUCCESS,
   CREATE_USER_SUCCESS,
   CREATE_USER_FAIL,
+  CREATE_USER_FAILED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGIN_USER,
@@ -17,11 +18,22 @@ import {
   GO_TO_LOGOUT,
   LOGIN_USER1,
   LOGGED_USER1,
+  NOMBRE_CHANGED,
 } from './types';
 
 export const emailChanged = text => ({
   type: EMAIL_CHANGED,
   payload: text,
+});
+
+export const nombreChanged = text => ({
+  type: NOMBRE_CHANGED,
+  payload: text,
+});
+
+export const createUserFaileded = () => ({
+  type: CREATE_USER_FAILED,
+  payload: 'auth/invalid-name',
 });
 
 export const passwordChanged = text => ({
@@ -69,13 +81,13 @@ export const loginUser = ({ email, password }) => (dispatch) => {
     .catch(error => loginUserFail(dispatch, error));
 };
 
-export const createUser = ({ email, password }) => (dispatch) => {
+export const createUser = ({ email, password, nombre }) => (dispatch) => {
   dispatch({ type: LOGIN_USER });
   firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
     .then((user) => {
-      createUserSuccess(dispatch, user);
+      createUserSuccess(dispatch, user, nombre);
     })
     .catch(error => loginUserFail(dispatch, error));
 };
@@ -104,9 +116,23 @@ const loginUserSuccess = (dispatch, user) => {
   dispatch({ type: GO_TO_MAIN });
 };
 
-const createUserSuccess = (dispatch, user) => {
-  dispatch({ type: LOGIN_USER_SUCCESS, payload: user });
-  dispatch({ type: GO_TO_MAIN });
+const createUserSuccess = (dispatch, user, nombre) => {
+  const { currentUser } = firebase.auth();
+  const postData1 = { nombre, user: currentUser.uid, email: currentUser.email };
+  console.log(`NOMBRE ${nombre}`);
+  console.log(`UID ${currentUser.uid}`);
+  const updates1 = {};
+
+  updates1[`/users/${currentUser.uid}/info`] = postData1;
+  firebase
+    .database()
+    .ref()
+    .update(updates1)
+    .then((snap) => {
+      dispatch({ type: LOGIN_USER_SUCCESS });
+      dispatch({ type: GO_TO_MAIN });
+    })
+    .catch(error => loginUserFail(dispatch, error));
 };
 
 const salidaSuccess = (dispatch) => {

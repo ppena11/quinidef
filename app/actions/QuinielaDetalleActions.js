@@ -105,7 +105,7 @@ export const buscarJugadoresAdministradasT = (queryText, quiniela) => (dispatch)
     .startAt(queryText)
     .endAt(`${queryText}\uf8ff`)
 
-    .on('value', (snapshot) => {
+    .once('value', (snapshot) => {
       if (snapshot.exists()) {
         const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
         const dd = tt;
@@ -185,10 +185,24 @@ export const cambiarEstatusQuiniela = (apuesta, quiniela, status) => (dispatch) 
     nombre: apuesta.nombre,
     puntos: apuesta.puntos,
     jid: apuesta.jid,
+    quinielaNombre: apuesta.quinielaNombre,
+    torneo: apuesta.torneo,
+    torneoid: apuesta.torneoid,
+  };
+
+  const postData1 = {
+    activo: apuesta.activo,
+    nombreapuesta: apuesta.nombre,
+    puntos: apuesta.puntos,
+    jid: apuesta.jid,
+    quinielaNombre: apuesta.quinielaNombre,
+    torneo: apuesta.torneo,
+    torneoid: apuesta.torneoid,
   };
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
+  updates[`users/${apuesta.jid}/quinielas/${apuesta.uid}`] = postData1;
   updates[`/quinielas/${quiniela}/clasificacion/${apuesta.uid}`] = postData;
 
   return firebase

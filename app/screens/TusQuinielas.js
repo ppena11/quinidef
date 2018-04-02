@@ -18,54 +18,38 @@ class TusQuinielas extends Component {
   };
 
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', () => this.props.navigation.goBack())
-  }
-
-  componentWillMount() {
     this.props.buscarQuinielas();
-    this.createDataSource(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // nextPropos are the next set of props that this componnet will receive
-    // this.props is still the old set of props
-    this.createDataSource(nextProps);
-  }
-
-  createDataSource({ quinielas }) {
-    this.DataSource = _.values(quinielas);
+    BackHandler.addEventListener('hardwareBackPress', () => this.props.navigation.goBack());
   }
 
   unirseAQuiniela(navigate) {
     navigate('UnirseAQuiniela');
   }
 
-
-  logout2 (navigate) {
-
+  logout2(navigate) {
     firebase.auth().signOut();
     navigate('CargandoHome');
-}
+  }
 
   logout = async (navigate) => {
     try {
-        await firebase.auth().signOut();
-        navigate('CargandoHome');
+      await firebase.auth().signOut();
+      navigate('CargandoHome');
     } catch (e) {
-        console.error(e);
+      console.error(e);
     }
-  }
+  };
 
   crear(navigate) {
     navigate('QuinielasAdministradas');
   }
 
   _renderItem = ({ item }) => <Qx quiniela={item} />;
-  _keyExtractor = item => item.uid + item.nick;
+  _keyExtractor = item => item.uid + item.nombreapuesta;
 
   render() {
     const { navigate } = this.props.navigation;
-
+    console.log('PORQUE ENTRA AQUI TUS QUINIELAS???');
 
     return (
       <Container>
@@ -75,29 +59,29 @@ class TusQuinielas extends Component {
           backgroundColor={color.$statusBarBackgroundColor}
         />
         <View style={styles.form}>
-
-          <BotonPrincipal onPress={() => this.logout2(navigate)}>
-            Salir
-          </BotonPrincipal>
-          
+          <BotonPrincipal onPress={() => this.logout2(navigate)}>Salir</BotonPrincipal>
 
           <View style={styles.titulo}>
             <Titulo>MIS QUINIELAS</Titulo>
           </View>
 
-          {(this.DataSource.length > 0)?
-          <FlatList
-            data={this.DataSource}
-            renderItem={this._renderItem}
-            keyExtractor={this._keyExtractor}
-          />
-          :<Text>No eres parte de ninguna quiniela</Text>}
+          {this.props.quinielas.length > 0 ? (
+            <FlatList
+              data={this.props.quinielas}
+              renderItem={this._renderItem}
+              keyExtractor={this._keyExtractor}
+            />
+          ) : (
+            <Text>No eres parte de ninguna quiniela</Text>
+          )}
 
           <View style={styles.bottom}>
             <BotonPrincipal onPress={() => this.unirseAQuiniela(navigate)}>
               Unirse a una Quiniela
             </BotonPrincipal>
-            <BotonPrincipal onPress={() => this.crear(navigate)}>Crea tu Quiniela</BotonPrincipal>
+            <BotonPrincipal onPress={() => this.crear(navigate)}>
+              Organiza una Quiniela
+            </BotonPrincipal>
           </View>
         </View>
       </Container>

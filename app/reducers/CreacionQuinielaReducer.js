@@ -4,6 +4,7 @@ import {
   CREATE_QUINIELA_FAIL,
   ID_TORNEO_CAMBIO,
   ACTUALIZAR_CODIGO_QUINIELA,
+  RELOADING,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -18,6 +19,9 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case NOMBRE_QUINIELA_CAMBIO:
       return { ...state, nombreQuiniela: action.payload };
+
+    case RELOADING:
+      return { ...state, nombreQuiniela: '' };
 
     case NOMBRE_TORNEO_CAMBIO:
       return { ...state, torneo: action.payload };

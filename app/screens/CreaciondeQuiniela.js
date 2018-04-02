@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
-import { StatusBar, ListView, View, TextInput, Picker, Keyboard, Text } from 'react-native';
+import {
+  StatusBar,
+  ListView,
+  View,
+  TextInput,
+  Picker,
+  Keyboard,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -20,13 +29,22 @@ import { Titulo } from '../components/Titulo';
 import { TorneoItem } from '../components/TorneoItem';
 import color from '../comun/colors';
 import { generarCodigo } from '../comun/helper';
+import { Spinner } from '../components/Spinner';
 
 class TusQuinielas extends Component {
   static navigationOptions = {
     header: null,
   };
 
-  componentWillMount() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      validando: false,
+    };
+    this.run = this.run.bind(this);
+  }
+
+  componentDidMount() {
     this.props.buscarTorneos();
     this.createDataSource(this.props);
     Object.keys(this.props.torneos).map((key) => {
@@ -63,19 +81,10 @@ class TusQuinielas extends Component {
     this.dataSource = ds.cloneWithRows(torneos);
   }
 
-  crear(goBack) {
-    Keyboard.dismiss();
-    const codigo = generarCodigo();
-    this.props.reloadingQuinielas();
-
-    const { quinielaNombre, torneo, torneoid } = this.props;
-
-    // const code = this.props.crearCodigoQuiniela(codigo);
-    const link = this.props.crearCodigoQuiniela;
-    const link2 = this.props.crearQuiniela;
-
-    async function run(codigos, links, link21, quinielaNombre, torneo, torneoid) {
-      const code = await links(codigos);
+  run = async (goBack, codigo, quinielaNombre, torneo, torneoid) => {
+    try {
+      this.setState({ validando: true });
+      const code = await this.props.crearCodigoQuiniela(codigo);
       const newCodigo = generarCodigo();
       // const link4 = link3.codigo;
       // console.log(link4);
@@ -86,21 +95,40 @@ class TusQuinielas extends Component {
       if (typeof items !== 'object') {
         const codigoq = items;
 
-        link21({
+        this.props.crearQuiniela({
           quinielaNombre,
           torneo,
           torneoid,
           codigoq,
         });
+        this.props.reloadingQuinielas();
+        this.setState({ validando: false });
+        goBack();
       } else {
         console.log(newCodigo);
-        codigos = newCodigo;
-        run(newCodigo, links, link21, quinielaNombre, torneo, torneoid);
+        this.run(newCodigo, quinielaNombre, torneo, torneoid);
       }
+    } catch (e) {
+      this.setState({ validando: false });
+      console.log(e);
     }
-    run(codigo, link, link2, quinielaNombre, torneo, torneoid);
+  };
 
-    goBack();
+  crear(goBack) {
+    Keyboard.dismiss();
+    const codigo = generarCodigo();
+
+    const { quinielaNombre, torneo, torneoid } = this.props;
+
+    // const code = this.props.crearCodigoQuiniela(codigo);
+
+    console.log(`quinielaNombre.length ${quinielaNombre.length}`);
+    console.log(`quinielaNombre ${quinielaNombre}`);
+    if (quinielaNombre != '') {
+      this.run(goBack, codigo, quinielaNombre, torneo, torneoid);
+    } else {
+      goBack();
+    }
   }
 
   cancelar(goBack) {
@@ -131,6 +159,13 @@ class TusQuinielas extends Component {
     // <ScrollView style={styles.cuerpo}>
     // <ListView enableEmptySections dataSource={this.dataSource} renderRow={this.renderRow} />
     // </ScrollView>
+  }
+
+  status() {
+    if (this.state.validando) {
+      return <Spinner style={styles.buttonText} size="small" />;
+    }
+    return <Text style={styles.buttonText}>Crear....</Text>;
   }
 
   render() {
@@ -191,7 +226,13 @@ class TusQuinielas extends Component {
           </View>
           <View style={styles.bottom}>
             <Text>{this.props.error}</Text>
-            <BotonPrincipal onPress={() => this.crear(goBack)}>Crear</BotonPrincipal>
+            <View style={styles.conta}>
+              <View style={styles.vire} />
+              <TouchableOpacity style={styles.button} onPress={() => this.crear(goBack)}>
+                {this.status()}
+              </TouchableOpacity>
+              <View style={styles.vire} />
+            </View>
             <BotonPrincipal onPress={() => this.cancelar(goBack)}>Cancelar</BotonPrincipal>
           </View>
         </View>
@@ -206,6 +247,22 @@ const styles = EStyleSheet.create({
 
     justifyContent: 'space-between',
     flexDirection: 'column',
+  },
+  conta: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  button: {
+    flex: 8,
+    backgroundColor: color.$fondoBotonPrincipal,
+    borderRadius: 25,
+    marginVertical: 0,
+    paddingVertical: 11,
+  },
+  vire: {
+    flex: 0.5,
   },
   inputBox1: {
     flex: 8,
@@ -230,6 +287,12 @@ const styles = EStyleSheet.create({
   },
   bottom: {
     padding: 20,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: color.$formButtonTextColor,
+    textAlign: 'center',
   },
 });
 
