@@ -125,7 +125,7 @@ class TusQuinielas extends Component {
     console.log(`quinielaNombre.length ${quinielaNombre.length}`);
     console.log(`quinielaNombre ${quinielaNombre}`);
     if (quinielaNombre != '') {
-      this.run(goBack, codigo, quinielaNombre, torneo, torneoid);
+      this.run(goBack, codigo, quinielaNombre.toUpperCase(), torneo, torneoid);
     } else {
       goBack();
     }

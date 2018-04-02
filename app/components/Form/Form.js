@@ -40,6 +40,7 @@ class Form extends Component {
     const { email, password, nombre } = this.props;
 
     if (this.props.type === 'Entrar') {
+      console.log('AJAXSX');
       this.props.loginUser({ email, password });
     }
 

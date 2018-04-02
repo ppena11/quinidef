@@ -102,7 +102,7 @@ class EliminarApuesta extends Component {
   updateInputValue(t) {
     // console.log('TEST');
     // navigate('CreaciondeQuiniela');
-    this.setState({ inputfield: t });
+    this.setState({ inputfield: t.toUpperCase() });
     this.setState({ warning: 'no' });
     // console.log(`ttttttttttttttttttttttttttt : ${t}`);
   }

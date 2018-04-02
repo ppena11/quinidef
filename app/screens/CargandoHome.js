@@ -19,9 +19,12 @@ class CargandoHome extends Component {
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        console.log('WEPA');
+        console.log(user.uid);
         navigate('TusQuinielas');
       } else {
         navigate('Login');
+        console.log('BYEEEEEE');
       }
     });
   }

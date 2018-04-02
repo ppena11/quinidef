@@ -200,8 +200,7 @@ class DetalleQuinielaAdministrada extends Component {
               placeholder="Buscar usuario..."
               placeholderTextColor={color.$placeholderTextColor}
               selectionColor={color.$selectionColor}
-              keyboardType="email-address"
-              autoCapitalize="none"
+              autoCapitalize="characters"
               onSubmitEditing={() => this.pressed()}
               onChangeText={q => this.filtrarJugadores(q)}
             />

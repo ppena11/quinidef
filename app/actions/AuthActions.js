@@ -113,7 +113,7 @@ const createUserFail = (dispatch, error) => {
 
 const loginUserSuccess = (dispatch, user) => {
   dispatch({ type: LOGIN_USER_SUCCESS, payload: user });
-  dispatch({ type: GO_TO_MAIN });
+  // dispatch({ type: GO_TO_MAIN });
 };
 
 const createUserSuccess = (dispatch, user, nombre) => {
@@ -130,7 +130,7 @@ const createUserSuccess = (dispatch, user, nombre) => {
     .update(updates1)
     .then((snap) => {
       dispatch({ type: LOGIN_USER_SUCCESS });
-      dispatch({ type: GO_TO_MAIN });
+      //  dispatch({ type: GO_TO_MAIN });
     })
     .catch(error => loginUserFail(dispatch, error));
 };

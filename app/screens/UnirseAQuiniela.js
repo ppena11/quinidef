@@ -53,7 +53,7 @@ class UnirseAQuiniela extends Component {
 
   run = async (navigate) => {
     try {
-      const test = await this.props.buscarCodigos(this.state.inputfield.join(''));
+      const test = await this.props.buscarCodigos(this.state.inputfield.join('').toUpperCase());
 
       const items = test.toJSON();
 

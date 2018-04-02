@@ -49,7 +49,7 @@ class RegistrarQuiniela extends Component {
       } = this.props.navigation.state.params.quiniela;
       const test = await this.props.agregarJugador(
         quinielaID,
-        this.state.inputfield,
+        this.state.inputfield.toUpperCase(),
         torneo,
         torneoid,
         quinielaNombre,

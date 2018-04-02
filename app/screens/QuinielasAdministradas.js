@@ -184,8 +184,7 @@ class QuinielasAdministradas extends Component {
               placeholder="Buscar..."
               placeholderTextColor={color.$placeholderTextColor}
               selectionColor={color.$selectionColor}
-              keyboardType="email-address"
-              autoCapitalize="none"
+              autoCapitalize="characters"
               onSubmitEditing={() => this.pressed()}
               onChangeText={q => this.filtrarQuinielas(q)}
             />
