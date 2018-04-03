@@ -7,6 +7,7 @@ import {
   GO_TO_LOGOUT,
   GO_TO_LOG,
   GO_TO_ADMINISTRADAS,
+  GO_TO_SALIR,
 } from '../actions/types';
 
 const initialState = RootNavigator.router.getStateForAction(NavigationActions.init());
@@ -26,6 +27,15 @@ export default (state = initialState, action) => {
         NavigationActions.reset({
           index: 0,
           actions: [NavigationActions.navigate({ routeName: 'QuinielasAdministradas' })],
+          key: null,
+        }),
+        state,
+      );
+    case GO_TO_SALIR:
+      nextState = RootNavigator.router.getStateForAction(
+        NavigationActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: 'CargandoHome' })],
           key: null,
         }),
         state,

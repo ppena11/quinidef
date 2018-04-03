@@ -72,9 +72,10 @@ class QuinielasAdministradas extends Component {
     // }
   }
 
-  crear(navigate) {
+  crear() {
     // console.log('TEST');
-    navigate('CreaciondeQuiniela');
+
+    this.props.navigation.navigate('CreaciondeQuiniela');
   }
 
   keyboardWillShow = () => {
@@ -109,10 +110,10 @@ class QuinielasAdministradas extends Component {
     this.setState({ filteredUsers: users });
   }
 
-  tusquinielas(goBack) {
+  tusquinielas() {
     // console.log('TEST2');
     this.props.reloadingQuinielas();
-    goBack();
+    this.props.navigation.goBack();
   }
 
   renderRow(quiniela) {
@@ -143,12 +144,12 @@ class QuinielasAdministradas extends Component {
     // this.props.buscarQuinielasAdministradasMax(this.props.ultima);
   };
 
-  menustatus({ navigate, goBack }) {
+  menustatus() {
     if (this.props.mostrarMenus === 'yes') {
       return (
         <View>
-          <BotonPrincipal onPress={() => this.crear(navigate)}>Organizar Quiniela</BotonPrincipal>
-          <BotonPrincipal onPress={() => this.tusquinielas(goBack)}>Tus Quinielas</BotonPrincipal>
+          <BotonPrincipal onPress={() => this.crear()}>Organizar Quiniela</BotonPrincipal>
+          <BotonPrincipal onPress={() => this.tusquinielas()}>Tus Quinielas</BotonPrincipal>
         </View>
       );
     }
@@ -156,8 +157,7 @@ class QuinielasAdministradas extends Component {
   }
 
   render() {
-    const { navigate, goBack } = this.props.navigation;
-    console.log('PORQUE ENTRA AQUI QUINIELAS ADMINISTRADAS???');
+    // console.log('PORQUE ENTRA AQUI QUINIELAS ADMINISTRADAS???');
 
     // this.props.ultimaQuinielasAdministrada('2342354345');
     // console.log(`EPALE.... ${this.props.ultima}`);
@@ -204,7 +204,7 @@ class QuinielasAdministradas extends Component {
             />
           </View>
 
-          <View style={styles.bottom}>{this.menustatus({ navigate, goBack })}</View>
+          <View style={styles.bottom}>{this.menustatus()}</View>
         </View>
       </Container>
     );

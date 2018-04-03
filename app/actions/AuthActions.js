@@ -19,6 +19,7 @@ import {
   LOGIN_USER1,
   LOGGED_USER1,
   NOMBRE_CHANGED,
+  GO_TO_SALIR,
 } from './types';
 
 export const emailChanged = text => ({
@@ -53,6 +54,10 @@ export const loginUser1 = text => ({
 export const logeddUser1 = text => ({
   type: LOGGED_USER1,
   payload: text,
+});
+
+export const salir = () => ({
+  type: GO_TO_SALIR,
 });
 
 export const salirSistema = () => (dispatch) => {

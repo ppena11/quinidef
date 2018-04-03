@@ -51,7 +51,7 @@ class UnirseAQuiniela extends Component {
     this.setState({ validando: false });
   }
 
-  run = async (navigate) => {
+  run = async () => {
     try {
       const test = await this.props.buscarCodigos(this.state.inputfield.join('').toUpperCase());
 
@@ -66,7 +66,7 @@ class UnirseAQuiniela extends Component {
         console.log(`${items2.admin}`);
         console.log(`items 3 ${items3}`);
 
-        navigate('RegistrarQuiniela', {
+        this.props.navigation.navigate('RegistrarQuiniela', {
           quiniela: items2,
           admin: items3,
         });
@@ -81,12 +81,12 @@ class UnirseAQuiniela extends Component {
     }
   };
 
-  buscarCodigo(navigate) {
+  buscarCodigo() {
     if (!this.state.validando) {
       this.setState({ validando: true });
       Keyboard.dismiss();
       if (this.state.inputfield.join('').length >= 4) {
-        this.run(navigate);
+        this.run();
       } else {
         this.setState({ validando: false });
         alert('Por favor introduce un código válido de 4 caracteres');
@@ -147,7 +147,7 @@ class UnirseAQuiniela extends Component {
     return array[valorAleatorio];
   }
 
-  cancelar(navigate) {
+  cancelar() {
     this.props.navigation.goBack();
   }
 
@@ -228,7 +228,7 @@ class UnirseAQuiniela extends Component {
   }
 
   render() {
-    const { navigate } = this.props.navigation;
+    // const { navigate } = this.props.navigation;
     console.log(this.props.quiniela);
     console.log(`this.u2) ${this.u2}`);
     return (
@@ -324,7 +324,7 @@ class UnirseAQuiniela extends Component {
               placeholder="X"
               maxLength={1}
               onSubmitEditing={() => {
-                this.buscarCodigo(navigate);
+                this.buscarCodigo();
               }}
             />
           </View>
@@ -332,14 +332,14 @@ class UnirseAQuiniela extends Component {
 
         <View style={styles.conta}>
           <View style={styles.vire} />
-          <TouchableOpacity style={styles.button} onPress={() => this.buscarCodigo(navigate)}>
+          <TouchableOpacity style={styles.button} onPress={() => this.buscarCodigo()}>
             {this.status()}
           </TouchableOpacity>
           <View style={styles.vire} />
         </View>
 
         <View>
-          <BotonPrincipal onPress={() => this.cancelar(navigate)}>Cancelar</BotonPrincipal>
+          <BotonPrincipal onPress={() => this.cancelar()}>Cancelar</BotonPrincipal>
         </View>
       </Container>
     );

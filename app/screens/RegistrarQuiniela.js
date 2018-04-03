@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 // import firebase from 'firebase';
 
 import { Container } from '../components/Container';
+import { Titulo } from '../components/Titulo';
 import { BotonPrincipal } from '../components/BotonPrincipal';
 import color from '../comun/colors';
 import { Spinner } from '../components/Spinner';
@@ -103,13 +104,15 @@ class RegistrarQuiniela extends Component {
           barStyle="light-content"
           backgroundColor={color.$statusBarBackgroundColor}
         />
-
+        <View style={styles.titulo}>
+          <Titulo>Selecciona un nombre de usuario para tu quiniela</Titulo>
+        </View>
         <View style={styles.conta}>
           <View style={styles.vire} />
           <TextInput
             style={styles.inputBox}
             underlineColorAndroid={color.$underlineColorAndroid}
-            placeholder="Elige el nombre de tu quiniela..."
+            placeholder="Nombre de usuario..."
             placeholderTextColor={color.$placeholderTextColor}
             selectionColor={color.$selectionColor}
             keyboardType="email-address"
@@ -159,7 +162,7 @@ const styles = EStyleSheet.create({
   },
 
   titulo: {
-    padding: 20,
+    padding: 10,
   },
   cuerpo: {
     flex: 1,

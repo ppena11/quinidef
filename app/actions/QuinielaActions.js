@@ -35,18 +35,13 @@ export const BuscarQuinielaTexto = value => ({
   payload: value,
 });
 
-export const buscarQuinielas = () => {
-  const { currentUser } = firebase.auth();
-
-  return (dispatch) => {
-    firebase
-      .database()
-      .ref(`/users/${currentUser.uid}/quinielas`)
-      .once('value', (snapshot) => {
-        dispatch({ type: BUSCAR_QUINIELAS_EXITO, payload: snapshot.val() });
-      });
-  };
-};
+export const buscarQuinielas = uid => dispatch =>
+  firebase
+    .database()
+    .ref(`/users/${uid}/quinielas`)
+    .once('value', (snapshot) => {
+      dispatch({ type: BUSCAR_QUINIELAS_EXITO, payload: snapshot.val() });
+    });
 
 export const buscarQuinielasAdministradasT = (queryText) => {
   const { currentUser } = firebase.auth();
