@@ -22,6 +22,7 @@ import {
   reloadedQuinielasAdmin,
   reloadingQuinielas,
   crearCodigoQuiniela,
+  buscarReglas,
 } from '../actions';
 import { Container } from '../components/Container';
 import { BotonPrincipal } from '../components/BotonPrincipal';
@@ -85,10 +86,13 @@ class TusQuinielas extends Component {
     try {
       this.setState({ validando: true });
       const code = await this.props.crearCodigoQuiniela(codigo);
+      const regla = await this.props.buscarReglas(torneoid);
       const newCodigo = generarCodigo();
       // const link4 = link3.codigo;
       // console.log(link4);
       const items = code.snapshot.toJSON();
+      console.log(regla);
+      const reglas = regla.toJSON();
       console.log(typeof items);
       //  codigoq = items[Object.keys(items)[Object.keys(items).length - 1]];
 
@@ -100,6 +104,7 @@ class TusQuinielas extends Component {
           torneo,
           torneoid,
           codigoq,
+          reglas,
         });
         this.props.reloadingQuinielas();
         this.setState({ validando: false });
@@ -344,4 +349,5 @@ export default connect(mapStateToProps, {
   reloadedQuinielasAdmin,
   reloadingQuinielas,
   crearCodigoQuiniela,
+  buscarReglas,
 })(TusQuinielas);

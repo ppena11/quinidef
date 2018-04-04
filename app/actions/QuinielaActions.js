@@ -23,6 +23,7 @@ import {
   CAMBIAR_ID_TORNEO,
   ID_TORNEO_CAMBIO,
   ACTUALIZAR_CODIGO_QUINIELA,
+  BUSCAR_REGLAS_EXITO,
 } from './types';
 
 export const QuinielaUpdate = ({ prop, value }) => ({
@@ -297,7 +298,11 @@ export const idTorneoCambio = text => ({
 });
 
 export const crearQuiniela = ({
-  quinielaNombre, torneo, torneoid, codigoq,
+  quinielaNombre,
+  torneo,
+  torneoid,
+  codigoq,
+  reglas,
 }) => (dispatch) => {
   const { currentUser } = firebase.auth();
 
@@ -321,6 +326,17 @@ export const crearQuiniela = ({
     quinielaNombrer,
     codigoq,
     quinielaID,
+    reglas,
+  };
+  const postData2 = {
+    quinielaNombre,
+    torneo,
+    torneoid,
+    admin: currentUser.uid,
+    adminr,
+    quinielaNombrer,
+    codigoq,
+    quinielaID,
   };
   const postData1 = {
     recibirAbonados,
@@ -330,7 +346,7 @@ export const crearQuiniela = ({
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
 
-  updates[`/users/${currentUser.uid}/quinielasadministradas/${newPostKey}`] = postData;
+  updates[`/users/${currentUser.uid}/quinielasadministradas/${newPostKey}`] = postData2;
   updates[`/quinielas/${newPostKey}/info`] = postData;
   updates[`/quinielas/codigos/${codigoq}`] = postData1;
 
@@ -454,6 +470,14 @@ export const crearCodigoQuiniela = codigo => (dispatch) => {
       },
     );
 };
+
+export const buscarReglas = torneoid => dispatch =>
+  firebase
+    .database()
+    .ref(`/torneos/${torneoid}/reglasPorDefecto`)
+    .once('value', (snapshot) => {
+      dispatch({ type: BUSCAR_REGLAS_EXITO, payload: snapshot.val() });
+    });
 
 const crearQuinielaExito = (dispatch) => {
   // dispatch({ type: GO_TO_ADMINISTRADAS });

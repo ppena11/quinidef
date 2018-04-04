@@ -5,6 +5,7 @@ import {
   ID_TORNEO_CAMBIO,
   ACTUALIZAR_CODIGO_QUINIELA,
   RELOADING,
+  BUSCAR_REGLAS_EXITO,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -13,6 +14,7 @@ const INITIAL_STATE = {
   error: '',
   torneoid: '',
   codigo: '',
+  reglas: {},
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -31,6 +33,9 @@ export default (state = INITIAL_STATE, action) => {
 
     case ACTUALIZAR_CODIGO_QUINIELA:
       return { ...state, codigo: action.payload };
+
+    case BUSCAR_REGLAS_EXITO:
+      return { ...state, reglas: action.payload };
 
     case CREATE_QUINIELA_FAIL:
       return { ...state, error: 'Revisa tu conexion a Internet' };

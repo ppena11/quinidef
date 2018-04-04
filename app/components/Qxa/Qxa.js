@@ -4,6 +4,7 @@ import { withNavigation } from 'react-navigation';
 
 import { Card } from '../Card';
 import { CardSection } from '../CardSection';
+import { CardSectionText } from '../CardSectionText';
 import { Buttonb } from '../Buttonb';
 import color from '../../comun/colors';
 
@@ -23,6 +24,8 @@ class Qxa extends Component {
       headerTextStyle2,
       thumbnailStyle,
       thumbnailContainerStyle,
+      cardSectionStyle,
+      headerContentStyle1,
     } = styles;
     return (
       <Card>
@@ -37,6 +40,14 @@ class Qxa extends Component {
             <Text style={headerTextStyle2}>{torneo}</Text>
           </TouchableOpacity>
         </CardSection>
+        <CardSectionText>
+          <TouchableOpacity style={headerContentStyle}>
+            <Text style={headerTextStyle}>Activaciones: 1/41</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={headerContentStyle}>
+            <Text style={headerTextStyle}>Modificar reglas</Text>
+          </TouchableOpacity>
+        </CardSectionText>
       </Card>
     );
   }
@@ -47,7 +58,20 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'space-around',
   },
+  headerContentStyle1: {
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+  },
+  cardSectionStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    position: 'relative',
+  },
   headerTextStyle: {
+    fontSize: 18,
+    color: color.$qxaHeaderTextStyle,
+  },
+  headerTextStyle1: {
     fontSize: 18,
     color: color.$qxaHeaderTextStyle,
   },
