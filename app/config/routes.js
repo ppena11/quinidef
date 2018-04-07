@@ -12,6 +12,7 @@ import CreaciondeQuiniela from '../screens/CreaciondeQuiniela';
 import DetalleQuinielaAdministrada from '../screens/DetalleQuinielaAdministrada';
 import UnirseAQuiniela from '../screens/UnirseAQuiniela';
 import RegistrarQuiniela from '../screens/RegistrarQuiniela';
+import ReglasAdmin from '../screens/ReglasAdmin';
 
 import EliminarApuesta from '../screens/EliminarApuesta';
 
@@ -61,6 +62,10 @@ const RootNavigator = StackNavigator(
 
     CargandoHome: {
       screen: CargandoHome,
+    },
+
+    ReglasAdmin: {
+      screen: ReglasAdmin,
     },
   },
   stackRouterConfig,

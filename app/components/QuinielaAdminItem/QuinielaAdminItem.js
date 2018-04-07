@@ -25,12 +25,6 @@ class QuinielaAdminItem extends Component {
       codigo: this.props.codigo,
     });
   }
-  componentWillMount() {
-    const {
-      activo, puntos, nombre, uid,
-    } = this.props.jugador;
-    this.setState({ toggled: this.props.jugadores[uid].activo });
-  }
 
   componentDidMount() {
     const {

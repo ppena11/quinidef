@@ -18,6 +18,7 @@ import {
   mostrarMenu,
   esconderMenu,
   BuscarQuinielaTexto,
+  irTusQuinielas,
 } from '../actions';
 
 import { Container } from '../components/Container';
@@ -72,6 +73,11 @@ class QuinielasAdministradas extends Component {
     // }
   }
 
+  componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
+  }
+
   crear() {
     // console.log('TEST');
 
@@ -113,7 +119,8 @@ class QuinielasAdministradas extends Component {
   tusquinielas() {
     // console.log('TEST2');
     this.props.reloadingQuinielas();
-    this.props.navigation.goBack();
+    this.props.irTusQuinielas();
+    // this.props.navigation.goBack();
   }
 
   renderRow(quiniela) {
@@ -297,4 +304,5 @@ export default connect(mapStateToProps, {
   esconderMenu,
   BuscarQuinielaTexto,
   reloadingQuinielas,
+  irTusQuinielas,
 })(QuinielasAdministradas);

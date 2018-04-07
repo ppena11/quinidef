@@ -24,6 +24,7 @@ import {
   ID_TORNEO_CAMBIO,
   ACTUALIZAR_CODIGO_QUINIELA,
   BUSCAR_REGLAS_EXITO,
+  ACTUALIZAR_NOMBRE_QUINIELA,
 } from './types';
 
 export const QuinielaUpdate = ({ prop, value }) => ({
@@ -297,6 +298,34 @@ export const idTorneoCambio = text => ({
   payload: text,
 });
 
+export const crearNombreQuiniela = (quiniela, nombre) => dispatch =>
+  firebase
+    .database()
+    .ref(`/quinielas/${quiniela}/clasificacion/${nombre}`)
+    .transaction(
+      (currentData) => {
+        if (currentData === null) {
+          return nombre;
+        }
+      },
+
+      // Abort the transaction.
+      (error, committed, snapshot) => {
+        if (error) {
+          console.log('Transaction failed abnormally!', error);
+        } else if (!committed) {
+          console.log('We aborted the transaction (because ada already exists).');
+        } else {
+          console.log('User ada added!');
+        }
+        dispatch({
+          type: ACTUALIZAR_NOMBRE_QUINIELA,
+          payload: nombre,
+        });
+        // console.log("Ada's data: ", snapshot.val());
+      },
+    );
+
 export const crearQuiniela = ({
   quinielaNombre,
   torneo,
@@ -399,8 +428,8 @@ export const agregarJugador = (
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
-  updates[`/quinielas/${quiniela}/clasificacion/${newPostKey}`] = postData1;
-  updates[`/users/${currentUser.uid}/quinielas/${newPostKey}`] = postData;
+  updates[`/quinielas/${quiniela}/clasificacion/${nombreapuesta}`] = postData1;
+  updates[`/users/${currentUser.uid}/quinielas/${nombreapuesta}`] = postData;
 
   return firebase
     .database()
@@ -475,6 +504,14 @@ export const buscarReglas = torneoid => dispatch =>
   firebase
     .database()
     .ref(`/torneos/${torneoid}/reglasPorDefecto`)
+    .once('value', (snapshot) => {
+      dispatch({ type: BUSCAR_REGLAS_EXITO, payload: snapshot.val() });
+    });
+
+export const buscarReglasAdmin = qid => dispatch =>
+  firebase
+    .database()
+    .ref(`/quinielas/${qid}/info/reglas`)
     .once('value', (snapshot) => {
       dispatch({ type: BUSCAR_REGLAS_EXITO, payload: snapshot.val() });
     });

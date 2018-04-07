@@ -20,7 +20,7 @@ class CargandoHome extends Component {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         console.log('WEPA');
-        console.log(user.uid);
+
         navigate('TusQuinielas');
       } else {
         navigate('Login');
@@ -67,4 +67,4 @@ const mapStateToProps = state => ({
   error: state.auth.error,
 });
 
-export default connect(mapStateToProps, {})(CargandoHome);
+export default connect(mapStateToProps, { buscarQuinielas })(CargandoHome);

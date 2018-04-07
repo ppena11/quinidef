@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
 
-import { buscarQuinielas, salir } from '../actions';
+import { buscarQuinielas, salir, irAdministradas } from '../actions';
 import { Container } from '../components/Container';
 import { BotonPrincipal } from '../components/BotonPrincipal';
 import { Titulo } from '../components/Titulo';
@@ -21,15 +21,12 @@ class TusQuinielas extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      validando: true,
+      validando: false,
+      qu: {},
     };
 
     this.loading = this.loading.bind(this);
     this.run = this.run.bind(this);
-  }
-
-  componentWillMount() {
-    this.setState({ validando: true });
   }
 
   componentDidMount() {
@@ -40,13 +37,15 @@ class TusQuinielas extends Component {
   run = async () => {
     try {
       const { currentUser } = firebase.auth();
-      this.setState({ validando: true });
+      // this.setState({ validando: true });
       const test = await this.props.buscarQuinielas(currentUser.uid);
-      console.log(test);
-      this.setState({ validando: false });
+      const tt1 = test.toJSON();
+      console.log(`TESTTTTTSTSTSTS ${test}`);
+      this.setState({ qu: tt1 });
+      // this.setState({ validando: false });
     } catch (e) {
       console.log(e);
-      this.setState({ validando: false });
+      // this.setState({ validando: false });
     }
   };
 
@@ -69,13 +68,14 @@ class TusQuinielas extends Component {
   };
 
   crear() {
-    this.props.navigation.navigate('QuinielasAdministradas');
+    this.props.irAdministradas();
+    // this.props.navigation.navigate('QuinielasAdministradas');
   }
 
   _renderItem = ({ item }) => <Qx quiniela={item} />;
   _keyExtractor = item => item.uid + item.nombreapuesta;
 
-  loading() {
+  loading(tt) {
     if (this.state.validando) {
       return (
         <Container>
@@ -106,15 +106,7 @@ class TusQuinielas extends Component {
             <Titulo>MIS QUINIELAS</Titulo>
           </View>
 
-          {this.props.quinielas.length > 0 ? (
-            <FlatList
-              data={this.props.quinielas}
-              renderItem={this._renderItem}
-              keyExtractor={this._keyExtractor}
-            />
-          ) : (
-            <Text>No eres parte de ninguna quiniela</Text>
-          )}
+          <FlatList data={tt} renderItem={this._renderItem} keyExtractor={this._keyExtractor} />
 
           <View style={styles.bottom}>
             <BotonPrincipal onPress={() => this.unirseAQuiniela()}>
@@ -130,8 +122,10 @@ class TusQuinielas extends Component {
   render() {
     // const { navigate } = this.props.navigation;
     // console.log('PORQUE ENTRA AQUI TUS QUINIELAS???');
-    console.log(this.state.validando);
-    return this.loading();
+    const tt = _.map(this.state.qu, (val, uid) => ({ ...val, uid }));
+    console.log(`ttttttttttttttttttttttttttttttttttttttttttttttttttttttt ${tt}`);
+    console.log(`VALIDANDO TUS QUINIELAS ${this.state.validando}`);
+    return this.loading(tt);
   }
 }
 
@@ -172,7 +166,8 @@ const styles = EStyleSheet.create({
 const mapStateToProps = (state) => {
   const tt = _.map(state.quinielas, (val, uid) => ({ ...val, uid }));
   const quinielas = _.orderBy(tt, ['uid'], ['desc']);
+  // console.log(quinielas);
   return { quinielas };
 };
 
-export default connect(mapStateToProps, { buscarQuinielas, salir })(TusQuinielas);
+export default connect(mapStateToProps, { buscarQuinielas, salir, irAdministradas })(TusQuinielas);

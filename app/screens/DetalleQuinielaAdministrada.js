@@ -48,7 +48,7 @@ class DetalleQuinielaAdministrada extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // Buscar los jugaroes de la quiniela y su estado
     // this.createDataSource(this.props);
     // const { quinielaNombre, torneo } = this.props.quiniela;
@@ -90,10 +90,10 @@ class DetalleQuinielaAdministrada extends Component {
     // navigate('EliminarApuesta');
   }
 
-  tusquinielas(goBack) {
+  tusquinielas() {
     // console.log('TEST2');
     this.props.reloadingJugadores();
-    goBack();
+    this.props.navigation.goBack();
   }
 
   renderRow(jugador) {
@@ -163,12 +163,12 @@ class DetalleQuinielaAdministrada extends Component {
     // this.props.buscarQuinielasAdministradasMax(this.props.ultima);
   };
 
-  menustatus({ navigate, goBack }) {
+  menustatus() {
     if (this.state.menu === 'yes') {
       return (
         <View>
           {/* <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal> */}
-          <BotonPrincipal onPress={() => this.tusquinielas(goBack)}>Regresar</BotonPrincipal>
+          <BotonPrincipal onPress={() => this.tusquinielas()}>Regresar</BotonPrincipal>
         </View>
       );
     }
@@ -176,8 +176,6 @@ class DetalleQuinielaAdministrada extends Component {
   }
 
   render() {
-    const { navigate, goBack } = this.props.navigation;
-
     return (
       <Container>
         <StatusBar
@@ -221,7 +219,7 @@ class DetalleQuinielaAdministrada extends Component {
             />
           </View>
 
-          <View style={styles.bottom}>{this.menustatus({ navigate, goBack })}</View>
+          <View style={styles.bottom}>{this.menustatus()}</View>
         </View>
       </Container>
     );

@@ -18,7 +18,7 @@ import { BotonPrincipal } from '../components/BotonPrincipal';
 import color from '../comun/colors';
 import { Spinner } from '../components/Spinner';
 
-import { buscarCodigos, agregarJugador } from '../actions';
+import { buscarCodigos, agregarJugador, crearNombreQuiniela } from '../actions';
 
 class RegistrarQuiniela extends Component {
   static navigationOptions = {
@@ -30,6 +30,7 @@ class RegistrarQuiniela extends Component {
     this.state = {
       inputfield: '',
       validando: false,
+      teclado: false,
     };
 
     this.updateInputValue = this.updateInputValue.bind(this);
@@ -38,7 +39,22 @@ class RegistrarQuiniela extends Component {
 
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', () => this.props.navigation.goBack());
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
+    this.keyboardWillHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
   }
+
+  componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
+  }
+
+  keyboardWillShow = () => {
+    this.setState({ teclado: true });
+  };
+
+  keyboardWillHide = () => {
+    this.setState({ teclado: false });
+  };
 
   run = async (navigate) => {
     try {
@@ -48,15 +64,26 @@ class RegistrarQuiniela extends Component {
         quinielaNombre,
         quinielaID,
       } = this.props.navigation.state.params.quiniela;
-      const test = await this.props.agregarJugador(
+      const name = await this.props.crearNombreQuiniela(
         quinielaID,
         this.state.inputfield.toUpperCase(),
-        torneo,
-        torneoid,
-        quinielaNombre,
       );
-      navigate('TusQuinielas');
-      this.setState({ validando: false });
+      console.log(`NAMEEEEEEEEEEEEEEEEEEEEEEEEEE ${name.committed}`);
+      if (name.committed) {
+        const test = await this.props.agregarJugador(
+          quinielaID,
+          this.state.inputfield.toUpperCase(),
+          torneo,
+          torneoid,
+          quinielaNombre,
+        );
+        navigate('TusQuinielas');
+        this.setState({ validando: false });
+      } else {
+        this.setState({ validando: false });
+        alert('El nombre de usuario ya existe');
+        console.log('NOMBRE YA EXISTE');
+      }
     } catch (e) {
       console.log(e);
       this.setState({ validando: false });
@@ -94,6 +121,27 @@ class RegistrarQuiniela extends Component {
     return <Text style={styles.buttonText}>Registrate..</Text>;
   }
 
+  cuerpo() {
+    if (!this.state.teclado) {
+      return (
+        <View style={styles.cuerpo}>
+          <Text style={styles.texto}>
+            Nombre de la quiniela: {this.props.navigation.state.params.quiniela.quinielaNombre}
+            {'\n'}
+            Torneo: {this.props.navigation.state.params.quiniela.torneo}
+            {'\n'}
+            Código de Activación: {this.props.navigation.state.params.quiniela.codigoq}
+            {'\n'}
+            Administrador: {this.props.navigation.state.params.admin.nombre}
+            {'\n'}
+            Email del Administrador: {this.props.navigation.state.params.admin.email}
+          </Text>
+        </View>
+      );
+    }
+    return <View />;
+  }
+
   render() {
     const { navigate } = this.props.navigation;
 
@@ -122,20 +170,7 @@ class RegistrarQuiniela extends Component {
           />
           <View style={styles.vire} />
         </View>
-
-        <View style={styles.cuerpo}>
-          <Text style={styles.texto}>
-            Nombre de la quiniela: {this.props.navigation.state.params.quiniela.quinielaNombre}
-            {'\n'}
-            Torneo: {this.props.navigation.state.params.quiniela.torneo}
-            {'\n'}
-            Código de Activación: {this.props.navigation.state.params.quiniela.codigoq}
-            {'\n'}
-            Administrador: {this.props.navigation.state.params.admin.nombre}
-            {'\n'}
-            Email del Administrador: {this.props.navigation.state.params.admin.email}
-          </Text>
-        </View>
+        {this.cuerpo()}
 
         <View style={styles.bottom}>
           <View style={styles.conta}>
@@ -232,4 +267,4 @@ const mapStateToProps = state => ({
   aceptaAbonados: state.codigos.recibirAbonados,
 });
 
-export default connect(mapStateToProps, { buscarCodigos, agregarJugador })(RegistrarQuiniela);
+export default connect(mapStateToProps, { buscarCodigos, agregarJugador, crearNombreQuiniela })(RegistrarQuiniela);

@@ -47,10 +47,6 @@ class UnirseAQuiniela extends Component {
     BackHandler.addEventListener('hardwareBackPress', () => this.props.navigation.goBack());
   }
 
-  componentWillUnmount() {
-    this.setState({ validando: false });
-  }
-
   run = async () => {
     try {
       const test = await this.props.buscarCodigos(this.state.inputfield.join('').toUpperCase());

@@ -55,7 +55,7 @@ class EliminarApuesta extends Component {
     this.eliminarTest1 = this.eliminarTest1.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.keyboardWillShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
     this.keyboardWillHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
   }

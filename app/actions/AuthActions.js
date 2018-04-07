@@ -20,6 +20,8 @@ import {
   LOGGED_USER1,
   NOMBRE_CHANGED,
   GO_TO_SALIR,
+  GO_TO_ADMINISTRADAS,
+  GO_TO_TUSQUINIELAS,
 } from './types';
 
 export const emailChanged = text => ({
@@ -58,6 +60,14 @@ export const logeddUser1 = text => ({
 
 export const salir = () => ({
   type: GO_TO_SALIR,
+});
+
+export const irAdministradas = () => ({
+  type: GO_TO_ADMINISTRADAS,
+});
+
+export const irTusQuinielas = () => ({
+  type: GO_TO_TUSQUINIELAS,
 });
 
 export const salirSistema = () => (dispatch) => {

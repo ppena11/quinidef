@@ -85,6 +85,7 @@ class TusQuinielas extends Component {
   run = async (goBack, codigo, quinielaNombre, torneo, torneoid) => {
     try {
       this.setState({ validando: true });
+
       const code = await this.props.crearCodigoQuiniela(codigo);
       const regla = await this.props.buscarReglas(torneoid);
       const newCodigo = generarCodigo();

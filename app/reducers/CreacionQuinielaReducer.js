@@ -6,6 +6,9 @@ import {
   ACTUALIZAR_CODIGO_QUINIELA,
   RELOADING,
   BUSCAR_REGLAS_EXITO,
+  MODIFICAR_REGLAS,
+  REINICIAR_REGLAS,
+  ACTUALIZAR_NOMBRE_QUINIELA,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -39,6 +42,15 @@ export default (state = INITIAL_STATE, action) => {
 
     case CREATE_QUINIELA_FAIL:
       return { ...state, error: 'Revisa tu conexion a Internet' };
+
+    case MODIFICAR_REGLAS:
+      return { ...state, reglas: action.payload };
+
+    case REINICIAR_REGLAS:
+      return { ...state, reglas: '' };
+
+    case ACTUALIZAR_NOMBRE_QUINIELA:
+      return { ...state, nombre: action.payload };
 
     default:
       return state;

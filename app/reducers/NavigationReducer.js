@@ -8,6 +8,7 @@ import {
   GO_TO_LOG,
   GO_TO_ADMINISTRADAS,
   GO_TO_SALIR,
+  GO_TO_TUSQUINIELAS,
 } from '../actions/types';
 
 const initialState = RootNavigator.router.getStateForAction(NavigationActions.init());
@@ -31,6 +32,19 @@ export default (state = initialState, action) => {
         }),
         state,
       );
+      break;
+
+    case GO_TO_TUSQUINIELAS:
+      nextState = RootNavigator.router.getStateForAction(
+        NavigationActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: 'TusQuinielas' })],
+          key: null,
+        }),
+        state,
+      );
+      break;
+
     case GO_TO_SALIR:
       nextState = RootNavigator.router.getStateForAction(
         NavigationActions.reset({

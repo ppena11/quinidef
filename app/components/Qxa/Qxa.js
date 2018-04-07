@@ -15,6 +15,12 @@ class Qxa extends Component {
     });
   }
 
+  onReglasPress() {
+    this.props.navigation.navigate('ReglasAdmin', {
+      quiniela: this.props.quiniela,
+    });
+  }
+
   render() {
     const { quinielaNombre, torneo, codigoq } = this.props.quiniela;
 
@@ -44,7 +50,7 @@ class Qxa extends Component {
           <TouchableOpacity style={headerContentStyle}>
             <Text style={headerTextStyle}>Activaciones: 1/41</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={headerContentStyle}>
+          <TouchableOpacity onPress={() => this.onReglasPress()} style={headerContentStyle}>
             <Text style={headerTextStyle}>Modificar reglas</Text>
           </TouchableOpacity>
         </CardSectionText>
