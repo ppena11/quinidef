@@ -5,6 +5,7 @@ import {
   RESET_QUINIELAS_ADMIN,
   BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO_T,
   CAMBIAR_ID_TORNEO,
+  UPDATE_DISPO,
 } from '../actions/types';
 
 const INITIAL_STATE = {};
@@ -24,6 +25,12 @@ export default (state = INITIAL_STATE, action) => {
       return { ...INITIAL_STATE };
 
     case CAMBIAR_ID_TORNEO:
+      return {
+        ...state,
+        [action.payload.uid]: _.omit(action.payload, 'uid'),
+      };
+
+    case UPDATE_DISPO:
       return {
         ...state,
         [action.payload.uid]: _.omit(action.payload, 'uid'),

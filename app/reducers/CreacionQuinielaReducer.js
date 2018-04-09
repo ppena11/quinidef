@@ -9,6 +9,7 @@ import {
   MODIFICAR_REGLAS,
   REINICIAR_REGLAS,
   ACTUALIZAR_NOMBRE_QUINIELA,
+  BUSCAR_DISPONIBLES_EXITO,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -17,6 +18,7 @@ const INITIAL_STATE = {
   error: '',
   torneoid: '',
   codigo: '',
+  disponible: '',
   reglas: {},
 };
 
@@ -39,6 +41,9 @@ export default (state = INITIAL_STATE, action) => {
 
     case BUSCAR_REGLAS_EXITO:
       return { ...state, reglas: action.payload };
+
+    case BUSCAR_DISPONIBLES_EXITO:
+      return { ...state, disponible: action.payload };
 
     case CREATE_QUINIELA_FAIL:
       return { ...state, error: 'Revisa tu conexion a Internet' };

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import { Text, View, Image, Switch, TouchableOpacity } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
@@ -8,12 +9,12 @@ import { Card } from '../Card';
 import { CardSection } from '../CardSection';
 import color from '../../comun/colors';
 
-import { cambiarEstatusQuiniela } from '../../actions';
+import { cambiarEstatusQuiniela, manejarDisponibles } from '../../actions';
 
 class QuinielaAdminItem extends Component {
   constructor(props) {
     super(props);
-    this.state = { toggled: false };
+    this.state = { toggled: false, actualizando: false };
   }
 
   onRowPress() {
@@ -24,6 +25,7 @@ class QuinielaAdminItem extends Component {
       quinielan: this.props.quinielan,
       codigo: this.props.codigo,
     });
+    this.run = this.run.bind(this);
   }
 
   componentDidMount() {
@@ -34,13 +36,44 @@ class QuinielaAdminItem extends Component {
   }
 
   pressed(e) {
-    const {
-      activo, puntos, nombre, uid, jid,
-    } = this.props.jugador;
-    this.props.cambiarEstatusQuiniela(this.props.jugador, this.props.quiniela, e);
-
-    this.setState({ toggled: this.props.jugadores[uid].activo });
+    if (this.props.dispon == 0 && e) {
+      alert('Debes adquinir mas quinielas');
+    } else {
+      const {
+        activo, puntos, nombre, uid, jid,
+      } = this.props.jugador;
+      if (!this.state.actualizando && !this.props.jugadores[uid].cargando) {
+        this.setState({ actualizando: true });
+        if (e != this.props.jugadores[uid].activo) {
+          this.setState({ toggled: this.props.jugadores[uid].activo });
+          this.run(this.props.jugador, this.props.quiniela, e);
+        }
+      }
+    }
   }
+
+  run = async (jug, qu, e1) => {
+    try {
+      // const { currentUser } = firebase.auth();
+      // this.setState({ validando: true });
+      // await Promise.all([someCall(), anotherCall()]);
+
+      // const test = await this.props.cambiarEstatusQuiniela(jug, qu, e1);
+      // this.setState({ toggled: this.props.jugadores[uid].activo });
+      // console.log(test);
+      const test1 = await this.props.manejarDisponibles(qu, e1);
+      console.log(test1);
+      if (test1.committed) {
+        const test = await this.props.cambiarEstatusQuiniela(jug, qu, e1);
+        this.setState({ actualizando: false });
+      }
+
+      // this.setState({ validando: false });
+    } catch (e) {
+      console.log(e);
+      // this.setState({ validando: false });
+    }
+  };
 
   iconstatus(uid) {
     if (!this.props.jugadores[uid].activo) {
@@ -53,7 +86,7 @@ class QuinielaAdminItem extends Component {
     const {
       activo, puntos, nombre, uid,
     } = this.props.jugador;
-
+    console.log(this.props.jugadores[uid].cargando);
     const {
       headerContentStyle,
       headerTextStyle,
@@ -123,4 +156,4 @@ const mapStateToProps = (state) => {
   return { jugadores };
 };
 
-export default connect(mapStateToProps, { cambiarEstatusQuiniela })(withNavigation(QuinielaAdminItem));
+export default connect(mapStateToProps, { manejarDisponibles, cambiarEstatusQuiniela })(withNavigation(QuinielaAdminItem));

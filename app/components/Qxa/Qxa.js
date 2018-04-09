@@ -1,19 +1,64 @@
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
-
+import firebase from 'firebase';
 import { Card } from '../Card';
 import { CardSection } from '../CardSection';
 import { CardSectionText } from '../CardSectionText';
 import { Buttonb } from '../Buttonb';
 import color from '../../comun/colors';
 
+import { buscarDisponiblesq } from '../../actions';
+
 class Qxa extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      disponibles: '',
+    };
+    this.run = this.run.bind(this);
+  }
+
   onRowPress() {
     this.props.navigation.navigate('DetalleQuinielaAdministrada', {
       quiniela: this.props.quiniela,
     });
   }
+
+  componentDidMount() {
+    // Buscar los jugaroes de la quiniela y su estado
+    // this.createDataSource(this.props);
+    // const { quinielaNombre, torneo } = this.props.quiniela;
+    // console.log(_.map(this.props.navigation.state.params.quiniela.Users, (val, uid) => ({ ...val, uid })));
+    this.run();
+  }
+
+  componentWillUnmount() {
+    const {
+      quinielaNombre, torneo, codigoq, quinielaID,
+    } = this.props.quiniela;
+  }
+
+  run = async () => {
+    try {
+      const { currentUser } = firebase.auth();
+      // this.setState({ validando: true });
+      const {
+        quinielaNombre, torneo, codigoq, quinielaID,
+      } = this.props.quiniela;
+
+      const test = await this.props.buscarDisponiblesq(this.props.quiniela);
+      const tt1 = test.toJSON();
+      console.log(`TESTTTTTSTSTSTS ${test}`);
+      this.setState({ disponibles: tt1 });
+      // this.setState({ validando: false });
+    } catch (e) {
+      console.log(e);
+      // this.setState({ validando: false });
+    }
+  };
 
   onReglasPress() {
     this.props.navigation.navigate('ReglasAdmin', {
@@ -22,8 +67,10 @@ class Qxa extends Component {
   }
 
   render() {
-    const { quinielaNombre, torneo, codigoq } = this.props.quiniela;
-
+    const {
+      quinielaNombre, torneo, codigoq, quinielaID,
+    } = this.props.quiniela;
+    console.log(this.props.quinielasadmin[quinielaID]);
     const {
       headerContentStyle,
       headerTextStyle,
@@ -36,7 +83,7 @@ class Qxa extends Component {
     return (
       <Card>
         <CardSection>
-          <TouchableOpacity onPress={() => this.onRowPress()} style={thumbnailContainerStyle}>
+          <TouchableOpacity style={thumbnailContainerStyle}>
             <Image style={thumbnailStyle} source={require('../Logo/images/copa1.png')} />
           </TouchableOpacity>
           <TouchableOpacity style={headerContentStyle}>
@@ -47,8 +94,8 @@ class Qxa extends Component {
           </TouchableOpacity>
         </CardSection>
         <CardSectionText>
-          <TouchableOpacity style={headerContentStyle}>
-            <Text style={headerTextStyle}>Activaciones: 1/41</Text>
+          <TouchableOpacity onPress={() => this.onRowPress()} style={headerContentStyle}>
+            <Text style={headerTextStyle}>Disponibles: {this.state.disponibles}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this.onReglasPress()} style={headerContentStyle}>
             <Text style={headerTextStyle}>Modificar reglas</Text>
@@ -97,4 +144,11 @@ const styles = {
   },
 };
 
-export default withNavigation(Qxa);
+const mapStateToProps = state => ({
+  disponibles: state.disponible.disponibles,
+  quinielasadmin: state.quinielasadmin,
+});
+
+export default connect(mapStateToProps, {
+  buscarDisponiblesq,
+})(withNavigation(Qxa));

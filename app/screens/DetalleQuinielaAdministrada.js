@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import firebase from 'firebase';
 import {
   KeyboardAvoidingView,
   StatusBar,
@@ -20,6 +21,8 @@ import {
   buscarJugadoresAdministradasMax,
   BuscarJugadorTexto,
   reloadingJugadores,
+  buscarDisponibles,
+  irAdministradas,
 } from '../actions';
 import { Container } from '../components/Container';
 import { BotonPrincipal } from '../components/BotonPrincipal';
@@ -53,7 +56,7 @@ class DetalleQuinielaAdministrada extends Component {
     // this.createDataSource(this.props);
     // const { quinielaNombre, torneo } = this.props.quiniela;
     // console.log(_.map(this.props.navigation.state.params.quiniela.Users, (val, uid) => ({ ...val, uid })));
-
+    this.props.buscarDisponibles(this.props.navigation.state.params.quiniela.uid);
     this.props.buscarJugadoresAdministradas(this.props.navigation.state.params.quiniela.uid);
     this.keyboardWillShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
     this.keyboardWillHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
@@ -68,6 +71,10 @@ class DetalleQuinielaAdministrada extends Component {
   componentWillUnmount() {
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
+    firebase
+      .database()
+      .ref(`/quinielas/${this.props.navigation.state.params.quiniela.uid}/info/quinielasDisponibles`)
+      .off();
   }
 
   keyboardWillShow = () => {
@@ -93,7 +100,8 @@ class DetalleQuinielaAdministrada extends Component {
   tusquinielas() {
     // console.log('TEST2');
     this.props.reloadingJugadores();
-    this.props.navigation.goBack();
+    this.props.irAdministradas();
+    // this.props.navigation.goBack();
   }
 
   renderRow(jugador) {
@@ -103,6 +111,7 @@ class DetalleQuinielaAdministrada extends Component {
         quiniela={this.props.navigation.state.params.quiniela.uid}
         quinielan={this.props.navigation.state.params.quiniela.quinielaNombre}
         codigo={this.props.navigation.state.params.quiniela.codigoq}
+        dispon={this.props.disponibles}
       />
     );
   }
@@ -188,6 +197,7 @@ class DetalleQuinielaAdministrada extends Component {
             <Titulo>
               {this.props.navigation.state.params.quiniela.quinielaNombre} -{' '}
               {this.props.navigation.state.params.quiniela.codigoq}
+              {this.props.disponibles}
             </Titulo>
           </View>
           <View style={styles2.conta}>
@@ -285,6 +295,7 @@ const mapStateToProps = (state) => {
     reload: state.jugadorlast.reload,
     mostrarMenus: state.jugadorlast.mostrarMenu,
     buscarTexto: state.jugadorlast.buscar,
+    disponibles: state.activacion.disponibles,
   };
 };
 
@@ -295,4 +306,6 @@ export default connect(mapStateToProps, {
   buscarJugadoresAdministradasMax,
   BuscarJugadorTexto,
   reloadingJugadores,
+  buscarDisponibles,
+  irAdministradas,
 })(DetalleQuinielaAdministrada);

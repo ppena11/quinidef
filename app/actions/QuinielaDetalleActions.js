@@ -12,12 +12,49 @@ import {
   RESET_JUGADORES_ADMIN,
   CAMBIAR_ESTATUS_JUGADOR,
   RELOADING_JUGADORES,
+  ACTUALIZAR_CODIGO_QUINIELA,
+  ACTIVACION_UPDATE,
+  ACTIVACION_UPDATE_R,
+  UPDATE_DISPO,
 } from './types';
 
 export const BuscarJugadorTexto = value => ({
   type: BUSCAR_JUGADOR_UPDATE,
   payload: value,
 });
+
+export const buscarDisponibles = quiniela => (dispatch) => {
+  firebase
+    .database()
+    .ref(`/quinielas/${quiniela}/info/quinielasDisponibles`)
+    .on('value', (snapshot) => {
+      if (snapshot.exists()) {
+        dispatch({
+          type: ACTIVACION_UPDATE,
+          payload: snapshot.val(),
+        });
+      }
+    });
+};
+
+export const buscarDisponiblesq = quiniela => (dispatch) => {
+  console.log(quiniela);
+  const q = quiniela;
+
+  return firebase
+    .database()
+    .ref(`/quinielas/${quiniela.quinielaID}/info/quinielasDisponibles`)
+    .once('value', (snapshot) => {
+      if (snapshot.exists()) {
+        q.quinielasDisponibles = snapshot.val();
+        console.log(q);
+        dispatch({
+          type: UPDATE_DISPO,
+          payload: q,
+        });
+      }
+    });
+};
 
 export const buscarJugadoresAdministradas = quiniela => (dispatch) => {
   firebase
@@ -176,9 +213,40 @@ export const buscarJugadoresAdministradasMaxT = (max, queryText, quiniela) => {
   };
 };
 
+export const manejarDisponibles = (qu, e1) => dispatch =>
+  firebase
+    .database()
+    .ref(`/quinielas/${qu}/info/quinielasDisponibles`)
+    .transaction(
+      (currentData) => {
+        console.log(`EEEEEEEEEEEEEEEEE1 ${e1}`);
+        if (e1) {
+          return Number(currentData) - 1;
+        }
+        return Number(currentData) + 1;
+      },
+
+      // Abort the transaction.
+      (error, committed, snapshot) => {
+        if (error) {
+          console.log('Transaction failed abnormally!', error);
+        } else if (!committed) {
+          console.log('We aborted the transaction (because ada already exists).');
+        } else {
+          console.log('User ada added!');
+        }
+        dispatch({
+          type: ACTUALIZAR_CODIGO_QUINIELA,
+          payload: snapshot,
+        });
+        // console.log("Ada's data: ", snapshot.val());
+      },
+    );
+
 export const cambiarEstatusQuiniela = (apuesta, quiniela, status) => (dispatch) => {
   apuesta.activo = status;
-
+  apuesta.cargando = true;
+  dispatch({ type: CAMBIAR_ESTATUS_JUGADOR, payload: apuesta });
   console.log(apuesta);
   const postData = {
     activo: apuesta.activo,
@@ -215,9 +283,10 @@ export const cambiarEstatusQuiniela = (apuesta, quiniela, status) => (dispatch) 
     .catch(error => crearQuinielaError(dispatch, error));
 };
 
-const crearQuinielaExito = (dispatch, apuesta) => {
-  dispatch({ type: CAMBIAR_ESTATUS_JUGADOR, payload: apuesta });
-};
+function crearQuinielaExito(dispatch, apuesta) {
+  apuesta.cargando = false;
+  return dispatch({ type: CAMBIAR_ESTATUS_JUGADOR, payload: apuesta });
+}
 
 const crearQuinielaError = (dispatch, error) => {
   // dispatch({ type: CREATE_QUINIELA_FAIL, payload: error });

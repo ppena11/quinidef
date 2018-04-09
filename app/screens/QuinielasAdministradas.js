@@ -118,7 +118,7 @@ class QuinielasAdministradas extends Component {
 
   tusquinielas() {
     // console.log('TEST2');
-    this.props.reloadingQuinielas();
+    // this.props.reloadingQuinielas();
     this.props.irTusQuinielas();
     // this.props.navigation.goBack();
   }

@@ -23,6 +23,7 @@ import {
   reloadingQuinielas,
   crearCodigoQuiniela,
   buscarReglas,
+  buscarDisponiblesDemo,
 } from '../actions';
 import { Container } from '../components/Container';
 import { BotonPrincipal } from '../components/BotonPrincipal';
@@ -88,6 +89,9 @@ class TusQuinielas extends Component {
 
       const code = await this.props.crearCodigoQuiniela(codigo);
       const regla = await this.props.buscarReglas(torneoid);
+      const disponibles = await this.props.buscarDisponiblesDemo(torneoid);
+      const disponible = disponibles.toJSON();
+      console.log(`DISPONIBLESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS ${disponible}`);
       const newCodigo = generarCodigo();
       // const link4 = link3.codigo;
       // console.log(link4);
@@ -106,6 +110,7 @@ class TusQuinielas extends Component {
           torneoid,
           codigoq,
           reglas,
+          disponible,
         });
         this.props.reloadingQuinielas();
         this.setState({ validando: false });
@@ -351,4 +356,5 @@ export default connect(mapStateToProps, {
   reloadingQuinielas,
   crearCodigoQuiniela,
   buscarReglas,
+  buscarDisponiblesDemo,
 })(TusQuinielas);

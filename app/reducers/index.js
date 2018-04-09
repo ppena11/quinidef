@@ -10,6 +10,8 @@ import JugadoresAdminReducer from './JugadoresAdminReducer';
 import CodigosReducer from './CodigosReducer';
 // import nav from './nav';
 import NavigationReducer from './NavigationReducer';
+import ActivacionReducer from './ActivacionReducer';
+import QAreducer from './QAreducer';
 
 export default combineReducers({
   auth: AuthReducer,
@@ -22,4 +24,6 @@ export default combineReducers({
   jugadorlast: JugadorUltimoReducer,
   jugadoresadmin: JugadoresAdminReducer,
   codigos: CodigosReducer,
+  activacion: ActivacionReducer,
+  disponible: QAreducer,
 });

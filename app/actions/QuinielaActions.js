@@ -25,6 +25,7 @@ import {
   ACTUALIZAR_CODIGO_QUINIELA,
   BUSCAR_REGLAS_EXITO,
   ACTUALIZAR_NOMBRE_QUINIELA,
+  BUSCAR_DISPONIBLES_EXITO,
 } from './types';
 
 export const QuinielaUpdate = ({ prop, value }) => ({
@@ -332,6 +333,7 @@ export const crearQuiniela = ({
   torneoid,
   codigoq,
   reglas,
+  disponible,
 }) => (dispatch) => {
   const { currentUser } = firebase.auth();
 
@@ -356,6 +358,7 @@ export const crearQuiniela = ({
     codigoq,
     quinielaID,
     reglas,
+    quinielasDisponibles: disponible,
   };
   const postData2 = {
     quinielaNombre,
@@ -363,6 +366,7 @@ export const crearQuiniela = ({
     torneoid,
     admin: currentUser.uid,
     adminr,
+
     quinielaNombrer,
     codigoq,
     quinielaID,
@@ -506,6 +510,14 @@ export const buscarReglas = torneoid => dispatch =>
     .ref(`/torneos/${torneoid}/reglasPorDefecto`)
     .once('value', (snapshot) => {
       dispatch({ type: BUSCAR_REGLAS_EXITO, payload: snapshot.val() });
+    });
+
+export const buscarDisponiblesDemo = torneoid => dispatch =>
+  firebase
+    .database()
+    .ref(`/torneos/${torneoid}/disponible`)
+    .once('value', (snapshot) => {
+      dispatch({ type: BUSCAR_DISPONIBLES_EXITO, payload: snapshot.val() });
     });
 
 export const buscarReglasAdmin = qid => dispatch =>
