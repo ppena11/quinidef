@@ -9,6 +9,8 @@ import {
   TextInput,
   FlatList,
   ScrollView,
+  TouchableOpacity,
+  Text,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
@@ -23,6 +25,8 @@ import {
   reloadingJugadores,
   buscarDisponibles,
   irAdministradas,
+  buscarPorActivar,
+  buscarActivos,
 } from '../actions';
 import { Container } from '../components/Container';
 import { BotonPrincipal } from '../components/BotonPrincipal';
@@ -57,6 +61,8 @@ class DetalleQuinielaAdministrada extends Component {
     // const { quinielaNombre, torneo } = this.props.quiniela;
     // console.log(_.map(this.props.navigation.state.params.quiniela.Users, (val, uid) => ({ ...val, uid })));
     this.props.buscarDisponibles(this.props.navigation.state.params.quiniela.uid);
+    // this.props.buscarPorActivar(this.props.navigation.state.params.quiniela.uid);
+    // this.props.buscarActivos(this.props.navigation.state.params.quiniela.uid);
     this.props.buscarJugadoresAdministradas(this.props.navigation.state.params.quiniela.uid);
     this.keyboardWillShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
     this.keyboardWillHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
@@ -74,6 +80,14 @@ class DetalleQuinielaAdministrada extends Component {
     firebase
       .database()
       .ref(`/quinielas/${this.props.navigation.state.params.quiniela.uid}/info/quinielasDisponibles`)
+      .off();
+    firebase
+      .database()
+      .ref(`/quinielas/${this.props.navigation.state.params.quiniela.uid}/info/quinielasPorActivar`)
+      .off();
+    firebase
+      .database()
+      .ref(`/quinielas/${this.props.navigation.state.params.quiniela.uid}/info/quinielasActivos`)
       .off();
   }
 
@@ -111,7 +125,7 @@ class DetalleQuinielaAdministrada extends Component {
         quiniela={this.props.navigation.state.params.quiniela.uid}
         quinielan={this.props.navigation.state.params.quiniela.quinielaNombre}
         codigo={this.props.navigation.state.params.quiniela.codigoq}
-        dispon={this.props.disponibles}
+        info={this.props.info}
       />
     );
   }
@@ -177,6 +191,7 @@ class DetalleQuinielaAdministrada extends Component {
       return (
         <View>
           {/* <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal> */}
+          <BotonPrincipal onPress={() => this.tusquinielas()}>Comprar...</BotonPrincipal>
           <BotonPrincipal onPress={() => this.tusquinielas()}>Regresar</BotonPrincipal>
         </View>
       );
@@ -185,6 +200,19 @@ class DetalleQuinielaAdministrada extends Component {
   }
 
   render() {
+    const {
+      headerContentStyle,
+      headerTextStyle,
+      headerTextStyle1,
+      headerTextStyle2,
+      thumbnailStyle,
+      thumbnailContainerStyle,
+      cardSectionStyle,
+      headerContentStyle1,
+      containerStyle,
+    } = styles;
+
+    // console.log(this.props.info.quinielasActivos);
     return (
       <Container>
         <StatusBar
@@ -195,10 +223,28 @@ class DetalleQuinielaAdministrada extends Component {
         <View style={styles.form}>
           <View style={styles.titulo}>
             <Titulo>
-              {this.props.navigation.state.params.quiniela.quinielaNombre} -{' '}
-              {this.props.navigation.state.params.quiniela.codigoq}
-              {this.props.disponibles}
+              {this.props.navigation.state.params.quiniela.quinielaNombre}
+              {'\n'}Código: {this.props.navigation.state.params.quiniela.codigoq}
             </Titulo>
+          </View>
+          {/*    <View style={containerStyle}>
+            <Text headerTextStyle1>
+              Codigo: {this.props.navigation.state.params.quiniela.codigoq}
+            </Text>
+          </View> */}
+          <View style={containerStyle}>
+            <TouchableOpacity onPress={() => this.onReglasPress()} style={headerContentStyle}>
+              <Text style={headerTextStyle1}>ACTIVOS</Text>
+              <Text style={headerTextStyle}>{this.props.info.quinielasActivos}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.onReglasPress()} style={headerContentStyle}>
+              <Text style={headerTextStyle1}>POR ACTIVAR</Text>
+              <Text style={headerTextStyle}>{this.props.info.quinielasPorActivar}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={headerContentStyle}>
+              <Text style={headerTextStyle1}>DISPONIBLES</Text>
+              <Text style={headerTextStyle}>{this.props.info.quinielasDisponibles}</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles2.conta}>
             <View style={styles2.vire} />
@@ -237,6 +283,29 @@ class DetalleQuinielaAdministrada extends Component {
 }
 
 const styles = EStyleSheet.create({
+  headerContentStyle: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    position: 'relative',
+    alignItems: 'center',
+  },
+
+  containerStyle: {
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+  },
+  headerTextStyle: {
+    fontSize: 16,
+    color: color.$qxaHeaderTextStyle,
+    alignContent: 'center',
+  },
+
+  headerTextStyle1: {
+    fontSize: 12,
+    color: color.$qxaHeaderTextStyle,
+    alignContent: 'center',
+    fontWeight: '500',
+  },
   form: {
     flex: 1,
 
@@ -244,7 +313,7 @@ const styles = EStyleSheet.create({
     flexDirection: 'column',
   },
   titulo: {
-    padding: 20,
+    padding: 10,
   },
   cuerpo: { flex: 1 },
   bottom: {
@@ -295,7 +364,9 @@ const mapStateToProps = (state) => {
     reload: state.jugadorlast.reload,
     mostrarMenus: state.jugadorlast.mostrarMenu,
     buscarTexto: state.jugadorlast.buscar,
-    disponibles: state.activacion.disponibles,
+    info: state.activacion,
+    // poractivar: state.activacion.poractivar,
+    // activos: state.activacion.activos,
   };
 };
 
@@ -308,4 +379,6 @@ export default connect(mapStateToProps, {
   reloadingJugadores,
   buscarDisponibles,
   irAdministradas,
+  buscarPorActivar,
+  buscarActivos,
 })(DetalleQuinielaAdministrada);

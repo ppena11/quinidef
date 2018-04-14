@@ -22,6 +22,8 @@ import {
   BuscarJugadorTexto,
   reloadingJugadores,
   eliminarJugador,
+  reducirDisponibles,
+  cambiarEstatusQuinielaA,
 } from '../actions';
 import { Container } from '../components/Container';
 import { BotonPrincipal } from '../components/BotonPrincipal';
@@ -53,6 +55,7 @@ class EliminarApuesta extends Component {
 
     this.updateInputValue = this.updateInputValue.bind(this);
     this.eliminarTest1 = this.eliminarTest1.bind(this);
+    this.run = this.run.bind(this);
   }
 
   componentDidMount() {
@@ -93,11 +96,37 @@ class EliminarApuesta extends Component {
 
     if (codigo == this.state.inputfield) {
       this.props.eliminarJugador(jugador, quiniela, quinielan, jugadores);
-      goBack();
+      this.run(quiniela, jugador, goBack);
+      //
     } else {
       this.setState({ warning: 'yes' });
     }
   }
+
+  run = async (qu, jug, goBack) => {
+    try {
+      // const { currentUser } = firebase.auth();
+      // this.setState({ validando: true });
+      // await Promise.all([someCall(), anotherCall()]);
+
+      // const test = await this.props.cambiarEstatusQuiniela(jug, qu, e1);
+      // this.setState({ toggled: this.props.jugadores[uid].activo });
+      // console.log(test);
+      const t = await this.props.reducirDisponibles(qu);
+      if (t.committed) {
+        //  console.log(t.snapshot.val());
+        //  console.log(jug);
+        const test = await this.props.cambiarEstatusQuinielaA(qu, t.snapshot.val(), jug);
+        //   console.log(`TESXXXXXXXXXXXXXXXXXXXXXXXXXXXTTTTTTTTT ${test}`);
+        goBack();
+      }
+      // this.setState({ validando: false });
+    } catch (e) {
+      //   console.log(e);
+      goBack();
+      // this.setState({ validando: false });
+    }
+  };
 
   updateInputValue(t) {
     // console.log('TEST');
@@ -282,4 +311,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { eliminarJugador })(EliminarApuesta);
+export default connect(mapStateToProps, {
+  eliminarJugador,
+  reducirDisponibles,
+  cambiarEstatusQuinielaA,
+})(EliminarApuesta);

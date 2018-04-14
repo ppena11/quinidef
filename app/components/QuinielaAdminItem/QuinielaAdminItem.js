@@ -36,7 +36,7 @@ class QuinielaAdminItem extends Component {
   }
 
   pressed(e) {
-    if (this.props.dispon == 0 && e) {
+    if (this.props.info.quinielasDisponibles == 0 && e) {
       alert('Debes adquinir mas quinielas');
     } else {
       const {
@@ -62,15 +62,16 @@ class QuinielaAdminItem extends Component {
       // this.setState({ toggled: this.props.jugadores[uid].activo });
       // console.log(test);
       const test1 = await this.props.manejarDisponibles(qu, e1);
-      console.log(test1);
+      // console.log(test1);
       if (test1.committed) {
-        const test = await this.props.cambiarEstatusQuiniela(jug, qu, e1);
+        const test = await this.props.cambiarEstatusQuiniela(jug, qu, e1, test1.snapshot.val());
+        // console.log(`TESXXXXXXXXXXXXXXXXXXXXXXXXXXXTTTTTTTTT ${test}`);
         this.setState({ actualizando: false });
       }
 
       // this.setState({ validando: false });
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       // this.setState({ validando: false });
     }
   };
@@ -84,9 +85,9 @@ class QuinielaAdminItem extends Component {
 
   render() {
     const {
-      activo, puntos, nombre, uid,
+      activo, puntos, nombreapuesta, uid,
     } = this.props.jugador;
-    console.log(this.props.jugadores[uid].cargando);
+    // console.log(this.props.jugadores[uid].cargando);
     const {
       headerContentStyle,
       headerTextStyle,
@@ -103,7 +104,7 @@ class QuinielaAdminItem extends Component {
             {this.iconstatus(uid)}
           </TouchableOpacity>
           <TouchableOpacity style={headerContentStyle}>
-            <Text style={headerTextStyle}>{nombre}</Text>
+            <Text style={headerTextStyle}>{nombreapuesta}</Text>
             <Switch
               style={switchStyle}
               onValueChange={value => this.pressed(value)}
@@ -156,4 +157,7 @@ const mapStateToProps = (state) => {
   return { jugadores };
 };
 
-export default connect(mapStateToProps, { manejarDisponibles, cambiarEstatusQuiniela })(withNavigation(QuinielaAdminItem));
+export default connect(mapStateToProps, {
+  manejarDisponibles,
+  cambiarEstatusQuiniela,
+})(withNavigation(QuinielaAdminItem));

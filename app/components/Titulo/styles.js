@@ -20,6 +20,5 @@ export default EStyleSheet.create({
     flex: 8,
     backgroundColor: color.$primaryBackground,
     borderRadius: 25,
-    marginVertical: 10,
   },
 });

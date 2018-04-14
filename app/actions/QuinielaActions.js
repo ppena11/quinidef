@@ -313,15 +313,63 @@ export const crearNombreQuiniela = (quiniela, nombre) => dispatch =>
       // Abort the transaction.
       (error, committed, snapshot) => {
         if (error) {
-          console.log('Transaction failed abnormally!', error);
+          //   console.log('Transaction failed abnormally!', error);
         } else if (!committed) {
-          console.log('We aborted the transaction (because ada already exists).');
+          //   console.log('We aborted the transaction (because ada already exists).');
         } else {
-          console.log('User ada added!');
+          //   console.log('User ada added!');
         }
         dispatch({
           type: ACTUALIZAR_NOMBRE_QUINIELA,
           payload: nombre,
+        });
+        // console.log("Ada's data: ", snapshot.val());
+      },
+    );
+
+export const manejarActivos = quiniela => dispatch =>
+  firebase
+    .database()
+    .ref(`/quinielas/${quiniela}/info/quinielasPorActivar`)
+    .transaction(
+      currentData => Number(currentData) + 1,
+
+      // Abort the transaction.
+      (error, committed, snapshot) => {
+        if (error) {
+          //    console.log('Transaction failed abnormally!', error);
+        } else if (!committed) {
+          //   console.log('We aborted the transaction (because ada already exists).');
+        } else {
+          //  console.log('User ada added!');
+        }
+        dispatch({
+          type: ACTUALIZAR_NOMBRE_QUINIELA,
+          payload: snapshot,
+        });
+        // console.log("Ada's data: ", snapshot.val());
+      },
+    );
+
+export const manejarActivosA = (quiniela, admin, pora) => dispatch =>
+  firebase
+    .database()
+    .ref(`/users/${admin}/quinielasadministradas/${quiniela}/quinielasPorActivar`)
+    .transaction(
+      currentData => Number(pora),
+
+      // Abort the transaction.
+      (error, committed, snapshot) => {
+        if (error) {
+          //    console.log('Transaction failed abnormally!', error);
+        } else if (!committed) {
+          //    console.log('We aborted the transaction (because ada already exists).');
+        } else {
+          //    console.log('User ada added!');
+        }
+        dispatch({
+          type: ACTUALIZAR_NOMBRE_QUINIELA,
+          payload: snapshot,
         });
         // console.log("Ada's data: ", snapshot.val());
       },
@@ -359,6 +407,8 @@ export const crearQuiniela = ({
     quinielaID,
     reglas,
     quinielasDisponibles: disponible,
+    quinielasActivos: '0',
+    quinielasPorActivar: '0',
   };
   const postData2 = {
     quinielaNombre,
@@ -366,7 +416,9 @@ export const crearQuiniela = ({
     torneoid,
     admin: currentUser.uid,
     adminr,
-
+    quinielasDisponibles: disponible,
+    quinielasActivos: '0',
+    quinielasPorActivar: '0',
     quinielaNombrer,
     codigoq,
     quinielaID,
@@ -423,7 +475,7 @@ export const agregarJugador = (
     puntos: 0,
     activo: false,
     jid: currentUser.uid,
-    nombre: nombreapuesta,
+    nombreapuesta,
     torneo,
     torneoid,
     quinielaNombre,
@@ -489,11 +541,11 @@ export const crearCodigoQuiniela = codigo => (dispatch) => {
       // Abort the transaction.
       (error, committed, snapshot) => {
         if (error) {
-          console.log('Transaction failed abnormally!', error);
+          //   console.log('Transaction failed abnormally!', error);
         } else if (!committed) {
-          console.log('We aborted the transaction (because ada already exists).');
+          //   console.log('We aborted the transaction (because ada already exists).');
         } else {
-          console.log('User ada added!');
+          //  console.log('User ada added!');
         }
         dispatch({
           type: ACTUALIZAR_CODIGO_QUINIELA,

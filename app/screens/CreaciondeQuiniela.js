@@ -91,14 +91,14 @@ class TusQuinielas extends Component {
       const regla = await this.props.buscarReglas(torneoid);
       const disponibles = await this.props.buscarDisponiblesDemo(torneoid);
       const disponible = disponibles.toJSON();
-      console.log(`DISPONIBLESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS ${disponible}`);
+      //  console.log(`DISPONIBLESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS ${disponible}`);
       const newCodigo = generarCodigo();
       // const link4 = link3.codigo;
       // console.log(link4);
       const items = code.snapshot.toJSON();
-      console.log(regla);
+      // console.log(regla);
       const reglas = regla.toJSON();
-      console.log(typeof items);
+      //  console.log(typeof items);
       //  codigoq = items[Object.keys(items)[Object.keys(items).length - 1]];
 
       if (typeof items !== 'object') {
@@ -116,12 +116,12 @@ class TusQuinielas extends Component {
         this.setState({ validando: false });
         goBack();
       } else {
-        console.log(newCodigo);
+        //    console.log(newCodigo);
         this.run(newCodigo, quinielaNombre, torneo, torneoid);
       }
     } catch (e) {
       this.setState({ validando: false });
-      console.log(e);
+      //  console.log(e);
     }
   };
 
@@ -133,8 +133,8 @@ class TusQuinielas extends Component {
 
     // const code = this.props.crearCodigoQuiniela(codigo);
 
-    console.log(`quinielaNombre.length ${quinielaNombre.length}`);
-    console.log(`quinielaNombre ${quinielaNombre}`);
+    //  console.log(`quinielaNombre.length ${quinielaNombre.length}`);
+    //  console.log(`quinielaNombre ${quinielaNombre}`);
     if (quinielaNombre != '') {
       this.run(goBack, codigo, quinielaNombre.toUpperCase(), torneo, torneoid);
     } else {

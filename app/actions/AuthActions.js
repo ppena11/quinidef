@@ -134,8 +134,8 @@ const loginUserSuccess = (dispatch, user) => {
 const createUserSuccess = (dispatch, user, nombre) => {
   const { currentUser } = firebase.auth();
   const postData1 = { nombre, user: currentUser.uid, email: currentUser.email };
-  console.log(`NOMBRE ${nombre}`);
-  console.log(`UID ${currentUser.uid}`);
+  // console.log(`NOMBRE ${nombre}`);
+  // console.log(`UID ${currentUser.uid}`);
   const updates1 = {};
 
   updates1[`/users/${currentUser.uid}/info`] = postData1;

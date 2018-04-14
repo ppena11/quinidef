@@ -49,13 +49,13 @@ class Qxa extends Component {
         quinielaNombre, torneo, codigoq, quinielaID,
       } = this.props.quiniela;
 
-      const test = await this.props.buscarDisponiblesq(this.props.quiniela);
-      const tt1 = test.toJSON();
-      console.log(`TESTTTTTSTSTSTS ${test}`);
-      this.setState({ disponibles: tt1 });
+      // const test = await this.props.buscarDisponiblesq(this.props.quiniela);
+      // const tt1 = test.toJSON();
+      // console.log(`TESTTTTTSTSTSTS ${test}`);
+      // this.setState({ disponibles: tt1 });
       // this.setState({ validando: false });
     } catch (e) {
-      console.log(e);
+      //   console.log(e);
       // this.setState({ validando: false });
     }
   };
@@ -68,9 +68,14 @@ class Qxa extends Component {
 
   render() {
     const {
-      quinielaNombre, torneo, codigoq, quinielaID,
+      quinielaNombre,
+      torneo,
+      codigoq,
+      quinielaID,
+      quinielasDisponibles,
+      quinielasPorActivar,
     } = this.props.quiniela;
-    console.log(this.props.quinielasadmin[quinielaID]);
+    // console.log(this.props.quinielasadmin[quinielaID]);
     const {
       headerContentStyle,
       headerTextStyle,
@@ -95,7 +100,7 @@ class Qxa extends Component {
         </CardSection>
         <CardSectionText>
           <TouchableOpacity onPress={() => this.onRowPress()} style={headerContentStyle}>
-            <Text style={headerTextStyle}>Disponibles: {this.state.disponibles}</Text>
+            <Text style={headerTextStyle}>Por activar: {quinielasPorActivar}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this.onReglasPress()} style={headerContentStyle}>
             <Text style={headerTextStyle}>Modificar reglas</Text>

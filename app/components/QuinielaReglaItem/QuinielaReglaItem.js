@@ -39,18 +39,18 @@ class QuinielaReglaItem extends Component {
     const k = Number(e);
     if (!isNaN(k) && Number.isInteger(k)) {
       if (k >= 0) {
-        console.log('GUARDALO');
-        console.log(this.props.regla.key);
+        //  console.log('GUARDALO');
+        //  console.log(this.props.regla.key);
 
         const re = this.props.reglas;
         re[this.props.regla.key] = k;
         this.props.modificarReglas(re);
-        console.log(re);
+        //   console.log(re);
       }
     } else if (e == '') {
-      console.log(this.props.regla.value.toString());
+      //  console.log(this.props.regla.value.toString());
     }
-    console.log();
+    //  console.log();
     // this.props.modificarReglas(this.props.regla.key,e);
   }
 

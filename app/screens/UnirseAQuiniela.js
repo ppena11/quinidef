@@ -59,8 +59,8 @@ class UnirseAQuiniela extends Component {
         const test2 = await this.props.buscarAdmin(items2.admin);
 
         const items3 = test2.toJSON();
-        console.log(`${items2.admin}`);
-        console.log(`items 3 ${items3}`);
+        //    console.log(`${items2.admin}`);
+        //    console.log(`items 3 ${items3}`);
 
         this.props.navigation.navigate('RegistrarQuiniela', {
           quiniela: items2,
@@ -72,7 +72,7 @@ class UnirseAQuiniela extends Component {
         alert('Por favor introduce un código válido de 4 caracteres');
       }
     } catch (e) {
-      console.log(e);
+      //    console.log(e);
       this.setState({ validando: true });
     }
   };
@@ -153,11 +153,11 @@ class UnirseAQuiniela extends Component {
     let arr = [];
     arr = this.state.inputfield;
     arr[0] = t;
-    console.log(`arr0000 : ${arr}`);
+    //  console.log(`arr0000 : ${arr}`);
     this.setState({ inputfield: arr });
     // this.setState({ warning: 'no' });
-    console.log(`ttttttttttttttttttttttttttt : ${t}`);
-    console.log(`ttttttttttttttttttttttttttt : ${this}`);
+    //   console.log(`ttttttttttttttttttttttttttt : ${t}`);
+    //   console.log(`ttttttttttttttttttttttttttt : ${this}`);
     if (t != '') {
       this.focusNextField('two');
     }
@@ -171,11 +171,11 @@ class UnirseAQuiniela extends Component {
     let arr = [];
     arr = this.state.inputfield;
     arr[1] = t;
-    console.log(`arr1111 : ${arr}`);
+    //   console.log(`arr1111 : ${arr}`);
 
     this.setState({ inputfield: arr });
-    console.log(`ttttttttttttttttttttttttttt : ${t}`);
-    console.log(`ttttttttttttttttttttttttttt : ${this.state.inputfield}`);
+    // console.log(`ttttttttttttttttttttttttttt : ${t}`);
+    // console.log(`ttttttttttttttttttttttttttt : ${this.state.inputfield}`);
     if (t != '') {
       this.focusNextField('three');
     }
@@ -188,11 +188,11 @@ class UnirseAQuiniela extends Component {
     let arr = [];
     arr = this.state.inputfield;
     arr[2] = t;
-    console.log(`arr22222 : ${arr}`);
+    // console.log(`arr22222 : ${arr}`);
 
     this.setState({ inputfield: arr });
-    console.log(`ttttttttttttttttttttttttttt : ${t}`);
-    console.log(`ttttttttttttttttttttttttttt : ${this.state.inputfield}`);
+    //  console.log(`ttttttttttttttttttttttttttt : ${t}`);
+    //  console.log(`ttttttttttttttttttttttttttt : ${this.state.inputfield}`);
     if (t != '') {
       this.focusNextField('four');
     }
@@ -205,11 +205,11 @@ class UnirseAQuiniela extends Component {
     let arr = [];
     arr = this.state.inputfield;
     arr[3] = t;
-    console.log(`arr3333 : ${arr}`);
+    // console.log(`arr3333 : ${arr}`);
 
     this.setState({ inputfield: arr });
-    console.log(`ttttttttttttttttttttttttttt : ${t}`);
-    console.log(`ttttttttttttttttttttttttttt : ${this.state.inputfield}`);
+    //  console.log(`ttttttttttttttttttttttttttt : ${t}`);
+    //  console.log(`ttttttttttttttttttttttttttt : ${this.state.inputfield}`);
   }
 
   focusNextField(id) {
@@ -225,8 +225,8 @@ class UnirseAQuiniela extends Component {
 
   render() {
     // const { navigate } = this.props.navigation;
-    console.log(this.props.quiniela);
-    console.log(`this.u2) ${this.u2}`);
+    // console.log(this.props.quiniela);
+    //  console.log(`this.u2) ${this.u2}`);
     return (
       <Container>
         <StatusBar

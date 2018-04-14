@@ -16,6 +16,8 @@ import {
   ACTIVACION_UPDATE,
   ACTIVACION_UPDATE_R,
   UPDATE_DISPO,
+  ACTIVACION_UPDATE_POR_ACTIVAR,
+  ACTIVACION_UPDATE_ACTIVOS,
 } from './types';
 
 export const BuscarJugadorTexto = value => ({
@@ -26,7 +28,7 @@ export const BuscarJugadorTexto = value => ({
 export const buscarDisponibles = quiniela => (dispatch) => {
   firebase
     .database()
-    .ref(`/quinielas/${quiniela}/info/quinielasDisponibles`)
+    .ref(`/quinielas/${quiniela}/info/`)
     .on('value', (snapshot) => {
       if (snapshot.exists()) {
         dispatch({
@@ -37,8 +39,36 @@ export const buscarDisponibles = quiniela => (dispatch) => {
     });
 };
 
+export const buscarPorActivar = quiniela => (dispatch) => {
+  firebase
+    .database()
+    .ref(`/quinielas/${quiniela}/info/quinielasPorActivar`)
+    .on('value', (snapshot) => {
+      if (snapshot.exists()) {
+        dispatch({
+          type: ACTIVACION_UPDATE_POR_ACTIVAR,
+          payload: snapshot.val(),
+        });
+      }
+    });
+};
+
+export const buscarActivos = quiniela => (dispatch) => {
+  firebase
+    .database()
+    .ref(`/quinielas/${quiniela}/info/quinielasActivos`)
+    .on('value', (snapshot) => {
+      if (snapshot.exists()) {
+        dispatch({
+          type: ACTIVACION_UPDATE_ACTIVOS,
+          payload: snapshot.val(),
+        });
+      }
+    });
+};
+
 export const buscarDisponiblesq = quiniela => (dispatch) => {
-  console.log(quiniela);
+  // console.log(quiniela);
   const q = quiniela;
 
   return firebase
@@ -47,7 +77,7 @@ export const buscarDisponiblesq = quiniela => (dispatch) => {
     .once('value', (snapshot) => {
       if (snapshot.exists()) {
         q.quinielasDisponibles = snapshot.val();
-        console.log(q);
+        //   console.log(q);
         dispatch({
           type: UPDATE_DISPO,
           payload: q,
@@ -216,24 +246,33 @@ export const buscarJugadoresAdministradasMaxT = (max, queryText, quiniela) => {
 export const manejarDisponibles = (qu, e1) => dispatch =>
   firebase
     .database()
-    .ref(`/quinielas/${qu}/info/quinielasDisponibles`)
+    .ref(`/quinielas/${qu}/info/`)
     .transaction(
       (currentData) => {
-        console.log(`EEEEEEEEEEEEEEEEE1 ${e1}`);
+        // console.log(`EEEEEEEEEEEEEEEEE1 ${e1}`);
+
         if (e1) {
-          return Number(currentData) - 1;
+          currentData.quinielasDisponibles = Number(currentData.quinielasDisponibles) - 1;
+          currentData.quinielasActivos = Number(currentData.quinielasActivos) + 1;
+          currentData.quinielasPorActivar = Number(currentData.quinielasPorActivar) - 1;
+
+          return currentData;
         }
-        return Number(currentData) + 1;
+        currentData.quinielasDisponibles = Number(currentData.quinielasDisponibles) + 1;
+        currentData.quinielasActivos = Number(currentData.quinielasActivos) - 1;
+        currentData.quinielasPorActivar = Number(currentData.quinielasPorActivar) + 1;
+
+        return currentData;
       },
 
       // Abort the transaction.
       (error, committed, snapshot) => {
         if (error) {
-          console.log('Transaction failed abnormally!', error);
+          //    console.log('Transaction failed abnormally!', error);
         } else if (!committed) {
-          console.log('We aborted the transaction (because ada already exists).');
+          //     console.log('We aborted the transaction (because ada already exists).');
         } else {
-          console.log('User ada added!');
+          // console.log('User ada added!');
         }
         dispatch({
           type: ACTUALIZAR_CODIGO_QUINIELA,
@@ -243,14 +282,44 @@ export const manejarDisponibles = (qu, e1) => dispatch =>
       },
     );
 
-export const cambiarEstatusQuiniela = (apuesta, quiniela, status) => (dispatch) => {
+export const reducirDisponibles = qu => dispatch =>
+  firebase
+    .database()
+    .ref(`/quinielas/${qu}/info/`)
+    .transaction(
+      (currentData) => {
+        Number((currentData.quinielasPorActivar -= 1));
+
+        return currentData;
+      },
+
+      // Abort the transaction.
+      (error, committed, snapshot) => {
+        if (error) {
+          //   console.log('Transaction failed abnormally!', error);
+        } else if (!committed) {
+          //   console.log('We aborted the transaction (because ada already exists).');
+        } else {
+          //   console.log('User adahksjfhksjdfhksdjfhjksdfhkdjfh added!');
+        }
+        dispatch({
+          type: ACTUALIZAR_CODIGO_QUINIELA,
+          payload: snapshot,
+        });
+        // console.log("Ada's data: ", snapshot.val());
+      },
+    );
+
+export const cambiarEstatusQuiniela = (apuesta, quiniela, status, info) => (dispatch) => {
   apuesta.activo = status;
   apuesta.cargando = true;
   dispatch({ type: CAMBIAR_ESTATUS_JUGADOR, payload: apuesta });
-  console.log(apuesta);
+  // console.log(`INFOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO ${info}`);
+  const a = info.quinielasActivos;
+
   const postData = {
     activo: apuesta.activo,
-    nombre: apuesta.nombre,
+    nombreapuesta: apuesta.nombreapuesta,
     puntos: apuesta.puntos,
     jid: apuesta.jid,
     quinielaNombre: apuesta.quinielaNombre,
@@ -259,25 +328,66 @@ export const cambiarEstatusQuiniela = (apuesta, quiniela, status) => (dispatch) 
   };
 
   const postData1 = {
-    activo: apuesta.activo,
-    nombreapuesta: apuesta.nombre,
-    puntos: apuesta.puntos,
-    jid: apuesta.jid,
+    admin: info.admin,
+    adminr: info.adminr,
+    codigoq: info.codigoq,
+    quinielaID: info.quinielaID,
     quinielaNombre: apuesta.quinielaNombre,
+    quinielaNombrer: info.quinielaNombrer,
     torneo: apuesta.torneo,
     torneoid: apuesta.torneoid,
+    quinielasDisponibles: info.quinielasDisponibles,
+    quinielasPorActivar: info.quinielasPorActivar,
+    quinielasActivos: a,
   };
+  const postData2 = info.quinielasDisponibles;
+  const postData3 = a;
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
-  updates[`users/${apuesta.jid}/quinielas/${apuesta.uid}`] = postData1;
+  updates[`users/${apuesta.jid}/quinielas/${apuesta.uid}`] = postData;
+  updates[`users/${apuesta.jid}/quinielasadministradas/${quiniela}`] = postData1;
   updates[`/quinielas/${quiniela}/clasificacion/${apuesta.uid}`] = postData;
 
   return firebase
     .database()
     .ref()
     .update(updates)
-    .then((snap) => {
+    .then((error) => {
+      // console.log(`jalksjdlkasjdlkasjdlasjdlksad ${error}`);
+      crearQuinielaExito(dispatch, apuesta);
+    })
+    .catch(error => crearQuinielaError(dispatch, error));
+};
+
+export const cambiarEstatusQuinielaA = (quiniela, info, ju) => (dispatch) => {
+  const a = info.quinielasActivos;
+
+  const postData1 = {
+    admin: info.admin,
+    adminr: info.adminr,
+    codigoq: info.codigoq,
+    quinielaID: info.quinielaID,
+    quinielaNombre: info.quinielaNombre,
+    quinielaNombrer: info.quinielaNombrer,
+    torneo: info.torneo,
+    torneoid: info.torneoid,
+    quinielasDisponibles: info.quinielasDisponibles,
+    quinielasPorActivar: info.quinielasPorActivar,
+    quinielasActivos: a,
+  };
+
+  // Write the new post's data simultaneously in the posts list and the user's post list.
+  const updates = {};
+  updates[`users/${ju.jid}/quinielas/${ju.uid}`] = postData1;
+  updates[`users/${ju.jid}/quinielasadministradas/${quiniela}`] = postData1;
+
+  return firebase
+    .database()
+    .ref()
+    .update(updates)
+    .then((error) => {
+      // console.log(`jalksjdlkasjdlkasjdlasjdlksad ${error}`);
       crearQuinielaExito(dispatch, apuesta);
     })
     .catch(error => crearQuinielaError(dispatch, error));

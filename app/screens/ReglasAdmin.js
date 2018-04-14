@@ -65,13 +65,13 @@ class ReglasAdmin extends Component {
 
   run = async () => {
     try {
-      console.log(this.props.navigation.state.params.quiniela.uid);
+      //   console.log(this.props.navigation.state.params.quiniela.uid);
       const regla = await this.props.buscarReglasAdmin(this.props.navigation.state.params.quiniela.uid);
       const r1 = regla.toJSON();
       this.setState({ regla: r1 });
-      console.log(r1);
+      //   console.log(r1);
     } catch (e) {
-      console.log(e);
+      //    console.log(e);
     }
   };
 
@@ -82,12 +82,12 @@ class ReglasAdmin extends Component {
         this.props.navigation.state.params.quiniela.uid,
         this.props.reglast,
       );
-      console.log(test);
+      //   console.log(test);
       this.run();
       this.setState({ validando: false });
       this.props.navigation.goBack();
     } catch (e) {
-      console.log(e);
+      //   console.log(e);
       this.setState({ validando: false });
 
       this.props.navigation.goBack();

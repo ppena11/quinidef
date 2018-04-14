@@ -18,7 +18,13 @@ import { BotonPrincipal } from '../components/BotonPrincipal';
 import color from '../comun/colors';
 import { Spinner } from '../components/Spinner';
 
-import { buscarCodigos, agregarJugador, crearNombreQuiniela } from '../actions';
+import {
+  buscarCodigos,
+  agregarJugador,
+  crearNombreQuiniela,
+  manejarActivosA,
+  manejarActivos,
+} from '../actions';
 
 class RegistrarQuiniela extends Component {
   static navigationOptions = {
@@ -63,12 +69,13 @@ class RegistrarQuiniela extends Component {
         torneoid,
         quinielaNombre,
         quinielaID,
+        admin,
       } = this.props.navigation.state.params.quiniela;
       const name = await this.props.crearNombreQuiniela(
         quinielaID,
         this.state.inputfield.toUpperCase(),
       );
-      console.log(`NAMEEEEEEEEEEEEEEEEEEEEEEEEEE ${name.committed}`);
+      // console.log(`NAMEEEEEEEEEEEEEEEEEEEEEEEEEE ${name.committed}`);
       if (name.committed) {
         const test = await this.props.agregarJugador(
           quinielaID,
@@ -77,15 +84,17 @@ class RegistrarQuiniela extends Component {
           torneoid,
           quinielaNombre,
         );
+        const hh = await this.props.manejarActivos(quinielaID);
+        const hh1 = await this.props.manejarActivosA(quinielaID, admin, hh.snapshot.val());
         navigate('TusQuinielas');
         this.setState({ validando: false });
       } else {
         this.setState({ validando: false });
         alert('El nombre de usuario ya existe');
-        console.log('NOMBRE YA EXISTE');
+        // console.log('NOMBRE YA EXISTE');
       }
     } catch (e) {
-      console.log(e);
+      //  console.log(e);
       this.setState({ validando: false });
     }
   };
@@ -267,4 +276,10 @@ const mapStateToProps = state => ({
   aceptaAbonados: state.codigos.recibirAbonados,
 });
 
-export default connect(mapStateToProps, { buscarCodigos, agregarJugador, crearNombreQuiniela })(RegistrarQuiniela);
+export default connect(mapStateToProps, {
+  manejarActivos,
+  buscarCodigos,
+  agregarJugador,
+  crearNombreQuiniela,
+  manejarActivosA,
+})(RegistrarQuiniela);

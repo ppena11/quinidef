@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case ACTIVACION_UPDATE_R:
-      console.log(`QUE PASASASASAS ${action.payload}`);
+      // console.log(`QUE PASASASASAS ${action.payload}`);
       return { ...INITIAL_STATE, disponibles: action.payload };
 
     default:

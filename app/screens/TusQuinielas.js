@@ -40,11 +40,11 @@ class TusQuinielas extends Component {
       // this.setState({ validando: true });
       const test = await this.props.buscarQuinielas(currentUser.uid);
       const tt1 = test.toJSON();
-      console.log(`TESTTTTTSTSTSTS ${test}`);
+      //   console.log(`TESTTTTTSTSTSTS ${test}`);
       this.setState({ qu: tt1 });
       // this.setState({ validando: false });
     } catch (e) {
-      console.log(e);
+      //   console.log(e);
       // this.setState({ validando: false });
     }
   };
@@ -123,8 +123,8 @@ class TusQuinielas extends Component {
     // const { navigate } = this.props.navigation;
     // console.log('PORQUE ENTRA AQUI TUS QUINIELAS???');
     const tt = _.map(this.state.qu, (val, uid) => ({ ...val, uid }));
-    console.log(`ttttttttttttttttttttttttttttttttttttttttttttttttttttttt ${tt}`);
-    console.log(`VALIDANDO TUS QUINIELAS ${this.state.validando}`);
+    // console.log(`ttttttttttttttttttttttttttttttttttttttttttttttttttttttt ${tt}`);
+    // console.log(`VALIDANDO TUS QUINIELAS ${this.state.validando}`);
     return this.loading(tt);
   }
 }

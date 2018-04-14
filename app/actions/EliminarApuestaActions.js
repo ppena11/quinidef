@@ -10,13 +10,13 @@ export const eliminarJugador = (jugador, quiniela, quinielan, jugadores) => (dis
   updates[`/quinielas/${quiniela}/clasificacion/${jugador.uid}`] = postData1;
   updates[`/users/${jugador.jid}/quinielas/${jugador.uid}`] = postData1;
 
-  console.log(jugadores);
+  // console.log(jugadores);
   const jug = jugadores;
-  console.log(jugador.uid);
+  // console.log(jugador.uid);
   const uid = jugador.uid;
-  console.log(uid);
+  //  console.log(uid);
   delete jug[uid];
-  console.log(jug);
+  // console.log(jug);
 
   return firebase
     .database()
