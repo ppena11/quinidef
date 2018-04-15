@@ -71,7 +71,7 @@ export const irTusQuinielas = () => ({
 });
 
 export const salirSistema = () => (dispatch) => {
-  dispatch({ type: LOGIN_USER });
+  // dispatch({ type: LOGIN_USER });
   firebase
     .auth()
     .signOut()

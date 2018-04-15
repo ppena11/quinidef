@@ -182,12 +182,12 @@ class EliminarApuesta extends Component {
         />
         <View style={styles.form}>
           <View style={styles.titulo}>
-            {this.menustatus(jugador.nombre)}
+            {this.menustatus(jugador.nombreapuesta)}
             <Text style={styles.subtitulo1}>
               {this.warning()}
               <Text>
                 Introduce el codigo de activacion para {'\n'} eliminar a{' '}
-                <Text style={styles.bold}>{jugador.nombre}</Text>
+                <Text style={styles.bold}>{jugador.nombreapuesta}</Text>
               </Text>
             </Text>
             <View style={styles2.conta}>

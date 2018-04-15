@@ -45,14 +45,13 @@ class QuinielaAdminItem extends Component {
       if (!this.state.actualizando && !this.props.jugadores[uid].cargando) {
         this.setState({ actualizando: true });
         if (e != this.props.jugadores[uid].activo) {
-          this.setState({ toggled: this.props.jugadores[uid].activo });
-          this.run(this.props.jugador, this.props.quiniela, e);
+          this.run(this.props.jugador, this.props.quiniela, e, uid);
         }
       }
     }
   }
 
-  run = async (jug, qu, e1) => {
+  run = async (jug, qu, e1, uid) => {
     try {
       // const { currentUser } = firebase.auth();
       // this.setState({ validando: true });
@@ -65,7 +64,8 @@ class QuinielaAdminItem extends Component {
       // console.log(test1);
       if (test1.committed) {
         const test = await this.props.cambiarEstatusQuiniela(jug, qu, e1, test1.snapshot.val());
-        // console.log(`TESXXXXXXXXXXXXXXXXXXXXXXXXXXXTTTTTTTTT ${test}`);
+        console.log(`TESXXXXXXXXXXXXXXXXXXXXXXXXXXXTTTTTTTTT ${test}`);
+        this.setState({ toggled: this.props.jugadores[uid].activo });
         this.setState({ actualizando: false });
       }
 
@@ -108,7 +108,7 @@ class QuinielaAdminItem extends Component {
             <Switch
               style={switchStyle}
               onValueChange={value => this.pressed(value)}
-              value={this.props.jugadores[uid].activo}
+              value={this.state.toggled}
             />
           </TouchableOpacity>
         </CardSection>

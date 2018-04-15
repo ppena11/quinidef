@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
 
-import { buscarQuinielas, salir, irAdministradas } from '../actions';
+import { buscarQuinielas, salir, irAdministradas, salirSistema } from '../actions';
 import { Container } from '../components/Container';
 import { BotonPrincipal } from '../components/BotonPrincipal';
 import { Titulo } from '../components/Titulo';
@@ -54,7 +54,7 @@ class TusQuinielas extends Component {
   }
 
   logout2(navigate) {
-    firebase.auth().signOut();
+    this.props.salirSistema();
     // navigate('CargandoHome');
   }
 
@@ -170,4 +170,9 @@ const mapStateToProps = (state) => {
   return { quinielas };
 };
 
-export default connect(mapStateToProps, { buscarQuinielas, salir, irAdministradas })(TusQuinielas);
+export default connect(mapStateToProps, {
+  buscarQuinielas,
+  salir,
+  irAdministradas,
+  salirSistema,
+})(TusQuinielas);

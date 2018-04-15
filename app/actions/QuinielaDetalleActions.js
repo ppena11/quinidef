@@ -325,6 +325,7 @@ export const cambiarEstatusQuiniela = (apuesta, quiniela, status, info) => (disp
     quinielaNombre: apuesta.quinielaNombre,
     torneo: apuesta.torneo,
     torneoid: apuesta.torneoid,
+    quiniela: info.quinielaID,
   };
 
   const postData1 = {
@@ -379,8 +380,9 @@ export const cambiarEstatusQuinielaA = (quiniela, info, ju) => (dispatch) => {
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
-  updates[`users/${ju.jid}/quinielas/${ju.uid}`] = postData1;
+  // updates[`users/${ju.jid}/quinielas/${ju.uid}`] = postData1;
   updates[`users/${ju.jid}/quinielasadministradas/${quiniela}`] = postData1;
+  updates[`quinielas/${quiniela}/info`] = postData1;
 
   return firebase
     .database()
