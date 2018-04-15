@@ -17,14 +17,7 @@ EStyleSheet.build({
 */
 });
 
-const App = ({ dispatch, nav }) => (
-  <RootNavigator
-    navigation={addNavigationHelpers({
-      dispatch,
-      state: nav,
-    })}
-  />
-);
+const App = ({ dispatch, nav }) => <RootNavigator />;
 
 const mapStateToProps = state => ({
   nav: state.nav,

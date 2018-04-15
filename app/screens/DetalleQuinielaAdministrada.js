@@ -11,6 +11,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Text,
+  BackHandler,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
@@ -66,6 +67,7 @@ class DetalleQuinielaAdministrada extends Component {
     this.props.buscarJugadoresAdministradas(this.props.navigation.state.params.quiniela.uid);
     this.keyboardWillShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
     this.keyboardWillHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
+    BackHandler.addEventListener('hardwareBackPress', () => this.props.navigation.goBack());
   }
 
   componentWillReceiveProps(nextProps) {
@@ -114,8 +116,8 @@ class DetalleQuinielaAdministrada extends Component {
   tusquinielas() {
     // console.log('TEST2');
     this.props.reloadingJugadores();
-    this.props.irAdministradas();
-    // this.props.navigation.goBack();
+    // this.props.irAdministradas();
+    this.props.navigation.goBack();
   }
 
   renderRow(jugador) {

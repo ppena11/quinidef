@@ -80,7 +80,7 @@ class QuinielaAdminItem extends Component {
     if (!this.props.jugadores[uid].activo) {
       return <Image style={styles.thumbnailStyle} source={require('../Logo/images/borrar1.png')} />;
     }
-    return <Image style={styles.thumbnailStyle} />;
+    return <View />;
   }
 
   render() {

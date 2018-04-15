@@ -8,6 +8,7 @@ import {
   Keyboard,
   Text,
   TouchableOpacity,
+  BackHandler,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
@@ -47,6 +48,7 @@ class TusQuinielas extends Component {
   }
 
   componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', () => this.props.navigation.goBack());
     this.props.buscarTorneos();
     this.createDataSource(this.props);
     Object.keys(this.props.torneos).map((key) => {

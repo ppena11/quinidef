@@ -68,8 +68,8 @@ class TusQuinielas extends Component {
   };
 
   crear() {
-    this.props.irAdministradas();
-    // this.props.navigation.navigate('QuinielasAdministradas');
+    // this.props.irAdministradas();
+    this.props.navigation.navigate('QuinielasAdministradas');
   }
 
   _renderItem = ({ item }) => <Qx quiniela={item} />;

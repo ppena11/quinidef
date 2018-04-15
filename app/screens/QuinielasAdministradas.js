@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
-import { StatusBar, ListView, Keyboard, View, ScrollView, FlatList, TextInput } from 'react-native';
+import {
+  StatusBar,
+  ListView,
+  Keyboard,
+  View,
+  ScrollView,
+  FlatList,
+  TextInput,
+  BackHandler,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -44,7 +53,7 @@ class QuinielasAdministradas extends Component {
     this.props.buscarQuinielasAdministradas(); // Busca las quinielas administradas :)
     this.keyboardWillShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
     this.keyboardWillHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
-
+    BackHandler.addEventListener('hardwareBackPress', () => this.props.navigation.goBack());
     //  this.createDataSource(this.props);
   }
 
@@ -119,8 +128,8 @@ class QuinielasAdministradas extends Component {
   tusquinielas() {
     // console.log('TEST2');
     // this.props.reloadingQuinielas();
-    this.props.irTusQuinielas();
-    // this.props.navigation.goBack();
+    // this.props.irTusQuinielas();
+    this.props.navigation.goBack();
   }
 
   renderRow(quiniela) {
