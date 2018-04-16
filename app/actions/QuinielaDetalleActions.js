@@ -379,7 +379,7 @@ export const cambiarEstatusQuinielaA = (quiniela, info, ju) => (dispatch) => {
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
-  updates[`users/${ju.jid}/quinielas/${ju.uid}`] = postData1;
+  updates[`quinielas/${info.quinielaID}/info`] = postData1;
   updates[`users/${ju.jid}/quinielasadministradas/${quiniela}`] = postData1;
 
   return firebase

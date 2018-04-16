@@ -187,7 +187,7 @@ class EliminarApuesta extends Component {
               {this.warning()}
               <Text>
                 Introduce el codigo de activacion para {'\n'} eliminar a{' '}
-                <Text style={styles.bold}>{jugador.nombre}</Text>
+                <Text style={styles.bold}>{jugador.nombreapuesta}</Text>
               </Text>
             </Text>
             <View style={styles2.conta}>
