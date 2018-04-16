@@ -11,6 +11,7 @@ import {
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 // import firebase from 'firebase';
+import { NavigationActions } from 'react-navigation';
 
 import { Container } from '../components/Container';
 import { Titulo } from '../components/Titulo';
@@ -86,7 +87,13 @@ class RegistrarQuiniela extends Component {
         );
         const hh = await this.props.manejarActivos(quinielaID);
         const hh1 = await this.props.manejarActivosA(quinielaID, admin, hh.snapshot.val());
-        navigate('TusQuinielas');
+
+        const resetAction = NavigationActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: 'TusQuinielas' })],
+        });
+        this.props.navigation.dispatch(resetAction);
+        // navigate('TusQuinielas');
         this.setState({ validando: false });
       } else {
         this.setState({ validando: false });

@@ -12,6 +12,7 @@ import {
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 
 import {
   buscarQuinielasAdministradas,
@@ -49,7 +50,7 @@ class QuinielasAdministradas extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.buscarQuinielasAdministradas(); // Busca las quinielas administradas :)
     this.keyboardWillShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
     this.keyboardWillHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
@@ -129,7 +130,12 @@ class QuinielasAdministradas extends Component {
     // console.log('TEST2');
     // this.props.reloadingQuinielas();
     // this.props.irTusQuinielas();
-    this.props.navigation.goBack();
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'TusQuinielas' })],
+    });
+    this.props.navigation.dispatch(resetAction);
+    //  this.props.navigation.goBack();
   }
 
   renderRow(quiniela) {

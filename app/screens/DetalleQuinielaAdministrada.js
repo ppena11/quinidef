@@ -16,7 +16,7 @@ import {
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-
+import { NavigationActions } from 'react-navigation';
 import {
   buscarJugadoresAdministradas,
   buscarJugadoresAdministradasT,
@@ -117,7 +117,12 @@ class DetalleQuinielaAdministrada extends Component {
     // console.log('TEST2');
     this.props.reloadingJugadores();
     // this.props.irAdministradas();
-    this.props.navigation.goBack();
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'QuinielasAdministradas' })],
+    });
+    this.props.navigation.dispatch(resetAction);
+    // this.props.navigation.goBack();
   }
 
   renderRow(jugador) {
