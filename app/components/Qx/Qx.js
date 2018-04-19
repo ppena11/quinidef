@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
-
+import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
 import { Card } from '../Card';
 import { CardSection } from '../CardSection';
 import styles from './styles';
 
 class Qx extends Component {
-  touch(text) {
+  /*   touch(text) {
     alert(text);
   }
+ */
 
+  detalleQuiniela() {
+    this.props.navigation.navigate('DetalleQuiniela', {
+      quiniela: this.props.quiniela,
+    });
+  }
   render() {
     const {
       uid, nombreapuesta, activo, torneo, quinielaNombre,
@@ -23,7 +30,7 @@ class Qx extends Component {
     } = styles;
 
     return (
-      <TouchableOpacity onPress={() => this.touch(`${torneo} - ${nombreapuesta}`)}>
+      <TouchableOpacity onPress={() => this.detalleQuiniela()}>
         <Card>
           <CardSection>
             <View style={thumbnailContainerStyle}>
@@ -42,4 +49,6 @@ class Qx extends Component {
   }
 }
 
-export default Qx;
+const mapStateToProps = state => ({});
+
+export default connect(mapStateToProps, {})(withNavigation(Qx));

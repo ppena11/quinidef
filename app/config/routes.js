@@ -13,11 +13,11 @@ import DetalleQuinielaAdministrada from '../screens/DetalleQuinielaAdministrada'
 import UnirseAQuiniela from '../screens/UnirseAQuiniela';
 import RegistrarQuiniela from '../screens/RegistrarQuiniela';
 import ReglasAdmin from '../screens/ReglasAdmin';
+import DetalleQuiniela from '../screens/DetalleQuiniela';
 
 import EliminarApuesta from '../screens/EliminarApuesta';
 
 import CargandoHome from '../screens/CargandoHome';
-import SolicitarPago from '../screens/SolicitarPago';
 
 const stackRouterConfig = { initialRouteName: 'CargandoHome' };
 
@@ -67,6 +67,9 @@ const RootNavigator = StackNavigator(
 
     ReglasAdmin: {
       screen: ReglasAdmin,
+    },
+    DetalleQuiniela: {
+      screen: DetalleQuiniela,
     },
   },
   stackRouterConfig,
