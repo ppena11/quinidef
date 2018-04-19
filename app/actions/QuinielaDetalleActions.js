@@ -18,6 +18,7 @@ import {
   UPDATE_DISPO,
   ACTIVACION_UPDATE_POR_ACTIVAR,
   ACTIVACION_UPDATE_ACTIVOS,
+  BUSCAR_PARTIDOS_EXITO,
 } from './types';
 
 export const BuscarJugadorTexto = value => ({
@@ -38,6 +39,15 @@ export const buscarDisponibles = quiniela => (dispatch) => {
       }
     });
 };
+
+export const buscarPartidos = () => dispatch =>
+  firebase
+    .database()
+    .ref('/torneos/mundialRusia2018/partidos')
+    // .ref(`master/torneos/idTorneo2/partidos`)
+    .once('value', (snapshot) => {
+      dispatch({ type: BUSCAR_PARTIDOS_EXITO, payload: snapshot.val() });
+    });
 
 export const buscarPorActivar = quiniela => (dispatch) => {
   firebase
