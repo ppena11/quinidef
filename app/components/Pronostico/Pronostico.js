@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, Text, TextInput } from 'react-native';
 
 import { Card } from '../Card';
-import { banderas } from '../../images/banderas/banderas';
+// import banderas from '../../images/banderas/';
 import { pais3letras } from '../../comun/pais';
 import styles from './styles';
 import color from '../../comun/colors';

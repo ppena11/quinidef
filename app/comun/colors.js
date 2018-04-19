@@ -48,6 +48,8 @@ const colores = {
 
     $cardBorderColor: '#4876ac',
     $cardShadowColor: $negro,
+
+    $textoPronostico: $blanco,
 }
 
 export default colores;
