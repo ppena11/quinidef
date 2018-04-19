@@ -17,6 +17,7 @@ import ReglasAdmin from '../screens/ReglasAdmin';
 import EliminarApuesta from '../screens/EliminarApuesta';
 
 import CargandoHome from '../screens/CargandoHome';
+import SolicitarPago from '../screens/SolicitarPago';
 
 const stackRouterConfig = { initialRouteName: 'CargandoHome' };
 

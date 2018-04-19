@@ -125,6 +125,13 @@ class DetalleQuinielaAdministrada extends Component {
     // this.props.navigation.goBack();
   }
 
+  comprar() {
+    // console.log('TEST2');
+    this.props.reloadingJugadores();
+
+    this.props.navigation.navigate('SolicitarPagos');
+  }
+
   renderRow(jugador) {
     return (
       <QuinielaAdminItem
@@ -198,7 +205,7 @@ class DetalleQuinielaAdministrada extends Component {
       return (
         <View>
           {/* <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal> */}
-          <BotonPrincipal onPress={() => this.tusquinielas()}>Comprar...</BotonPrincipal>
+          <BotonPrincipal onPress={() => this.comprar()}>Comprar...</BotonPrincipal>
           <BotonPrincipal onPress={() => this.tusquinielas()}>Regresar</BotonPrincipal>
         </View>
       );

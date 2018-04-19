@@ -6,6 +6,7 @@ import {
   BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO_T,
   CAMBIAR_ID_TORNEO,
   UPDATE_DISPO,
+  EXIT_SUCCESS,
 } from '../actions/types';
 
 const INITIAL_STATE = {};
@@ -34,6 +35,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         [action.payload.uid]: _.omit(action.payload, 'uid'),
+      };
+
+    case EXIT_SUCCESS:
+      return {
+        ...INITIAL_STATE,
       };
 
     default:
