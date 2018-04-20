@@ -25,6 +25,7 @@ import {
   crearNombreQuiniela,
   manejarActivosA,
   manejarActivos,
+  buscarPartidos,
 } from '../actions';
 
 class RegistrarQuiniela extends Component {
@@ -76,6 +77,10 @@ class RegistrarQuiniela extends Component {
         quinielaID,
         this.state.inputfield.toUpperCase(),
       );
+      const partidos = await this.props.buscarPartidos(torneoid);
+      const r1 = partidos.toJSON();
+      // console.log(r1);
+      // this.setState({ partidos: r1 });
       // console.log(`NAMEEEEEEEEEEEEEEEEEEEEEEEEEE ${name.committed}`);
       if (name.committed) {
         const test = await this.props.agregarJugador(
@@ -84,6 +89,7 @@ class RegistrarQuiniela extends Component {
           torneo,
           torneoid,
           quinielaNombre,
+          r1,
         );
         const hh = await this.props.manejarActivos(quinielaID);
         const hh1 = await this.props.manejarActivosA(quinielaID, admin, hh.snapshot.val());
@@ -289,4 +295,5 @@ export default connect(mapStateToProps, {
   agregarJugador,
   crearNombreQuiniela,
   manejarActivosA,
+  buscarPartidos,
 })(RegistrarQuiniela);

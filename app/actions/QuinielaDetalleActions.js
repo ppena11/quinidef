@@ -40,10 +40,19 @@ export const buscarDisponibles = quiniela => (dispatch) => {
     });
 };
 
-export const buscarPartidos = () => dispatch =>
+export const buscarPartidos = torneo => dispatch =>
   firebase
     .database()
-    .ref('/torneos/mundialRusia2018/partidos')
+    .ref(`/torneos/${torneo}/partidos`)
+    // .ref(`master/torneos/idTorneo2/partidos`)
+    .once('value', (snapshot) => {
+      dispatch({ type: BUSCAR_PARTIDOS_EXITO, payload: snapshot.val() });
+    });
+
+export const buscarPartidosd = (quinielaid, nombreapuesta) => dispatch =>
+  firebase
+    .database()
+    .ref(`/quinielas/${quinielaid}/clasificacion/${nombreapuesta}/partidos`)
     // .ref(`master/torneos/idTorneo2/partidos`)
     .once('value', (snapshot) => {
       dispatch({ type: BUSCAR_PARTIDOS_EXITO, payload: snapshot.val() });

@@ -69,7 +69,7 @@ export default EStyleSheet.create({
     flexGrow: 4,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     borderWidth: 0,
   },
   image: {

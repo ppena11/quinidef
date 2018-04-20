@@ -12,6 +12,7 @@ import CodigosReducer from './CodigosReducer';
 import NavigationReducer from './NavigationReducer';
 import ActivacionReducer from './ActivacionReducer';
 import QAreducer from './QAreducer';
+import PartidosReducer from './PartidosReducer';
 
 export default combineReducers({
   auth: AuthReducer,
@@ -26,4 +27,5 @@ export default combineReducers({
   codigos: CodigosReducer,
   activacion: ActivacionReducer,
   disponible: QAreducer,
+  partidos: PartidosReducer,
 });

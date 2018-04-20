@@ -6,6 +6,7 @@ import {
   MOSTRAR_MENU_QUINIELA_ADMIN,
   MODIFICAR_REGLAS,
   REINICIAR_REGLAS,
+  MODIFICAR_APUESTAS,
 } from './types';
 
 export const QuinielaAdministradaUpdate = ({ prop, value }) => ({
@@ -24,6 +25,12 @@ export const modificarReglas = reglas => ({
   type: MODIFICAR_REGLAS,
   payload: reglas,
 });
+
+export const modificarApuestas = apuestas => ({
+  type: MODIFICAR_APUESTAS,
+  payload: apuestas,
+});
+
 export const reinicarReglas = () => ({
   type: REINICIAR_REGLAS,
 });
@@ -37,6 +44,26 @@ export const modifarReglasBD = (qid, reglas) => (dispatch) => {
   const updates = {};
 
   updates[`/quinielas/${qid}/info/reglas`] = postData;
+
+  return firebase
+    .database()
+    .ref()
+    .update(updates)
+    .then((snap) => {
+      // asignarCodigoQuiniela(codigoq, newPostKey);
+    })
+    .catch(error => crearQuinielaError(dispatch, error));
+};
+
+export const modificarApuestasBD = (qid, apuesta, apuestas) => (dispatch) => {
+  const postData = {
+    ...apuestas,
+  };
+
+  // Write the new post's data simultaneously in the posts list and the user's post list.
+  const updates = {};
+
+  updates[`/quinielas/${qid}/clasificacion/${apuesta}/partidos`] = postData;
 
   return firebase
     .database()

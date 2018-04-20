@@ -2,17 +2,23 @@ import React, { Component } from 'react';
 import {
   StatusBar,
   View,
+  Keyboard,
   BackHandler,
+  Text,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 
-import { buscarPartidos } from '../actions';
+import { buscarPartidosd, modificarApuestasBD } from '../actions';
 import { Container } from '../components/Container';
 import { Titulo } from '../components/Titulo';
 import { Pronostico } from '../components/Pronostico';
 import { PuntajeJugador } from '../comun/puntaje';
+import { BotonPrincipal } from '../components/BotonPrincipal';
+import { Spinner } from '../components/Spinner';
+
 import color from '../comun/colors';
 
 class DetalleQuiniela extends Component {
@@ -24,37 +30,96 @@ class DetalleQuiniela extends Component {
 
     this.state = {
       partidos: {},
+      validando: false,
+      menu: 'yes',
     };
     this.run = this.run.bind(this);
+    this.run2 = this.run2.bind(this);
   }
 
   componentDidMount() {
     this.run();
     BackHandler.addEventListener('hardwareBackPress', () => this.props.navigation.goBack());
+
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
+    this.keyboardWillHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
   }
+
+  componentWillUnmount() {
+    this.setState({ validando: false });
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
+  }
+
+  tusquinielas() {
+    // console.log('TEST2');
+    this.run();
+    this.props.navigation.goBack();
+  }
+
+  keyboardWillShow = () => {
+    this.setState({ menu: 'no' });
+  };
+
+  keyboardWillHide = () => {
+    this.setState({ menu: 'yes' });
+  };
 
   run = async () => {
     try {
-      const partidos = await this.props.buscarPartidos();
+      const partidos = await this.props.buscarPartidosd(
+        this.props.navigation.state.params.quiniela.quiniela,
+        this.props.navigation.state.params.quiniela.nombreapuesta,
+      );
       const r1 = partidos.toJSON();
       this.setState({ partidos: r1 });
-      console.log(r1);
+      // console.log(r1);
     } catch (e) {
       console.log(e);
     }
   };
 
-  fechaHoraDispositivo (fechaHoraGMT0) {
-    let diahora = new Date(fechaHoraGMT0 + " UTC");
-    let mes = (diahora.getMonth()+1)<10 ? "0"+(diahora.getMonth()+1) : (diahora.getMonth()+1);
-    let hora = diahora.getHours()<10 ? "0"+diahora.getHours() : diahora.getHours();
-    let minutos = diahora.getMinutes()<10 ? "0"+diahora.getMinutes() : diahora.getMinutes();
-    return diahora.getDate() + "/" + mes +  "/" + diahora.getFullYear() + " " + hora + ":" + minutos;
+  run2 = async () => {
+    try {
+      this.setState({ validando: true });
+      // const test = await this.props.modifarReglasBD(
+
+      const test = await this.props.modificarApuestasBD(
+        this.props.navigation.state.params.quiniela.quiniela,
+        this.props.navigation.state.params.quiniela.uid,
+        this.props.partidost,
+      );
+      console.log(this.props.navigation.state.params.quiniela.uid);
+      console.log(this.props.navigation.state.params.quiniela.quiniela);
+      //
+      //   console.log(test);
+      this.run();
+      this.setState({ validando: false });
+      this.props.navigation.goBack();
+    } catch (e) {
+      //   console.log(e);
+      this.setState({ validando: false });
+
+      this.props.navigation.goBack();
+    }
+  };
+
+  crear() {
+    this.run2();
+    // console.log('TEST');
+    // navigate('EliminarApuesta');
+  }
+  fechaHoraDispositivo(fechaHoraGMT0) {
+    const diahora = new Date(`${fechaHoraGMT0} UTC`);
+    const mes = diahora.getMonth() + 1 < 10 ? `0${diahora.getMonth() + 1}` : diahora.getMonth() + 1;
+    const hora = diahora.getHours() < 10 ? `0${diahora.getHours()}` : diahora.getHours();
+    const minutos = diahora.getMinutes() < 10 ? `0${diahora.getMinutes()}` : diahora.getMinutes();
+    return `${diahora.getDate()}/${mes}/${diahora.getFullYear()} ${hora}:${minutos}`;
   }
 
-  grupofasetext (grupoFase) {
-    let resultado = "";
-    if (grupoFase.length == 1) resultado = "Grupo " + grupoFase;
+  grupofasetext(grupoFase) {
+    let resultado = '';
+    if (grupoFase.length == 1) resultado = `Grupo ${grupoFase}`;
     else resultado = grupoFase;
     return resultado;
   }
@@ -62,7 +127,10 @@ class DetalleQuiniela extends Component {
   renderRow(partidos) {
     return (
       <Pronostico
+        partido={partidos}
         equipoA={partidos.value.idA}
+        golesA={partidos.value.golesA}
+        golesB={partidos.value.golesB}
         equipoB={partidos.value.idB}
         fecha={this.fechaHoraDispositivo(partidos.value.inicioGMT0)}
         grupoFase={this.grupofasetext(partidos.value.grupofase)}
@@ -71,22 +139,52 @@ class DetalleQuiniela extends Component {
   }
 
   calcularPuntajeTotalJugador() {
-    //data de prueba/ejemplo
-    let apuestas = [
-      [0, 1, 0],  // 10 pts
-      [1, 1, 1],  //  8 pts
-      [2, 2, 1],  //  1 pto
-      [3, 2, 0]   //  6 pts
+    // data de prueba/ejemplo
+    const apuestas = [
+      [0, 1, 0], // 10 pts
+      [1, 1, 1], //  8 pts
+      [2, 2, 1], //  1 pto
+      [3, 2, 0], //  6 pts
     ];
-    let resultados = [
-      [0, 1, 0],
-      [1, 2, 2],
-      [2, 0, 1],
-      [3, 2, 1]
-    ];
-    let reglas = [5, 5, 3, 1];
+    const resultados = [[0, 1, 0], [1, 2, 2], [2, 0, 1], [3, 2, 1]];
+    const reglas = [5, 5, 3, 1];
 
     return PuntajeJugador(apuestas, resultados, reglas);
+  }
+
+  menustatus() {
+    if (this.state.menu === 'yes') {
+      return (
+        <View style={styles.bottom}>
+          <View style={styles.conta}>
+            <View style={styles.vire} />
+            <TouchableOpacity style={styles.button} onPress={() => this.crear()}>
+              {this.status()}
+            </TouchableOpacity>
+            <View style={styles.vire} />
+          </View>
+
+          <BotonPrincipal onPress={() => this.tusquinielas()}>Cancelar</BotonPrincipal>
+        </View>
+      );
+    }
+    return <View />;
+  }
+
+  status() {
+    if (this.state.validando) {
+      return <Spinner style={styles.buttonText} size="small" />;
+    }
+    return <Text style={styles.buttonText}>Guargar cambios..</Text>;
+  }
+
+  activa() {
+    if (!this.props.navigation.state.params.quiniela.activo) {
+      return (
+        <Text style={styles.buttonText}>Contacta al administrador para activar tu quiniela </Text>
+      );
+    }
+    return <View />;
   }
 
   render() {
@@ -94,32 +192,34 @@ class DetalleQuiniela extends Component {
       key,
       value: this.state.partidos[key],
     }));
-    //console.error({partidos});
+    // console.error({partidos});
 
-    return(
+    return (
       <Container>
         <StatusBar
           translucent={false}
           barStyle="light-content"
           backgroundColor={color.$statusBarBackgroundColor}
         />
+        <View style={styles.form}>
+          <View style={styles.titulo}>
+            <Titulo>DETALLE QUINIELA</Titulo>
+            <Titulo>{this.calcularPuntajeTotalJugador()} pts</Titulo>
+          </View>
 
-        <View style={styles.titulo}>
-          <Titulo>DETALLE QUINIELA</Titulo>
-          <Titulo>{this.calcularPuntajeTotalJugador()} pts</Titulo>
-        </View>
+          <View>{this.activa()}</View>
 
-        <View style={styles.cuerpo}>
-          <FlatList
-            data={partidos}
-            renderItem={({ item }) => this.renderRow(item)}
-            onEndReachedThershold={0}
-            ref={(ref) => {
-              this.listRef = ref;
-            }}
-          />
-        </View>
-{/*     
+          <View style={styles.cuerpo}>
+            <FlatList
+              data={partidos}
+              renderItem={({ item }) => this.renderRow(item)}
+              onEndReachedThershold={0}
+              ref={(ref) => {
+                this.listRef = ref;
+              }}
+            />
+          </View>
+          {/*
         <View>
           <Pronostico equipoA="rus" equipoB="ksa"/>
 
@@ -133,23 +233,78 @@ class DetalleQuiniela extends Component {
           <Pronostico equipoA="cro" equipoB="nga"/>
         </View>
  */}
+          <View>{this.menustatus()}</View>
+        </View>
       </Container>
     );
   }
 }
 
 const styles = EStyleSheet.create({
+  form: {
+    flex: 1,
+
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+  },
   titulo: {
-    padding: 10,
+    padding: 20,
+  },
+  cuerpo: { flex: 1 },
+  bottom: {
+    padding: 20,
+  },
+  inputBox: {
+    flex: 8,
+    backgroundColor: color.$fondoBotonInput,
+    borderRadius: 25,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    color: color.$formInputBoxColor,
+    marginVertical: 10,
+  },
+  button: {
+    flex: 8,
+    backgroundColor: color.$fondoBotonPrincipal,
+    borderRadius: 25,
+    marginVertical: 0,
+    paddingVertical: 11,
+  },
+
+  conta: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  vire: {
+    flex: 1,
+  },
+  signupText: {
+    color: color.$signupTextColor,
+    fontSize: 16,
+    fontWeight: '500',
+    paddingHorizontal: 20,
+  },
+  signupButton: {
+    color: color.$signupButtonColor,
+    fontSize: 16,
+    fontWeight: '500',
+    paddingHorizontal: 20,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: color.$formButtonTextColor,
+    textAlign: 'center',
   },
 });
 
-const mapStateToProps = state => {
-  const partidos = state.partidos;
-  
+const mapStateToProps = (state) => {
+  const partidost = state.partidos;
+
   return {
-    partidos,
+    partidost,
   };
 };
 
-export default connect(mapStateToProps, { buscarPartidos })(DetalleQuiniela);
+export default connect(mapStateToProps, { buscarPartidosd, modificarApuestasBD })(DetalleQuiniela);
