@@ -346,6 +346,8 @@ export const cambiarEstatusQuiniela = (apuesta, quiniela, status, info) => (disp
     torneoid: apuesta.torneoid,
     codigoq: info.codigoq,
     quinielaID: info.quinielaID,
+    quiniela: info.quinielaID,
+    partidos: apuesta.partidos,
   };
 
   const postData1 = {
@@ -360,6 +362,7 @@ export const cambiarEstatusQuiniela = (apuesta, quiniela, status, info) => (disp
     quinielasDisponibles: info.quinielasDisponibles,
     quinielasPorActivar: info.quinielasPorActivar,
     quinielasActivos: a,
+    partidos: apuesta.partidos,
   };
   const postData2 = info.quinielasDisponibles;
   const postData3 = a;

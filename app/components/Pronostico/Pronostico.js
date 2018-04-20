@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text, TextInput } from 'react-native';
+import { View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import { Card } from '../Card';
@@ -65,7 +65,7 @@ class Pronostico extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <TouchableOpacity style={styles.container}>
         <View style={styles.containerFecha}>
           <Text style={styles.fecha}>{`${this.props.grupoFase} - ${this.props.fecha}`}</Text>
         </View>
@@ -110,7 +110,7 @@ class Pronostico extends Component {
             <Image style={styles.image} source={banderas[`$${this.props.equipoB}`]} />
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
