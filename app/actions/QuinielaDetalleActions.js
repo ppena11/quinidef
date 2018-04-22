@@ -19,6 +19,7 @@ import {
   ACTIVACION_UPDATE_POR_ACTIVAR,
   ACTIVACION_UPDATE_ACTIVOS,
   BUSCAR_PARTIDOS_EXITO,
+  BUSCAR_APUESTAS_EXITO,
 } from './types';
 
 export const BuscarJugadorTexto = value => ({
@@ -49,13 +50,13 @@ export const buscarPartidos = torneo => dispatch =>
       dispatch({ type: BUSCAR_PARTIDOS_EXITO, payload: snapshot.val() });
     });
 
-export const buscarPartidosd = (quinielaid, nombreapuesta) => dispatch =>
+export const buscarApuestas = (quinielaid, nombreapuesta) => dispatch =>
   firebase
     .database()
     .ref(`/quinielas/${quinielaid}/clasificacion/${nombreapuesta}/partidos`)
     // .ref(`master/torneos/idTorneo2/partidos`)
     .once('value', (snapshot) => {
-      dispatch({ type: BUSCAR_PARTIDOS_EXITO, payload: snapshot.val() });
+      dispatch({ type: BUSCAR_APUESTAS_EXITO, payload: snapshot.val() });
     });
 
 export const buscarPorActivar = quiniela => (dispatch) => {

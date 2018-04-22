@@ -26,6 +26,7 @@ import {
   BUSCAR_REGLAS_EXITO,
   ACTUALIZAR_NOMBRE_QUINIELA,
   BUSCAR_DISPONIBLES_EXITO,
+  QUINIELA_UPDATE_ID,
 } from './types';
 
 export const QuinielaUpdate = ({ prop, value }) => ({
@@ -35,6 +36,11 @@ export const QuinielaUpdate = ({ prop, value }) => ({
 
 export const BuscarQuinielaTexto = value => ({
   type: BUSCAR_QUINIELA_UPDATE,
+  payload: value,
+});
+
+export const modificarquiniela = value => ({
+  type: QUINIELA_UPDATE_ID,
   payload: value,
 });
 
@@ -470,7 +476,6 @@ export const agregarJugador = (
     torneoid,
     quinielaNombre,
     quiniela,
-    partidos,
   };
 
   const postData1 = {
@@ -482,7 +487,6 @@ export const agregarJugador = (
     torneoid,
     quinielaNombre,
     quiniela,
-    partidos,
   };
 
   // Write the new post's data simultaneously in the posts list and the user's post list.

@@ -16,8 +16,8 @@ class Pronostico extends Component {
 
     if (e == '') {
       re[this.props.partido.key].golesA = 'null';
-      console.log(re[this.props.partido.key]);
-      this.props.modificarApuestas(re);
+      // console.log(re[this.props.partido.key]);
+      this.props.modificarApuestas(re[this.props.partido.key], this.props.partido.key);
     } else {
       const k = Number(e);
       if (!isNaN(k) && Number.isInteger(k)) {
@@ -26,8 +26,8 @@ class Pronostico extends Component {
           //  console.log(this.props.regla.key);
           re[this.props.partido.key].golesA = k;
 
-          console.log(re[this.props.partido.key]);
-          this.props.modificarApuestas(re);
+          //  console.log(re[this.props.partido.key]);
+          this.props.modificarApuestas(re[this.props.partido.key], this.props.partido.key);
           //   console.log(re);
         }
       }
@@ -42,8 +42,8 @@ class Pronostico extends Component {
 
     if (e == '') {
       re[this.props.partido.key].golesB = 'null';
-      console.log(re[this.props.partido.key]);
-      this.props.modificarApuestas(re);
+      // console.log(re[this.props.partido.key]);
+      this.props.modificarApuestas(re[this.props.partido.key], this.props.partido.key);
     } else {
       const k = Number(e);
       if (!isNaN(k) && Number.isInteger(k)) {
@@ -52,8 +52,8 @@ class Pronostico extends Component {
           //  console.log(this.props.regla.key);
           re[this.props.partido.key].golesB = k;
 
-          console.log(re[this.props.partido.key]);
-          this.props.modificarApuestas(re);
+          //    console.log(re[this.props.partido.key]);
+          this.props.modificarApuestas(re[this.props.partido.key], this.props.partido.key);
           // this.props.modificarReglas(re);
           //   console.log(re);
         }
@@ -117,6 +117,7 @@ class Pronostico extends Component {
 
 const mapStateToProps = (state) => {
   const partidos = state.partidos;
+
   return { partidos };
 };
 

@@ -13,6 +13,8 @@ import NavigationReducer from './NavigationReducer';
 import ActivacionReducer from './ActivacionReducer';
 import QAreducer from './QAreducer';
 import PartidosReducer from './PartidosReducer';
+import ApuestasReducer from './ApuestasReducer';
+import QuiniReducer from './QuiniReducer';
 
 export default combineReducers({
   auth: AuthReducer,
@@ -28,4 +30,6 @@ export default combineReducers({
   activacion: ActivacionReducer,
   disponible: QAreducer,
   partidos: PartidosReducer,
+  apuestas: ApuestasReducer,
+  quini: QuiniReducer,
 });

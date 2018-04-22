@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Card } from '../Card';
 import { CardSection } from '../CardSection';
 import styles from './styles';
+import { modificarquiniela } from '../../actions';
 
 class Qx extends Component {
   /*   touch(text) {
@@ -13,7 +14,8 @@ class Qx extends Component {
  */
 
   detalleQuiniela() {
-    this.props.navigation.navigate('DetalleQuiniela', {
+    this.props.modificarquiniela(this.props.quiniela);
+    this.props.navigation.navigate('Apuesta', {
       quiniela: this.props.quiniela,
     });
   }
@@ -51,4 +53,4 @@ class Qx extends Component {
 
 const mapStateToProps = state => ({});
 
-export default connect(mapStateToProps, {})(withNavigation(Qx));
+export default connect(mapStateToProps, { modificarquiniela })(withNavigation(Qx));

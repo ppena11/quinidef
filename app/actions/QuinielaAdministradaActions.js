@@ -26,9 +26,12 @@ export const modificarReglas = reglas => ({
   payload: reglas,
 });
 
-export const modificarApuestas = apuestas => ({
+export const modificarApuestas = (value, key) => ({
   type: MODIFICAR_APUESTAS,
-  payload: apuestas,
+  payload: {
+    value,
+    key,
+  },
 });
 
 export const reinicarReglas = () => ({

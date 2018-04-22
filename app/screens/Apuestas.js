@@ -11,7 +11,7 @@ import {
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 
-import { buscarPartidosd, modificarApuestasBD } from '../actions';
+import { buscarPartidos, modificarApuestasBD, buscarApuestas } from '../actions';
 import { Container } from '../components/Container';
 import { Titulo } from '../components/Titulo';
 import { Pronostico } from '../components/Pronostico';
@@ -21,7 +21,7 @@ import { Spinner } from '../components/Spinner';
 
 import color from '../comun/colors';
 
-class DetalleQuiniela extends Component {
+class Apuestas extends Component {
   static navigationOptions = {
     header: null,
   };
@@ -30,6 +30,7 @@ class DetalleQuiniela extends Component {
 
     this.state = {
       partidos: {},
+      apuestas: {},
       validando: false,
       menu: 'yes',
     };
@@ -67,12 +68,18 @@ class DetalleQuiniela extends Component {
 
   run = async () => {
     try {
-      const partidos = await this.props.buscarPartidosd(
-        this.props.navigation.state.params.quiniela.quiniela,
-        this.props.navigation.state.params.quiniela.nombreapuesta,
+      console.log(this.props.quiniela.quiniela);
+      console.log(this.props.quiniela.nombreapuesta);
+
+      const apuestas = await this.props.buscarApuestas(
+        this.props.quiniela.quiniela,
+        this.props.quiniela.nombreapuesta,
       );
+      const partidos = await this.props.buscarPartidos(this.props.quiniela.torneoid);
       const r1 = partidos.toJSON();
+      const r2 = apuestas.toJSON();
       this.setState({ partidos: r1 });
+      this.setState({ apuestas: r2 });
       // console.log(r1);
     } catch (e) {
       console.log(e);
@@ -85,12 +92,12 @@ class DetalleQuiniela extends Component {
       // const test = await this.props.modifarReglasBD(
 
       const test = await this.props.modificarApuestasBD(
-        this.props.navigation.state.params.quiniela.quiniela,
-        this.props.navigation.state.params.quiniela.uid,
-        this.props.partidost,
+        this.props.quiniela.quiniela,
+        this.props.quiniela.uid,
+        this.props.apuestast,
       );
-      console.log(this.props.navigation.state.params.quiniela.uid);
-      console.log(this.props.navigation.state.params.quiniela.quiniela);
+      console.log(this.props.quiniela.uid);
+      console.log(this.props.quiniela.quiniela);
       //
       //   console.log(test);
       this.run();
@@ -179,7 +186,7 @@ class DetalleQuiniela extends Component {
   }
 
   activa() {
-    if (!this.props.navigation.state.params.quiniela.activo) {
+    if (!this.props.quiniela.activo) {
       return (
         <Text style={styles.buttonText}>Contacta al administrador para activar tu quiniela </Text>
       );
@@ -188,11 +195,29 @@ class DetalleQuiniela extends Component {
   }
 
   render() {
-    const partidos = Object.keys(this.state.partidos).map(key => ({
-      key,
-      value: this.state.partidos[key],
-    }));
-    // console.error({partidos});
+    let partidos = [];
+    let golA = '';
+    let golB = '';
+    const apuestasm = Object.assign({}, this.state.partidos, this.state.apuestas);
+    partidos = Object.keys(apuestasm).map((key) => {
+      golA = apuestasm[key].golesA;
+      golB = apuestasm[key].golesB;
+
+      // golA = this.state.apuestas[key].golesA;
+      //   golB = this.state.apuestas[key].golesB;
+
+      return {
+        key,
+        value: {
+          golesA: golA,
+          golesB: golB,
+          grupofase: apuestasm[key].grupofase,
+          idA: apuestasm[key].idA,
+          idB: apuestasm[key].idB,
+          inicioGMT0: apuestasm[key].inicioGMT0,
+        },
+      };
+    });
 
     return (
       <Container>
@@ -202,11 +227,6 @@ class DetalleQuiniela extends Component {
           backgroundColor={color.$statusBarBackgroundColor}
         />
         <View style={styles.form}>
-          <View style={styles.titulo}>
-            <Titulo>DETALLE QUINIELA</Titulo>
-            <Titulo>{this.calcularPuntajeTotalJugador()} pts</Titulo>
-          </View>
-
           <View>{this.activa()}</View>
 
           <View style={styles.cuerpo}>
@@ -301,10 +321,14 @@ const styles = EStyleSheet.create({
 
 const mapStateToProps = (state) => {
   const partidost = state.partidos;
+  const apuestast = state.apuestas;
+  const quiniela = state.quini;
 
   return {
     partidost,
+    apuestast,
+    quiniela,
   };
 };
 
-export default connect(mapStateToProps, { buscarPartidosd, modificarApuestasBD })(DetalleQuiniela);
+export default connect(mapStateToProps, { buscarApuestas, buscarPartidos, modificarApuestasBD })(Apuestas);
