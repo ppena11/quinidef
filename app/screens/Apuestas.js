@@ -211,7 +211,7 @@ class Apuestas extends Component {
     if (!this.props.quiniela.activo) {
       return (
         <Text style={styles.buttonText}>
-          Contacta al administrador para activar tu quiniela{" "}
+          Contacta al administrador para activar tu quiniela
         </Text>
       );
     }
@@ -256,6 +256,11 @@ class Apuestas extends Component {
         />
         <View style={styles.form}>
           <View>{this.activa()}</View>
+
+          <Text style={styles.buttonText}>
+            Puedes modificaar tus apuestas hasta 30 min antes {"\n"} que empiece
+            cada juego
+          </Text>
 
           <View style={styles.cuerpo}>
             <FlatList

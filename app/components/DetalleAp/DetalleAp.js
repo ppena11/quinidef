@@ -97,11 +97,15 @@ class DetalleAp extends Component {
           </View>
           <View style={styles.containerMarcador}>
             <Text style={styles.text}>
-              {this.props.partido.golesA.toString()}
+              {this.props.partido.golesA.toString() == "null"
+                ? " - "
+                : this.props.partido.golesA.toString()}
             </Text>
             <Text style={styles.text}> - </Text>
             <Text style={styles.text}>
-              {this.props.partido.golesB.toString()}
+              {this.props.partido.golesB.toString() == "null"
+                ? " - "
+                : this.props.partido.golesB.toString()}
             </Text>
           </View>
           <View style={styles.containerImageB}>

@@ -1,23 +1,30 @@
-import React, { Component } from 'react';
-import { View, Image, Text, TextInput, TouchableOpacity } from 'react-native';
-import { connect } from 'react-redux';
-import { withNavigation } from 'react-navigation';
-import { Card } from '../Card';
-import banderas from '../../components/Logo/images/banderas';
-import { pais3letras } from '../../comun/pais';
-import styles from './styles';
-import color from '../../comun/colors';
+import React, { Component } from "react";
+import { View, Image, Text, TextInput, TouchableOpacity } from "react-native";
+import { connect } from "react-redux";
+import { withNavigation } from "react-navigation";
+import { Card } from "../Card";
+import banderas from "../../components/Logo/images/banderas";
+import { pais3letras } from "../../comun/pais";
+import styles from "./styles";
+import color from "../../comun/colors";
 
-import { modificarApuestas } from '../../actions';
+import { modificarApuestas } from "../../actions";
 
 class Pronostico extends Component {
   presseda(e) {
     const re = this.props.partidos;
+    const ra = this.props.apuestas;
 
-    if (e == '') {
-      re[this.props.partido.key].golesA = 'null';
+    if (e == "") {
+      re[this.props.partido.key].golesA = "null";
+      if (typeof ra[this.props.partido.key] !== "undefined") {
+        re[this.props.partido.key].golesB = ra[this.props.partido.key].golesB;
+      }
       // console.log(re[this.props.partido.key]);
-      this.props.modificarApuestas(re[this.props.partido.key], this.props.partido.key);
+      this.props.modificarApuestas(
+        re[this.props.partido.key],
+        this.props.partido.key
+      );
     } else {
       const k = Number(e);
       if (!isNaN(k) && Number.isInteger(k)) {
@@ -25,9 +32,15 @@ class Pronostico extends Component {
           //  console.log('GUARDALO');
           //  console.log(this.props.regla.key);
           re[this.props.partido.key].golesA = k;
-
+          if (typeof ra[this.props.partido.key] !== "undefined") {
+            re[this.props.partido.key].golesB =
+              ra[this.props.partido.key].golesB;
+          }
           //  console.log(re[this.props.partido.key]);
-          this.props.modificarApuestas(re[this.props.partido.key], this.props.partido.key);
+          this.props.modificarApuestas(
+            re[this.props.partido.key],
+            this.props.partido.key
+          );
           //   console.log(re);
         }
       }
@@ -39,11 +52,17 @@ class Pronostico extends Component {
 
   pressedb(e) {
     const re = this.props.partidos;
+    const ra = this.props.apuestas;
 
-    if (e == '') {
-      re[this.props.partido.key].golesB = 'null';
-      // console.log(re[this.props.partido.key]);
-      this.props.modificarApuestas(re[this.props.partido.key], this.props.partido.key);
+    if (e == "") {
+      re[this.props.partido.key].golesB = "null";
+      if (typeof ra[this.props.partido.key] !== "undefined") {
+        re[this.props.partido.key].golesA = ra[this.props.partido.key].golesA;
+      } // console.log(re[this.props.partido.key]);
+      this.props.modificarApuestas(
+        re[this.props.partido.key],
+        this.props.partido.key
+      );
     } else {
       const k = Number(e);
       if (!isNaN(k) && Number.isInteger(k)) {
@@ -51,9 +70,15 @@ class Pronostico extends Component {
           //  console.log('GUARDALO');
           //  console.log(this.props.regla.key);
           re[this.props.partido.key].golesB = k;
-
+          if (typeof ra[this.props.partido.key] !== "undefined") {
+            re[this.props.partido.key].golesA =
+              ra[this.props.partido.key].golesA;
+          }
           //    console.log(re[this.props.partido.key]);
-          this.props.modificarApuestas(re[this.props.partido.key], this.props.partido.key);
+          this.props.modificarApuestas(
+            re[this.props.partido.key],
+            this.props.partido.key
+          );
           // this.props.modificarReglas(re);
           //   console.log(re);
         }
@@ -67,7 +92,9 @@ class Pronostico extends Component {
     return (
       <TouchableOpacity style={styles.container}>
         <View style={styles.containerFecha}>
-          <Text style={styles.fecha}>{`${this.props.grupoFase} - ${this.props.fecha}`}</Text>
+          <Text style={styles.fecha}>{`${this.props.grupoFase} - ${
+            this.props.fecha
+          }`}</Text>
         </View>
         <View style={styles.containerNombreEquipos}>
           <Text style={styles.text}>{pais3letras(this.props.equipoA)}</Text>
@@ -75,7 +102,10 @@ class Pronostico extends Component {
         </View>
         <View style={styles.containerBanderasMarcadores}>
           <View style={styles.containerImageA}>
-            <Image style={styles.image} source={banderas[`$${this.props.equipoA}`]} />
+            <Image
+              style={styles.image}
+              source={banderas[`$${this.props.equipoA}`]}
+            />
           </View>
           <View style={styles.containerMarcador}>
             <TextInput
@@ -84,7 +114,9 @@ class Pronostico extends Component {
               placeholderTextColor={color.$placeholderTextColor}
               underlineColorAndroid={color.$underlineColorAndroid}
               placeholder={
-                this.props.golesA.toString() == 'null' ? ' - ' : this.props.golesA.toString()
+                this.props.golesA.toString() == "null"
+                  ? " - "
+                  : this.props.golesA.toString()
               }
               textAlign="center"
               maxLength={2}
@@ -98,7 +130,9 @@ class Pronostico extends Component {
               placeholderTextColor={color.$placeholderTextColor}
               underlineColorAndroid={color.$underlineColorAndroid}
               placeholder={
-                this.props.golesB.toString() == 'null' ? ' - ' : this.props.golesB.toString()
+                this.props.golesB.toString() == "null"
+                  ? " - "
+                  : this.props.golesB.toString()
               }
               textAlign="center"
               maxLength={2}
@@ -107,7 +141,10 @@ class Pronostico extends Component {
             />
           </View>
           <View style={styles.containerImageB}>
-            <Image style={styles.image} source={banderas[`$${this.props.equipoB}`]} />
+            <Image
+              style={styles.image}
+              source={banderas[`$${this.props.equipoB}`]}
+            />
           </View>
         </View>
       </TouchableOpacity>
@@ -115,10 +152,13 @@ class Pronostico extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const partidos = state.partidos;
+  const apuestas = state.apuestas;
 
-  return { partidos };
+  return { partidos, apuestas };
 };
 
-export default connect(mapStateToProps, { modificarApuestas })(withNavigation(Pronostico));
+export default connect(mapStateToProps, { modificarApuestas })(
+  withNavigation(Pronostico)
+);
