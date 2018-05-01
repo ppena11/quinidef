@@ -28,7 +28,7 @@ class DetalleApuestas extends Component {
 
     return {
       title: params
-        ? `APUESTAS DE: ${params.posicion.nombreapuesta}`
+        ? `APUESTAS - ${params.posicion.nombreapuesta}`
         : "A Nested Details Screen",
       headerStyle: {
         backgroundColor: "#084B7C"
@@ -230,6 +230,10 @@ class DetalleApuestas extends Component {
           barStyle="light-content"
           backgroundColor={color.$statusBarBackgroundColor}
         />
+        <Text style={styles.signupText}>
+          Puedes ver las apuestas de cada juego de este {"\n"}jugador cuando se
+          bloquean las apuestas
+        </Text>
         <View style={styles.form}>
           <View style={styles.cuerpo}>
             <FlatList
@@ -303,8 +307,8 @@ const styles = EStyleSheet.create({
   signupText: {
     color: color.$signupTextColor,
     fontSize: 16,
-    fontWeight: "500",
-    paddingHorizontal: 20
+    fontWeight: "100",
+    textAlign: "center"
   },
   signupButton: {
     color: color.$signupButtonColor,
@@ -323,11 +327,12 @@ const styles = EStyleSheet.create({
 const mapStateToProps = state => {
   const partidost = state.partidos;
   const apuestast = state.apuestas;
-  let detalleapuestas = _.map(state.detalleapuesta, val => ({
-    ...val
+  let detalleapuestas = _.map(state.detalleapuesta, (val, uid) => ({
+    ...val,
+    uid
   }));
 
-  detalleapuestas = detalleapuestas.slice(1);
+  console.log(detalleapuestas);
 
   const quiniela = state.quini;
 

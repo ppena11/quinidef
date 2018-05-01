@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StatusBar,
   View,
@@ -6,18 +6,18 @@ import {
   BackHandler,
   TextInput,
   Keyboard,
-  TouchableOpacity,
-} from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import { connect } from 'react-redux';
+  TouchableOpacity
+} from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
+import { connect } from "react-redux";
 // import firebase from 'firebase';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions } from "react-navigation";
 
-import { Container } from '../components/Container';
-import { Titulo } from '../components/Titulo';
-import { BotonPrincipal } from '../components/BotonPrincipal';
-import color from '../comun/colors';
-import { Spinner } from '../components/Spinner';
+import { Container } from "../components/Container";
+import { Titulo } from "../components/Titulo";
+import { BotonPrincipal } from "../components/BotonPrincipal";
+import color from "../comun/colors";
+import { Spinner } from "../components/Spinner";
 
 import {
   buscarCodigos,
@@ -25,20 +25,20 @@ import {
   crearNombreQuiniela,
   manejarActivosA,
   manejarActivos,
-  buscarPartidos,
-} from '../actions';
+  buscarPartidos
+} from "../actions";
 
 class RegistrarQuiniela extends Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      inputfield: '',
+      inputfield: "",
       validando: false,
-      teclado: false,
+      teclado: false
     };
 
     this.updateInputValue = this.updateInputValue.bind(this);
@@ -46,9 +46,17 @@ class RegistrarQuiniela extends Component {
   }
 
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', () => this.props.navigation.goBack());
-    this.keyboardWillShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
-    this.keyboardWillHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
+    BackHandler.addEventListener("hardwareBackPress", () =>
+      this.props.navigation.goBack()
+    );
+    this.keyboardWillShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      this.keyboardWillShow
+    );
+    this.keyboardWillHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      this.keyboardWillHide
+    );
   }
 
   componentWillUnmount() {
@@ -64,7 +72,7 @@ class RegistrarQuiniela extends Component {
     this.setState({ teclado: false });
   };
 
-  run = async (navigate) => {
+  run = async navigate => {
     try {
       const {
         torneo,
@@ -72,10 +80,11 @@ class RegistrarQuiniela extends Component {
         quinielaNombre,
         quinielaID,
         admin,
+        codigoq
       } = this.props.navigation.state.params.quiniela;
       const name = await this.props.crearNombreQuiniela(
         quinielaID,
-        this.state.inputfield.toUpperCase(),
+        this.state.inputfield.toUpperCase()
       );
       const partidos = await this.props.buscarPartidos(torneoid);
       const r1 = partidos.toJSON();
@@ -90,20 +99,25 @@ class RegistrarQuiniela extends Component {
           torneoid,
           quinielaNombre,
           r1,
+          codigoq
         );
         const hh = await this.props.manejarActivos(quinielaID);
-        const hh1 = await this.props.manejarActivosA(quinielaID, admin, hh.snapshot.val());
+        const hh1 = await this.props.manejarActivosA(
+          quinielaID,
+          admin,
+          hh.snapshot.val()
+        );
 
         const resetAction = NavigationActions.reset({
           index: 0,
-          actions: [NavigationActions.navigate({ routeName: 'TusQuinielas' })],
+          actions: [NavigationActions.navigate({ routeName: "TusQuinielas" })]
         });
         this.props.navigation.dispatch(resetAction);
         // navigate('TusQuinielas');
         this.setState({ validando: false });
       } else {
         this.setState({ validando: false });
-        alert('El nombre de usuario ya existe');
+        alert("El nombre de usuario ya existe");
         // console.log('NOMBRE YA EXISTE');
       }
     } catch (e) {
@@ -119,7 +133,7 @@ class RegistrarQuiniela extends Component {
       if (this.state.inputfield.length > 0) {
         this.run(navigate);
       } else {
-        alert('Por favor introduce un nombre valido');
+        alert("Por favor introduce un nombre valido");
         this.setState({ validando: false });
       }
     }
@@ -148,15 +162,18 @@ class RegistrarQuiniela extends Component {
       return (
         <View style={styles.cuerpo}>
           <Text style={styles.texto}>
-            Nombre de la quiniela: {this.props.navigation.state.params.quiniela.quinielaNombre}
-            {'\n'}
+            Nombre de la quiniela:{" "}
+            {this.props.navigation.state.params.quiniela.quinielaNombre}
+            {"\n"}
             Torneo: {this.props.navigation.state.params.quiniela.torneo}
-            {'\n'}
-            Código de Activación: {this.props.navigation.state.params.quiniela.codigoq}
-            {'\n'}
+            {"\n"}
+            Código de Activación:{" "}
+            {this.props.navigation.state.params.quiniela.codigoq}
+            {"\n"}
             Administrador: {this.props.navigation.state.params.admin.nombre}
-            {'\n'}
-            Email del Administrador: {this.props.navigation.state.params.admin.email}
+            {"\n"}
+            Email del Administrador:{" "}
+            {this.props.navigation.state.params.admin.email}
           </Text>
         </View>
       );
@@ -197,13 +214,18 @@ class RegistrarQuiniela extends Component {
         <View style={styles.bottom}>
           <View style={styles.conta}>
             <View style={styles.vire} />
-            <TouchableOpacity style={styles.button} onPress={() => this.pressed(navigate)}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.pressed(navigate)}
+            >
               {this.status()}
             </TouchableOpacity>
             <View style={styles.vire} />
           </View>
 
-          <BotonPrincipal onPress={() => this.cancelar(navigate)}>Cancelar</BotonPrincipal>
+          <BotonPrincipal onPress={() => this.cancelar(navigate)}>
+            Cancelar
+          </BotonPrincipal>
         </View>
       </Container>
     );
@@ -214,50 +236,50 @@ const styles = EStyleSheet.create({
   form: {
     flex: 1,
 
-    justifyContent: 'space-between',
-    flexDirection: 'column',
+    justifyContent: "space-between",
+    flexDirection: "column"
   },
 
   titulo: {
-    padding: 10,
+    padding: 10
   },
   cuerpo: {
-    flex: 1,
+    flex: 1
   },
   bottom: {
-    padding: 20,
+    padding: 20
   },
   texto: {
     fontSize: 15,
     color: color.$tituloTextColor,
-    fontWeight: '300',
-    textAlign: 'center',
+    fontWeight: "300",
+    textAlign: "center"
   },
   view1: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    padding: 20,
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: 20
   },
   conta: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20
   },
   vire: {
-    flex: 0.5,
+    flex: 0.5
   },
   signupText: {
     color: color.$signupTextColor,
     fontSize: 16,
-    fontWeight: '500',
-    paddingHorizontal: 20,
+    fontWeight: "500",
+    paddingHorizontal: 20
   },
   signupButton: {
     color: color.$signupButtonColor,
     fontSize: 16,
-    fontWeight: '500',
-    paddingHorizontal: 20,
+    fontWeight: "500",
+    paddingHorizontal: 20
   },
   inputBox: {
     flex: 8,
@@ -266,27 +288,27 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     color: color.$formInputBoxColor,
-    marginVertical: 10,
+    marginVertical: 10
   },
   buttonText: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
     color: color.$formButtonTextColor,
-    textAlign: 'center',
+    textAlign: "center"
   },
   button: {
     flex: 8,
     backgroundColor: color.$fondoBotonPrincipal,
     borderRadius: 25,
     marginVertical: 0,
-    paddingVertical: 11,
-  },
+    paddingVertical: 11
+  }
 });
 
 const mapStateToProps = state => ({
   error: state.codigos.codigoNoExiste,
   quiniela: state.codigos.quinielaID,
-  aceptaAbonados: state.codigos.recibirAbonados,
+  aceptaAbonados: state.codigos.recibirAbonados
 });
 
 export default connect(mapStateToProps, {
@@ -295,5 +317,5 @@ export default connect(mapStateToProps, {
   agregarJugador,
   crearNombreQuiniela,
   manejarActivosA,
-  buscarPartidos,
+  buscarPartidos
 })(RegistrarQuiniela);

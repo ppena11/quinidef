@@ -480,7 +480,8 @@ export const agregarJugador = (
   torneo,
   torneoid,
   quinielaNombre,
-  partidos
+  partidos,
+  codigoq
 ) => dispatch => {
   const { currentUser } = firebase.auth();
 
@@ -498,7 +499,9 @@ export const agregarJugador = (
     torneo,
     torneoid,
     quinielaNombre,
-    quiniela
+    quiniela,
+    quinielaID: quiniela,
+    codigoq
   };
 
   const postData1 = {
@@ -509,7 +512,9 @@ export const agregarJugador = (
     torneo,
     torneoid,
     quinielaNombre,
-    quiniela
+    quiniela,
+    quinielaID: quiniela,
+    codigoq
   };
 
   // Write the new post's data simultaneously in the posts list and the user's post list.

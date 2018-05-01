@@ -372,6 +372,9 @@ export const cambiarEstatusQuiniela = (
   // console.log(`INFOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO ${info}`);
   const a = info.quinielasActivos;
 
+  if (typeof apuesta.partidos === "undefined") {
+    apuesta.partidos = {};
+  }
   const postData = {
     activo: apuesta.activo,
     nombreapuesta: apuesta.nombreapuesta,
@@ -397,17 +400,26 @@ export const cambiarEstatusQuiniela = (
     torneoid: apuesta.torneoid,
     quinielasDisponibles: info.quinielasDisponibles,
     quinielasPorActivar: info.quinielasPorActivar,
-    quinielasActivos: a,
-    partidos: apuesta.partidos
+    quinielasActivos: a
   };
   const postData2 = info.quinielasDisponibles;
   const postData3 = a;
+  console.log(apuesta.jid);
+  console.log(apuesta.uid);
+  console.log(info.admin);
+  console.log(info.quinielaID);
+
+  console.log(postData);
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
-  updates[`users/${apuesta.jid}/quinielas/${apuesta.uid}`] = postData;
-  updates[`users/${info.admin}/quinielasadministradas/${quiniela}`] = postData1;
-  updates[`/quinielas/${quiniela}/clasificacion/${apuesta.uid}`] = postData;
+  updates[`/users/${apuesta.jid}/quinielas/${apuesta.uid}`] = postData;
+  updates[
+    `/users/${info.admin}/quinielasadministradas/${info.quinielaID}`
+  ] = postData1;
+  updates[
+    `/quinielas/${info.quinielaID}/clasificacion/${apuesta.uid}`
+  ] = postData;
 
   return firebase
     .database()

@@ -189,6 +189,9 @@ class Reglas extends Component {
           barStyle="light-content"
           backgroundColor={color.$statusBarBackgroundColor}
         />
+        <View style={styles.titulo}>
+          <Titulo>REGLAS</Titulo>
+        </View>
         <View style={styles.form}>
           <View style={styles.cuerpo}>
             <FlatList

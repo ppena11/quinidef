@@ -75,8 +75,39 @@ class DetalleAp extends Component {
     // this.props.modificarReglas(this.props.regla.key,e);
   }
 
+  apuestaA() {
+    const re = this.props.partidos;
+
+    if (re[this.props.partido.uid].bloqueado) {
+      return (
+        <Text style={styles.text2}>
+          {this.props.partido.golesA.toString() == "null"
+            ? " - "
+            : this.props.partido.golesA.toString()}
+        </Text>
+      );
+    } else {
+      return <Text style={styles.text2}> X </Text>;
+    }
+  }
+
+  apuestaB() {
+    const re = this.props.partidos;
+
+    if (re[this.props.partido.uid].bloqueado) {
+      return (
+        <Text style={styles.text2}>
+          {this.props.partido.golesB.toString() == "null"
+            ? " - "
+            : this.props.partido.golesB.toString()}
+        </Text>
+      );
+    } else {
+      return <Text style={styles.text2}> X </Text>;
+    }
+  }
+
   render() {
-    console.log(this.props.partido);
     return (
       <TouchableOpacity style={styles.container}>
         <View style={styles.containerFecha}>
@@ -96,17 +127,9 @@ class DetalleAp extends Component {
             />
           </View>
           <View style={styles.containerMarcador}>
-            <Text style={styles.text}>
-              {this.props.partido.golesA.toString() == "null"
-                ? " - "
-                : this.props.partido.golesA.toString()}
-            </Text>
+            <Text style={styles.text}>{this.apuestaA()}</Text>
             <Text style={styles.text}> - </Text>
-            <Text style={styles.text}>
-              {this.props.partido.golesB.toString() == "null"
-                ? " - "
-                : this.props.partido.golesB.toString()}
-            </Text>
+            <Text style={styles.text}>{this.apuestaB()}</Text>
           </View>
           <View style={styles.containerImageB}>
             <Image

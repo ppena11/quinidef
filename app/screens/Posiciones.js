@@ -95,11 +95,11 @@ class Posiciones extends Component {
           backgroundColor={color.$statusBarBackgroundColor}
         />
         <View style={styles.headerContentStyle}>
-          <View>
-            <Text style={styles.headerTextStyle}>Jugador</Text>
+          <View style={styles.headerContentStyle1}>
+            <Text style={styles.headerTextStyle}>JUGADOR</Text>
           </View>
-          <View>
-            <Text style={styles.headerTextStyle}>Puntos</Text>
+          <View style={styles.headerContentStyle1}>
+            <Text style={styles.headerTextStyle}>PUNTOS</Text>
           </View>
         </View>
         <View style={styles.form}>
@@ -157,12 +157,17 @@ const styles = EStyleSheet.create({
   },
   headerContentStyle: {
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "center"
+  },
+  headerContentStyle1: {
+    flex: 1,
+    justifyContent: "center"
   },
   headerTextStyle: {
-    fontSize: 20,
+    fontSize: 17,
     color: color.$qxaHeaderTextStyle,
-    padding: 10
+    padding: 10,
+    textAlign: "center"
   }
 });
 

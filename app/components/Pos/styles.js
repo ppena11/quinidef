@@ -6,15 +6,21 @@ export default EStyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between"
   },
+  headerContentStyle1: {
+    flex: 1,
+    justifyContent: "center"
+  },
   headerTextStyle: {
-    fontSize: 20,
+    fontSize: 16,
     color: color.$qxaHeaderTextStyle,
-    padding: 10
+    padding: 12,
+    textAlign: "center"
   },
   headerTextStyleUser: {
-    fontSize: 20,
+    fontSize: 16,
     color: color.$posiciones,
-    padding: 10
+    padding: 12,
+    textAlign: "center"
   },
   headerTextStyle2: {
     fontSize: 12,

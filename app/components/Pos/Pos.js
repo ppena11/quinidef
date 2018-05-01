@@ -37,7 +37,8 @@ class Pos extends Component {
       headerTextStyle2,
       thumbnailStyle,
       thumbnailContainerStyle,
-      headerTextStyleUser
+      headerTextStyleUser,
+      headerContentStyle1
     } = styles;
     if (uid == this.props.jugador) {
       styleUser = headerTextStyleUser;
@@ -48,10 +49,10 @@ class Pos extends Component {
       <TouchableOpacity onPress={() => this.detalleQuiniela()}>
         <Card>
           <View style={headerContentStyle}>
-            <View>
+            <View style={headerContentStyle1}>
               <Text style={styleUser}>{nombreapuesta}</Text>
             </View>
-            <View>
+            <View style={styles.headerContentStyle1}>
               <Text style={styleUser}>{puntos}</Text>
             </View>
           </View>
