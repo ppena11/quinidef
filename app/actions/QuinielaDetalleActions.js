@@ -446,7 +446,8 @@ export const cambiarEstatusQuinielaA = (quiniela, info, ju) => dispatch => {
     torneoid: info.torneoid,
     quinielasDisponibles: info.quinielasDisponibles,
     quinielasPorActivar: info.quinielasPorActivar,
-    quinielasActivos: a
+    quinielasActivos: a,
+    reglas: info.reglas
   };
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
