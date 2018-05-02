@@ -7,19 +7,27 @@ export default EStyleSheet.create({
     justifyContent: "space-between"
   },
   headerContentStyle1: {
+    flexDirection: "row",
     flex: 1,
-    justifyContent: "center"
+    justifyContent: "center",
+    padding: 12
+  },
+  headerContentStyle2: {
+    flexDirection: "row",
+    flex: 1,
+
+    padding: 12
   },
   headerTextStyle: {
-    fontSize: 16,
+    fontSize: 12,
     color: color.$qxaHeaderTextStyle,
-    padding: 12,
+
     textAlign: "center"
   },
   headerTextStyleUser: {
-    fontSize: 16,
+    fontSize: 12,
     color: color.$posiciones,
-    padding: 12,
+
     textAlign: "center"
   },
   headerTextStyle2: {
@@ -30,9 +38,11 @@ export default EStyleSheet.create({
     fontSize: 18
   },
   thumbnailContainerStyle: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginLeft: 10,
-    marginRight: 10
+    flexDirection: "row"
+  },
+  thumbnailStyle: {
+    height: 20,
+    width: 20,
+    marginRight: 24
   }
 });

@@ -70,6 +70,18 @@ class Posiciones extends Component {
   );
   _keyExtractor = item => item.uid + item.nombreapuesta;
 
+  activa() {
+    if (!this.props.quiniela.activo) {
+      return (
+        <Text style={styles.buttonText}>
+          Contacta al administrador para que tu quiniela apareza en la tabla de
+          posiciones y los puntos de tu quiniela sean contabilizados
+        </Text>
+      );
+    }
+    return <View />;
+  }
+
   loading(tt) {
     if (this.state.validando) {
       return (
@@ -94,7 +106,11 @@ class Posiciones extends Component {
           barStyle="light-content"
           backgroundColor={color.$statusBarBackgroundColor}
         />
+        <View>{this.activa()}</View>
         <View style={styles.headerContentStyle}>
+          <View style={styles.headerContentStyle1}>
+            <Text style={styles.headerTextStyle}>POSICION</Text>
+          </View>
           <View style={styles.headerContentStyle1}>
             <Text style={styles.headerTextStyle}>JUGADOR</Text>
           </View>
@@ -163,8 +179,14 @@ const styles = EStyleSheet.create({
     flex: 1,
     justifyContent: "center"
   },
+  buttonText: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: color.$formButtonTextColor,
+    textAlign: "center"
+  },
   headerTextStyle: {
-    fontSize: 17,
+    fontSize: 15,
     color: color.$qxaHeaderTextStyle,
     padding: 10,
     textAlign: "center"
@@ -172,12 +194,20 @@ const styles = EStyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  const tt = _.map(state.posiciones, (val, uid, index) => ({
+  const tt = _.map(state.posiciones, (val, uid) => ({
     ...val,
-    uid,
-    index
+    uid
   }));
-  const clasificacion = _.orderBy(tt, ["puntos"], ["desc"]);
+
+  const clasificacion1 = _.orderBy(tt, ["puntos"], ["desc"]);
+
+  const activos = clasificacion1.filter(posicion => posicion.activo == true);
+
+  const clasificacion = activos.map((currElement, index) => {
+    currElement.index = index + 1;
+    return currElement;
+  });
+
   const quiniela = state.quini;
   // console.log(clasificacion);
   return { clasificacion, quiniela };

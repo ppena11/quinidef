@@ -38,7 +38,8 @@ class Pos extends Component {
       thumbnailStyle,
       thumbnailContainerStyle,
       headerTextStyleUser,
-      headerContentStyle1
+      headerContentStyle1,
+      headerContentStyle2
     } = styles;
     if (uid == this.props.jugador) {
       styleUser = headerTextStyleUser;
@@ -49,6 +50,16 @@ class Pos extends Component {
       <TouchableOpacity onPress={() => this.detalleQuiniela()}>
         <Card>
           <View style={headerContentStyle}>
+            <View style={headerContentStyle2}>
+              <View style={thumbnailContainerStyle}>
+                <Image
+                  style={thumbnailStyle}
+                  source={require("../../comun/images/banderas1/lupa.png")}
+                />
+                <Text style={styleUser}>{`  ${index}`}</Text>
+              </View>
+            </View>
+
             <View style={headerContentStyle1}>
               <Text style={styleUser}>{nombreapuesta}</Text>
             </View>
