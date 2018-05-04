@@ -77,6 +77,14 @@ class DetalleAp extends Component {
 
   apuestaA() {
     const re = this.props.partidos;
+    if (
+      Date.parse(re[this.props.partido.uid].inicioGMT0) - this.props.hora.hora >
+      1800000
+    ) {
+      re[this.props.partido.uid].bloqueado = false;
+    } else {
+      re[this.props.partido.uid].bloqueado = true;
+    }
 
     if (re[this.props.partido.uid].bloqueado) {
       return (
@@ -93,6 +101,14 @@ class DetalleAp extends Component {
 
   apuestaB() {
     const re = this.props.partidos;
+    if (
+      Date.parse(re[this.props.partido.uid].inicioGMT0) - this.props.hora.hora >
+      1800000
+    ) {
+      re[this.props.partido.uid].bloqueado = false;
+    } else {
+      re[this.props.partido.uid].bloqueado = true;
+    }
 
     if (re[this.props.partido.uid].bloqueado) {
       return (
@@ -145,8 +161,9 @@ class DetalleAp extends Component {
 
 const mapStateToProps = state => {
   const partidos = state.partidos;
+  const hora = state.hora;
 
-  return { partidos };
+  return { partidos, hora };
 };
 
 export default connect(mapStateToProps, { modificarApuestas })(

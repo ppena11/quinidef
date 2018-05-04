@@ -5,16 +5,32 @@ import { connect } from "react-redux";
 import { Card } from "../Card";
 import { CardSection } from "../CardSection";
 import styles from "./styles";
-import { modificarquiniela } from "../../actions";
+import { modificarquiniela, buscarHora, escribirHora } from "../../actions";
 
 class Pos extends Component {
+  constructor(props) {
+    super(props);
+
+    this.runh = this.runh.bind(this);
+  }
   /*   touch(text) {
     alert(text);
   }
  */
 
+  runh = async () => {
+    try {
+      const escribirHora = await this.props.escribirHora();
+      const Hora = await this.props.buscarHora();
+    } catch (e) {
+      //   console.log(e);
+      // this.setState({ validando: false });
+    }
+  };
+
   detalleQuiniela() {
     //this.props.modificarquiniela(this.props.posicion);
+    this.runh();
     console.log(this.props.navigation);
     this.props.navigation.navigate("DetallesPosiciones", {
       posicion: this.props.posicion
@@ -75,6 +91,8 @@ class Pos extends Component {
 
 const mapStateToProps = state => ({});
 
-export default connect(mapStateToProps, { modificarquiniela })(
-  withNavigation(Pos)
-);
+export default connect(mapStateToProps, {
+  modificarquiniela,
+  buscarHora,
+  escribirHora
+})(withNavigation(Pos));

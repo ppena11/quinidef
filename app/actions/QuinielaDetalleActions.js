@@ -20,7 +20,8 @@ import {
   ACTIVACION_UPDATE_ACTIVOS,
   BUSCAR_PARTIDOS_EXITO,
   BUSCAR_APUESTAS_EXITO,
-  BUSCAR_DETALLE_APUESTAS_EXITO
+  BUSCAR_DETALLE_APUESTAS_EXITO,
+  HORA_UPDATE
 } from "./types";
 
 export const BuscarJugadorTexto = value => ({
@@ -58,6 +59,22 @@ export const buscarApuestas = (quinielaid, nombreapuesta) => dispatch =>
     // .ref(`master/torneos/idTorneo2/partidos`)
     .once("value", snapshot => {
       dispatch({ type: BUSCAR_APUESTAS_EXITO, payload: snapshot.val() });
+    });
+
+export const buscarHora = () => dispatch =>
+  firebase
+    .database()
+    .ref("currentTime/")
+    .once("value", snapshot => {
+      dispatch({ type: HORA_UPDATE, payload: snapshot.val().time });
+    });
+
+export const escribirHora = () => dispatch =>
+  firebase
+    .database()
+    .ref("currentTime/")
+    .update({ time: firebase.database.ServerValue.TIMESTAMP }, snapshot => {
+      dispatch({ type: HORA_UPDATE, payload: snapshot });
     });
 
 export const buscarDetalleApuestas = (quinielaid, nombreapuesta) => dispatch =>

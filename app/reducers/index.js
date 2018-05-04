@@ -17,6 +17,8 @@ import ApuestasReducer from "./ApuestasReducer";
 import QuiniReducer from "./QuiniReducer";
 import PosicionesReducer from "./PosicionesReducer";
 import DetalleApuestaReducer from "./DetalleApuestaReducer";
+import HoraReducer from "./HoraReducer";
+import TimeReducer from "./TimeReducer";
 
 export default combineReducers({
   auth: AuthReducer,
@@ -35,5 +37,7 @@ export default combineReducers({
   apuestas: ApuestasReducer,
   quini: QuiniReducer,
   posiciones: PosicionesReducer,
-  detalleapuesta: DetalleApuestaReducer
+  detalleapuesta: DetalleApuestaReducer,
+  hora: HoraReducer,
+  time: TimeReducer
 });

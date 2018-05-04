@@ -17,7 +17,9 @@ import {
   buscarPosiciones,
   salir,
   irAdministradas,
-  salirSistema
+  salirSistema,
+  buscarHora,
+  escribirHora
 } from "../actions";
 import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
@@ -217,5 +219,7 @@ export default connect(mapStateToProps, {
   buscarPosiciones,
   salir,
   irAdministradas,
-  salirSistema
+  salirSistema,
+  buscarHora,
+  escribirHora
 })(Posiciones);

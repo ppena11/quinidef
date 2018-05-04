@@ -57,7 +57,7 @@ class Pronostico extends Component {
   pressedb(e) {
     const re = this.props.partidos;
     const ra = this.props.apuestas;
-    console.log(ra);
+
     if (e == "") {
       re[this.props.partido.key].golesB = "null";
       if (ra != null) {
@@ -100,6 +100,16 @@ class Pronostico extends Component {
 
   apuestaA() {
     const re = this.props.partidos;
+
+    if (
+      Date.parse(re[this.props.partido.key].inicioGMT0) - this.props.hora.hora >
+      1800000
+    ) {
+      re[this.props.partido.key].bloqueado = false;
+    } else {
+      re[this.props.partido.key].bloqueado = true;
+    }
+
     if (!re[this.props.partido.key].bloqueado) {
       return (
         <TextInput
@@ -131,6 +141,15 @@ class Pronostico extends Component {
 
   apuestaB() {
     const re = this.props.partidos;
+
+    if (
+      Date.parse(re[this.props.partido.key].inicioGMT0) - this.props.hora.hora >
+      1800000
+    ) {
+      re[this.props.partido.key].bloqueado = false;
+    } else {
+      re[this.props.partido.key].bloqueado = true;
+    }
     if (!re[this.props.partido.key].bloqueado) {
       return (
         <TextInput
@@ -199,8 +218,10 @@ class Pronostico extends Component {
 const mapStateToProps = state => {
   const partidos = state.partidos;
   const apuestas = state.apuestas;
+  const hora = state.hora;
+  const time = state.time;
 
-  return { partidos, apuestas };
+  return { partidos, apuestas, hora, time };
 };
 
 export default connect(mapStateToProps, { modificarApuestas })(

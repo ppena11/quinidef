@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import firebase from "firebase";
+import _ from "lodash";
+import moment from "moment";
 import {
   StatusBar,
   View,
@@ -14,7 +17,9 @@ import { connect } from "react-redux";
 import {
   buscarPartidos,
   modificarApuestasBD,
-  buscarApuestas
+  buscarApuestas,
+  buscarHora,
+  escribirHora
 } from "../actions";
 import { Container } from "../components/Container";
 import { Titulo } from "../components/Titulo";
@@ -44,6 +49,7 @@ class Apuestas extends Component {
 
   componentDidMount() {
     this.run();
+
     BackHandler.addEventListener("hardwareBackPress", () =>
       this.props.navigation.goBack()
     );
@@ -83,6 +89,9 @@ class Apuestas extends Component {
       console.log(this.props.quiniela.quiniela);
       console.log(this.props.quiniela.nombreapuesta);
 
+      const escribirHora = await this.props.escribirHora();
+      const Hora = await this.props.buscarHora();
+
       const apuestas = await this.props.buscarApuestas(
         this.props.quiniela.quiniela,
         this.props.quiniela.nombreapuesta
@@ -104,11 +113,34 @@ class Apuestas extends Component {
     try {
       this.setState({ validando: true });
       // const test = await this.props.modifarReglasBD(
+      const escribirHora = await this.props.escribirHora();
+      const Hora = await this.props.buscarHora();
+      const hor = Hora.toJSON();
+      const kk = this.props.apuestast;
+      const tt = _.map(kk, (val, uid) => ({ ...val, uid }));
+      console.log(hor);
+      var yy = _.remove(tt, function(n) {
+        console.log(hor);
+        return Date.parse(n.inicioGMT0) - hor.time > 1800000;
+      });
 
+      console.log(yy);
+
+      const arrayToObject = (array, keyField) =>
+        array.reduce((obj, item) => {
+          obj[item[keyField]] = item;
+          return obj;
+        }, {});
+
+      const ap = arrayToObject(yy, "uid");
+
+      console.log(ap);
+
+      //console.log(this.props.apuestast);
       const test = await this.props.modificarApuestasBD(
         this.props.quiniela.quiniela,
         this.props.quiniela.uid,
-        this.props.apuestast
+        ap
       );
       console.log(this.props.quiniela.uid);
       console.log(this.props.quiniela.quiniela);
@@ -222,14 +254,38 @@ class Apuestas extends Component {
     let partidos = [];
     let golA = "";
     let golB = "";
+    partidos1 = this.state.partidos;
+    apuestas1 = this.state.apuestas;
     const apuestasm = Object.assign(
       {},
       this.state.partidos,
       this.state.apuestas
     );
-    partidos = Object.keys(apuestasm).map(key => {
-      golA = apuestasm[key].golesA;
-      golB = apuestasm[key].golesB;
+    partidos = Object.keys(partidos1).map(key => {
+      if (apuestas1 != null) {
+        if (typeof apuestas1[key] !== "undefined") {
+          if (typeof apuestas1[key].golesA !== "undefined") {
+            golA = apuestasm[key].golesA;
+          } else {
+            golA = "null";
+          }
+        } else {
+          golA = "null";
+        }
+
+        if (typeof apuestas1[key] !== "undefined") {
+          if (typeof apuestas1[key].golesB !== "undefined") {
+            golB = apuestasm[key].golesB;
+          } else {
+            golB = "null";
+          }
+        } else {
+          golB = "null";
+        }
+      } else {
+        golA = "null";
+        golB = "null";
+      }
 
       // golA = this.state.apuestas[key].golesA;
       //   golB = this.state.apuestas[key].golesB;
@@ -239,10 +295,10 @@ class Apuestas extends Component {
         value: {
           golesA: golA,
           golesB: golB,
-          grupofase: apuestasm[key].grupofase,
-          idA: apuestasm[key].idA,
-          idB: apuestasm[key].idB,
-          inicioGMT0: apuestasm[key].inicioGMT0
+          grupofase: partidos1[key].grupofase,
+          idA: partidos1[key].idA,
+          idB: partidos1[key].idB,
+          inicioGMT0: partidos1[key].inicioGMT0
         }
       };
     });
@@ -258,8 +314,8 @@ class Apuestas extends Component {
           <View>{this.activa()}</View>
 
           <Text style={styles.buttonText}>
-            Puedes modificaar tus apuestas hasta 30 min antes {"\n"} que empiece
-            cada juego
+            Puedes modificaar tus apuestas hasta 30 min antes que empiece cada
+            juego
           </Text>
 
           <View style={styles.cuerpo}>
@@ -356,16 +412,20 @@ const mapStateToProps = state => {
   const partidost = state.partidos;
   const apuestast = state.apuestas;
   const quiniela = state.quini;
+  const hora = state.hora;
 
   return {
     partidost,
     apuestast,
-    quiniela
+    quiniela,
+    hora
   };
 };
 
 export default connect(mapStateToProps, {
   buscarApuestas,
   buscarPartidos,
-  modificarApuestasBD
+  buscarHora,
+  modificarApuestasBD,
+  escribirHora
 })(Apuestas);
