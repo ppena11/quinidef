@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, Image, Text, TextInput, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
+import moment from "moment";
 import { Card } from "../Card";
 import banderas from "../../components/Logo/images/banderas";
 import { pais3letras } from "../../comun/pais";
@@ -77,13 +78,15 @@ class DetalleAp extends Component {
 
   apuestaA() {
     const re = this.props.partidos;
-    if (
-      Date.parse(re[this.props.partido.uid].inicioGMT0) - this.props.hora.hora >
-      1800000
-    ) {
-      re[this.props.partido.uid].bloqueado = false;
-    } else {
+
+    const k = moment.utc(re[this.props.partido.uid].inicioGMT0);
+    const y = moment(this.props.hora.hora);
+
+    k.subtract(1800, "seconds");
+    if (moment(y).isAfter(k)) {
       re[this.props.partido.uid].bloqueado = true;
+    } else {
+      re[this.props.partido.uid].bloqueado = false;
     }
 
     if (re[this.props.partido.uid].bloqueado) {
@@ -101,13 +104,14 @@ class DetalleAp extends Component {
 
   apuestaB() {
     const re = this.props.partidos;
-    if (
-      Date.parse(re[this.props.partido.uid].inicioGMT0) - this.props.hora.hora >
-      1800000
-    ) {
-      re[this.props.partido.uid].bloqueado = false;
-    } else {
+    const k = moment.utc(re[this.props.partido.uid].inicioGMT0);
+    const y = moment(this.props.hora.hora);
+
+    k.subtract(1800, "seconds");
+    if (moment(y).isAfter(k)) {
       re[this.props.partido.uid].bloqueado = true;
+    } else {
+      re[this.props.partido.uid].bloqueado = false;
     }
 
     if (re[this.props.partido.uid].bloqueado) {

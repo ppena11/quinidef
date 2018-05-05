@@ -115,13 +115,17 @@ class Apuestas extends Component {
       // const test = await this.props.modifarReglasBD(
       const escribirHora = await this.props.escribirHora();
       const Hora = await this.props.buscarHora();
-      const hor = Hora.toJSON();
+
+      var hor = Hora.toJSON();
       const kk = this.props.apuestast;
       const tt = _.map(kk, (val, uid) => ({ ...val, uid }));
       console.log(hor);
       var yy = _.remove(tt, function(n) {
-        console.log(hor);
-        return Date.parse(n.inicioGMT0) - hor.time > 1800000;
+        const k = moment.utc(n.inicioGMT0);
+        const y = moment(hor.time);
+
+        k.subtract(1800, "seconds");
+        return !moment(y).isAfter(k);
       });
 
       console.log(yy);

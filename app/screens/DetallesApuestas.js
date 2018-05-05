@@ -331,8 +331,9 @@ const mapStateToProps = state => {
     ...val,
     uid
   }));
+  detalleapuestas.shift();
 
-  console.log(detalleapuestas);
+  //console.log(detalleapuestas);
 
   const quiniela = state.quini;
 
