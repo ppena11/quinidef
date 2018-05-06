@@ -11,7 +11,10 @@ export default (state = INITIAL_STATE, action) => {
     console.log(action.payload.value.key); */
   switch (action.type) {
     case BUSCAR_DETALLE_APUESTAS_EXITO:
-      return action.payload;
+      return {
+        ...INITIAL_STATE,
+        ...action.payload
+      };
 
     case RESET_DETALLE_QUINIELA:
       return {

@@ -352,6 +352,42 @@ export const crearNombreQuiniela = (quiniela, nombre) => dispatch =>
       }
     );
 
+export const borrarNombreQuiniela = (quiniela, nombre) => dispatch =>
+  firebase
+    .database()
+    .ref(`/quinielas/${quiniela}/clasificacion/${nombre}`)
+    .remove();
+
+export const crearNombreQuinielaLocal = (quiniela, nombre) => dispatch => {
+  const { currentUser } = firebase.auth();
+  return firebase
+    .database()
+    .ref(`/user/${currentUser.uid}/quinielas/${nombre}`)
+    .transaction(
+      currentData => {
+        if (currentData === null) {
+          return nombre;
+        }
+      },
+
+      // Abort the transaction.
+      (error, committed, snapshot) => {
+        if (error) {
+          //   console.log('Transaction failed abnormally!', error);
+        } else if (!committed) {
+          //   console.log('We aborted the transaction (because ada already exists).');
+        } else {
+          //   console.log('User ada added!');
+        }
+        dispatch({
+          type: ACTUALIZAR_NOMBRE_QUINIELA,
+          payload: nombre
+        });
+        // console.log("Ada's data: ", snapshot.val());
+      }
+    );
+};
+
 export const manejarActivos = quiniela => dispatch =>
   firebase
     .database()

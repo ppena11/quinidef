@@ -1,28 +1,37 @@
-function PuntajePartido(apuesta, resultado, reglas) {
+export function PuntajePartido(apuesta, resultado, reglas) {
   let puntajeTotalPartido = 0;
+  console.log("ENTRADIIIDSS");
+  console.log(apuesta.golesA);
+  console.log(apuesta.golesB);
+  console.log(resultado.golesB);
+  console.log("REGLASXXX");
+  console.log(reglas);
+  if (typeof reglas[0] !== "undefined") {
+    // Acertar el Ganador
+    if (apuesta.golesA > apuesta.golesB && resultado.golesA > resultado.golesB)
+      puntajeTotalPartido += reglas[0].value;
+    if (apuesta.golesA < apuesta.golesB && resultado.golesA < resultado.golesB)
+      puntajeTotalPartido += reglas[3].value;
 
-  // Acertar el Ganador
-  if (apuesta[1] > apuesta[2] && resultado[1] > resultado[2]) puntajeTotalPartido += reglas[0];
-  if (apuesta[1] < apuesta[2] && resultado[1] < resultado[2]) puntajeTotalPartido += reglas[0];
+    // Acertar el Empate
+    if (
+      apuesta.golesA === apuesta.golesB &&
+      resultado.golesA === resultado.golesB
+    )
+      puntajeTotalPartido += reglas[2].value;
 
-  // Acertar el Empate
-  if (apuesta[1] === apuesta[2] && resultado[1] === resultado[2]) puntajeTotalPartido += reglas[1];
+    // Acertar Diferencia de Goles
+    if (apuesta.golesA - apuesta.golesB === resultado.golesA - resultado.golesB)
+      puntajeTotalPartido += reglas[0].value;
 
-  // Acertar Diferencia de Goles
-  if (apuesta[1] - apuesta[2] === resultado[1] - resultado[2]) puntajeTotalPartido += reglas[2];
-
-  // Acertar cada Marcador
-  if (apuesta[1] === resultado[1]) puntajeTotalPartido += reglas[3];
-  if (apuesta[2] === resultado[2]) puntajeTotalPartido += reglas[3];
+    // Acertar cada Marcador
+    if (apuesta.golesA === resultado.golesA)
+      puntajeTotalPartido += reglas[1].value;
+    if (apuesta.golesB === resultado.golesB)
+      puntajeTotalPartido += reglas[1].value;
+    console.log("PUNTAJE PARTIDO");
+    console.log(puntajeTotalPartido);
+  }
 
   return puntajeTotalPartido;
-}
-
-export function PuntajeJugador(apuestas, resultados, reglas) {
-  let puntajeTotalJugador = 0;
-  apuestas.forEach((element) => {
-    puntajeTotalJugador += PuntajePartido(element, resultados[element[0]], reglas);
-  });
-
-  return puntajeTotalJugador;
 }

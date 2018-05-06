@@ -22,13 +22,6 @@ class Pronostico extends Component {
       prevGolesA: "",
       prevGolesB: ""
     };
-    console.log("CONSTTTRUCTOR");
-    console.log(this.props.equipoA);
-    console.log(this.props.golesA);
-    if (this.props.golesA.toString() != "null") {
-      console.log("CONSTTTRUCTOR");
-      console.log(this.props.golesA.toString());
-    }
 
     this.presseda = this.presseda.bind(this);
     this.pressedb = this.pressedb.bind(this);

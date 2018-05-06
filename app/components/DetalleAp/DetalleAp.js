@@ -9,101 +9,51 @@ import { pais3letras } from "../../comun/pais";
 import styles from "./styles";
 import color from "../../comun/colors";
 
-import { modificarApuestas } from "../../actions";
+import { modificarApuestas, buscarReglasAdmin } from "../../actions";
+import { PuntajePartido } from "../../comun/puntaje";
 
 class DetalleAp extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      apuestas: {}
+      regla: {}
     };
     this.run = this.run.bind(this);
+    this.calcularPuntajeTotalJugador = this.calcularPuntajeTotalJugador.bind(
+      this
+    );
   }
 
   componentDidMount() {
     this.run();
-    BackHandler.addEventListener("hardwareBackPress", () =>
-      this.props.navigation.goBack()
-    );
   }
 
   run = async () => {
     try {
-      const apuestas = await this.props.buscarApuestas(
-        this.props.quiniela.quiniela,
-        this.props.quiniela.nombreapuesta
+      const regla = await this.props.buscarReglasAdmin(
+        this.props.quiniela.quiniela
       );
-
-      this.setState({ apuestas: r2 });
+      const r1 = regla.toJSON();
+      this.setState({ regla: r1 });
       // console.log(r1);
     } catch (e) {
       console.log(e);
     }
   };
 
-  presseda(e) {
+  calcularPuntajeTotalJugador() {
     const re = this.props.partidos;
+    const reglas = Object.keys(this.state.regla).map(key => ({
+      key,
+      value: this.state.regla[key]
+    }));
 
-    if (e == "") {
-      re[this.props.partido.key].golesA = "null";
-      // console.log(re[this.props.partido.key]);
-      this.props.modificarApuestas(
-        re[this.props.partido.key],
-        this.props.partido.key
-      );
-    } else {
-      const k = Number(e);
-      if (!isNaN(k) && Number.isInteger(k)) {
-        if (k >= 0) {
-          //  console.log('GUARDALO');
-          //  console.log(this.props.regla.key);
-          re[this.props.partido.key].golesA = k;
-
-          //  console.log(re[this.props.partido.key]);
-          this.props.modificarApuestas(
-            re[this.props.partido.key],
-            this.props.partido.key
-          );
-          //   console.log(re);
-        }
-      }
-    }
-
-    //  console.log();
-    // this.props.modificarReglas(this.props.regla.key,e);
-  }
-
-  pressedb(e) {
-    const re = this.props.partidos;
-
-    if (e == "") {
-      re[this.props.partido.key].golesB = "null";
-      // console.log(re[this.props.partido.key]);
-      this.props.modificarApuestas(
-        re[this.props.partido.key],
-        this.props.partido.key
-      );
-    } else {
-      const k = Number(e);
-      if (!isNaN(k) && Number.isInteger(k)) {
-        if (k >= 0) {
-          //  console.log('GUARDALO');
-          //  console.log(this.props.regla.key);
-          re[this.props.partido.key].golesB = k;
-
-          //    console.log(re[this.props.partido.key]);
-          this.props.modificarApuestas(
-            re[this.props.partido.key],
-            this.props.partido.key
-          );
-          // this.props.modificarReglas(re);
-          //   console.log(re);
-        }
-      }
-    }
-    //  console.log();
-    // this.props.modificarReglas(this.props.regla.key,e);
+    return PuntajePartido(
+      this.props.partido,
+      re[this.props.partido.uid],
+      reglas
+    );
   }
 
   apuestaA() {
@@ -168,7 +118,7 @@ class DetalleAp extends Component {
         <View style={styles.containerFecha}>
           <Text
             style={styles.fecha}
-          >{`PUNTOS OBTENIDOS EN ESTE PARTIDO:`}</Text>
+          >{`PUNTOS OBTENIDOS EN ESTE PARTIDO: ${this.calcularPuntajeTotalJugador()}`}</Text>
         </View>
         <View style={styles.containerNombreEquipos}>
           <Text style={styles.text}>{pais3letras(this.props.partido.idA)}</Text>
@@ -199,13 +149,15 @@ class DetalleAp extends Component {
 }
 
 const mapStateToProps = state => {
+  const quiniela = state.quini;
   const partidos = state.partidos;
   const hora = state.hora;
   const apuestast = state.apuestas;
 
-  return { partidos, hora, apuestast };
+  return { partidos, hora, quiniela };
 };
 
-export default connect(mapStateToProps, { modificarApuestas })(
-  withNavigation(DetalleAp)
-);
+export default connect(mapStateToProps, {
+  modificarApuestas,
+  buscarReglasAdmin
+})(withNavigation(DetalleAp));

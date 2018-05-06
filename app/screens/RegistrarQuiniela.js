@@ -23,9 +23,11 @@ import {
   buscarCodigos,
   agregarJugador,
   crearNombreQuiniela,
+  crearNombreQuinielaLocal,
   manejarActivosA,
   manejarActivos,
-  buscarPartidos
+  buscarPartidos,
+  borrarNombreQuiniela
 } from "../actions";
 
 class RegistrarQuiniela extends Component {
@@ -92,32 +94,48 @@ class RegistrarQuiniela extends Component {
       // this.setState({ partidos: r1 });
       // console.log(`NAMEEEEEEEEEEEEEEEEEEEEEEEEEE ${name.committed}`);
       if (name.committed) {
-        const test = await this.props.agregarJugador(
+        const namelocal = await this.props.crearNombreQuinielaLocal(
           quinielaID,
-          this.state.inputfield.toUpperCase(),
-          torneo,
-          torneoid,
-          quinielaNombre,
-          r1,
-          codigoq
-        );
-        const hh = await this.props.manejarActivos(quinielaID);
-        const hh1 = await this.props.manejarActivosA(
-          quinielaID,
-          admin,
-          hh.snapshot.val()
+          this.state.inputfield.toUpperCase()
         );
 
-        const resetAction = NavigationActions.reset({
-          index: 0,
-          actions: [NavigationActions.navigate({ routeName: "TusQuinielas" })]
-        });
-        this.props.navigation.dispatch(resetAction);
-        // navigate('TusQuinielas');
-        this.setState({ validando: false });
+        if (namelocal.committed) {
+          const test = await this.props.agregarJugador(
+            quinielaID,
+            this.state.inputfield.toUpperCase(),
+            torneo,
+            torneoid,
+            quinielaNombre,
+            r1,
+            codigoq
+          );
+          const hh = await this.props.manejarActivos(quinielaID);
+          const hh1 = await this.props.manejarActivosA(
+            quinielaID,
+            admin,
+            hh.snapshot.val()
+          );
+
+          const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: "TusQuinielas" })]
+          });
+          this.props.navigation.dispatch(resetAction);
+          // navigate('TusQuinielas');
+          this.setState({ validando: false });
+        } else {
+          // delete name
+
+          const delete1 = await this.props.borrarNombreQuiniela(
+            quinielaID,
+            this.state.inputfield.toUpperCase()
+          );
+          this.setState({ validando: false });
+          alert("No puedes tener dos quinielas con el mismo nombre");
+        }
       } else {
         this.setState({ validando: false });
-        alert("El nombre de usuario ya existe");
+        alert("El nombre de usuario ya existe en la quiniela");
         // console.log('NOMBRE YA EXISTE');
       }
     } catch (e) {
@@ -317,5 +335,7 @@ export default connect(mapStateToProps, {
   agregarJugador,
   crearNombreQuiniela,
   manejarActivosA,
-  buscarPartidos
+  buscarPartidos,
+  crearNombreQuinielaLocal,
+  borrarNombreQuiniela
 })(RegistrarQuiniela);
