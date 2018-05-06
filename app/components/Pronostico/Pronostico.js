@@ -12,41 +12,96 @@ import color from "../../comun/colors";
 import { modificarApuestas } from "../../actions";
 
 class Pronostico extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      valuea: "",
+      placeholdera: "",
+      valueb: "",
+      placeholderb: "",
+      prevGolesA: "",
+      prevGolesB: ""
+    };
+    console.log("CONSTTTRUCTOR");
+    console.log(this.props.equipoA);
+    console.log(this.props.golesA);
+    if (this.props.golesA.toString() != "null") {
+      console.log("CONSTTTRUCTOR");
+      console.log(this.props.golesA.toString());
+    }
+
+    this.presseda = this.presseda.bind(this);
+    this.pressedb = this.pressedb.bind(this);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    // Store prevUserId in state so we can compare when props change.
+    // Clear out any previously-loaded user data (so we don't render stale stuff).
+    if (
+      nextProps.golesA !== prevState.prevGolesA ||
+      nextProps.golesB !== prevState.prevGolesB
+    ) {
+      const a =
+        nextProps.golesA.toString() == "null"
+          ? " - "
+          : nextProps.golesA.toString();
+      const b =
+        nextProps.golesB.toString() == "null"
+          ? " - "
+          : nextProps.golesB.toString();
+      return {
+        prevGolesA: a,
+        prevGolesB: b
+      };
+    }
+  }
+
   presseda(e) {
     const re = this.props.partidos;
     const ra = this.props.apuestas;
-
+    this.setState({ valuea: e });
+    if (e == " ") {
+      console.log("1 espacio");
+      this.setState({ valuea: "" });
+    }
     if (e == "") {
-      re[this.props.partido.key].golesA = "null";
+      console.log("0 espacio");
+      this.setState({ valuea: "" });
+      re[this.props.partido.key].golesA = this.state.prevGolesA;
       if (ra != null) {
         if (typeof ra[this.props.partido.key] !== "undefined") {
           re[this.props.partido.key].golesB = ra[this.props.partido.key].golesB;
         }
       }
-      // console.log(re[this.props.partido.key]);
-      this.props.modificarApuestas(
-        re[this.props.partido.key],
-        this.props.partido.key
-      );
     } else {
-      const k = Number(e);
-      if (!isNaN(k) && Number.isInteger(k)) {
-        if (k >= 0) {
-          //  console.log('GUARDALO');
-          //  console.log(this.props.regla.key);
-          re[this.props.partido.key].golesA = k;
-          if (ra != null) {
-            if (typeof ra[this.props.partido.key] !== "undefined") {
-              re[this.props.partido.key].golesB =
-                ra[this.props.partido.key].golesB;
+      if (e == " ") {
+        // console.log(re[this.props.partido.key]);
+      } else {
+        e = e.replace(/\D/g, "");
+        this.setState({ valuea: e });
+        if (e != "") {
+          const k = Number(e);
+          if (!isNaN(k) && Number.isInteger(k)) {
+            if (k >= 0) {
+              //  console.log('GUARDALO');
+              //  console.log(this.props.regla.key);
+              re[this.props.partido.key].golesA = k;
+              if (ra != null) {
+                if (typeof ra[this.props.partido.key] !== "undefined") {
+                  re[this.props.partido.key].golesB =
+                    ra[this.props.partido.key].golesB;
+                }
+              }
+              //  console.log(re[this.props.partido.key]);
+              this.props.modificarApuestas(
+                re[this.props.partido.key],
+                this.props.partido.key
+              );
+              //   console.log(re);
             }
+          } else {
+            this.setState({ valuea: "" });
           }
-          //  console.log(re[this.props.partido.key]);
-          this.props.modificarApuestas(
-            re[this.props.partido.key],
-            this.props.partido.key
-          );
-          //   console.log(re);
         }
       }
     }
@@ -58,43 +113,55 @@ class Pronostico extends Component {
   pressedb(e) {
     const re = this.props.partidos;
     const ra = this.props.apuestas;
-
+    this.setState({ valueb: e });
+    if (e == " ") {
+      console.log("1 espacio");
+      this.setState({ valueb: "" });
+    }
     if (e == "") {
-      re[this.props.partido.key].golesB = "null";
+      console.log("0 espacio");
+      this.setState({ valueb: "" });
+      re[this.props.partido.key].golesB = this.state.prevGolesB;
       if (ra != null) {
         if (typeof ra[this.props.partido.key] !== "undefined") {
           re[this.props.partido.key].golesA = ra[this.props.partido.key].golesA;
-        } // console.log(re[this.props.partido.key]);
+        }
       }
-      this.props.modificarApuestas(
-        re[this.props.partido.key],
-        this.props.partido.key
-      );
     } else {
-      const k = Number(e);
-      if (!isNaN(k) && Number.isInteger(k)) {
-        if (k >= 0) {
-          //  console.log('GUARDALO');
-          //  console.log(this.props.regla.key);
-
-          re[this.props.partido.key].golesB = k;
-          if (ra != null) {
-            if (typeof ra[this.props.partido.key] !== "undefined") {
-              re[this.props.partido.key].golesA =
-                ra[this.props.partido.key].golesA;
+      if (e == " ") {
+        // console.log(re[this.props.partido.key]);
+      } else {
+        e = e.replace(/\D/g, "");
+        this.setState({ valueb: e });
+        console.log(e);
+        if (e != "") {
+          const k = Number(e);
+          console.log(k);
+          if (!isNaN(k) && Number.isInteger(k)) {
+            if (k >= 0) {
+              //  console.log('GUARDALO');
+              //  console.log(this.props.regla.key);
+              re[this.props.partido.key].golesB = k;
+              if (ra != null) {
+                if (typeof ra[this.props.partido.key] !== "undefined") {
+                  re[this.props.partido.key].golesA =
+                    ra[this.props.partido.key].golesA;
+                }
+              }
+              //  console.log(re[this.props.partido.key]);
+              this.props.modificarApuestas(
+                re[this.props.partido.key],
+                this.props.partido.key
+              );
+              //   console.log(re);
             }
+          } else {
+            this.setState({ valueb: "" });
           }
-
-          //    console.log(re[this.props.partido.key]);
-          this.props.modificarApuestas(
-            re[this.props.partido.key],
-            this.props.partido.key
-          );
-          // this.props.modificarReglas(re);
-          //   console.log(re);
         }
       }
     }
+
     //  console.log();
     // this.props.modificarReglas(this.props.regla.key,e);
   }
@@ -119,15 +186,13 @@ class Pronostico extends Component {
           selectionColor={color.$selectionColor}
           placeholderTextColor={color.$placeholderTextColor}
           underlineColorAndroid={color.$underlineColorAndroid}
-          placeholder={
-            this.props.golesA.toString() == "null"
-              ? " - "
-              : this.props.golesA.toString()
-          }
+          placeholder={this.state.prevGolesA}
           textAlign="center"
           maxLength={2}
           keyboardType="numeric"
           onChangeText={q => this.presseda(q)}
+          autoCapitalize="none"
+          value={this.state.valuea}
         />
       );
     } else {
@@ -160,15 +225,12 @@ class Pronostico extends Component {
           selectionColor={color.$selectionColor}
           placeholderTextColor={color.$placeholderTextColor}
           underlineColorAndroid={color.$underlineColorAndroid}
-          placeholder={
-            this.props.golesB.toString() == "null"
-              ? " - "
-              : this.props.golesB.toString()
-          }
+          placeholder={this.state.prevGolesB}
           textAlign="center"
           maxLength={2}
           keyboardType="numeric"
           onChangeText={q => this.pressedb(q)}
+          value={this.state.valueb}
         />
       );
     } else {

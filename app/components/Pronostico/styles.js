@@ -25,7 +25,7 @@ export default EStyleSheet.create({
   },
   fecha: {
     fontWeight: "normal",
-    fontSize: 12,
+    fontSize: 14,
     color: color.$textoPronostico
   },
   containerNombreEquipos: {

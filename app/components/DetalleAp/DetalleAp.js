@@ -12,6 +12,36 @@ import color from "../../comun/colors";
 import { modificarApuestas } from "../../actions";
 
 class DetalleAp extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      apuestas: {}
+    };
+    this.run = this.run.bind(this);
+  }
+
+  componentDidMount() {
+    this.run();
+    BackHandler.addEventListener("hardwareBackPress", () =>
+      this.props.navigation.goBack()
+    );
+  }
+
+  run = async () => {
+    try {
+      const apuestas = await this.props.buscarApuestas(
+        this.props.quiniela.quiniela,
+        this.props.quiniela.nombreapuesta
+      );
+
+      this.setState({ apuestas: r2 });
+      // console.log(r1);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   presseda(e) {
     const re = this.props.partidos;
 
@@ -135,6 +165,11 @@ class DetalleAp extends Component {
             this.props.fecha
           }`}</Text>
         </View>
+        <View style={styles.containerFecha}>
+          <Text
+            style={styles.fecha}
+          >{`PUNTOS OBTENIDOS EN ESTE PARTIDO:`}</Text>
+        </View>
         <View style={styles.containerNombreEquipos}>
           <Text style={styles.text}>{pais3letras(this.props.partido.idA)}</Text>
           <Text style={styles.text}>{pais3letras(this.props.partido.idB)}</Text>
@@ -166,8 +201,9 @@ class DetalleAp extends Component {
 const mapStateToProps = state => {
   const partidos = state.partidos;
   const hora = state.hora;
+  const apuestast = state.apuestas;
 
-  return { partidos, hora };
+  return { partidos, hora, apuestast };
 };
 
 export default connect(mapStateToProps, { modificarApuestas })(
