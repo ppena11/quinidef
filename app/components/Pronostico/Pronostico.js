@@ -9,7 +9,7 @@ import { pais3letras } from "../../comun/pais";
 import styles from "./styles";
 import color from "../../comun/colors";
 
-import { modificarApuestas } from "../../actions";
+import { modificarApuestas, bloquearPartido } from "../../actions";
 
 class Pronostico extends Component {
   constructor(props) {
@@ -167,9 +167,9 @@ class Pronostico extends Component {
 
     k.subtract(1800, "seconds");
     if (moment(y).isAfter(k)) {
-      re[this.props.partido.key].bloqueado = true;
-    } else {
-      re[this.props.partido.key].bloqueado = false;
+      if (!re[this.props.partido.key].bloqueado) {
+        this.props.bloquearPartido(this.props.quiniela.torneoid);
+      }
     }
 
     if (!re[this.props.partido.key].bloqueado) {
@@ -205,12 +205,6 @@ class Pronostico extends Component {
     const k = moment.utc(re[this.props.partido.key].inicioGMT0);
     const y = moment(this.props.hora.hora);
 
-    k.subtract(1800, "seconds");
-    if (moment(y).isAfter(k)) {
-      re[this.props.partido.key].bloqueado = true;
-    } else {
-      re[this.props.partido.key].bloqueado = false;
-    }
     if (!re[this.props.partido.key].bloqueado) {
       return (
         <TextInput
@@ -278,10 +272,11 @@ const mapStateToProps = state => {
   const apuestas = state.apuestas;
   const hora = state.hora;
   const time = state.time;
+  const quiniela = state.quini;
 
-  return { partidos, apuestas, hora, time };
+  return { partidos, apuestas, hora, time, quiniela };
 };
 
-export default connect(mapStateToProps, { modificarApuestas })(
+export default connect(mapStateToProps, { modificarApuestas, bloquearPartido })(
   withNavigation(Pronostico)
 );

@@ -590,6 +590,25 @@ export const asignarCodigoQuiniela = ({ codigoq, newPostKey }) => dispatch => {
     .catch(error => crearQuinielaError(dispatch, error));
 };
 
+export const bloquearPartido = tid => dispatch => {
+  const postData1 = 1;
+
+  // Write the new post's data simultaneously in the posts list and the user's post list.
+
+  const updates1 = {};
+
+  updates1[`/torneos/${tid}/actualizarBloqueos`] = postData1;
+
+  return firebase
+    .database()
+    .ref()
+    .update(updates1)
+    .then(snap => {
+      //crearQuinielaExito(dispatch);
+    })
+    .catch(error => crearQuinielaError(dispatch, error));
+};
+
 export const crearCodigoQuiniela = codigo => dispatch => {
   const codigoNew = generarCodigo();
 

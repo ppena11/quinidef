@@ -28,7 +28,7 @@ class DetalleApuestas extends Component {
 
     return {
       title: params
-        ? `APUESTAS - ${params.posicion.nombreapuesta}`
+        ? `PUNTOS: ${params.posicion.puntos}`
         : "A Nested Details Screen",
       headerStyle: {
         backgroundColor: "#084B7C"

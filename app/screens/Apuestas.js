@@ -19,7 +19,8 @@ import {
   modificarApuestasBD,
   buscarApuestas,
   buscarHora,
-  escribirHora
+  escribirHora,
+  bloquearPartido
 } from "../actions";
 import { Container } from "../components/Container";
 import { Titulo } from "../components/Titulo";
@@ -125,6 +126,11 @@ class Apuestas extends Component {
         const y = moment(hor.time);
 
         k.subtract(1800, "seconds");
+        if (moment(y).isAfter(k)) {
+          if (!n.bloqueado) {
+            this.props.bloquearPartido(this.props.quiniela.torneoid);
+          }
+        }
         return !moment(y).isAfter(k);
       });
 
@@ -150,14 +156,14 @@ class Apuestas extends Component {
       console.log(this.props.quiniela.quiniela);
       //
       //   console.log(test);
-      this.run();
+      // this.run();
       this.setState({ validando: false });
-      this.props.navigation.goBack();
+      // this.props.navigation.goBack();
     } catch (e) {
       //   console.log(e);
       this.setState({ validando: false });
 
-      this.props.navigation.goBack();
+      // this.props.navigation.goBack();
     }
   };
 
@@ -318,7 +324,7 @@ class Apuestas extends Component {
           <View>{this.activa()}</View>
 
           <Text style={styles.buttonText}>
-            Puedes modificaar tus apuestas hasta 30 min antes que empiece cada
+            Puedes modificar tus apuestas hasta 30 min antes que empiece cada
             juego
           </Text>
 
@@ -431,5 +437,6 @@ export default connect(mapStateToProps, {
   buscarPartidos,
   buscarHora,
   modificarApuestasBD,
-  escribirHora
+  escribirHora,
+  bloquearPartido
 })(Apuestas);

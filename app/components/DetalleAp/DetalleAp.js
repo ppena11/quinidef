@@ -62,13 +62,6 @@ class DetalleAp extends Component {
     const k = moment.utc(re[this.props.partido.uid].inicioGMT0);
     const y = moment(this.props.hora.hora);
 
-    k.subtract(1800, "seconds");
-    if (moment(y).isAfter(k)) {
-      re[this.props.partido.uid].bloqueado = true;
-    } else {
-      re[this.props.partido.uid].bloqueado = false;
-    }
-
     if (re[this.props.partido.uid].bloqueado) {
       return (
         <Text style={styles.text2}>
@@ -87,13 +80,6 @@ class DetalleAp extends Component {
     const k = moment.utc(re[this.props.partido.uid].inicioGMT0);
     const y = moment(this.props.hora.hora);
 
-    k.subtract(1800, "seconds");
-    if (moment(y).isAfter(k)) {
-      re[this.props.partido.uid].bloqueado = true;
-    } else {
-      re[this.props.partido.uid].bloqueado = false;
-    }
-
     if (re[this.props.partido.uid].bloqueado) {
       return (
         <Text style={styles.text2}>
@@ -107,6 +93,51 @@ class DetalleAp extends Component {
     }
   }
 
+  block1() {
+    const re = this.props.partidos;
+    if (re[this.props.partido.uid].bloqueado) {
+      return (
+        <Text style={styles.fecha}>
+          {`PUNTOS OBTENIDOS EN ESTE PARTIDO: ${
+            re[this.props.partido.uid].golesA.toString() == "null"
+              ? " - "
+              : this.calcularPuntajeTotalJugador()
+          }`}
+        </Text>
+      );
+    } else {
+      return <View />;
+    }
+  }
+
+  block2() {
+    const re = this.props.partidos;
+    if (re[this.props.partido.uid].bloqueado) {
+      return <Text style={styles.fecha1}>Resultado</Text>;
+    } else {
+      return <View />;
+    }
+  }
+
+  block3() {
+    const re = this.props.partidos;
+    if (re[this.props.partido.uid].bloqueado) {
+      return (
+        <Text style={styles.text}>
+          {re[this.props.partido.uid].golesA.toString() == "null"
+            ? " - "
+            : re[this.props.partido.uid].golesA.toString()}
+          -{" "}
+          {re[this.props.partido.uid].golesB.toString() == "null"
+            ? " - "
+            : re[this.props.partido.uid].golesB.toString()}
+        </Text>
+      );
+    } else {
+      return <View />;
+    }
+  }
+
   render() {
     return (
       <TouchableOpacity style={styles.container}>
@@ -115,14 +146,15 @@ class DetalleAp extends Component {
             this.props.fecha
           }`}</Text>
         </View>
-        <View style={styles.containerFecha}>
-          <Text
-            style={styles.fecha}
-          >{`PUNTOS OBTENIDOS EN ESTE PARTIDO: ${this.calcularPuntajeTotalJugador()}`}</Text>
-        </View>
+        <View style={styles.containerFecha}>{this.block1()}</View>
         <View style={styles.containerNombreEquipos}>
-          <Text style={styles.text}>{pais3letras(this.props.partido.idA)}</Text>
-          <Text style={styles.text}>{pais3letras(this.props.partido.idB)}</Text>
+          <Text style={styles.textx}>
+            {pais3letras(this.props.partido.idA)}
+          </Text>
+          <Text style={styles.fechax}>Apuesta</Text>
+          <Text style={styles.textx}>
+            {pais3letras(this.props.partido.idB)}
+          </Text>
         </View>
         <View style={styles.containerBanderasMarcadores}>
           <View style={styles.containerImageA}>
@@ -132,9 +164,15 @@ class DetalleAp extends Component {
             />
           </View>
           <View style={styles.containerMarcador}>
-            <Text style={styles.text}>{this.apuestaA()}</Text>
-            <Text style={styles.text}> - </Text>
-            <Text style={styles.text}>{this.apuestaB()}</Text>
+            <View style={styles.containerMarcadorY}>
+              <View style={styles.containerMarcador}>
+                <Text style={styles.text}>{this.apuestaA()}</Text>
+                <Text style={styles.text}> - </Text>
+                <Text style={styles.text}>{this.apuestaB()}</Text>
+              </View>
+              <View style={styles.containerMarcador}>{this.block2()}</View>
+              <View style={styles.containerMarcador}>{this.block3()}</View>
+            </View>
           </View>
           <View style={styles.containerImageB}>
             <Image
