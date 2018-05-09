@@ -150,7 +150,7 @@ class DetalleAp extends Component {
             this.props.fecha
           }`}</Text>
         </View>
-        <View style={styles.containerFecha}>{this.block1()}</View>
+
         <View style={styles.containerNombreEquipos}>
           <Text style={styles.textx}>
             {pais3letras(this.props.partido.idA)}
@@ -185,6 +185,7 @@ class DetalleAp extends Component {
             />
           </View>
         </View>
+        <View style={styles.containerFecha}>{this.block1()}</View>
       </TouchableOpacity>
     );
   }
