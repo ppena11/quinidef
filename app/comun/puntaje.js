@@ -6,29 +6,32 @@ export function PuntajePartido(apuesta, resultado, reglas) {
   console.log(resultado.golesB);
   console.log("REGLASXXX");
   console.log(reglas);
-  if (typeof reglas[0] !== "undefined") {
+
+  if (typeof reglas[1] !== "undefined") {
+    console.log(reglas["1"]);
+    console.log(reglas[1]);
     // Acertar el Ganador
     if (apuesta.golesA > apuesta.golesB && resultado.golesA > resultado.golesB)
-      puntajeTotalPartido += reglas[0].value;
+      puntajeTotalPartido += reglas["1"].puntos;
     if (apuesta.golesA < apuesta.golesB && resultado.golesA < resultado.golesB)
-      puntajeTotalPartido += reglas[3].value;
+      puntajeTotalPartido += reglas["1"].puntos;
 
     // Acertar el Empate
     if (
       apuesta.golesA === apuesta.golesB &&
       resultado.golesA === resultado.golesB
     )
-      puntajeTotalPartido += reglas[2].value;
+      puntajeTotalPartido += reglas["2"].puntos;
 
     // Acertar Diferencia de Goles
     if (apuesta.golesA - apuesta.golesB === resultado.golesA - resultado.golesB)
-      puntajeTotalPartido += reglas[0].value;
+      puntajeTotalPartido += reglas["3"].puntos;
 
     // Acertar cada Marcador
     if (apuesta.golesA === resultado.golesA)
-      puntajeTotalPartido += reglas[1].value;
+      puntajeTotalPartido += reglas["4"].puntos;
     if (apuesta.golesB === resultado.golesB)
-      puntajeTotalPartido += reglas[1].value;
+      puntajeTotalPartido += reglas["4"].puntos;
     console.log("PUNTAJE PARTIDO");
     console.log(puntajeTotalPartido);
   }

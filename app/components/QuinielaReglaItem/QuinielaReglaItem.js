@@ -1,33 +1,41 @@
-import React, { Component } from 'react';
-import { Text, View, Image, Switch, TouchableOpacity, TextInput, Keyboard } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { connect } from 'react-redux';
-import _ from 'lodash';
+import React, { Component } from "react";
+import {
+  Text,
+  View,
+  Image,
+  Switch,
+  TouchableOpacity,
+  TextInput,
+  Keyboard
+} from "react-native";
+import { withNavigation } from "react-navigation";
+import { connect } from "react-redux";
+import _ from "lodash";
 
-import { Card } from '../Card';
-import { CardSection } from '../CardSection';
-import { CardSectionText } from '../CardSectionText';
+import { Card } from "../Card";
+import { CardSection } from "../CardSection";
+import { CardSectionText } from "../CardSectionText";
 
-import color from '../../comun/colors';
+import color from "../../comun/colors";
 
-import { cambiarEstatusQuiniela, modificarReglas } from '../../actions';
+import { cambiarEstatusQuiniela, modificarReglas } from "../../actions";
 
 class QuinielaReglaItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
       toggled: false,
-      regla: {},
+      regla: {}
     };
   }
 
   onRowPress() {
-    this.props.navigation.navigate('EliminarApuesta', {
+    this.props.navigation.navigate("EliminarApuesta", {
       jugador: this.props.jugador,
       jugadores: this.props.jugadores,
       quiniela: this.props.quiniela,
       quinielan: this.props.quinielan,
-      codigo: this.props.codigo,
+      codigo: this.props.codigo
     });
   }
 
@@ -40,14 +48,15 @@ class QuinielaReglaItem extends Component {
     if (!isNaN(k) && Number.isInteger(k)) {
       if (k >= 0) {
         //  console.log('GUARDALO');
-        //  console.log(this.props.regla.key);
-
         const re = this.props.reglas;
-        re[this.props.regla.key] = k;
+        console.log(this.props.regla.uid);
+        console.log(re[this.props.regla.uid]);
+
+        re[this.props.regla.uid].puntos = k;
         this.props.modificarReglas(re);
         //   console.log(re);
       }
-    } else if (e == '') {
+    } else if (e == "") {
       //  console.log(this.props.regla.value.toString());
     }
     //  console.log();
@@ -63,7 +72,7 @@ class QuinielaReglaItem extends Component {
       thumbnailStyle,
       thumbnailContainerStyle,
       switchStyle,
-      input,
+      input
     } = styles;
 
     return (
@@ -71,7 +80,7 @@ class QuinielaReglaItem extends Component {
         <Card>
           <CardSectionText>
             <TouchableOpacity style={headerContentStyleR}>
-              <Text style={headerTextStyle}>{this.props.regla.key}</Text>
+              <Text style={headerTextStyle}>{this.props.regla.nombre}</Text>
             </TouchableOpacity>
             <View style={headerContentStyleL}>
               <TextInput
@@ -80,7 +89,7 @@ class QuinielaReglaItem extends Component {
                 placeholderTextColor={color.$placeholderTextColor}
                 underlineColorAndroid={color.$underlineColorAndroid}
                 textAlign="center"
-                placeholder={this.props.regla.value.toString()}
+                placeholder={this.props.regla.puntos.toString()}
                 maxLength={3}
                 // value={this.props.regla.value.toString()}
                 keyboardType="numeric"
@@ -97,54 +106,57 @@ class QuinielaReglaItem extends Component {
 
 const styles = {
   headerContentStyleR: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
 
-    width: 250,
+    width: 250
   },
   input: {
     backgroundColor: color.$fondoBotonInput,
 
     fontSize: 16,
-    color: color.$formInputBoxColor,
+    color: color.$formInputBoxColor
   },
   headerContentStyleL: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
 
-    width: 60,
+    width: 60
   },
   headerTextStyle: {
     fontSize: 18,
-    color: color.$qxaHeaderTextStyle,
+    color: color.$qxaHeaderTextStyle
   },
   switchStyle: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginLeft: 10,
-    marginRight: 10,
+    marginRight: 10
   },
   headerTextStyle2: {
     fontSize: 12,
-    color: color.$qxaHeaderTextStyle2,
+    color: color.$qxaHeaderTextStyle2
   },
   thumbnailStyle: {
     height: 25,
-    width: 25,
+    width: 25
   },
   thumbnailContainerStyle: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginLeft: 5,
-    marginRight: 5,
-  },
+    marginRight: 5
+  }
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const jugadores = state.jugadoresadmin;
   const reglas = state.creacionquinielas.reglas;
   return { jugadores, reglas };
 };
 
-export default connect(mapStateToProps, { cambiarEstatusQuiniela, modificarReglas })(withNavigation(QuinielaReglaItem));
+export default connect(mapStateToProps, {
+  cambiarEstatusQuiniela,
+  modificarReglas
+})(withNavigation(QuinielaReglaItem));

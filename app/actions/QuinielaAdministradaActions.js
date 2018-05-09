@@ -39,9 +39,7 @@ export const reinicarReglas = () => ({
 });
 
 export const modifarReglasBD = (qid, reglas) => dispatch => {
-  const postData = {
-    ...reglas
-  };
+  const postData = reglas;
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};

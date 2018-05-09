@@ -178,10 +178,12 @@ class Reglas extends Component {
   }
 
   render() {
-    const reglas = Object.keys(this.state.regla).map(key => ({
-      key,
-      value: this.state.regla[key]
-    }));
+    const reglas = _.map(this.state.regla, (val, uid) => ({ ...val, uid }));
+
+    //  const reglas = Object.keys(this.state.regla).map(key => ({
+    //    key,
+    //     value: this.state.regla[key]
+    //    }));
     return (
       <Container>
         <StatusBar

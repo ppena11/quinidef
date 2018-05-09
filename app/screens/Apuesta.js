@@ -18,7 +18,9 @@ export default class extends Component {
 
     return {
       title: params
-        ? `${params.quiniela.uid} -  ${params.quiniela.quinielaNombre}`
+        ? `${params.quiniela.uid} - ${params.quiniela.quinielaNombre} - ${
+            params.quiniela.puntos
+          } PTS`
         : "A Nested Details Screen",
       headerStyle: {
         backgroundColor: "#084B7C"

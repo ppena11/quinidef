@@ -3,6 +3,7 @@ import { View, Image, Text, TextInput, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
 import moment from "moment";
+import _ from "lodash";
 import { Card } from "../Card";
 import banderas from "../../components/Logo/images/banderas";
 import { pais3letras } from "../../comun/pais";
@@ -44,10 +45,13 @@ class DetalleAp extends Component {
 
   calcularPuntajeTotalJugador() {
     const re = this.props.partidos;
-    const reglas = Object.keys(this.state.regla).map(key => ({
-      key,
-      value: this.state.regla[key]
-    }));
+    //    const reglas = Object.keys(this.state.regla).map(key => ({
+    //      key,
+    //      value: this.state.regla[key]
+    //    }));
+    //const reglas = _.map(this.state.regla, (val, uid) => ({ ...val, uid }));
+
+    reglas = this.state.regla;
 
     return PuntajePartido(
       this.props.partido,

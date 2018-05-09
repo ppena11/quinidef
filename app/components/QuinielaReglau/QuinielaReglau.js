@@ -79,11 +79,11 @@ class QuinielaReglau extends Component {
         <CardT>
           <CardSectionTextT>
             <TouchableOpacity style={headerContentStyleR}>
-              <Text style={headerTextStyle}>{this.props.regla.key}</Text>
+              <Text style={headerTextStyle}>{this.props.regla.nombre}</Text>
             </TouchableOpacity>
             <View style={headerContentStyleL}>
               <Text style={headerTextStyle}>
-                {this.props.regla.value.toString()}
+                {this.props.regla.puntos.toString()}
               </Text>
             </View>
           </CardSectionTextT>
