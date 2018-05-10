@@ -172,21 +172,29 @@ class Apuestas extends Component {
     // console.log('TEST');
     // navigate('EliminarApuesta');
   }
+
   fechaHoraDispositivo(fechaHoraGMT0) {
+    fechaHoraGMT0 = fechaHoraGMT0.replace(/-/g,'/');
     const diahora = new Date(`${fechaHoraGMT0} UTC`);
+    const dia =
+      diahora.getDate() < 10
+      ? `0${diahora.getDate()}`
+      : diahora.getDate();
     const mes =
       diahora.getMonth() + 1 < 10
-        ? `0${diahora.getMonth() + 1}`
-        : diahora.getMonth() + 1;
+      ? `0${diahora.getMonth() + 1}`
+      : diahora.getMonth() + 1;
     const hora =
-      diahora.getHours() < 10 ? `0${diahora.getHours()}` : diahora.getHours();
+      diahora.getHours() < 10
+      ? `0${diahora.getHours()}`
+      : diahora.getHours();
     const minutos =
       diahora.getMinutes() < 10
-        ? `0${diahora.getMinutes()}`
-        : diahora.getMinutes();
-    return `${diahora.getDate()}/${mes}/${diahora.getFullYear()} ${hora}:${minutos}`;
+      ? `0${diahora.getMinutes()}`
+      : diahora.getMinutes();
+    return `${dia}/${mes}/${diahora.getFullYear()} ${hora}:${minutos}`;
   }
-
+  
   grupofasetext(grupoFase) {
     let resultado = "";
     if (grupoFase.length == 1) resultado = `Grupo ${grupoFase}`;
@@ -206,20 +214,6 @@ class Apuestas extends Component {
         grupoFase={this.grupofasetext(partidos.value.grupofase)}
       />
     );
-  }
-
-  calcularPuntajeTotalJugador() {
-    // data de prueba/ejemplo
-    const apuestas = [
-      [0, 1, 0], // 10 pts
-      [1, 1, 1], //  8 pts
-      [2, 2, 1], //  1 pto
-      [3, 2, 0] //  6 pts
-    ];
-    const resultados = [[0, 1, 0], [1, 2, 2], [2, 0, 1], [3, 2, 1]];
-    const reglas = [5, 5, 3, 1];
-
-    return PuntajeJugador(apuestas, resultados, reglas);
   }
 
   menustatus() {
@@ -338,20 +332,6 @@ class Apuestas extends Component {
               }}
             />
           </View>
-          {/*
-        <View>
-          <Pronostico equipoA="rus" equipoB="ksa"/>
-
-          <Pronostico equipoA="egy" equipoB="uru"/>
-          <Pronostico equipoA="mar" equipoB="irn"/>
-          <Pronostico equipoA="por" equipoB="esp"/>
-
-          <Pronostico equipoA="fra" equipoB="aus"/>
-          <Pronostico equipoA="arg" equipoB="isl"/>
-          <Pronostico equipoA="per" equipoB="din"/>
-          <Pronostico equipoA="cro" equipoB="nga"/>
-        </View>
- */}
           <View>{this.menustatus()}</View>
         </View>
       </Container>
