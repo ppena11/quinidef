@@ -57,7 +57,7 @@ class Pos extends Component {
       headerContentStyle1,
       headerContentStyle2
     } = styles;
-    if (uid == this.props.jugador) {
+    if (nombreapuesta == this.props.jugador) {
       styleUser = headerTextStyleUser;
     } else {
       styleUser = headerTextStyle;

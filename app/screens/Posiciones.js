@@ -68,7 +68,7 @@ class Posiciones extends Component {
   };
 
   _renderItem = ({ item }) => (
-    <Pos posicion={item} jugador={this.props.quiniela.uid} />
+    <Pos posicion={item} jugador={this.props.quiniela.nombreapuesta} />
   );
   _keyExtractor = item => item.uid + item.nombreapuesta;
 

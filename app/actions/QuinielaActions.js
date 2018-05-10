@@ -537,7 +537,8 @@ export const agregarJugador = (
     quinielaNombre,
     quiniela,
     quinielaID: quiniela,
-    codigoq
+    codigoq,
+    apuestaid: newPostKey
   };
 
   const postData1 = {
@@ -550,14 +551,15 @@ export const agregarJugador = (
     quinielaNombre,
     quiniela,
     quinielaID: quiniela,
-    codigoq
+    codigoq,
+    apuestaid: newPostKey
   };
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
   updates[`/quinielas/${quiniela}/clasificacion/${nombreapuesta}`] = postData1;
 
-  updates[`/users/${currentUser.uid}/quinielas/${nombreapuesta}`] = postData;
+  updates[`/users/${currentUser.uid}/quinielas/${newPostKey}`] = postData;
 
   return firebase
     .database()

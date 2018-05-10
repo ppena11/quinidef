@@ -403,10 +403,12 @@ export const cambiarEstatusQuiniela = (
     codigoq: info.codigoq,
     quinielaID: info.quinielaID,
     quiniela: info.quinielaID,
-    partidos: apuesta.partidos
+    partidos: apuesta.partidos,
+    apuestaid: apuesta.apuestaid
   };
 
   const postData1 = {
+    apuestaid: apuesta.apuestaid,
     admin: info.admin,
     adminr: info.adminr,
     codigoq: info.codigoq,
@@ -430,7 +432,7 @@ export const cambiarEstatusQuiniela = (
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
-  updates[`/users/${apuesta.jid}/quinielas/${apuesta.uid}`] = postData;
+  updates[`/users/${apuesta.jid}/quinielas/${apuesta.apuestaid}`] = postData;
   updates[
     `/users/${info.admin}/quinielasadministradas/${info.quinielaID}`
   ] = postData1;
