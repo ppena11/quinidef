@@ -1,14 +1,25 @@
-import firebase from 'firebase';
-import _ from 'lodash';
+import firebase from "firebase";
+import _ from "lodash";
 
-import { CREATE_QUINIELA_FAIL, ULTIMA_QUINIELA_LLEGO_NO, ELIMINAR_JUGADOR } from './types';
+import {
+  CREATE_QUINIELA_FAIL,
+  ULTIMA_QUINIELA_LLEGO_NO,
+  ELIMINAR_JUGADOR
+} from "./types";
 
-export const eliminarJugador = (jugador, quiniela, quinielan, jugadores) => (dispatch) => {
+export const eliminarJugador = (
+  jugador,
+  quiniela,
+  quinielan,
+  jugadores
+) => dispatch => {
   const { currentUser } = firebase.auth();
   const postData1 = {};
   const updates = {};
-  updates[`/quinielas/${quiniela}/clasificacion/${jugador.uid}`] = postData1;
-  updates[`/users/${jugador.jid}/quinielas/${jugador.uid}`] = postData1;
+  updates[
+    `/quinielas/${quiniela}/clasificacion/${jugador.nombreapuesta}`
+  ] = postData1;
+  updates[`/users/${jugador.jid}/quinielas/${jugador.apuestaid}`] = postData1;
 
   // console.log(jugadores);
   const jug = jugadores;
@@ -22,10 +33,10 @@ export const eliminarJugador = (jugador, quiniela, quinielan, jugadores) => (dis
     .database()
     .ref()
     .update(updates)
-    .then((snap) => {
+    .then(snap => {
       dispatch({
         type: ELIMINAR_JUGADOR,
-        payload: jug,
+        payload: jug
       });
     })
     .catch(error => crearQuinielaError(dispatch, error));

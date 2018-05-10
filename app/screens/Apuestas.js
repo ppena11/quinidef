@@ -149,7 +149,7 @@ class Apuestas extends Component {
       //console.log(this.props.apuestast);
       const test = await this.props.modificarApuestasBD(
         this.props.quiniela.quiniela,
-        this.props.quiniela.uid,
+        this.props.quiniela.nombreapuesta,
         ap
       );
       console.log(this.props.quiniela.uid);

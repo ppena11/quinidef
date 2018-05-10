@@ -3,6 +3,7 @@ import { Text, View, Image, TouchableOpacity } from "react-native";
 import { withNavigation } from "react-navigation";
 import { connect } from "react-redux";
 import { Card } from "../Card";
+import { CardT } from "../CardT";
 import { CardSection } from "../CardSection";
 import styles from "./styles";
 import { modificarquiniela, buscarHora, escribirHora } from "../../actions";
@@ -57,14 +58,14 @@ class Pos extends Component {
       headerContentStyle1,
       headerContentStyle2
     } = styles;
-    if (uid == this.props.jugador) {
+    if (nombreapuesta == this.props.jugador) {
       styleUser = headerTextStyleUser;
     } else {
       styleUser = headerTextStyle;
     }
     return (
       <TouchableOpacity onPress={() => this.detalleQuiniela()}>
-        <Card>
+        <CardT>
           <View style={headerContentStyle}>
             <View style={headerContentStyle2}>
               <View style={thumbnailContainerStyle}>
@@ -83,7 +84,7 @@ class Pos extends Component {
               <Text style={styleUser}>{puntos}</Text>
             </View>
           </View>
-        </Card>
+        </CardT>
       </TouchableOpacity>
     );
   }
