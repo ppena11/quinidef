@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { Text, View, Image, TouchableOpacity } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { connect } from 'react-redux';
-import { Card } from '../Card';
-import { CardSection } from '../CardSection';
-import styles from './styles';
-import { modificarquiniela } from '../../actions';
+import React, { Component } from "react";
+import { Text, View, Image, TouchableOpacity } from "react-native";
+import { withNavigation } from "react-navigation";
+import { connect } from "react-redux";
+import { Card } from "../Card";
+import { CardSection } from "../CardSection";
+import styles from "./styles";
+import { modificarquiniela } from "../../actions";
 
 class Qx extends Component {
   /*   touch(text) {
@@ -15,13 +15,17 @@ class Qx extends Component {
 
   detalleQuiniela() {
     this.props.modificarquiniela(this.props.quiniela);
-    this.props.navigation.navigate('Apuesta', {
-      quiniela: this.props.quiniela,
+    this.props.navigation.navigate("Apuesta", {
+      quiniela: this.props.quiniela
     });
   }
   render() {
     const {
-      uid, nombreapuesta, activo, torneo, quinielaNombre,
+      uid,
+      nombreapuesta,
+      activo,
+      torneo,
+      quinielaNombre
     } = this.props.quiniela;
     const {
       headerContentStyle,
@@ -29,6 +33,7 @@ class Qx extends Component {
       headerTextStyle2,
       thumbnailStyle,
       thumbnailContainerStyle,
+      thumbnailContainerStyle1
     } = styles;
 
     return (
@@ -36,13 +41,25 @@ class Qx extends Component {
         <Card>
           <CardSection>
             <View style={thumbnailContainerStyle}>
-              <Image style={thumbnailStyle} source={require('../Logo/images/copa1.png')} />
+              <Image
+                style={thumbnailStyle}
+                source={require("../Logo/images/copa1.png")}
+              />
             </View>
             <View style={headerContentStyle}>
               <Text style={headerTextStyle}>{nombreapuesta}</Text>
               <Text style={headerTextStyle2}>
-                {torneo} - {quinielaNombre} - {activo ? 'Activado' : 'No Activado'}
+                {torneo} - {quinielaNombre} -{" "}
+                {activo ? "Activado" : "No Activado"}
               </Text>
+            </View>
+            <View style={thumbnailContainerStyle1}>
+              <View style={thumbnailContainerStyle}>
+                <Image
+                  style={thumbnailStyle}
+                  source={require("../Logo/images/copa1.png")}
+                />
+              </View>
             </View>
           </CardSection>
         </Card>
@@ -53,4 +70,6 @@ class Qx extends Component {
 
 const mapStateToProps = state => ({});
 
-export default connect(mapStateToProps, { modificarquiniela })(withNavigation(Qx));
+export default connect(mapStateToProps, { modificarquiniela })(
+  withNavigation(Qx)
+);

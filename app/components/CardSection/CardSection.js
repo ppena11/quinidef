@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import React from "react";
+import { View, TouchableOpacity } from "react-native";
 
-import color from '../../comun/colors';
+import color from "../../comun/colors";
 
 const CardSection = ({ onPress, children }) => (
   <View onPress={onPress}>
@@ -14,10 +14,8 @@ const styles = {
     borderBottomWidth: 1,
     padding: 5,
 
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
-    borderColor: color.$cardSectionBorderColor,
-    position: 'relative',
-  },
+    flexDirection: "row",
+    borderColor: color.$cardSectionBorderColor
+  }
 };
 export default CardSection;
