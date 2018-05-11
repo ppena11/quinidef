@@ -174,27 +174,23 @@ class Apuestas extends Component {
   }
 
   fechaHoraDispositivo(fechaHoraGMT0) {
-    fechaHoraGMT0 = fechaHoraGMT0.replace(/-/g,'/');
+    fechaHoraGMT0 = fechaHoraGMT0.replace(/-/g, "/");
     const diahora = new Date(`${fechaHoraGMT0} UTC`);
     const dia =
-      diahora.getDate() < 10
-      ? `0${diahora.getDate()}`
-      : diahora.getDate();
+      diahora.getDate() < 10 ? `0${diahora.getDate()}` : diahora.getDate();
     const mes =
       diahora.getMonth() + 1 < 10
-      ? `0${diahora.getMonth() + 1}`
-      : diahora.getMonth() + 1;
+        ? `0${diahora.getMonth() + 1}`
+        : diahora.getMonth() + 1;
     const hora =
-      diahora.getHours() < 10
-      ? `0${diahora.getHours()}`
-      : diahora.getHours();
+      diahora.getHours() < 10 ? `0${diahora.getHours()}` : diahora.getHours();
     const minutos =
       diahora.getMinutes() < 10
-      ? `0${diahora.getMinutes()}`
-      : diahora.getMinutes();
+        ? `0${diahora.getMinutes()}`
+        : diahora.getMinutes();
     return `${dia}/${mes}/${diahora.getFullYear()} ${hora}:${minutos}`;
   }
-  
+
   grupofasetext(grupoFase) {
     let resultado = "";
     if (grupoFase.length == 1) resultado = `Grupo ${grupoFase}`;
@@ -255,17 +251,19 @@ class Apuestas extends Component {
   }
 
   render() {
+    let partidos2 = [];
     let partidos = [];
     let golA = "";
     let golB = "";
     partidos1 = this.state.partidos;
+
     apuestas1 = this.state.apuestas;
     const apuestasm = Object.assign(
       {},
       this.state.partidos,
       this.state.apuestas
     );
-    partidos = Object.keys(partidos1).map(key => {
+    partidos2 = Object.keys(partidos1).map(key => {
       if (apuestas1 != null) {
         if (typeof apuestas1[key] !== "undefined") {
           if (typeof apuestas1[key].golesA !== "undefined") {
@@ -305,6 +303,15 @@ class Apuestas extends Component {
           inicioGMT0: partidos1[key].inicioGMT0
         }
       };
+    });
+
+    partidos = partidos2.sort(function compare(a, b) {
+      var dateA = new Date(a.value.inicioGMT0);
+      var dateB = new Date(b.value.inicioGMT0);
+
+      console.log(a.inicioGMT0);
+      console.log(dateA);
+      return dateA - dateB;
     });
 
     return (

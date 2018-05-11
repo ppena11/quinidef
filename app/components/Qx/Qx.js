@@ -4,8 +4,9 @@ import { withNavigation } from "react-navigation";
 import { connect } from "react-redux";
 import { Card } from "../Card";
 import { CardSection } from "../CardSection";
-import styles from "./styles";
+
 import { modificarquiniela } from "../../actions";
+import color from "../../comun/colors";
 
 class Qx extends Component {
   /*   touch(text) {
@@ -19,6 +20,14 @@ class Qx extends Component {
       quiniela: this.props.quiniela
     });
   }
+
+  borrarQuiniela() {
+    this.props.navigation.navigate("EliminarQuiniela", {
+      quiniela: this.props.quiniela,
+      jugadores: this.props.jugadores
+    });
+  }
+
   render() {
     const {
       uid,
@@ -29,6 +38,7 @@ class Qx extends Component {
     } = this.props.quiniela;
     const {
       headerContentStyle,
+      headerContentStyle1,
       headerTextStyle,
       headerTextStyle2,
       thumbnailStyle,
@@ -37,38 +47,84 @@ class Qx extends Component {
     } = styles;
 
     return (
-      <TouchableOpacity onPress={() => this.detalleQuiniela()}>
-        <Card>
-          <CardSection>
-            <View style={thumbnailContainerStyle}>
-              <Image
-                style={thumbnailStyle}
-                source={require("../Logo/images/copa1.png")}
-              />
-            </View>
-            <View style={headerContentStyle}>
-              <Text style={headerTextStyle}>{nombreapuesta}</Text>
-              <Text style={headerTextStyle2}>
-                {torneo} - {quinielaNombre} -{" "}
-                {activo ? "Activado" : "No Activado"}
-              </Text>
-            </View>
-            <View style={thumbnailContainerStyle1}>
-              <View style={thumbnailContainerStyle}>
-                <Image
-                  style={thumbnailStyle}
-                  source={require("../Logo/images/copa1.png")}
-                />
-              </View>
-            </View>
-          </CardSection>
-        </Card>
-      </TouchableOpacity>
+      <Card>
+        <CardSection>
+          <TouchableOpacity
+            style={thumbnailContainerStyle}
+            onPress={() => this.borrarQuiniela()}
+          >
+            <Image
+              style={thumbnailStyle}
+              source={require("../Logo/images/borrar1.png")}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={headerContentStyle}>
+            <Text style={headerTextStyle}>{nombreapuesta}</Text>
+            <Text style={headerTextStyle2}>
+              {torneo} - {quinielaNombre} -{" "}
+              {activo ? "Activado" : "No Activado"}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={headerContentStyle1}
+            onPress={() => this.detalleQuiniela()}
+          >
+            <Image
+              style={thumbnailStyle}
+              source={require("../../comun/images/banderas1/lupa.png")}
+            />
+          </TouchableOpacity>
+        </CardSection>
+      </Card>
     );
   }
 }
 
-const mapStateToProps = state => ({});
+const styles = {
+  headerContentStyle: {
+    flex: 4,
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "flex-start"
+  },
+  headerContentStyle1: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  headerTextStyle: {
+    fontSize: 18,
+    color: color.$qxaHeaderTextStyle,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  switchStyle: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 10,
+    marginRight: 10
+  },
+  headerTextStyle2: {
+    fontSize: 12,
+    color: color.$qxaHeaderTextStyle2
+  },
+  thumbnailStyle: {
+    height: 50,
+    width: 50
+  },
+  thumbnailContainerStyle: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 5,
+    marginRight: 5
+  }
+};
+
+const mapStateToProps = state => {
+  const jugadores = state.jugadoresadmin;
+  return { jugadores };
+};
 
 export default connect(mapStateToProps, { modificarquiniela })(
   withNavigation(Qx)
