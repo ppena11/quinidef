@@ -140,27 +140,23 @@ class DetalleApuestas extends Component {
   }
 
   fechaHoraDispositivo(fechaHoraGMT0) {
-    fechaHoraGMT0 = fechaHoraGMT0.replace(/-/g,'/');
+    fechaHoraGMT0 = fechaHoraGMT0.replace(/-/g, "/");
     const diahora = new Date(`${fechaHoraGMT0} UTC`);
     const dia =
-      diahora.getDate() < 10
-      ? `0${diahora.getDate()}`
-      : diahora.getDate();
+      diahora.getDate() < 10 ? `0${diahora.getDate()}` : diahora.getDate();
     const mes =
       diahora.getMonth() + 1 < 10
-      ? `0${diahora.getMonth() + 1}`
-      : diahora.getMonth() + 1;
+        ? `0${diahora.getMonth() + 1}`
+        : diahora.getMonth() + 1;
     const hora =
-      diahora.getHours() < 10
-      ? `0${diahora.getHours()}`
-      : diahora.getHours();
+      diahora.getHours() < 10 ? `0${diahora.getHours()}` : diahora.getHours();
     const minutos =
       diahora.getMinutes() < 10
-      ? `0${diahora.getMinutes()}`
-      : diahora.getMinutes();
+        ? `0${diahora.getMinutes()}`
+        : diahora.getMinutes();
     return `${dia}/${mes}/${diahora.getFullYear()} ${hora}:${minutos}`;
   }
-  
+
   grupofasetext(grupoFase) {
     let resultado = "";
     if (grupoFase.length == 1) resultado = `Grupo ${grupoFase}`;
@@ -239,8 +235,8 @@ class DetalleApuestas extends Component {
           backgroundColor={color.$statusBarBackgroundColor}
         />
         <Text style={styles.signupText}>
-          Puedes ver las apuestas de cada juego de este {"\n"}jugador cuando se
-          bloquean las apuestas
+          Puedes ver los pronósticos de cada juego de este {"\n"}jugador cuando
+          se bloquean las apuestas
         </Text>
         <View style={styles.form}>
           <View style={styles.cuerpo}>
@@ -335,10 +331,11 @@ const styles = EStyleSheet.create({
 const mapStateToProps = state => {
   const partidost = state.partidos;
   const apuestast = state.apuestas;
-  let detalleapuestas = _.map(state.detalleapuesta, (val, uid) => ({
+  let detalleapuestas1 = _.map(state.detalleapuesta, (val, uid) => ({
     ...val,
     uid
   }));
+  const detalleapuestas = _.orderBy(detalleapuestas1, ["inicioGMT0"], ["asc"]);
   //detalleapuestas.shift();
 
   console.log(detalleapuestas);

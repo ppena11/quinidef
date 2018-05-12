@@ -23,7 +23,10 @@ import {
   reloadingJugadores,
   eliminarJugador,
   reducirDisponibles,
-  cambiarEstatusQuinielaA
+  cambiarEstatusQuinielaA,
+  irTusQuinielas,
+  buscarQuinielas,
+  reducirPorActivar
 } from "../actions";
 import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
@@ -84,10 +87,10 @@ class EliminarQuiniela extends Component {
   }
 
   eliminarTest1(goBack) {
-    const { quiniela, jugadores } = this.props.navigation.state.params;
+    const { quiniela, jugadores, nav } = this.props.navigation.state.params;
     // console.log('TEST');
     // navigate('CreaciondeQuiniela');
-
+    //console.log(nav);
     if (quiniela.codigoq == this.state.inputfield) {
       this.props.eliminarJugador(
         quiniela,
@@ -95,14 +98,14 @@ class EliminarQuiniela extends Component {
         quiniela.nombreapuesta,
         jugadores
       );
-      this.run(quiniela.quiniela, quiniela, goBack);
+      this.run(quiniela.quiniela, quiniela, goBack, nav);
       //
     } else {
       this.setState({ warning: "yes" });
     }
   }
 
-  run = async (qu, jug, goBack) => {
+  run = async (qu, jug, goBack, nav) => {
     try {
       // const { currentUser } = firebase.auth();
       // this.setState({ validando: true });
@@ -111,21 +114,27 @@ class EliminarQuiniela extends Component {
       // const test = await this.props.cambiarEstatusQuiniela(jug, qu, e1);
       // this.setState({ toggled: this.props.jugadores[uid].activo });
       // console.log(test);
-      const t = await this.props.reducirDisponibles(qu);
-      if (t.committed) {
-        //  console.log(t.snapshot.val());
-        //  console.log(jug);
-        const test = await this.props.cambiarEstatusQuinielaA(
-          qu,
-          t.snapshot.val(),
-          jug
-        );
-        //   console.log(`TESXXXXXXXXXXXXXXXXXXXXXXXXXXXTTTTTTTTT ${test}`);
-        goBack();
+      if (!jug.activo) {
+        const t = await this.props.reducirPorActivar(qu);
+        if (t.committed) {
+          //  console.log(t.snapshot.val());
+          //  console.log(jug);
+          const test = await this.props.cambiarEstatusQuinielaA(
+            qu,
+            t.snapshot.val(),
+            jug
+          );
+        }
       }
+
+      //   console.log(`TESXXXXXXXXXXXXXXXXXXXXXXXXXXXTTTTTTTTT ${test}`);
+      console.log("nav");
+      this.props.buscarQuinielas(jug.jid);
+      this.props.screenProps.rootNavigation.goBack(null);
+
       // this.setState({ validando: false });
     } catch (e) {
-      //   console.log(e);
+      console.log(e);
       goBack();
       // this.setState({ validando: false });
     }
@@ -215,17 +224,16 @@ class EliminarQuiniela extends Component {
             {this.menustatus1(quiniela.nombreapuesta)}
           </View>
 
-          <View style={styles.bottom}>
-            <View>
-              {/* <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal> */}
-              <BotonPrincipal onPress={() => this.eliminarTest1(goBack)}>
-                Eliminar apuesta...
-              </BotonPrincipal>
-              <BotonPrincipal onPress={() => this.tusquinielas(goBack)}>
-                Cancelar
-              </BotonPrincipal>
-            </View>
-          </View>
+          {/* <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal> */}
+
+          <KeyboardAvoidingView behavior="padding">
+            <BotonPrincipal onPress={() => this.eliminarTest1(goBack)}>
+              Eliminar apuesta...
+            </BotonPrincipal>
+            <BotonPrincipal onPress={() => this.tusquinielas(goBack)}>
+              Cancelar
+            </BotonPrincipal>
+          </KeyboardAvoidingView>
         </View>
       </Container>
     );
@@ -319,5 +327,8 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   eliminarJugador,
   reducirDisponibles,
-  cambiarEstatusQuinielaA
+  reducirPorActivar,
+  cambiarEstatusQuinielaA,
+  irTusQuinielas,
+  buscarQuinielas
 })(EliminarQuiniela);

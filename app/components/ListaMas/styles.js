@@ -17,39 +17,24 @@ export default EStyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-
+    marginLeft: 10,
+    marginRight: 10,
     paddingTop: 0,
     paddingBottom: 0,
     borderWidth: 0
   },
   fecha: {
     fontWeight: "normal",
-    fontSize: 11,
+    fontSize: 14,
     color: color.$textoPronostico
-  },
-  fecha2: {
-    fontWeight: "normal",
-    fontSize: 15,
-    color: color.$textoPronostico
-  },
-  fecha1: {
-    fontWeight: "normal",
-    fontSize: 11,
-    color: color.$textoPronostico,
-    textAlign: "center"
-  },
-  fechax: {
-    flex: 1,
-    fontWeight: "normal",
-    fontSize: 11,
-    color: color.$textoPronostico,
-    textAlign: "center"
   },
   containerNombreEquipos: {
-    flex: 1,
+    flexGrow: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginLeft: 10,
+    marginRight: 10,
     paddingTop: 0,
     paddingBottom: 0,
     borderWidth: 0
@@ -59,81 +44,37 @@ export default EStyleSheet.create({
     fontSize: 16,
     color: color.$textoPronostico
   },
-  text1: {
-    fontWeight: "normal",
-    fontSize: 16,
-    color: color.$textoPronostico,
-    textAlign: "center"
-  },
-  textx: {
-    flex: 1,
-    fontWeight: "normal",
-    fontSize: 16,
-    color: color.$textoPronostico,
-    textAlign: "center"
-  },
   text2: {
     fontWeight: "normal",
-    fontSize: 16,
-    color: color.$textoPronostico,
-    textAlign: "center"
+    fontSize: 25,
+    color: color.$textoPronostico
   },
   containerBanderasMarcadores: {
-    flex: 1,
+    flexGrow: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-
-    borderWidth: 0
-  },
-  containerBanderasMarcadores1: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-
+    marginLeft: 10,
+    marginRight: 10,
     borderWidth: 0
   },
   containerImageA: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 0
-  },
-
-  containerApuesta: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-start",
     borderWidth: 0
   },
   containerImageB: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-end",
     borderWidth: 0
   },
   containerMarcador: {
-    flex: 1,
+    flexGrow: 4,
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 0
-  },
-
-  containerMarcadorY: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-
-    borderWidth: 0
-  },
-
-  containerMarcador1: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-start",
     borderWidth: 0
   },
   image: {
@@ -150,7 +91,8 @@ export default EStyleSheet.create({
     backgroundColor: color.$fondoBotonInput,
     color: color.$formInputBoxColor,
     fontSize: 25,
-
+    width: 40,
+    height: 35,
     padding: 0,
     margin: 0
   }

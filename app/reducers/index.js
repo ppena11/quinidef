@@ -10,6 +10,7 @@ import JugadoresAdminReducer from "./JugadoresAdminReducer";
 import CodigosReducer from "./CodigosReducer";
 // import nav from './nav';
 import NavigationReducer from "./NavigationReducer";
+import NavigationReducer1 from "./NavigationReducer1";
 import ActivacionReducer from "./ActivacionReducer";
 import QAreducer from "./QAreducer";
 import PartidosReducer from "./PartidosReducer";
@@ -23,6 +24,7 @@ import TimeReducer from "./TimeReducer";
 export default combineReducers({
   auth: AuthReducer,
   nav: NavigationReducer,
+  nav1: NavigationReducer1,
   quinielas: QuinielasReducer,
   quinielasadmin: QuinielasAdminReducer,
   torneos: TorneosReducer,

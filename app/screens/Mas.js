@@ -24,14 +24,14 @@ import {
 } from "../actions";
 import { Container } from "../components/Container";
 import { Titulo } from "../components/Titulo";
-import { Pronostico } from "../components/Pronostico";
+import { ListaMas } from "../components/ListaMas";
 import { PuntajeJugador } from "../comun/puntaje";
 import { BotonPrincipal } from "../components/BotonPrincipal";
 import { Spinner } from "../components/Spinner";
 
 import color from "../comun/colors";
 
-class Apuestas extends Component {
+class Mas extends Component {
   static navigationOptions = {
     header: null
   };
@@ -46,29 +46,7 @@ class Apuestas extends Component {
     };
     this.run = this.run.bind(this);
     this.run2 = this.run2.bind(this);
-  }
-
-  componentDidMount() {
-    this.run();
-
-    BackHandler.addEventListener("hardwareBackPress", () =>
-      this.props.navigation.goBack()
-    );
-
-    this.keyboardWillShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      this.keyboardWillShow
-    );
-    this.keyboardWillHideListener = Keyboard.addListener(
-      "keyboardDidHide",
-      this.keyboardWillHide
-    );
-  }
-
-  componentWillUnmount() {
-    this.setState({ validando: false });
-    this.keyboardWillShowListener.remove();
-    this.keyboardWillHideListener.remove();
+    this.renderRow = this.renderRow.bind(this);
   }
 
   tusquinielas() {
@@ -199,120 +177,18 @@ class Apuestas extends Component {
   }
 
   renderRow(partidos) {
+    //console.log(this.props.navigation);
     return (
-      <Pronostico
-        partido={partidos}
-        equipoA={partidos.value.idA}
-        golesA={partidos.value.golesA}
-        golesB={partidos.value.golesB}
-        equipoB={partidos.value.idB}
-        fecha={this.fechaHoraDispositivo(partidos.value.inicioGMT0)}
-        grupoFase={this.grupofasetext(partidos.value.grupofase)}
+      <ListaMas
+        nav={this.props.navigation}
+        quiniela={this.props.quiniela}
+        menu={partidos}
       />
     );
   }
 
-  menustatus() {
-    if (this.state.menu === "yes") {
-      return (
-        <View style={styles.bottom}>
-          <View style={styles.conta}>
-            <View style={styles.vire} />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.crear()}
-            >
-              {this.status()}
-            </TouchableOpacity>
-            <View style={styles.vire} />
-          </View>
-        </View>
-      );
-    }
-    return <View />;
-  }
-
-  status() {
-    if (this.state.validando) {
-      return <Spinner style={styles.buttonText} size="small" />;
-    }
-    return <Text style={styles.buttonText}>Guargar cambios..</Text>;
-  }
-
-  activa() {
-    if (!this.props.quiniela.activo) {
-      return (
-        <Text style={styles.buttonText}>
-          Contacta al administrador para activar tu quiniela
-        </Text>
-      );
-    }
-    return <View />;
-  }
-
   render() {
-    let partidos2 = [];
-    let partidos = [];
-    let golA = "";
-    let golB = "";
-    partidos1 = this.state.partidos;
-
-    apuestas1 = this.state.apuestas;
-    const apuestasm = Object.assign(
-      {},
-      this.state.partidos,
-      this.state.apuestas
-    );
-    partidos2 = Object.keys(partidos1).map(key => {
-      if (apuestas1 != null) {
-        if (typeof apuestas1[key] !== "undefined") {
-          if (typeof apuestas1[key].golesA !== "undefined") {
-            golA = apuestasm[key].golesA;
-          } else {
-            golA = "null";
-          }
-        } else {
-          golA = "null";
-        }
-
-        if (typeof apuestas1[key] !== "undefined") {
-          if (typeof apuestas1[key].golesB !== "undefined") {
-            golB = apuestasm[key].golesB;
-          } else {
-            golB = "null";
-          }
-        } else {
-          golB = "null";
-        }
-      } else {
-        golA = "null";
-        golB = "null";
-      }
-
-      // golA = this.state.apuestas[key].golesA;
-      //   golB = this.state.apuestas[key].golesB;
-
-      return {
-        key,
-        value: {
-          golesA: golA,
-          golesB: golB,
-          grupofase: partidos1[key].grupofase,
-          idA: partidos1[key].idA,
-          idB: partidos1[key].idB,
-          inicioGMT0: partidos1[key].inicioGMT0
-        }
-      };
-    });
-
-    partidos = partidos2.sort(function compare(a, b) {
-      var dateA = moment(a.value.inicioGMT0);
-      var dateB = moment(b.value.inicioGMT0);
-
-      console.log(a);
-      console.log(dateA.format());
-      return dateA - dateB;
-    });
+    let menu = [{ imagen: "basura", titulo: "Eliminar quiniela" }];
 
     return (
       <Container>
@@ -322,16 +198,9 @@ class Apuestas extends Component {
           backgroundColor={color.$statusBarBackgroundColor}
         />
         <View style={styles.form}>
-          <View>{this.activa()}</View>
-
-          <Text style={styles.buttonText}>
-            Puedes modificar tus apuestas hasta 30 min antes que empiece cada
-            juego
-          </Text>
-
           <View style={styles.cuerpo}>
             <FlatList
-              data={partidos}
+              data={menu}
               renderItem={({ item }) => this.renderRow(item)}
               onEndReachedThershold={0}
               ref={ref => {
@@ -339,7 +208,6 @@ class Apuestas extends Component {
               }}
             />
           </View>
-          <View>{this.menustatus()}</View>
         </View>
       </Container>
     );
@@ -426,4 +294,4 @@ export default connect(mapStateToProps, {
   modificarApuestasBD,
   escribirHora,
   bloquearPartido
-})(Apuestas);
+})(Mas);

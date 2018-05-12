@@ -1,5 +1,5 @@
 import React from "react";
-import { StackNavigator } from "react-navigation";
+import { StackNavigator, TabNavigator, TabBarBottom } from "react-navigation";
 
 import Login from "../screens/Login";
 import ReiniciarContrasena from "../screens/ReiniciarContrasena";
@@ -14,14 +14,96 @@ import UnirseAQuiniela from "../screens/UnirseAQuiniela";
 import RegistrarQuiniela from "../screens/RegistrarQuiniela";
 import ReglasAdmin from "../screens/ReglasAdmin";
 import Apuestas from "../screens/Apuestas";
-import Apuesta from "../screens/Apuesta";
-
-import EliminarApuesta from "../screens/EliminarApuesta";
+//import Apuesta from "../screens/Apuesta";
+import Posiciones from "../screens/Posiciones";
+import Reglas from "../screens/Reglas";
+import DetallesApuestas from "../screens/DetallesApuestas";
 import EliminarQuiniela from "../screens/EliminarQuiniela";
+import Mas from "../screens/Mas";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import EliminarApuesta from "../screens/EliminarApuesta";
 
 import CargandoHome from "../screens/CargandoHome";
 
-const stackRouterConfig = { initialRouteName: "CargandoHome" };
+const stackRouterConfig = {
+  navigationOptions: ({ navigation }) => {
+    const { params } = navigation.state;
+
+    return {
+      title: params
+        ? `${params.quiniela.nombreapuesta} - ${
+            params.quiniela.quinielaNombre
+          } - ${params.quiniela.puntos} PTS`
+        : "A Nested Details Screen",
+      headerStyle: {
+        backgroundColor: "#084B7C"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      }
+    };
+  },
+  initialRouteName: "CargandoHome"
+};
+
+const PosicionesStack = StackNavigator({
+  HomePosiciones: { screen: Posiciones },
+  DetallesPosiciones: { screen: DetallesApuestas }
+});
+
+const MasStack = StackNavigator({
+  Mas: { screen: Mas },
+  EliminarQuiniela: { screen: EliminarQuiniela }
+});
+
+const RootNavigatort = TabNavigator(
+  {
+    Apuestas: {
+      screen: Apuestas
+    },
+    Posiciones: {
+      screen: PosicionesStack
+    },
+    Reglas: {
+      screen: Reglas
+    },
+    Mas: {
+      screen: MasStack
+    }
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName === "Apuestas") {
+          iconName = `md-football${focused ? "" : ""}`;
+        } else if (routeName === "Posiciones") {
+          iconName = `md-analytics${focused ? "" : ""}`;
+        } else if (routeName === "Reglas") {
+          iconName = `md-flag${focused ? "" : ""}`;
+        } else if (routeName === "Mas") {
+          iconName = `md-options${focused ? "" : ""}`;
+        }
+
+        // You can return any component that you like here! We usually use an
+        // icon component from react-native-vector-icons
+        return <Ionicons name={iconName} size={25} color={tintColor} />;
+      }
+    }),
+    tabBarOptions: {
+      activeTintColor: "white",
+      inactiveTintColor: "gray",
+      activeBackgroundColor: "#084B7C",
+      inactiveBackgroundColor: "#084B7C"
+    },
+    tabBarComponent: TabBarBottom,
+    tabBarPosition: "bottom",
+    animationEnabled: false,
+    swipeEnabled: false
+  }
+);
 
 const RootNavigator = StackNavigator(
   {
@@ -77,7 +159,9 @@ const RootNavigator = StackNavigator(
       screen: Apuestas
     },
     Apuesta: {
-      screen: Apuesta
+      screen: ({ navigation }) => (
+        <RootNavigatort screenProps={{ rootNavigation: navigation }} />
+      )
     }
   },
   stackRouterConfig

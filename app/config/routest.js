@@ -18,6 +18,8 @@ import Apuesta from "../screens/Apuesta";
 import Posiciones from "../screens/Posiciones";
 import Reglas from "../screens/Reglas";
 import DetallesApuestas from "../screens/DetallesApuestas";
+import EliminarQuiniela from "../screens/EliminarQuiniela";
+import Mas from "../screens/Mas";
 
 import EliminarApuesta from "../screens/EliminarApuesta";
 
@@ -27,6 +29,11 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 const PosicionesStack = StackNavigator({
   HomePosiciones: { screen: Posiciones },
   DetallesPosiciones: { screen: DetallesApuestas }
+});
+
+const MasStack = StackNavigator({
+  Mas: { screen: Mas },
+  EliminarQuiniela: { screen: EliminarQuiniela }
 });
 
 const RootNavigatort = TabNavigator(
@@ -39,6 +46,9 @@ const RootNavigatort = TabNavigator(
     },
     Reglas: {
       screen: Reglas
+    },
+    Mas: {
+      screen: MasStack
     }
   },
   {
@@ -52,6 +62,8 @@ const RootNavigatort = TabNavigator(
           iconName = `md-analytics${focused ? "" : ""}`;
         } else if (routeName === "Reglas") {
           iconName = `md-flag${focused ? "" : ""}`;
+        } else if (routeName === "Mas") {
+          iconName = `md-options${focused ? "" : ""}`;
         }
 
         // You can return any component that you like here! We usually use an

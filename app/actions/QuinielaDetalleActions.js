@@ -377,6 +377,34 @@ export const reducirDisponibles = qu => dispatch =>
       }
     );
 
+export const reducirPorActivar = qu => dispatch =>
+  firebase
+    .database()
+    .ref(`/quinielas/${qu}/info/`)
+    .transaction(
+      currentData => {
+        Number((currentData.quinielasPorActivar -= 1));
+
+        return currentData;
+      },
+
+      // Abort the transaction.
+      (error, committed, snapshot) => {
+        if (error) {
+          //   console.log('Transaction failed abnormally!', error);
+        } else if (!committed) {
+          //   console.log('We aborted the transaction (because ada already exists).');
+        } else {
+          //   console.log('User adahksjfhksjdfhksdjfhjksdfhkdjfh added!');
+        }
+        dispatch({
+          type: ACTUALIZAR_CODIGO_QUINIELA,
+          payload: snapshot
+        });
+        // console.log("Ada's data: ", snapshot.val());
+      }
+    );
+
 export const cambiarEstatusQuiniela = (
   apuesta,
   quiniela,
@@ -471,8 +499,8 @@ export const cambiarEstatusQuinielaA = (quiniela, info, ju) => dispatch => {
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
-  updates[`quinielas/${info.quinielaID}/info`] = postData1;
-  updates[`users/${ju.jid}/quinielasadministradas/${quiniela}`] = postData1;
+  //updates[`quinielas/${info.quinielaID}/info`] = postData1;
+  updates[`users/${info.admin}/quinielasadministradas/${quiniela}`] = postData1;
 
   return firebase
     .database()

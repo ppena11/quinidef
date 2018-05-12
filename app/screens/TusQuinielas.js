@@ -1,28 +1,41 @@
-import React, { Component } from 'react';
-import { StatusBar, ListView, View, FlatList, Text, BackHandler, Image } from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import _ from 'lodash';
-import { connect } from 'react-redux';
-import firebase from 'firebase';
+import React, { Component } from "react";
+import {
+  StatusBar,
+  ListView,
+  View,
+  FlatList,
+  Text,
+  BackHandler,
+  Image
+} from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
+import _ from "lodash";
+import { connect } from "react-redux";
+import firebase from "firebase";
 
-import { buscarQuinielas, salir, irAdministradas, salirSistema } from '../actions';
-import { Container } from '../components/Container';
-import { BotonPrincipal } from '../components/BotonPrincipal';
-import { Titulo } from '../components/Titulo';
-import { Qx } from '../components/Qx';
-import color from '../comun/colors';
-import { Spinner } from '../components/Spinner';
+import {
+  buscarQuinielas,
+  salir,
+  irAdministradas,
+  salirSistema
+} from "../actions";
+import { Container } from "../components/Container";
+import { BotonPrincipal } from "../components/BotonPrincipal";
+import { Titulo } from "../components/Titulo";
+import { Qx } from "../components/Qx";
+import color from "../comun/colors";
+import { Spinner } from "../components/Spinner";
 
 class TusQuinielas extends Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
 
   constructor(props) {
     super(props);
     this.state = {
       validando: false,
-      qu: {},
+      qu: {}
     };
 
     this.loading = this.loading.bind(this);
@@ -31,7 +44,9 @@ class TusQuinielas extends Component {
 
   componentDidMount() {
     this.run();
-    BackHandler.addEventListener('hardwareBackPress', () => this.props.navigation.goBack());
+    BackHandler.addEventListener("hardwareBackPress", () =>
+      this.props.navigation.goBack()
+    );
   }
 
   run = async () => {
@@ -50,7 +65,7 @@ class TusQuinielas extends Component {
   };
 
   unirseAQuiniela() {
-    this.props.navigation.navigate('UnirseAQuiniela');
+    this.props.navigation.navigate("UnirseAQuiniela");
   }
 
   logout2(navigate) {
@@ -59,10 +74,10 @@ class TusQuinielas extends Component {
     // navigate('CargandoHome');
   }
 
-  logout = async (navigate) => {
+  logout = async navigate => {
     try {
       await firebase.auth().signOut();
-      navigate('CargandoHome');
+      navigate("CargandoHome");
     } catch (e) {
       console.error(e);
     }
@@ -70,7 +85,7 @@ class TusQuinielas extends Component {
 
   crear() {
     // this.props.irAdministradas();
-    this.props.navigation.navigate('QuinielasAdministradas');
+    this.props.navigation.navigate("QuinielasAdministradas");
   }
 
   _renderItem = ({ item }) => <Qx quiniela={item} />;
@@ -83,7 +98,7 @@ class TusQuinielas extends Component {
           <View style={styles.viewImgStyle}>
             <Image
               style={styles.imgStyle}
-              source={require('../components/Logo/images/copa1.png')}
+              source={require("../components/Logo/images/copa1.png")}
             />
           </View>
           <View style={styles.viewStyle}>
@@ -107,13 +122,19 @@ class TusQuinielas extends Component {
             <Titulo>MIS QUINIELAS</Titulo>
           </View>
 
-          <FlatList data={tt} renderItem={this._renderItem} keyExtractor={this._keyExtractor} />
+          <FlatList
+            data={tt}
+            renderItem={this._renderItem}
+            keyExtractor={this._keyExtractor}
+          />
 
           <View style={styles.bottom}>
             <BotonPrincipal onPress={() => this.unirseAQuiniela()}>
               Unirse a una Quiniela
             </BotonPrincipal>
-            <BotonPrincipal onPress={() => this.crear()}>Organiza una Quiniela</BotonPrincipal>
+            <BotonPrincipal onPress={() => this.crear()}>
+              Organiza una Quiniela
+            </BotonPrincipal>
           </View>
         </View>
       </Container>
@@ -126,7 +147,7 @@ class TusQuinielas extends Component {
     const tt = _.map(this.state.qu, (val, uid) => ({ ...val, uid }));
     // console.log(`ttttttttttttttttttttttttttttttttttttttttttttttttttttttt ${tt}`);
     // console.log(`VALIDANDO TUS QUINIELAS ${this.state.validando}`);
-    return this.loading(tt);
+    return this.loading(this.props.quinielas);
   }
 }
 
@@ -134,43 +155,46 @@ const styles = EStyleSheet.create({
   form: {
     flex: 1,
 
-    justifyContent: 'space-between',
-    flexDirection: 'column',
+    justifyContent: "space-between",
+    flexDirection: "column"
   },
   titulo: {
-    padding: 20,
+    padding: 20
   },
   cuerpo: {
-    flex: 1,
+    flex: 1
   },
   bottom: {
-    padding: 20,
+    padding: 20
   },
   viewImgStyle: {
     flex: 3,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
   },
   imgStyle: {
     height: 200,
-    width: 200,
+    width: 200
   },
   viewStyle: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  }
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const tt = _.map(state.quinielas, (val, uid) => ({ ...val, uid }));
-  const quinielas = _.orderBy(tt, ['uid'], ['desc']);
+  const quinielas = _.orderBy(tt, ["uid"], ["asc"]);
   // console.log(quinielas);
   return { quinielas };
 };
 
 export default connect(mapStateToProps, {
-  buscarQuinielas, salir, irAdministradas, salirSistema,
+  buscarQuinielas,
+  salir,
+  irAdministradas,
+  salirSistema
 })(TusQuinielas);

@@ -7,7 +7,7 @@ import RootNavigatort from "../config/routest";
 const App = ({ dispatch, nav }) => <RootNavigatort />;
 
 const mapStateToProps = state => ({
-  nav: state.nav
+  nav1: state.nav1
 });
 
 const AppWithNavigation = connect(mapStateToProps)(App);
@@ -32,6 +32,11 @@ export default class extends Component {
     };
   };
   render() {
-    return <AppWithNavigation />;
+    //console.log(this.props.navigation);
+    return (
+      <AppWithNavigation
+        screenProps={{ rootNavigation: this.props.navigation }}
+      />
+    );
   }
 }

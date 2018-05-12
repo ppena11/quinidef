@@ -101,7 +101,7 @@ class DetalleAp extends Component {
     const re = this.props.partidos;
     if (re[this.props.partido.uid].bloqueado) {
       return (
-        <Text style={styles.fecha}>
+        <Text style={styles.fecha2}>
           {`PUNTOS OBTENIDOS EN ESTE PARTIDO: ${
             re[this.props.partido.uid].golesA.toString() == "null"
               ? " - "
@@ -130,7 +130,7 @@ class DetalleAp extends Component {
         <Text style={styles.text}>
           {re[this.props.partido.uid].golesA.toString() == "null"
             ? " - "
-            : re[this.props.partido.uid].golesA.toString()}
+            : re[this.props.partido.uid].golesA.toString()}{" "}
           -{" "}
           {re[this.props.partido.uid].golesB.toString() == "null"
             ? " - "
@@ -146,7 +146,7 @@ class DetalleAp extends Component {
     return (
       <TouchableOpacity style={styles.container}>
         <View style={styles.containerFecha}>
-          <Text style={styles.fecha}>{`${this.props.grupoFase} - ${
+          <Text style={styles.fecha2}>{`${this.props.grupoFase} - ${
             this.props.fecha
           }`}</Text>
         </View>
@@ -155,7 +155,7 @@ class DetalleAp extends Component {
           <Text style={styles.textx}>
             {pais3letras(this.props.partido.idA)}
           </Text>
-          <Text style={styles.fechax}>Apuesta</Text>
+          <Text style={styles.fechax}>Pronóstico</Text>
           <Text style={styles.textx}>
             {pais3letras(this.props.partido.idB)}
           </Text>
