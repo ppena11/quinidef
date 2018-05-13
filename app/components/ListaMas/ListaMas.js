@@ -4,66 +4,33 @@ import { withNavigation } from "react-navigation";
 import { connect } from "react-redux";
 import { Card } from "../Card";
 import { CardSection } from "../CardSection";
+import banderas from "../../components/Logo/images/banderas";
 
 import { modificarquiniela } from "../../actions";
 import color from "../../comun/colors";
 
-class ListaMas extends Component {
-  /*   touch(text) {
-    alert(text);
-  }
- */
+const ListaMas = ({ onPress, children, menu }) => (
+  <TouchableOpacity onPress={onPress}>
+    <Card onPress={onPress}>
+      <CardSection onPress={onPress}>
+        <TouchableOpacity
+          onPress={onPress}
+          style={styles.thumbnailContainerStyle}
+        >
+          <Image
+            style={styles.thumbnailStyle}
+            source={banderas[`$${menu.imagen}`]}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onPress} style={styles.headerContentStyle}>
+          <Text style={styles.headerTextStyle}>{menu.titulo}</Text>
+        </TouchableOpacity>
+      </CardSection>
+    </Card>
+  </TouchableOpacity>
+);
 
-  detalleQuiniela() {
-    this.props.modificarquiniela(this.props.quiniela);
-    this.props.navigation.navigate("Apuesta", {
-      quiniela: this.props.quiniela,
-      nav: this.props.nav
-    });
-  }
-
-  borrarQuiniela() {
-    this.props.navigation.navigate("EliminarQuiniela", {
-      quiniela: this.props.quiniela,
-      jugadores: this.props.jugadores,
-      nav: this.props.nav
-    });
-  }
-
-  render() {
-    const { imagen, titulo } = this.props.menu;
-    const {
-      headerContentStyle,
-      headerContentStyle1,
-      headerTextStyle,
-      headerTextStyle2,
-      thumbnailStyle,
-      thumbnailContainerStyle,
-      thumbnailContainerStyle1
-    } = styles;
-    let action = "";
-    let img = "";
-
-    return (
-      <Card>
-        <CardSection>
-          <TouchableOpacity
-            style={thumbnailContainerStyle}
-            onPress={() => this.borrarQuiniela()}
-          >
-            <Image
-              style={thumbnailStyle}
-              source={require("../Logo/images/borrar1.png")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={headerContentStyle}>
-            <Text style={headerTextStyle}>{titulo}</Text>
-          </TouchableOpacity>
-        </CardSection>
-      </Card>
-    );
-  }
-}
+export default ListaMas;
 
 const styles = {
   headerContentStyle: {
@@ -105,12 +72,3 @@ const styles = {
     marginRight: 5
   }
 };
-
-const mapStateToProps = state => {
-  const jugadores = state.jugadoresadmin;
-  return { jugadores };
-};
-
-export default connect(mapStateToProps, { modificarquiniela })(
-  withNavigation(ListaMas)
-);

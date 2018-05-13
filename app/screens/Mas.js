@@ -44,136 +44,21 @@ class Mas extends Component {
       validando: false,
       menu: "yes"
     };
-    this.run = this.run.bind(this);
-    this.run2 = this.run2.bind(this);
+
     this.renderRow = this.renderRow.bind(this);
+    this.preseed = this.preseed.bind(this);
   }
 
-  tusquinielas() {
-    // console.log('TEST2');
-    this.run();
-    this.props.navigation.goBack();
-  }
+  preseed(partidos) {
+    console.log(partidos);
+    console.log("HOLA");
 
-  keyboardWillShow = () => {
-    this.setState({ menu: "no" });
-  };
-
-  keyboardWillHide = () => {
-    this.setState({ menu: "yes" });
-  };
-
-  run = async () => {
-    try {
-      console.log(this.props.quiniela.quiniela);
-      console.log(this.props.quiniela.nombreapuesta);
-
-      const escribirHora = await this.props.escribirHora();
-      const Hora = await this.props.buscarHora();
-
-      const apuestas = await this.props.buscarApuestas(
-        this.props.quiniela.quiniela,
-        this.props.quiniela.nombreapuesta
-      );
-      const partidos = await this.props.buscarPartidos(
-        this.props.quiniela.torneoid
-      );
-      const r1 = partidos.toJSON();
-      const r2 = apuestas.toJSON();
-      this.setState({ partidos: r1 });
-      this.setState({ apuestas: r2 });
-      // console.log(r1);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  run2 = async () => {
-    try {
-      this.setState({ validando: true });
-      // const test = await this.props.modifarReglasBD(
-      const escribirHora = await this.props.escribirHora();
-      const Hora = await this.props.buscarHora();
-
-      var hor = Hora.toJSON();
-      const kk = this.props.apuestast;
-      const tt = _.map(kk, (val, uid) => ({ ...val, uid }));
-      console.log(hor);
-      var yy = _.remove(tt, function(n) {
-        const k = moment.utc(n.inicioGMT0);
-        const y = moment(hor.time);
-
-        k.subtract(1800, "seconds");
-        if (moment(y).isAfter(k)) {
-          if (!n.bloqueado) {
-            this.props.bloquearPartido(this.props.quiniela.torneoid);
-          }
-        }
-        return !moment(y).isAfter(k);
+    if (partidos.imagen == "basura") {
+      this.props.navigation.navigate("EliminarQuiniela", {
+        quiniela: this.props.quiniela,
+        jugadores: this.props.jugadores
       });
-
-      console.log(yy);
-
-      const arrayToObject = (array, keyField) =>
-        array.reduce((obj, item) => {
-          obj[item[keyField]] = item;
-          return obj;
-        }, {});
-
-      const ap = arrayToObject(yy, "uid");
-
-      console.log(ap);
-
-      //console.log(this.props.apuestast);
-      const test = await this.props.modificarApuestasBD(
-        this.props.quiniela.quiniela,
-        this.props.quiniela.nombreapuesta,
-        ap
-      );
-      console.log(this.props.quiniela.uid);
-      console.log(this.props.quiniela.quiniela);
-      //
-      //   console.log(test);
-      // this.run();
-      this.setState({ validando: false });
-      // this.props.navigation.goBack();
-    } catch (e) {
-      //   console.log(e);
-      this.setState({ validando: false });
-
-      // this.props.navigation.goBack();
     }
-  };
-
-  crear() {
-    this.run2();
-    // console.log('TEST');
-    // navigate('EliminarApuesta');
-  }
-
-  fechaHoraDispositivo(fechaHoraGMT0) {
-    fechaHoraGMT0 = fechaHoraGMT0.replace(/-/g, "/");
-    const diahora = new Date(`${fechaHoraGMT0} UTC`);
-    const dia =
-      diahora.getDate() < 10 ? `0${diahora.getDate()}` : diahora.getDate();
-    const mes =
-      diahora.getMonth() + 1 < 10
-        ? `0${diahora.getMonth() + 1}`
-        : diahora.getMonth() + 1;
-    const hora =
-      diahora.getHours() < 10 ? `0${diahora.getHours()}` : diahora.getHours();
-    const minutos =
-      diahora.getMinutes() < 10
-        ? `0${diahora.getMinutes()}`
-        : diahora.getMinutes();
-    return `${dia}/${mes}/${diahora.getFullYear()} ${hora}:${minutos}`;
-  }
-
-  grupofasetext(grupoFase) {
-    let resultado = "";
-    if (grupoFase.length == 1) resultado = `Grupo ${grupoFase}`;
-    else resultado = grupoFase;
-    return resultado;
   }
 
   renderRow(partidos) {
@@ -183,6 +68,7 @@ class Mas extends Component {
         nav={this.props.navigation}
         quiniela={this.props.quiniela}
         menu={partidos}
+        onPress={() => this.preseed(partidos)}
       />
     );
   }
@@ -274,16 +160,13 @@ const styles = EStyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  const partidost = state.partidos;
-  const apuestast = state.apuestas;
+  const jugadores = state.jugadoresadmin;
   const quiniela = state.quini;
   const hora = state.hora;
 
   return {
-    partidost,
-    apuestast,
     quiniela,
-    hora
+    jugadores
   };
 };
 
