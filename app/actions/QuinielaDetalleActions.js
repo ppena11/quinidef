@@ -451,12 +451,12 @@ export const cambiarEstatusQuiniela = (
   };
   const postData2 = info.quinielasDisponibles;
   const postData3 = a;
-  console.log(apuesta.jid);
-  console.log(apuesta.uid);
-  console.log(info.admin);
-  console.log(info.quinielaID);
+  //console.log(apuesta.jid);
+  //console.log(apuesta.uid);
+  //console.log(info.admin);
+  //console.log(info.quinielaID);
 
-  console.log(postData);
+  //console.log(postData);
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};

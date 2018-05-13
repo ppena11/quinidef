@@ -20,7 +20,8 @@ import {
   buscarApuestas,
   buscarHora,
   escribirHora,
-  bloquearPartido
+  bloquearPartido,
+  salirSistema
 } from "../actions";
 import { Container } from "../components/Container";
 import { Titulo } from "../components/Titulo";
@@ -50,14 +51,14 @@ class Mas extends Component {
   }
 
   preseed(partidos) {
-    console.log(partidos);
-    console.log("HOLA");
-
     if (partidos.imagen == "basura") {
       this.props.navigation.navigate("EliminarQuiniela", {
         quiniela: this.props.quiniela,
         jugadores: this.props.jugadores
       });
+    }
+    if (partidos.imagen == "salir") {
+      this.props.salirSistema();
     }
   }
 
@@ -74,7 +75,10 @@ class Mas extends Component {
   }
 
   render() {
-    let menu = [{ imagen: "basura", titulo: "Eliminar quiniela" }];
+    let menu = [
+      { imagen: "basura", titulo: "Eliminar quiniela" },
+      { imagen: "salir", titulo: "Salir del sistema" }
+    ];
 
     return (
       <Container>
@@ -176,5 +180,6 @@ export default connect(mapStateToProps, {
   buscarHora,
   modificarApuestasBD,
   escribirHora,
-  bloquearPartido
+  bloquearPartido,
+  salirSistema
 })(Mas);

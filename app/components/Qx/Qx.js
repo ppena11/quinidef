@@ -51,28 +51,22 @@ class Qx extends Component {
         <CardSection>
           <TouchableOpacity
             style={thumbnailContainerStyle}
-            onPress={() => this.borrarQuiniela()}
+            onPress={() => this.detalleQuiniela()}
           >
             <Image
               style={thumbnailStyle}
-              source={require("../Logo/images/borrar1.png")}
+              source={require("../Logo/images/copa1.png")}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={headerContentStyle}>
+          <TouchableOpacity
+            style={headerContentStyle}
+            onPress={() => this.detalleQuiniela()}
+          >
             <Text style={headerTextStyle}>{nombreapuesta}</Text>
             <Text style={headerTextStyle2}>
               {torneo} - {quinielaNombre} -{" "}
               {activo ? "Activado" : "No Activado"}
             </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={headerContentStyle1}
-            onPress={() => this.detalleQuiniela()}
-          >
-            <Image
-              style={thumbnailStyle}
-              source={require("../../comun/images/banderas1/lupa.png")}
-            />
           </TouchableOpacity>
         </CardSection>
       </Card>

@@ -79,7 +79,7 @@ class Reglas extends Component {
       );
       const r1 = regla.toJSON();
       this.setState({ regla: r1 });
-      console.log(r1);
+      // console.log(r1);
     } catch (e) {
       //    console.log(e);
     }

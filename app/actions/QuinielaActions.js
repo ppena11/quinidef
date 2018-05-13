@@ -471,6 +471,7 @@ export const crearQuiniela = ({
     reglas,
     quinielasDisponibles: disponible,
     quinielasActivos: "0",
+    quinielasCompradas: disponible,
     quinielasPorActivar: "0"
   };
   const postData2 = {
@@ -480,6 +481,7 @@ export const crearQuiniela = ({
     admin: currentUser.uid,
     adminr,
     quinielasDisponibles: disponible,
+    quinielasCompradas: disponible,
     quinielasActivos: "0",
     quinielasPorActivar: "0",
     quinielaNombrer,

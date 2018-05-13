@@ -128,7 +128,7 @@ class EliminarQuiniela extends Component {
       }
 
       //   console.log(`TESXXXXXXXXXXXXXXXXXXXXXXXXXXXTTTTTTTTT ${test}`);
-      console.log("nav");
+      // console.log("nav");
       this.props.buscarQuinielas(jug.jid);
       this.props.screenProps.rootNavigation.goBack(null);
 

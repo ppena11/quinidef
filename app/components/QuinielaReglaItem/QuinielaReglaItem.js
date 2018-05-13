@@ -49,8 +49,8 @@ class QuinielaReglaItem extends Component {
       if (k >= 0) {
         //  console.log('GUARDALO');
         const re = this.props.reglas;
-        console.log(this.props.regla.uid);
-        console.log(re[this.props.regla.uid]);
+        //console.log(this.props.regla.uid);
+        //console.log(re[this.props.regla.uid]);
 
         re[this.props.regla.uid].puntos = k;
         this.props.modificarReglas(re);

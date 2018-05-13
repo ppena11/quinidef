@@ -39,7 +39,7 @@ class DetalleAp extends Component {
       this.setState({ regla: r1 });
       // console.log(r1);
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   };
 

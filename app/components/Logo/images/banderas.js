@@ -42,7 +42,8 @@ const banderas = {
   $jpn: require("../../Logo/images/jpn.png"),
 
   // IMAGENES PARA EL MENU MAS
-  $basura: require("../../Logo/images/borrar1.png")
+  $basura: require("../../Logo/images/borrar1.png"),
+  $salir: require("../../Logo/images/Logout.png")
 };
 
 export default banderas;

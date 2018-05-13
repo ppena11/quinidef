@@ -54,11 +54,11 @@ class Pronostico extends Component {
     const ra = this.props.apuestas;
     this.setState({ valuea: e });
     if (e == " ") {
-      console.log("1 espacio");
+      // console.log("1 espacio");
       this.setState({ valuea: "" });
     }
     if (e == "") {
-      console.log("0 espacio");
+      // console.log("0 espacio");
       this.setState({ valuea: "" });
       re[this.props.partido.key].golesA = this.state.prevGolesA;
       if (ra != null) {
@@ -108,11 +108,11 @@ class Pronostico extends Component {
     const ra = this.props.apuestas;
     this.setState({ valueb: e });
     if (e == " ") {
-      console.log("1 espacio");
+      // console.log("1 espacio");
       this.setState({ valueb: "" });
     }
     if (e == "") {
-      console.log("0 espacio");
+      // console.log("0 espacio");
       this.setState({ valueb: "" });
       re[this.props.partido.key].golesB = this.state.prevGolesB;
       if (ra != null) {
