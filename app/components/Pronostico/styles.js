@@ -95,5 +95,39 @@ export default EStyleSheet.create({
     height: 35,
     padding: 0,
     margin: 0
-  }
+  },
+  viewPicker: {
+    borderRadius: 5,
+    // borderWidth: 1,
+    // borderColor: 'blue',
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: "center",
+    // height: 200,
+    // position: 'relative',
+    // backgroundColor: 'green',
+  },
+  picker: {
+    width: 45,
+    height: 35,
+    backgroundColor: color.$fondoBotonInput,
+    color: color.$formInputBoxColor,
+    padding: 0,
+    margin: 0,
+    borderWidth: 5,
+    borderColor: 'red',
+    borderStyle: 'solid',
+  },
+  // pickerItem: {
+  //   color: color.$formInputBoxColor,
+  //   backgroundColor: color.$fondoBotonInput,
+  //   width: 80,
+  //   height: 35,
+  //   fontSize: 5,
+  //   textAlign: 'center',
+  //   padding: 0,
+  //   margin: 0,
+  //   borderWidth: 5,
+  //   borderColor: 'yellow',
+  // }
 });
