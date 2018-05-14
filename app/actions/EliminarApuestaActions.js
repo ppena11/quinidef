@@ -42,6 +42,24 @@ export const eliminarJugador = (
     .catch(error => crearQuinielaError(dispatch, error));
 };
 
+export const eliminarQuinielaAdministrada = quiniela => dispatch => {
+  const { currentUser } = firebase.auth();
+  const postData1 = {};
+  const updates = {};
+  updates[`/quinielas/${quiniela.quinielaID}`] = postData1;
+  updates[
+    `/users/${quiniela.admin}/quinielasadministradas/${quiniela.quinielaID}`
+  ] = postData1;
+  updates[`/quinielas/codigos/${quiniela.codigoq}`] = postData1;
+
+  return firebase
+    .database()
+    .ref()
+    .update(updates)
+    .then(snap => {})
+    .catch(error => crearQuinielaError(dispatch, error));
+};
+
 const crearQuinielaError = (dispatch, error) => {
   dispatch({ type: CREATE_QUINIELA_FAIL, payload: error });
 };

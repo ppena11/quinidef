@@ -22,6 +22,7 @@ import EliminarQuiniela from "../screens/EliminarQuiniela";
 import Mas from "../screens/Mas";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import EliminarApuesta from "../screens/EliminarApuesta";
+import EliminarQuinielaAdministrada from "../screens/EliminarQuinielaAdministrada";
 
 import CargandoHome from "../screens/CargandoHome";
 
@@ -127,6 +128,9 @@ const RootNavigator = StackNavigator(
     },
     QuinielasAdministradas: {
       screen: QuinielasAdministradas
+    },
+    EliminarQuinielaAdministrada: {
+      screen: EliminarQuinielaAdministrada
     },
     CreaciondeQuiniela: {
       screen: CreaciondeQuiniela
