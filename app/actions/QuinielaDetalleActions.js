@@ -348,6 +348,33 @@ export const manejarDisponibles = (qu, e1) => dispatch =>
         // console.log("Ada's data: ", snapshot.val());
       }
     );
+export const manejarActivacion = (codigo, e1) => dispatch =>
+  firebase
+    .database()
+    .ref(`/quinielas/codigos/${codigo}/recibirAbonados`)
+    .transaction(
+      currentData => {
+        // console.log(`EEEEEEEEEEEEEEEEE1 ${e1}`);
+
+        return e1;
+      },
+
+      // Abort the transaction.
+      (error, committed, snapshot) => {
+        if (error) {
+          //    console.log('Transaction failed abnormally!', error);
+        } else if (!committed) {
+          //     console.log('We aborted the transaction (because ada already exists).');
+        } else {
+          // console.log('User ada added!');
+        }
+        dispatch({
+          type: ACTUALIZAR_CODIGO_QUINIELA,
+          payload: snapshot
+        });
+        // console.log("Ada's data: ", snapshot.val());
+      }
+    );
 
 export const reducirDisponibles = qu => dispatch =>
   firebase
