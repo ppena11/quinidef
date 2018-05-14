@@ -1,15 +1,15 @@
 import {
   RESET_DETALLE_QUINIELA,
   BUSCAR_APUESTAS_EXITO,
-  MODIFICAR_APUESTAS,
-} from '../actions/types';
+  MODIFICAR_APUESTAS
+} from "../actions/types";
 
 const INITIAL_STATE = {};
 
 export default (state = INITIAL_STATE, action) => {
   /*   console.log(action.payload);
-  console.log(action.payload.key);
-  console.log(action.payload.value.key); */
+  //console.log(action.payload.key);
+  //console.log(action.payload.value.key); */
   switch (action.type) {
     case BUSCAR_APUESTAS_EXITO:
       return action.payload;
@@ -19,7 +19,7 @@ export default (state = INITIAL_STATE, action) => {
 
     case RESET_DETALLE_QUINIELA:
       return {
-        ...INITIAL_STATE,
+        ...INITIAL_STATE
       };
 
     default:

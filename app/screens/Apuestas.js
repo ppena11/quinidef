@@ -87,8 +87,8 @@ class Apuestas extends Component {
 
   run = async () => {
     try {
-      console.log(this.props.quiniela.quiniela);
-      console.log(this.props.quiniela.nombreapuesta);
+      //console.log(this.props.quiniela.quiniela);
+      //console.log(this.props.quiniela.nombreapuesta);
 
       const escribirHora = await this.props.escribirHora();
       const Hora = await this.props.buscarHora();
@@ -106,7 +106,7 @@ class Apuestas extends Component {
       this.setState({ apuestas: r2 });
       // console.log(r1);
     } catch (e) {
-      console.log(e);
+      //   console.log(e);
     }
   };
 
@@ -120,7 +120,7 @@ class Apuestas extends Component {
       var hor = Hora.toJSON();
       const kk = this.props.apuestast;
       const tt = _.map(kk, (val, uid) => ({ ...val, uid }));
-      console.log(hor);
+      //console.log(hor);
       var yy = _.remove(tt, function(n) {
         const k = moment.utc(n.inicioGMT0);
         const y = moment(hor.time);
@@ -134,7 +134,7 @@ class Apuestas extends Component {
         return !moment(y).isAfter(k);
       });
 
-      console.log(yy);
+      //console.log(yy);
 
       const arrayToObject = (array, keyField) =>
         array.reduce((obj, item) => {
@@ -144,7 +144,7 @@ class Apuestas extends Component {
 
       const ap = arrayToObject(yy, "uid");
 
-      console.log(ap);
+      //console.log(ap);
 
       //console.log(this.props.apuestast);
       const test = await this.props.modificarApuestasBD(
@@ -152,8 +152,8 @@ class Apuestas extends Component {
         this.props.quiniela.nombreapuesta,
         ap
       );
-      console.log(this.props.quiniela.uid);
-      console.log(this.props.quiniela.quiniela);
+      //console.log(this.props.quiniela.uid);
+      //console.log(this.props.quiniela.quiniela);
       //
       //   console.log(test);
       // this.run();
@@ -309,8 +309,8 @@ class Apuestas extends Component {
       var dateA = moment(a.value.inicioGMT0);
       var dateB = moment(b.value.inicioGMT0);
 
-      console.log(a);
-      console.log(dateA.format());
+      // console.log(a);
+      //console.log(dateA.format());
       return dateA - dateB;
     });
 

@@ -25,8 +25,8 @@ import {
   reducirDisponibles,
   cambiarEstatusQuinielaA,
   irTusQuinielas,
-  buscarQuinielas,
-  reducirPorActivar
+  eliminarQuinielaAdministrada,
+  buscarQuinielasAdministradas
 } from "../actions";
 import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
@@ -34,7 +34,7 @@ import { Titulo } from "../components/Titulo";
 import { QuinielaAdminItem } from "../components/QuinielaAdminItem";
 import color from "../comun/colors";
 
-class EliminarQuiniela extends Component {
+class EliminarQuinielaAdministrada extends Component {
   static navigationOptions = {
     header: null
   };
@@ -42,6 +42,20 @@ class EliminarQuiniela extends Component {
     super(props);
 
     this.state = {
+      users: _.map(
+        this.props.navigation.state.params.quiniela.Users,
+        (val, uid) => ({
+          ...val,
+          uid
+        })
+      ),
+      filteredUsers: _.map(
+        this.props.navigation.state.params.quiniela.Users,
+        (val, uid) => ({
+          ...val,
+          uid
+        })
+      ),
       q: "",
       menu: "yes",
       inputfield: "",
@@ -82,30 +96,27 @@ class EliminarQuiniela extends Component {
     // navigate('CreaciondeQuiniela');
 
     const { quiniela } = this.props.navigation.state.params;
-    this.props.eliminarJugador(quiniela);
+    this.props.eliminarQuinielaAdministrada(quiniela);
     goBack();
   }
 
   eliminarTest1(goBack) {
-    const { quiniela, jugadores, nav } = this.props.navigation.state.params;
+    const { quiniela } = this.props.navigation.state.params;
     // console.log('TEST');
     // navigate('CreaciondeQuiniela');
-    //console.log(nav);
+
     if (quiniela.codigoq == this.state.inputfield) {
-      this.props.eliminarJugador(
-        quiniela,
-        quiniela.quiniela,
-        quiniela.nombreapuesta,
-        jugadores
-      );
-      this.run(quiniela.quiniela, quiniela, goBack, nav);
+      this.props.eliminarQuinielaAdministrada(quiniela);
+      // this.run(quiniela, jugador, goBack);
       //
+      this.props.buscarQuinielasAdministradas();
+      goBack();
     } else {
       this.setState({ warning: "yes" });
     }
   }
 
-  run = async (qu, jug, goBack, nav) => {
+  run = async (qu, jug, goBack) => {
     try {
       // const { currentUser } = firebase.auth();
       // this.setState({ validando: true });
@@ -114,24 +125,21 @@ class EliminarQuiniela extends Component {
       // const test = await this.props.cambiarEstatusQuiniela(jug, qu, e1);
       // this.setState({ toggled: this.props.jugadores[uid].activo });
       // console.log(test);
-      if (!jug.activo) {
-        const t = await this.props.reducirPorActivar(qu);
-        if (t.committed) {
-          //  console.log(t.snapshot.val());
-          //  console.log(jug);
-          const test = await this.props.cambiarEstatusQuinielaA(
-            qu,
-            t.snapshot.val(),
-            jug
-          );
-        }
+      const t = await this.props.reducirDisponibles(qu);
+      if (t.committed) {
+        //  console.log(t.snapshot.val());
+        //  console.log(jug);
+        const test = await this.props.cambiarEstatusQuinielaA(
+          qu,
+          t.snapshot.val(),
+          jug
+        );
+        //   console.log(`TESXXXXXXXXXXXXXXXXXXXXXXXXXXXTTTTTTTTT ${test}`);
+        //goBack();
+        // console.log(this.props.nav);
+        //this.props.irTusQuinielas();
+        goBack();
       }
-
-      //   console.log(`TESXXXXXXXXXXXXXXXXXXXXXXXXXXXTTTTTTTTT ${test}`);
-      // console.log("nav");
-      this.props.buscarQuinielas(jug.jid);
-      this.props.screenProps.rootNavigation.goBack(null);
-
       // this.setState({ validando: false });
     } catch (e) {
       console.log(e);
@@ -160,7 +168,7 @@ class EliminarQuiniela extends Component {
 
   menustatus(jugador) {
     if (this.state.menu === "yes") {
-      return <Titulo>Eliminar apuesta</Titulo>;
+      return <Titulo>ELIMINAR QUINIELA</Titulo>;
     }
     return <View />;
   }
@@ -192,13 +200,13 @@ class EliminarQuiniela extends Component {
         />
         <View style={styles.form}>
           <View style={styles.titulo}>
-            {this.menustatus(quiniela.nombreapuesta)}
+            {this.menustatus(quiniela.quinielaNombre)}
             <Text style={styles.subtitulo1}>
               {this.warning()}
               <Text>
-                Introduce el codigo de activacion para {"\n"} eliminar tu
-                apuesta{" "}
-                <Text style={styles.bold}>{quiniela.nombreapuesta}</Text>
+                Introduce el codigo de activacion para {"\n"} eliminar la
+                quiniela{" "}
+                <Text style={styles.bold}>{quiniela.quinielaNombre}</Text>
               </Text>
             </Text>
             <View style={styles2.conta}>
@@ -218,22 +226,22 @@ class EliminarQuiniela extends Component {
               <View style={styles2.vire} />
             </View>
             <Text style={styles.subtitulo1}>
-              Codigo de activacion:{" "}
-              {this.props.navigation.state.params.quiniela.codigoq}{" "}
+              Codigo de activacion: {quiniela.codigoq}{" "}
             </Text>
-            {this.menustatus1(quiniela.nombreapuesta)}
+            {this.menustatus1(quiniela.quinielaNombre)}
           </View>
 
-          {/* <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal> */}
-
-          <KeyboardAvoidingView behavior="padding">
-            <BotonPrincipal onPress={() => this.eliminarTest1(goBack)}>
-              Eliminar apuesta...
-            </BotonPrincipal>
-            <BotonPrincipal onPress={() => this.tusquinielas(goBack)}>
-              Cancelar
-            </BotonPrincipal>
-          </KeyboardAvoidingView>
+          <View style={styles.bottom}>
+            <View>
+              {/* <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal> */}
+              <BotonPrincipal onPress={() => this.eliminarTest1(goBack)}>
+                Eliminar quiniela...
+              </BotonPrincipal>
+              <BotonPrincipal onPress={() => this.tusquinielas(goBack)}>
+                Cancelar
+              </BotonPrincipal>
+            </View>
+          </View>
         </View>
       </Container>
     );
@@ -327,8 +335,8 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   eliminarJugador,
   reducirDisponibles,
-  reducirPorActivar,
   cambiarEstatusQuinielaA,
   irTusQuinielas,
-  buscarQuinielas
-})(EliminarQuiniela);
+  eliminarQuinielaAdministrada,
+  buscarQuinielasAdministradas
+})(EliminarQuinielaAdministrada);

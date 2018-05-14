@@ -116,8 +116,6 @@ class TusQuinielas extends Component {
           backgroundColor={color.$statusBarBackgroundColor}
         />
         <View style={styles.form}>
-          <BotonPrincipal onPress={() => this.logout2()}>Salir</BotonPrincipal>
-
           <View style={styles.titulo}>
             <Titulo>MIS QUINIELAS</Titulo>
           </View>
@@ -187,7 +185,7 @@ const styles = EStyleSheet.create({
 
 const mapStateToProps = state => {
   const tt = _.map(state.quinielas, (val, uid) => ({ ...val, uid }));
-  const quinielas = _.orderBy(tt, ["uid"], ["asc"]);
+  const quinielas = _.orderBy(tt, ["nombreapuesta"], ["asc"]);
   // console.log(quinielas);
   return { quinielas };
 };

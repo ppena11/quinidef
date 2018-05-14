@@ -32,7 +32,7 @@ class Pos extends Component {
   detalleQuiniela() {
     //this.props.modificarquiniela(this.props.posicion);
     this.runh();
-    console.log(this.props.navigation);
+    //console.log(this.props.navigation);
     this.props.navigation.navigate("DetallesPosiciones", {
       posicion: this.props.posicion
     });

@@ -58,7 +58,7 @@ class Posiciones extends Component {
         this.props.quiniela.quiniela
       );
       const tt1 = test.toJSON();
-      console.log(tt1);
+      //console.log(tt1);
       this.setState({ qu: tt1 });
       // this.setState({ validando: false });
     } catch (e) {

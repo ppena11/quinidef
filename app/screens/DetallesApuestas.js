@@ -91,8 +91,8 @@ class DetalleApuestas extends Component {
 
   run = async () => {
     try {
-      console.log(this.props.quiniela.quiniela);
-      console.log(this.props.navigation.state.params.posicion.nombreapuesta);
+      //console.log(this.props.quiniela.quiniela);
+      //console.log(this.props.navigation.state.params.posicion.nombreapuesta);
 
       const apuestas = await this.props.buscarDetalleApuestas(
         this.props.quiniela.quiniela,
@@ -104,7 +104,7 @@ class DetalleApuestas extends Component {
       this.setState({ apuestas: r2 });
       // console.log(r2);
     } catch (e) {
-      console.log(e);
+      //console.log(e);
     }
   };
 
@@ -118,8 +118,8 @@ class DetalleApuestas extends Component {
         this.props.quiniela.uid,
         this.props.apuestast
       );
-      console.log(this.props.quiniela.uid);
-      console.log(this.props.quiniela.quiniela);
+      //console.log(this.props.quiniela.uid);
+      //console.log(this.props.quiniela.quiniela);
       //
       //   console.log(test);
       this.run();
@@ -338,7 +338,7 @@ const mapStateToProps = state => {
   const detalleapuestas = _.orderBy(detalleapuestas1, ["inicioGMT0"], ["asc"]);
   //detalleapuestas.shift();
 
-  console.log(detalleapuestas);
+  //console.log(detalleapuestas);
 
   const quiniela = state.quini;
 

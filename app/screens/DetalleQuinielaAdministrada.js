@@ -11,7 +11,8 @@ import {
   ScrollView,
   TouchableOpacity,
   Text,
-  BackHandler
+  BackHandler,
+  Switch
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
@@ -27,10 +28,14 @@ import {
   buscarDisponibles,
   irAdministradas,
   buscarPorActivar,
-  buscarActivos
+  buscarActivos,
+  buscarCodigos,
+  manejarActivacion
 } from "../actions";
 import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
+import { Card } from "../components/Card";
+import { CardSectionT } from "../components/CardSectionT";
 import { Titulo } from "../components/Titulo";
 import { QuinielaAdminItem } from "../components/QuinielaAdminItem";
 import color from "../comun/colors";
@@ -41,25 +46,7 @@ class DetalleQuinielaAdministrada extends Component {
   };
   constructor(props) {
     super(props);
-
-    this.state = {
-      users: _.map(
-        this.props.navigation.state.params.quiniela.Users,
-        (val, uid) => ({
-          ...val,
-          uid
-        })
-      ),
-      filteredUsers: _.map(
-        this.props.navigation.state.params.quiniela.Users,
-        (val, uid) => ({
-          ...val,
-          uid
-        })
-      ),
-      q: "",
-      menu: "yes"
-    };
+    this.state = { toggled: false, actualizando: false, menu: "yes" };
   }
 
   componentDidMount() {
@@ -67,6 +54,10 @@ class DetalleQuinielaAdministrada extends Component {
     // this.createDataSource(this.props);
     // const { quinielaNombre, torneo } = this.props.quiniela;
     // console.log(_.map(this.props.navigation.state.params.quiniela.Users, (val, uid) => ({ ...val, uid })));
+    this.props.buscarCodigos(
+      this.props.navigation.state.params.quiniela.codigoq
+    );
+
     this.props.buscarDisponibles(
       this.props.navigation.state.params.quiniela.uid
     );
@@ -237,6 +228,47 @@ class DetalleQuinielaAdministrada extends Component {
     // this.props.buscarQuinielasAdministradasMax(this.props.ultima);
   };
 
+  run = async e => {
+    try {
+      // const { currentUser } = firebase.auth();
+      // this.setState({ validando: true });
+      // await Promise.all([someCall(), anotherCall()]);
+
+      // const test = await this.props.cambiarEstatusQuiniela(jug, qu, e1);
+      // this.setState({ toggled: this.props.jugadores[uid].activo });
+      // console.log(test);
+      console.log(this.props.navigation.state.params.quiniela.codigoq);
+      console.log(e);
+      const test1 = await this.props.manejarActivacion(
+        this.props.navigation.state.params.quiniela.codigoq,
+        e
+      );
+      console.log(test1);
+      if (test1.committed) {
+        const test = await this.props.buscarCodigos(
+          this.props.navigation.state.params.quiniela.codigoq
+        );
+
+        // console.log(`TESXXXXXXXXXXXXXXXXXXXXXXXXXXXTTTTTTTTT ${test}`);
+        this.setState({ actualizando: false });
+      }
+
+      // this.setState({ validando: false });
+    } catch (e) {
+      console.log(e);
+      // this.setState({ validando: false });
+    }
+  };
+
+  pressed1(e) {
+    if (!this.state.actualizando) {
+      this.setState({ actualizando: true });
+      if (e != this.props.codigos.recibirAbonados) {
+        this.run(e);
+      }
+    }
+  }
+
   menustatus() {
     if (this.state.menu === "yes") {
       return (
@@ -258,16 +290,17 @@ class DetalleQuinielaAdministrada extends Component {
     const {
       headerContentStyle,
       headerTextStyle,
+      headerTextStyle11,
       headerTextStyle1,
       headerTextStyle2,
       thumbnailStyle,
       thumbnailContainerStyle,
       cardSectionStyle,
       headerContentStyle1,
-      containerStyle
+      containerStyle,
+      switchStyle
     } = styles;
 
-    // console.log(this.props.info.quinielasActivos);
     return (
       <Container>
         <StatusBar
@@ -288,12 +321,32 @@ class DetalleQuinielaAdministrada extends Component {
               Codigo: {this.props.navigation.state.params.quiniela.codigoq}
             </Text>
           </View> */}
+
+          <CardSectionT>
+            <TouchableOpacity style={headerContentStyle1}>
+              <Text style={headerTextStyle11}>Permtir nuevos jugadores</Text>
+              <Switch
+                style={switchStyle}
+                onValueChange={value => this.pressed1(value)}
+                value={this.props.codigos.recibirAbonados}
+              />
+            </TouchableOpacity>
+          </CardSectionT>
           <View style={containerStyle}>
             <TouchableOpacity
               onPress={() => this.onReglasPress()}
               style={headerContentStyle}
             >
-              <Text style={headerTextStyle1}>ACTIVOS</Text>
+              <Text style={headerTextStyle1}>COMPRADAS</Text>
+              <Text style={headerTextStyle}>
+                {this.props.info.quinielasCompradas}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.onReglasPress()}
+              style={headerContentStyle}
+            >
+              <Text style={headerTextStyle1}>ACTIVAS</Text>
               <Text style={headerTextStyle}>
                 {this.props.info.quinielasActivos}
               </Text>
@@ -314,6 +367,7 @@ class DetalleQuinielaAdministrada extends Component {
               </Text>
             </TouchableOpacity>
           </View>
+
           <View style={styles2.conta}>
             <View style={styles2.vire} />
             <TextInput
@@ -356,6 +410,25 @@ const styles = EStyleSheet.create({
     justifyContent: "center",
     position: "relative",
     alignItems: "center"
+  },
+  headerContentStyle1: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  headerTextStyle11: {
+    fontSize: 18,
+    color: color.$qxaHeaderTextStyle,
+    padding: 20,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  switchStyle: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 10,
+    marginRight: 10
   },
 
   containerStyle: {
@@ -432,7 +505,8 @@ const mapStateToProps = state => {
     reload: state.jugadorlast.reload,
     mostrarMenus: state.jugadorlast.mostrarMenu,
     buscarTexto: state.jugadorlast.buscar,
-    info: state.activacion
+    info: state.activacion,
+    codigos: state.codigos
     // poractivar: state.activacion.poractivar,
     // activos: state.activacion.activos,
   };
@@ -448,5 +522,7 @@ export default connect(mapStateToProps, {
   buscarDisponibles,
   irAdministradas,
   buscarPorActivar,
-  buscarActivos
+  buscarActivos,
+  buscarCodigos,
+  manejarActivacion
 })(DetalleQuinielaAdministrada);
