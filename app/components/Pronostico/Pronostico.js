@@ -173,6 +173,7 @@ class Pronostico extends Component {
     }
 
     if (!re[this.props.partido.key].bloqueado) {
+      let valor = this.state.valuea == "" ? this.state.prevGolesA : this.state.valuea;
       return (
         // <TextInput
         //   style={styles.marcador}
@@ -192,7 +193,9 @@ class Pronostico extends Component {
           <Picker
             style={styles.picker}
             // itemStyle={styles.pickerItem}
-            selectedValue={this.state.prevGolesA}
+            // selectedValue={this.state.prevGolesA}
+            // selectedValue={this.state.valuea}
+            selectedValue={valor}
             mode={'dropdown'}
             onValueChange={itemValue => this.presseda(itemValue)}
           >
