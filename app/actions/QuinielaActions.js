@@ -352,6 +352,14 @@ export const crearNombreQuiniela = (quiniela, nombre) => dispatch =>
       }
     );
 
+export const validarUsuario = (quiniela, nombre) => dispatch =>
+  firebase
+    .database()
+    .ref(`/quinielas/${quiniela}/clasificacion/${nombre.nombreapuesta}/activo`)
+    .once("value", snapshot => {
+      dispatch({ type: ACTUALIZAR_NOMBRE_QUINIELA, payload: nombre });
+    });
+
 export const borrarNombreQuiniela = (quiniela, nombre) => dispatch =>
   firebase
     .database()

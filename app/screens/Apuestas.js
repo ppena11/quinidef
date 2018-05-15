@@ -315,7 +315,7 @@ class Apuestas extends Component {
     });
 
     return (
-      <Container>
+      <View style={styles.container}>
         <StatusBar
           translucent={false}
           barStyle="light-content"
@@ -333,6 +333,8 @@ class Apuestas extends Component {
             <FlatList
               data={partidos}
               renderItem={({ item }) => this.renderRow(item)}
+              keyboardShouldPersistTaps="always"
+              keyboardDismissMode="none"
               onEndReachedThershold={0}
               ref={ref => {
                 this.listRef = ref;
@@ -341,7 +343,7 @@ class Apuestas extends Component {
           </View>
           <View>{this.menustatus()}</View>
         </View>
-      </Container>
+      </View>
     );
   }
 }
@@ -351,6 +353,12 @@ const styles = EStyleSheet.create({
     flex: 1,
 
     justifyContent: "space-between",
+    flexDirection: "column"
+  },
+  container: {
+    flex: 1,
+    // padding: 20,
+    backgroundColor: color.$primaryBackground,
     flexDirection: "column"
   },
   titulo: {
