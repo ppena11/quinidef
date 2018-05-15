@@ -404,13 +404,55 @@ export const reducirDisponibles = qu => dispatch =>
       }
     );
 
-export const reducirPorActivar = qu => dispatch =>
+export const aumentarDisponibles = qu => dispatch =>
   firebase
     .database()
     .ref(`/quinielas/${qu}/info/`)
     .transaction(
       currentData => {
-        Number((currentData.quinielasPorActivar -= 1));
+        Number((currentData.quinielasDisponibles += 1));
+
+        return currentData;
+      },
+
+      // Abort the transaction.
+      (error, committed, snapshot) => {
+        if (error) {
+          //   console.log('Transaction failed abnormally!', error);
+        } else if (!committed) {
+          //   console.log('We aborted the transaction (because ada already exists).');
+        } else {
+          //   console.log('User adahksjfhksjdfhksdjfhjksdfhkdjfh added!');
+        }
+        dispatch({
+          type: ACTUALIZAR_CODIGO_QUINIELA,
+          payload: snapshot
+        });
+        // console.log("Ada's data: ", snapshot.val());
+      }
+    );
+
+export const reducirPorActivar = (qu, e1) => dispatch =>
+  firebase
+    .database()
+    .ref(`/quinielas/${qu}/info/`)
+    .transaction(
+      currentData => {
+        if (!e1) {
+          currentData.quinielasDisponibles =
+            Number(currentData.quinielasDisponibles) - 1;
+          currentData.quinielasActivos =
+            Number(currentData.quinielasActivos) + 1;
+          currentData.quinielasPorActivar =
+            Number(currentData.quinielasPorActivar) - 1;
+
+          return currentData;
+        }
+        currentData.quinielasDisponibles =
+          Number(currentData.quinielasDisponibles) + 1;
+        currentData.quinielasActivos = Number(currentData.quinielasActivos) - 1;
+        currentData.quinielasPorActivar =
+          Number(currentData.quinielasPorActivar) + 1;
 
         return currentData;
       },

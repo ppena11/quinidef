@@ -256,7 +256,7 @@ class Pronostico extends Component {
 
   render() {
     return (
-      <TouchableOpacity style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.containerFecha}>
           <Text style={styles.fecha}>{`${this.props.grupoFase} - ${
             this.props.fecha
@@ -285,7 +285,7 @@ class Pronostico extends Component {
             />
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
     );
   }
 }

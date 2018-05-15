@@ -1,15 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { Text, View, Image, Switch, TouchableOpacity } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { connect } from 'react-redux';
-import _ from 'lodash';
+import { Text, View, Image, Switch, TouchableOpacity } from "react-native";
+import { withNavigation } from "react-navigation";
+import { connect } from "react-redux";
+import _ from "lodash";
 
-import { Card } from '../Card';
-import { CardSection } from '../CardSection';
-import color from '../../comun/colors';
+import { Card } from "../Card";
+import { CardSection } from "../CardSection";
+import color from "../../comun/colors";
 
-import { cambiarEstatusQuiniela, manejarDisponibles } from '../../actions';
+import {
+  cambiarEstatusQuiniela,
+  manejarDisponibles,
+  buscarDisponibles,
+  validarUsuario,
+  reloadingJugadores
+} from "../../actions";
 
 class QuinielaAdminItem extends Component {
   constructor(props) {
@@ -17,31 +23,39 @@ class QuinielaAdminItem extends Component {
     this.state = { toggled: false, actualizando: false };
   }
 
+  detalleQuiniela(qu) {
+    this.props.reloadingJugadores();
+    // this.props.irAdministradas();
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: "QuinielasAdministradas" })
+      ]
+    });
+    this.props.navigation.dispatch(resetAction);
+  }
+
   onRowPress() {
-    this.props.navigation.navigate('EliminarApuesta', {
+    this.props.navigation.navigate("EliminarApuesta", {
       jugador: this.props.jugador,
       jugadores: this.props.jugadores,
       quiniela: this.props.quiniela,
       quinielan: this.props.quinielan,
-      codigo: this.props.codigo,
+      codigo: this.props.codigo
     });
     this.run = this.run.bind(this);
   }
 
   componentDidMount() {
-    const {
-      activo, puntos, nombre, uid,
-    } = this.props.jugador;
+    const { activo, puntos, nombre, uid } = this.props.jugador;
     this.setState({ toggled: this.props.jugadores[uid].activo });
   }
 
   pressed(e) {
     if (this.props.info.quinielasDisponibles == 0 && e) {
-      alert('Debes adquinir mas quinielas');
+      alert("Debes adquinir mas quinielas");
     } else {
-      const {
-        activo, puntos, nombre, uid, jid,
-      } = this.props.jugador;
+      const { activo, puntos, nombre, uid, jid } = this.props.jugador;
       if (!this.state.actualizando && !this.props.jugadores[uid].cargando) {
         this.setState({ actualizando: true });
         if (e != this.props.jugadores[uid].activo) {
@@ -61,32 +75,51 @@ class QuinielaAdminItem extends Component {
       // const test = await this.props.cambiarEstatusQuiniela(jug, qu, e1);
       // this.setState({ toggled: this.props.jugadores[uid].activo });
       // console.log(test);
-      const test1 = await this.props.manejarDisponibles(qu, e1);
-      // console.log(test1);
-      if (test1.committed) {
-        const test = await this.props.cambiarEstatusQuiniela(jug, qu, e1, test1.snapshot.val());
-        // console.log(`TESXXXXXXXXXXXXXXXXXXXXXXXXXXXTTTTTTTTT ${test}`);
-        this.setState({ actualizando: false });
+      console.log(qu);
+      console.log(jug.nombreapuesta);
+
+      const validarusuario1 = await this.props.validarUsuario(qu, jug);
+      const r1 = validarusuario1.toJSON();
+      console.log(r1);
+      if (r1 !== null) {
+        const test1 = await this.props.manejarDisponibles(qu, e1);
+        // console.log(test1);
+        if (test1.committed) {
+          const test = await this.props.cambiarEstatusQuiniela(
+            jug,
+            qu,
+            e1,
+            test1.snapshot.val()
+          );
+          // console.log(`TESXXXXXXXXXXXXXXXXXXXXXXXXXXXTTTTTTTTT ${test}`);
+          this.setState({ actualizando: false });
+        }
+      } else {
+        this.props.buscarDisponibles(qu);
+        this.detalleQuiniela(qu);
       }
 
       // this.setState({ validando: false });
     } catch (e) {
-      // console.log(e);
+      console.log(e);
       // this.setState({ validando: false });
     }
   };
 
   iconstatus(uid) {
     if (!this.props.jugadores[uid].activo) {
-      return <Image style={styles.thumbnailStyle} source={require('../Logo/images/borrar1.png')} />;
+      return (
+        <Image
+          style={styles.thumbnailStyle}
+          source={require("../Logo/images/borrar1.png")}
+        />
+      );
     }
     return <View />;
   }
 
   render() {
-    const {
-      activo, puntos, nombreapuesta, uid,
-    } = this.props.jugador;
+    const { activo, puntos, nombreapuesta, uid } = this.props.jugador;
     // console.log(this.props.jugadores[uid].cargando);
     const {
       headerContentStyle,
@@ -94,13 +127,16 @@ class QuinielaAdminItem extends Component {
       headerTextStyle2,
       thumbnailStyle,
       thumbnailContainerStyle,
-      switchStyle,
+      switchStyle
     } = styles;
 
     return (
       <Card>
         <CardSection>
-          <TouchableOpacity style={thumbnailContainerStyle} onPress={() => this.onRowPress()}>
+          <TouchableOpacity
+            style={thumbnailContainerStyle}
+            onPress={() => this.onRowPress()}
+          >
             {this.iconstatus(uid)}
           </TouchableOpacity>
           <TouchableOpacity style={headerContentStyle}>
@@ -120,39 +156,39 @@ class QuinielaAdminItem extends Component {
 const styles = {
   headerContentStyle: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
   },
   headerTextStyle: {
     fontSize: 18,
     color: color.$qxaHeaderTextStyle,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center"
   },
   switchStyle: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginLeft: 10,
-    marginRight: 10,
+    marginRight: 10
   },
   headerTextStyle2: {
     fontSize: 12,
-    color: color.$qxaHeaderTextStyle2,
+    color: color.$qxaHeaderTextStyle2
   },
   thumbnailStyle: {
     height: 25,
-    width: 25,
+    width: 25
   },
   thumbnailContainerStyle: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginLeft: 5,
-    marginRight: 5,
-  },
+    marginRight: 5
+  }
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const jugadores = state.jugadoresadmin;
   return { jugadores };
 };
@@ -160,4 +196,7 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   manejarDisponibles,
   cambiarEstatusQuiniela,
+  buscarDisponibles,
+  validarUsuario,
+  reloadingJugadores
 })(withNavigation(QuinielaAdminItem));

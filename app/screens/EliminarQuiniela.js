@@ -26,7 +26,8 @@ import {
   cambiarEstatusQuinielaA,
   irTusQuinielas,
   buscarQuinielas,
-  reducirPorActivar
+  reducirPorActivar,
+  aumentarDisponibles
 } from "../actions";
 import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
@@ -114,17 +115,16 @@ class EliminarQuiniela extends Component {
       // const test = await this.props.cambiarEstatusQuiniela(jug, qu, e1);
       // this.setState({ toggled: this.props.jugadores[uid].activo });
       // console.log(test);
-      if (!jug.activo) {
-        const t = await this.props.reducirPorActivar(qu);
-        if (t.committed) {
-          //  console.log(t.snapshot.val());
-          //  console.log(jug);
-          const test = await this.props.cambiarEstatusQuinielaA(
-            qu,
-            t.snapshot.val(),
-            jug
-          );
-        }
+
+      const t = await this.props.reducirPorActivar(qu, jug.activo);
+      if (t.committed) {
+        //  console.log(t.snapshot.val());
+        //  console.log(jug);
+        const test = await this.props.cambiarEstatusQuinielaA(
+          qu,
+          t.snapshot.val(),
+          jug
+        );
       }
 
       //   console.log(`TESXXXXXXXXXXXXXXXXXXXXXXXXXXXTTTTTTTTT ${test}`);
@@ -330,5 +330,6 @@ export default connect(mapStateToProps, {
   reducirPorActivar,
   cambiarEstatusQuinielaA,
   irTusQuinielas,
-  buscarQuinielas
+  buscarQuinielas,
+  aumentarDisponibles
 })(EliminarQuiniela);
