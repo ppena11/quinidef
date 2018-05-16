@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StatusBar,
   ListView,
@@ -8,11 +8,12 @@ import {
   Keyboard,
   Text,
   TouchableOpacity,
-  BackHandler,
-} from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import _ from 'lodash';
-import { connect } from 'react-redux';
+  BackHandler
+} from "react-native";
+import firebase from "firebase";
+import EStyleSheet from "react-native-extended-stylesheet";
+import _ from "lodash";
+import { connect } from "react-redux";
 
 import {
   nombreQuinielaCambio,
@@ -25,33 +26,37 @@ import {
   crearCodigoQuiniela,
   buscarReglas,
   buscarDisponiblesDemo,
-} from '../actions';
-import { Container } from '../components/Container';
-import { BotonPrincipal } from '../components/BotonPrincipal';
-import { Titulo } from '../components/Titulo';
-import { TorneoItem } from '../components/TorneoItem';
-import color from '../comun/colors';
-import { generarCodigo } from '../comun/helper';
-import { Spinner } from '../components/Spinner';
+  buscarQuinielasAdminTorneo,
+  buscarActivacionesDB
+} from "../actions";
+import { Container } from "../components/Container";
+import { BotonPrincipal } from "../components/BotonPrincipal";
+import { Titulo } from "../components/Titulo";
+import { TorneoItem } from "../components/TorneoItem";
+import color from "../comun/colors";
+import { generarCodigo } from "../comun/helper";
+import { Spinner } from "../components/Spinner";
 
 class TusQuinielas extends Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      validando: false,
+      validando: false
     };
     this.run = this.run.bind(this);
   }
 
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', () => this.props.navigation.goBack());
+    BackHandler.addEventListener("hardwareBackPress", () =>
+      this.props.navigation.goBack()
+    );
     this.props.buscarTorneos();
     this.createDataSource(this.props);
-    Object.keys(this.props.torneos).map((key) => {
+    Object.keys(this.props.torneos).map(key => {
       if (this.props.torneos[key].info.selected == true) {
         this.registrart(this.props.torneos[key].info.nombre);
         this.registrartID(this.props.torneos[key].uid);
@@ -65,11 +70,11 @@ class TusQuinielas extends Component {
     // this.props is still the old set of props
 
     this.createDataSource(nextProps);
-    Object.keys(nextProps.torneos).map((key) => {
+    Object.keys(nextProps.torneos).map(key => {
       if (nextProps.torneos[key].info.selected == true) {
         // this.registrart(nextProps.torneos[key].info.nombre);
 
-        if (this.props.torneo == 'Rusia 2018') {
+        if (this.props.torneo == "Rusia 2018") {
           this.registrart(nextProps.torneos[key].info.nombre);
           this.registrartID(nextProps.torneos[key].uid);
         }
@@ -79,47 +84,101 @@ class TusQuinielas extends Component {
 
   createDataSource({ torneos }) {
     const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
+      rowHasChanged: (r1, r2) => r1 !== r2
     });
 
     this.dataSource = ds.cloneWithRows(torneos);
   }
 
-  run = async (goBack, codigo, quinielaNombre, torneo, torneoid) => {
+  run = async (goBack, codigo, quinielaNombre, torneo, torneoid, uid1) => {
     try {
       this.setState({ validando: true });
+      console.log(torneoid);
+      const quinielasAdmini = await this.props.buscarQuinielasAdminTorneo(
+        torneoid,
+        uid1
+      );
 
-      const code = await this.props.crearCodigoQuiniela(codigo);
-      const regla = await this.props.buscarReglas(torneoid);
-      const disponibles = await this.props.buscarDisponiblesDemo(torneoid);
-      const disponible = disponibles.toJSON();
-      //  console.log(`DISPONIBLESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS ${disponible}`);
-      const newCodigo = generarCodigo();
-      // const link4 = link3.codigo;
-      // console.log(link4);
-      const items = code.snapshot.toJSON();
-      // console.log(regla);
-      const reglas = regla.toJSON();
-      //  console.log(typeof items);
-      //  codigoq = items[Object.keys(items)[Object.keys(items).length - 1]];
+      console.log(quinielasAdmini.toJSON());
 
-      if (typeof items !== 'object') {
-        const codigoq = items;
+      const maxi = await this.props.buscarActivacionesDB(torneoid);
+      const max = maxi.toJSON();
 
-        this.props.crearQuiniela({
-          quinielaNombre,
-          torneo,
-          torneoid,
-          codigoq,
-          reglas,
-          disponible,
-        });
-        this.props.reloadingQuinielas();
-        this.setState({ validando: false });
-        goBack();
+      console.log(max);
+      // console.log(Object.keys(quinielasAdmini.toJSON()).length);
+      if (quinielasAdmini.toJSON() === null) {
+        const code = await this.props.crearCodigoQuiniela(codigo);
+        const regla = await this.props.buscarReglas(torneoid);
+        const disponibles = await this.props.buscarDisponiblesDemo(torneoid);
+        const disponible = disponibles.toJSON();
+        //  console.log(`DISPONIBLESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS ${disponible}`);
+        const newCodigo = generarCodigo();
+        // const link4 = link3.codigo;
+        // console.log(link4);
+        const items = code.snapshot.toJSON();
+        // console.log(regla);
+        const reglas = regla.toJSON();
+        //  console.log(typeof items);
+        //  codigoq = items[Object.keys(items)[Object.keys(items).length - 1]];
+
+        if (typeof items !== "object") {
+          const codigoq = items;
+
+          this.props.crearQuiniela({
+            quinielaNombre,
+            torneo,
+            torneoid,
+            codigoq,
+            reglas,
+            disponible
+          });
+          this.props.reloadingQuinielas();
+          this.setState({ validando: false });
+          goBack();
+        } else {
+          //    console.log(newCodigo);
+          this.run(newCodigo, quinielaNombre, torneo, torneoid);
+        }
       } else {
-        //    console.log(newCodigo);
-        this.run(newCodigo, quinielaNombre, torneo, torneoid);
+        if (Object.keys(quinielasAdmini.toJSON()).length < max) {
+          const code = await this.props.crearCodigoQuiniela(codigo);
+          const regla = await this.props.buscarReglas(torneoid);
+          const disponibles = await this.props.buscarDisponiblesDemo(torneoid);
+          const disponible = disponibles.toJSON();
+          //  console.log(`DISPONIBLESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS ${disponible}`);
+          const newCodigo = generarCodigo();
+          // const link4 = link3.codigo;
+          // console.log(link4);
+          const items = code.snapshot.toJSON();
+          // console.log(regla);
+          const reglas = regla.toJSON();
+          //  console.log(typeof items);
+          //  codigoq = items[Object.keys(items)[Object.keys(items).length - 1]];
+
+          if (typeof items !== "object") {
+            const codigoq = items;
+
+            this.props.crearQuiniela({
+              quinielaNombre,
+              torneo,
+              torneoid,
+              codigoq,
+              reglas,
+              disponible
+            });
+            this.props.reloadingQuinielas();
+            this.setState({ validando: false });
+            goBack();
+          } else {
+            //    console.log(newCodigo);
+            this.run(newCodigo, quinielaNombre, torneo, torneoid);
+          }
+        } else {
+          alert(
+            "No puedes administrar nuevas quinielas en este torneo, debes eliminar una quiniela administrada para crear otra quiniela"
+          );
+          this.setState({ validando: false });
+        }
       }
     } catch (e) {
       this.setState({ validando: false });
@@ -127,8 +186,9 @@ class TusQuinielas extends Component {
     }
   };
 
-  crear(goBack) {
+  crear(goBack, uid1) {
     Keyboard.dismiss();
+
     const codigo = generarCodigo();
 
     const { quinielaNombre, torneo, torneoid } = this.props;
@@ -137,8 +197,15 @@ class TusQuinielas extends Component {
 
     //  console.log(`quinielaNombre.length ${quinielaNombre.length}`);
     //  console.log(`quinielaNombre ${quinielaNombre}`);
-    if (quinielaNombre != '') {
-      this.run(goBack, codigo, quinielaNombre.toUpperCase(), torneo, torneoid);
+    if (quinielaNombre != "") {
+      this.run(
+        goBack,
+        codigo,
+        quinielaNombre.toUpperCase(),
+        torneo,
+        torneoid,
+        uid1
+      );
     } else {
       goBack();
     }
@@ -185,6 +252,8 @@ class TusQuinielas extends Component {
     // Object.keys(this.props.torneos).map(key => console.log(this.props.torneos[key].info.nombre)); // if you have a bunch of keys value pair
 
     const { navigate, goBack } = this.props.navigation;
+    const { currentUser } = firebase.auth();
+    let uid1 = currentUser.uid;
 
     return (
       <Container>
@@ -241,12 +310,17 @@ class TusQuinielas extends Component {
             <Text>{this.props.error}</Text>
             <View style={styles.conta}>
               <View style={styles.vire} />
-              <TouchableOpacity style={styles.button} onPress={() => this.crear(goBack)}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => this.crear(goBack, uid1)}
+              >
                 {this.status()}
               </TouchableOpacity>
               <View style={styles.vire} />
             </View>
-            <BotonPrincipal onPress={() => this.cancelar(goBack)}>Cancelar</BotonPrincipal>
+            <BotonPrincipal onPress={() => this.cancelar(goBack)}>
+              Cancelar
+            </BotonPrincipal>
           </View>
         </View>
       </Container>
@@ -258,30 +332,30 @@ const styles = EStyleSheet.create({
   form: {
     flex: 1,
 
-    justifyContent: 'space-between',
-    flexDirection: 'column',
+    justifyContent: "space-between",
+    flexDirection: "column"
   },
   conta: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20
   },
   button: {
     flex: 8,
     backgroundColor: color.$fondoBotonPrincipal,
     borderRadius: 25,
     marginVertical: 0,
-    paddingVertical: 11,
+    paddingVertical: 11
   },
   vire: {
-    flex: 0.5,
+    flex: 0.5
   },
   inputBox1: {
     flex: 8,
 
     color: color.$formInputBoxColor,
-    marginVertical: 10,
+    marginVertical: 10
   },
   inputBox: {
     flex: 8,
@@ -290,52 +364,52 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     color: color.$formInputBoxColor,
-    marginVertical: 10,
+    marginVertical: 10
   },
   titulo: {
-    padding: 20,
+    padding: 20
   },
   cuerpo: {
-    flex: 1,
+    flex: 1
   },
   bottom: {
-    padding: 20,
+    padding: 20
   },
   buttonText: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
     color: color.$formButtonTextColor,
-    textAlign: 'center',
-  },
+    textAlign: "center"
+  }
 });
 
 const styles2 = EStyleSheet.create({
   conta: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
   },
   vire: {
-    flex: 1,
+    flex: 1
   },
   signupText: {
     color: color.$signupTextColor,
     fontSize: 16,
-    fontWeight: '500',
-    paddingHorizontal: 20,
+    fontWeight: "500",
+    paddingHorizontal: 20
   },
   signupButton: {
     color: color.$signupButtonColor,
     fontSize: 16,
-    fontWeight: '500',
-    paddingHorizontal: 20,
-  },
+    fontWeight: "500",
+    paddingHorizontal: 20
+  }
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   // console.log(state.torneos);
   const torneos = _.map(state.torneos, (val, uid) => ({ ...val, uid }));
-  const tt = _.orderBy(torneos, ['info.nombre'], ['des']);
+  const tt = _.orderBy(torneos, ["info.nombre"], ["des"]);
 
   return {
     torneos,
@@ -344,7 +418,7 @@ const mapStateToProps = (state) => {
     torneoid: state.creacionquinielas.torneoid,
     codigo: state.creacionquinielas.codigo,
     error: state.creacionquinielas.error,
-    selected: state.selected,
+    selected: state.selected
   };
 };
 
@@ -359,4 +433,6 @@ export default connect(mapStateToProps, {
   crearCodigoQuiniela,
   buscarReglas,
   buscarDisponiblesDemo,
+  buscarQuinielasAdminTorneo,
+  buscarActivacionesDB
 })(TusQuinielas);

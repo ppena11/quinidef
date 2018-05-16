@@ -53,6 +53,26 @@ export const buscarQuinielas = uid => dispatch =>
       dispatch({ type: BUSCAR_QUINIELAS_EXITO, payload: snapshot.val() });
     });
 
+export const buscarQuinielasAdminTorneo = (torneo, uid) => dispatch =>
+  firebase
+    .database()
+    .ref(`/users/${uid}/quinielasadministradas`)
+    .orderByChild("torneoid")
+    .equalTo(`${torneo}`)
+    .once("value", snapshot => {
+      //dispatch({ type: BUSCAR_QUINIELAS_EXITO, payload: snapshot.val() });
+    });
+
+export const buscarQuinielasAdminQuiniela = (quiniela, uid) => dispatch =>
+  firebase
+    .database()
+    .ref(`/users/${uid}/quinielas`)
+    .orderByChild("quiniela")
+    .equalTo(`${quiniela}`)
+    .once("value", snapshot => {
+      //dispatch({ type: BUSCAR_QUINIELAS_EXITO, payload: snapshot.val() });
+    });
+
 export const buscarPosiciones = qid => dispatch =>
   firebase
     .database()
@@ -163,53 +183,49 @@ export const buscarQuinielasAdministradas = () => {
 
       .limitToLast(15)
       .once("value", snapshot => {
+        // console.log(`APUNTADOR INICIAL  ${dd1}`);
+
+        // const root = snapshot.ref.root;
+
+        // dd.map((q, index, array) => {
+        // const mgr_promise = root.child(`/torneos/${q.torneo}/`).once('value');
+        // let arr1 = [];
+        // mgr_promise.then((snap) => {
+        // q.torneo = snap.val().info.nombre;
+
+        // array[index].torneo = snap.val().info.nombre;
+        // console.log(array);
+        // arr1 = array.slice(index, index + 1);
+
+        // dispatch({
+        //  type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO,
+        //  payload: _.keyBy(arr1, 'uid'),
+        // });
+        // });
+        // });
+
+        // console.log('ASHKJHSAKJHKJAKJAD');
+        // console.log(_.keyBy(dd, 'uid'));
+
+        dispatch({
+          type: ULTIMA_QUINIELA_LLEGO_NO
+        });
+        dispatch({
+          type: MOSTRAR_TODAS_QUINIELA_ADMIN
+        });
+        dispatch({
+          type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO,
+          payload: snapshot.val()
+        });
+
         if (snapshot.exists()) {
           const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
-
           const dd = tt.reverse();
           const dd1 = dd.pop().uid;
-          // console.log(`APUNTADOR INICIAL  ${dd1}`);
-
-          // const root = snapshot.ref.root;
-
-          // dd.map((q, index, array) => {
-          // const mgr_promise = root.child(`/torneos/${q.torneo}/`).once('value');
-          // let arr1 = [];
-          // mgr_promise.then((snap) => {
-          // q.torneo = snap.val().info.nombre;
-
-          // array[index].torneo = snap.val().info.nombre;
-          // console.log(array);
-          // arr1 = array.slice(index, index + 1);
-
-          // dispatch({
-          //  type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO,
-          //  payload: _.keyBy(arr1, 'uid'),
-          // });
-          // });
-          // });
-
-          // console.log('ASHKJHSAKJHKJAKJAD');
-          // console.log(_.keyBy(dd, 'uid'));
-
-          dispatch({
-            type: ULTIMA_QUINIELA_LLEGO_NO
-          });
-          dispatch({
-            type: MOSTRAR_TODAS_QUINIELA_ADMIN
-          });
-          dispatch({
-            type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO,
-            payload: snapshot.val()
-          });
-
           dispatch({
             type: ULTIMA_QUINIELA_UPDATE,
             payload: dd1
           });
-        }
-
-        if (snapshot.exists()) {
           // console.log(`TAMANO DE LA DATA ${Object.keys(snapshot.val()).length}`);
           if (Object.keys(snapshot.val()).length < 15) {
             dispatch({ type: ULTIMA_QUINIELA_LLEGO });
@@ -344,10 +360,10 @@ export const crearNombreQuiniela = (quiniela, nombre) => dispatch =>
         } else {
           //   console.log('User ada added!');
         }
-        dispatch({
-          type: ACTUALIZAR_NOMBRE_QUINIELA,
-          payload: nombre
-        });
+        //   dispatch({
+        //     type: ACTUALIZAR_NOMBRE_QUINIELA,
+        //     payload: nombre
+        //  });
         // console.log("Ada's data: ", snapshot.val());
       }
     );
@@ -412,10 +428,10 @@ export const manejarActivos = quiniela => dispatch =>
         } else {
           //  console.log('User ada added!');
         }
-        dispatch({
-          type: ACTUALIZAR_NOMBRE_QUINIELA,
-          payload: snapshot
-        });
+        //  dispatch({
+        //   type: ACTUALIZAR_NOMBRE_QUINIELA,
+        //  payload: snapshot
+        //  });
         // console.log("Ada's data: ", snapshot.val());
       }
     );
@@ -438,10 +454,10 @@ export const manejarActivosA = (quiniela, admin, pora) => dispatch =>
         } else {
           //    console.log('User ada added!');
         }
-        dispatch({
-          type: ACTUALIZAR_NOMBRE_QUINIELA,
-          payload: snapshot
-        });
+        //  dispatch({
+        //    type: ACTUALIZAR_NOMBRE_QUINIELA,
+        //    payload: snapshot
+        //  });
         // console.log("Ada's data: ", snapshot.val());
       }
     );
@@ -675,6 +691,14 @@ export const buscarDisponiblesDemo = torneoid => dispatch =>
       dispatch({ type: BUSCAR_DISPONIBLES_EXITO, payload: snapshot.val() });
     });
 
+export const buscarActivacionesDB = torneoid => dispatch =>
+  firebase
+    .database()
+    .ref(`/torneos/${torneoid}/maximo`)
+    .once("value", snapshot => {
+      //dispatch({ type: BUSCAR_DISPONIBLES_EXITO, payload: snapshot.val() });
+    });
+
 export const buscarReglasAdmin = qid => dispatch =>
   firebase
     .database()
@@ -696,9 +720,9 @@ export const buscarQuiniela = quiniela => dispatch =>
     .database()
     .ref(`/quinielas/${quiniela}/info`)
     .once("value", snapshot => {
-      dispatch({
-        type: ULTIMA_QUINIELA_LLEGO_NO
-      });
+      // dispatch({
+      //   type: ULTIMA_QUINIELA_LLEGO_NO
+      //  });
     });
 
 export const buscarAdmin = uid => dispatch =>
@@ -706,7 +730,7 @@ export const buscarAdmin = uid => dispatch =>
     .database()
     .ref(`/users/${uid}/info`)
     .once("value", snapshot => {
-      dispatch({
-        type: ULTIMA_QUINIELA_LLEGO_NO
-      });
+      // dispatch({
+      //   type: ULTIMA_QUINIELA_LLEGO_NO
+      //  });
     });

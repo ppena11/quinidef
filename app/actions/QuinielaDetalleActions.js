@@ -438,23 +438,18 @@ export const reducirPorActivar = (qu, e1) => dispatch =>
     .ref(`/quinielas/${qu}/info/`)
     .transaction(
       currentData => {
-        if (!e1) {
-          currentData.quinielasDisponibles =
-            Number(currentData.quinielasDisponibles) - 1;
-          currentData.quinielasActivos =
-            Number(currentData.quinielasActivos) + 1;
-          currentData.quinielasPorActivar =
-            Number(currentData.quinielasPorActivar) - 1;
+        if (currentData !== null) {
+          if (e1) {
+            currentData.quinielasDisponibles += 1;
+            currentData.quinielasActivos -= 1;
+
+            return currentData;
+          }
+
+          currentData.quinielasPorActivar -= 1;
 
           return currentData;
         }
-        currentData.quinielasDisponibles =
-          Number(currentData.quinielasDisponibles) + 1;
-        currentData.quinielasActivos = Number(currentData.quinielasActivos) - 1;
-        currentData.quinielasPorActivar =
-          Number(currentData.quinielasPorActivar) + 1;
-
-        return currentData;
       },
 
       // Abort the transaction.

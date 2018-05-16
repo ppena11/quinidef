@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
+import firebase from "firebase";
 import { connect } from "react-redux";
 
 import {
@@ -115,7 +116,7 @@ class EliminarQuiniela extends Component {
       // const test = await this.props.cambiarEstatusQuiniela(jug, qu, e1);
       // this.setState({ toggled: this.props.jugadores[uid].activo });
       // console.log(test);
-
+      console.log(qu);
       const t = await this.props.reducirPorActivar(qu, jug.activo);
       if (t.committed) {
         //  console.log(t.snapshot.val());

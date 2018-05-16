@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StatusBar,
   View,
@@ -6,24 +6,31 @@ import {
   BackHandler,
   Keyboard,
   TouchableOpacity,
-  TextInput,
-} from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import { connect } from 'react-redux';
-// import firebase from 'firebase';
+  TextInput
+} from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
+import { connect } from "react-redux";
+import firebase from "firebase";
 
-import { Container } from '../components/Container';
-import { Titulo } from '../components/Titulo';
-import { InputLetra } from '../components/InputLetra';
-import { BotonPrincipal } from '../components/BotonPrincipal';
-import { Spinner } from '../components/Spinner';
-import color from '../comun/colors';
+import { Container } from "../components/Container";
+import { Titulo } from "../components/Titulo";
+import { InputLetra } from "../components/InputLetra";
+import { BotonPrincipal } from "../components/BotonPrincipal";
+import { Spinner } from "../components/Spinner";
+import color from "../comun/colors";
 
-import { buscarCodigos, agregarJugador, buscarQuiniela, buscarAdmin } from '../actions';
+import {
+  buscarCodigos,
+  buscarActivacionesDB,
+  agregarJugador,
+  buscarQuiniela,
+  buscarAdmin,
+  buscarQuinielasAdminQuiniela
+} from "../actions";
 
 class UnirseAQuiniela extends Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
 
   constructor(props) {
@@ -31,7 +38,7 @@ class UnirseAQuiniela extends Component {
 
     this.state = {
       inputfield: [],
-      validando: false,
+      validando: false
     };
 
     this.updateInputValue1 = this.updateInputValue1.bind(this);
@@ -44,32 +51,66 @@ class UnirseAQuiniela extends Component {
   }
 
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', () => this.props.navigation.goBack());
+    BackHandler.addEventListener("hardwareBackPress", () =>
+      this.props.navigation.goBack()
+    );
   }
 
-  run = async () => {
+  run = async uid1 => {
     try {
-      const test = await this.props.buscarCodigos(this.state.inputfield.join('').toUpperCase());
+      const test = await this.props.buscarCodigos(
+        this.state.inputfield.join("").toUpperCase()
+      );
 
       const items = test.toJSON();
 
       if (items != null && items.recibirAbonados) {
         const test1 = await this.props.buscarQuiniela(items.quinielaID);
         const items2 = test1.toJSON();
-        const test2 = await this.props.buscarAdmin(items2.admin);
 
-        const items3 = test2.toJSON();
-        //    console.log(`${items2.admin}`);
-        //    console.log(`items 3 ${items3}`);
+        const maxi = await this.props.buscarActivacionesDB(items2.torneoid);
+        const max = maxi.toJSON();
 
-        this.props.navigation.navigate('RegistrarQuiniela', {
-          quiniela: items2,
-          admin: items3,
-        });
-        this.setState({ validando: false });
+        const quinielasAdmini = await this.props.buscarQuinielasAdminQuiniela(
+          items.quinielaID,
+          uid1
+        );
+
+        if (quinielasAdmini.toJSON() === null) {
+          const test2 = await this.props.buscarAdmin(items2.admin);
+
+          const items3 = test2.toJSON();
+          //    console.log(`${items2.admin}`);
+          //    console.log(`items 3 ${items3}`);
+
+          this.props.navigation.navigate("RegistrarQuiniela", {
+            quiniela: items2,
+            admin: items3
+          });
+          this.setState({ validando: false });
+        } else {
+          if (Object.keys(quinielasAdmini.toJSON()).length < max) {
+            const test2 = await this.props.buscarAdmin(items2.admin);
+
+            const items3 = test2.toJSON();
+            //    console.log(`${items2.admin}`);
+            //    console.log(`items 3 ${items3}`);
+
+            this.props.navigation.navigate("RegistrarQuiniela", {
+              quiniela: items2,
+              admin: items3
+            });
+            this.setState({ validando: false });
+          } else {
+            alert(
+              "No puedes registrar nuevos usuarios en esta quiniela, debes eliminar un usuario para crear otra apuesta"
+            );
+            this.setState({ validando: false });
+          }
+        }
       } else {
         this.setState({ validando: false });
-        alert('Por favor introduce un código válido de 4 caracteres');
+        alert("Por favor introduce un código válido de 4 caracteres");
       }
     } catch (e) {
       //    console.log(e);
@@ -77,57 +118,57 @@ class UnirseAQuiniela extends Component {
     }
   };
 
-  buscarCodigo() {
+  buscarCodigo(uid1) {
     if (!this.state.validando) {
       this.setState({ validando: true });
       Keyboard.dismiss();
-      if (this.state.inputfield.join('').length >= 4) {
-        this.run();
+      if (this.state.inputfield.join("").length >= 4) {
+        this.run(uid1);
       } else {
         this.setState({ validando: false });
-        alert('Por favor introduce un código válido de 4 caracteres');
+        alert("Por favor introduce un código válido de 4 caracteres");
       }
     }
   }
 
   generaCodigo() {
     const caracteresPosibles = [
-      'A',
-      'B',
-      'C',
-      'D',
-      'E',
-      'F',
-      'G',
-      'H',
-      'I',
-      'J',
-      'K',
-      'L',
-      'M',
-      'N',
-      'O',
-      'P',
-      'Q',
-      'R',
-      'S',
-      'T',
-      'U',
-      'V',
-      'W',
-      'X',
-      'Y',
-      'Z',
-      '0',
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9',
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L",
+      "M",
+      "N",
+      "O",
+      "P",
+      "Q",
+      "R",
+      "S",
+      "T",
+      "U",
+      "V",
+      "W",
+      "X",
+      "Y",
+      "Z",
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
     ]; // Combinaciones posibles: 1.679.616
     let codigo;
     codigo = this.elementoAleatorio(caracteresPosibles);
@@ -158,8 +199,8 @@ class UnirseAQuiniela extends Component {
     // this.setState({ warning: 'no' });
     //   console.log(`ttttttttttttttttttttttttttt : ${t}`);
     //   console.log(`ttttttttttttttttttttttttttt : ${this}`);
-    if (t != '') {
-      this.focusNextField('two');
+    if (t != "") {
+      this.focusNextField("two");
     }
   }
 
@@ -176,8 +217,8 @@ class UnirseAQuiniela extends Component {
     this.setState({ inputfield: arr });
     // console.log(`ttttttttttttttttttttttttttt : ${t}`);
     // console.log(`ttttttttttttttttttttttttttt : ${this.state.inputfield}`);
-    if (t != '') {
-      this.focusNextField('three');
+    if (t != "") {
+      this.focusNextField("three");
     }
   }
   updateInputValue3(t) {
@@ -193,8 +234,8 @@ class UnirseAQuiniela extends Component {
     this.setState({ inputfield: arr });
     //  console.log(`ttttttttttttttttttttttttttt : ${t}`);
     //  console.log(`ttttttttttttttttttttttttttt : ${this.state.inputfield}`);
-    if (t != '') {
-      this.focusNextField('four');
+    if (t != "") {
+      this.focusNextField("four");
     }
   }
   updateInputValue4(t) {
@@ -227,6 +268,9 @@ class UnirseAQuiniela extends Component {
     // const { navigate } = this.props.navigation;
     // console.log(this.props.quiniela);
     //  console.log(`this.u2) ${this.u2}`);
+
+    const { currentUser } = firebase.auth();
+    let uid1 = currentUser.uid;
     return (
       <Container>
         <StatusBar
@@ -240,7 +284,9 @@ class UnirseAQuiniela extends Component {
         </View>
 
         <View>
-          <Text style={styles.texto}>Introduzca el{'\n'}Código de Activación:</Text>
+          <Text style={styles.texto}>
+            Introduzca el{"\n"}Código de Activación:
+          </Text>
         </View>
 
         <View style={styles.view1}>
@@ -249,11 +295,11 @@ class UnirseAQuiniela extends Component {
               onChangeText={t => this.updateInputValue1(t)}
               blurOnSubmit={false}
               onSubmitEditing={() => {
-                this.focusNextField('two');
+                this.focusNextField("two");
               }}
               returnKeyType="next"
               style={styles.input}
-              ref={(input) => {
+              ref={input => {
                 this.inputs.one = input;
               }}
               placeholderTextColor={color.$placeholderTextColor}
@@ -269,11 +315,11 @@ class UnirseAQuiniela extends Component {
               onChangeText={t => this.updateInputValue2(t)}
               blurOnSubmit={false}
               onSubmitEditing={() => {
-                this.focusNextField('three');
+                this.focusNextField("three");
               }}
               returnKeyType="next"
               style={styles.input}
-              ref={(input) => {
+              ref={input => {
                 this.inputs.two = input;
               }}
               placeholderTextColor={color.$placeholderTextColor}
@@ -289,11 +335,11 @@ class UnirseAQuiniela extends Component {
               onChangeText={t => this.updateInputValue3(t)}
               blurOnSubmit={false}
               onSubmitEditing={() => {
-                this.focusNextField('four');
+                this.focusNextField("four");
               }}
               returnKeyType="next"
               style={styles.input}
-              ref={(input) => {
+              ref={input => {
                 this.inputs.three = input;
               }}
               placeholderTextColor={color.$placeholderTextColor}
@@ -310,7 +356,7 @@ class UnirseAQuiniela extends Component {
               blurOnSubmit
               returnKeyType="done"
               style={styles.input}
-              ref={(input) => {
+              ref={input => {
                 this.inputs.four = input;
               }}
               placeholderTextColor={color.$placeholderTextColor}
@@ -328,14 +374,19 @@ class UnirseAQuiniela extends Component {
 
         <View style={styles.conta}>
           <View style={styles.vire} />
-          <TouchableOpacity style={styles.button} onPress={() => this.buscarCodigo()}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.buscarCodigo(uid1)}
+          >
             {this.status()}
           </TouchableOpacity>
           <View style={styles.vire} />
         </View>
 
         <View>
-          <BotonPrincipal onPress={() => this.cancelar()}>Cancelar</BotonPrincipal>
+          <BotonPrincipal onPress={() => this.cancelar()}>
+            Cancelar
+          </BotonPrincipal>
         </View>
       </Container>
     );
@@ -345,59 +396,59 @@ class UnirseAQuiniela extends Component {
 const styles = EStyleSheet.create({
   container: {
     margin: 10,
-    width: '15%',
+    width: "15%",
     borderColor: color.$inputContainerBorderColor,
-    borderBottomWidth: 3,
+    borderBottomWidth: 3
   },
   input: {
     paddingRight: 5,
     paddingLeft: 5,
     color: color.$inputColor,
     fontSize: 25,
-    fontWeight: '700',
-    width: '100%',
+    fontWeight: "700",
+    width: "100%"
   },
   titulo: {
-    padding: 20,
+    padding: 20
   },
   button: {
     flex: 8,
     backgroundColor: color.$fondoBotonPrincipal,
     borderRadius: 25,
     marginVertical: 10,
-    paddingVertical: 13,
+    paddingVertical: 13
   },
   conta: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
   },
   vire: {
-    flex: 1,
+    flex: 1
   },
   texto: {
     fontSize: 20,
     color: color.$tituloTextColor,
-    fontWeight: '300',
-    textAlign: 'center',
+    fontWeight: "300",
+    textAlign: "center"
   },
   view1: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    padding: 20,
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: 20
   },
   buttonText: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
     color: color.$formButtonTextColor,
-    textAlign: 'center',
-  },
+    textAlign: "center"
+  }
 });
 
 const mapStateToProps = state => ({
   error: state.codigos.codigoNoExiste,
   quiniela: state.codigos.quinielaID,
-  aceptaAbonados: state.codigos.recibirAbonados,
+  aceptaAbonados: state.codigos.recibirAbonados
 });
 
 export default connect(mapStateToProps, {
@@ -405,4 +456,6 @@ export default connect(mapStateToProps, {
   buscarAdmin,
   buscarCodigos,
   agregarJugador,
+  buscarActivacionesDB,
+  buscarQuinielasAdminQuiniela
 })(UnirseAQuiniela);
