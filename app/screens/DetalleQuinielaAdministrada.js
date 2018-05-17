@@ -14,6 +14,7 @@ import {
   BackHandler,
   Switch
 } from "react-native";
+import { Spinner } from "../components/Spinner";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
 import { connect } from "react-redux";
@@ -46,7 +47,14 @@ class DetalleQuinielaAdministrada extends Component {
   };
   constructor(props) {
     super(props);
-    this.state = { toggled: false, actualizando: false, menu: "yes" };
+    this.state = {
+      cargo: false,
+      toggled: false,
+      actualizando: false,
+      menu: "yes"
+    };
+
+    this.run1 = this.run1.bind(this);
   }
 
   componentDidMount() {
@@ -54,10 +62,7 @@ class DetalleQuinielaAdministrada extends Component {
     // this.createDataSource(this.props);
     // const { quinielaNombre, torneo } = this.props.quiniela;
     // console.log(_.map(this.props.navigation.state.params.quiniela.Users, (val, uid) => ({ ...val, uid })));
-    this.props.buscarCodigos(
-      this.props.navigation.state.params.quiniela.codigoq
-    );
-
+    this.run1();
     this.props.buscarDisponibles(
       this.props.navigation.state.params.quiniela.uid
     );
@@ -113,6 +118,22 @@ class DetalleQuinielaAdministrada extends Component {
       )
       .off();
   }
+
+  run1 = async () => {
+    try {
+      //console.log(this.props.quiniela.quiniela);
+      //console.log(this.props.quiniela.nombreapuesta);
+      const escribirHora = await this.props.buscarCodigos(
+        this.props.navigation.state.params.quiniela.codigoq
+      );
+
+      this.setState({ cargo: true });
+
+      // console.log(r1);
+    } catch (e) {
+      //   console.log(e);
+    }
+  };
 
   keyboardWillShow = () => {
     this.setState({ menu: "no" });
@@ -286,83 +307,53 @@ class DetalleQuinielaAdministrada extends Component {
     return <View />;
   }
 
-  render() {
-    const {
-      headerContentStyle,
-      headerTextStyle,
-      headerTextStyle11,
-      headerTextStyle1,
-      headerTextStyle2,
-      thumbnailStyle,
-      thumbnailContainerStyle,
-      cardSectionStyle,
-      headerContentStyle1,
-      containerStyle,
-      switchStyle
-    } = styles;
-
-    return (
-      <Container>
-        <StatusBar
-          translucent={false}
-          barStyle="light-content"
-          backgroundColor={color.$statusBarBackgroundColor}
-        />
-        <View style={styles.form}>
-          <View style={styles.titulo}>
-            <Titulo>
-              {this.props.navigation.state.params.quiniela.quinielaNombre}
-              {"\n"}Código:{" "}
-              {this.props.navigation.state.params.quiniela.codigoq}
-            </Titulo>
-          </View>
-          {/*    <View style={containerStyle}>
-            <Text headerTextStyle1>
-              Codigo: {this.props.navigation.state.params.quiniela.codigoq}
-            </Text>
-          </View> */}
-
+  activa() {
+    if (this.state.cargo) {
+      return (
+        <View>
           <CardSectionT>
-            <TouchableOpacity style={headerContentStyle1}>
-              <Text style={headerTextStyle11}>Permtir nuevos jugadores</Text>
+            <TouchableOpacity style={styles.headerContentStyle1}>
+              <Text style={styles.headerTextStyle11}>
+                Permtir nuevos jugadores
+              </Text>
               <Switch
-                style={switchStyle}
+                style={styles.switchStyle}
                 onValueChange={value => this.pressed1(value)}
                 value={this.props.codigos.recibirAbonados}
               />
             </TouchableOpacity>
           </CardSectionT>
-          <View style={containerStyle}>
+          <View style={styles.containerStyle}>
             <TouchableOpacity
               onPress={() => this.onReglasPress()}
-              style={headerContentStyle}
+              style={styles.headerContentStyle}
             >
-              <Text style={headerTextStyle1}>COMPRADAS</Text>
-              <Text style={headerTextStyle}>
+              <Text style={styles.headerTextStyle1}>COMPRADAS</Text>
+              <Text style={styles.headerTextStyle}>
                 {this.props.info.quinielasCompradas}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => this.onReglasPress()}
-              style={headerContentStyle}
+              style={styles.headerContentStyle}
             >
-              <Text style={headerTextStyle1}>ACTIVAS</Text>
-              <Text style={headerTextStyle}>
+              <Text style={styles.headerTextStyle1}>ACTIVAS</Text>
+              <Text style={styles.headerTextStyle}>
                 {this.props.info.quinielasActivos}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => this.onReglasPress()}
-              style={headerContentStyle}
+              style={styles.headerContentStyle}
             >
-              <Text style={headerTextStyle1}>POR ACTIVAR</Text>
-              <Text style={headerTextStyle}>
+              <Text style={styles.headerTextStyle1}>POR ACTIVAR</Text>
+              <Text style={styles.headerTextStyle}>
                 {this.props.info.quinielasPorActivar}
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={headerContentStyle}>
-              <Text style={headerTextStyle1}>DISPONIBLES</Text>
-              <Text style={headerTextStyle}>
+            <TouchableOpacity style={styles.headerContentStyle}>
+              <Text style={styles.headerTextStyle1}>DISPONIBLES</Text>
+              <Text style={styles.headerTextStyle}>
                 {this.props.info.quinielasDisponibles}
               </Text>
             </TouchableOpacity>
@@ -384,7 +375,7 @@ class DetalleQuinielaAdministrada extends Component {
             <View style={styles2.vire} />
           </View>
 
-          <View style={styles.cuerpo}>
+          <View>
             <FlatList
               data={this.props.jugadores}
               keyExtractor={item => item.uid}
@@ -396,7 +387,50 @@ class DetalleQuinielaAdministrada extends Component {
               }}
             />
           </View>
+        </View>
+      );
+    } else {
+      return <Spinner size="small" />;
+    }
+  }
 
+  render() {
+    const {
+      headerContentStyle,
+      headerTextStyle,
+      headerTextStyle11,
+      headerTextStyle1,
+      headerTextStyle2,
+      thumbnailStyle,
+      thumbnailContainerStyle,
+      cardSectionStyle,
+      headerContentStyle1,
+      containerStyle,
+      switchStyle
+    } = styles;
+    console.log(this.state.cargo);
+
+    return (
+      <Container>
+        <StatusBar
+          translucent={false}
+          barStyle="light-content"
+          backgroundColor={color.$statusBarBackgroundColor}
+        />
+        <View style={styles.form}>
+          <View style={styles.titulo}>
+            <Titulo>
+              {this.props.navigation.state.params.quiniela.quinielaNombre}
+              {"\n"}Código:{" "}
+              {this.props.navigation.state.params.quiniela.codigoq}
+            </Titulo>
+          </View>
+          <View style={styles.cuerpo}>{this.activa()}</View>
+          {/*    <View style={containerStyle}>
+            <Text headerTextStyle1>
+              Codigo: {this.props.navigation.state.params.quiniela.codigoq}
+            </Text>
+          </View> */}
           <View style={styles.bottom}>{this.menustatus()}</View>
         </View>
       </Container>

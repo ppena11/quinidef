@@ -1,5 +1,5 @@
 import {
-  RESET_DETALLE_QUINIELA,
+  RESET_DETALLE_QUINIELA_AP,
   BUSCAR_DETALLE_APUESTAS_EXITO
 } from "../actions/types";
 
@@ -16,7 +16,7 @@ export default (state = INITIAL_STATE, action) => {
         ...action.payload
       };
 
-    case RESET_DETALLE_QUINIELA:
+    case RESET_DETALLE_QUINIELA_AP:
       return {
         ...INITIAL_STATE
       };

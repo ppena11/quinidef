@@ -21,7 +21,8 @@ import {
   BUSCAR_PARTIDOS_EXITO,
   BUSCAR_APUESTAS_EXITO,
   BUSCAR_DETALLE_APUESTAS_EXITO,
-  HORA_UPDATE
+  HORA_UPDATE,
+  RESET_DETALLE_QUINIELA_AP
 } from "./types";
 
 export const BuscarJugadorTexto = value => ({
@@ -88,6 +89,10 @@ export const buscarDetalleApuestas = (quinielaid, nombreapuesta) => dispatch =>
         payload: snapshot.val()
       });
     });
+
+export const limpiarapuesta = () => ({
+  type: RESET_DETALLE_QUINIELA_AP
+});
 
 export const buscarPorActivar = quiniela => dispatch => {
   firebase

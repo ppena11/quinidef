@@ -12,7 +12,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { connect } from "react-redux";
 import _ from "lodash";
 
-import { buscarDetalleApuestas } from "../actions";
+import { buscarDetalleApuestas, limpiarapuesta } from "../actions";
 import { Container } from "../components/Container";
 import { Titulo } from "../components/Titulo";
 import { DetalleAp } from "../components/DetalleAp";
@@ -73,6 +73,7 @@ class DetalleApuestas extends Component {
     this.setState({ validando: false });
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
+    this.props.limpiarapuesta();
   }
 
   tusquinielas() {
@@ -351,5 +352,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-  buscarDetalleApuestas
+  buscarDetalleApuestas,
+  limpiarapuesta
 })(DetalleApuestas);
