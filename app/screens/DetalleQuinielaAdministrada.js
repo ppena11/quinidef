@@ -310,11 +310,11 @@ class DetalleQuinielaAdministrada extends Component {
   activa() {
     if (this.state.cargo) {
       return (
-        <View>
+        <View style={styles.cuerpo}>
           <CardSectionT>
             <TouchableOpacity style={styles.headerContentStyle1}>
               <Text style={styles.headerTextStyle11}>
-                Permtir nuevos jugadores
+                {`    Permtir nuevos jugadores`}
               </Text>
               <Switch
                 style={styles.switchStyle}
@@ -376,16 +376,18 @@ class DetalleQuinielaAdministrada extends Component {
           </View>
 
           <View>
-            <FlatList
-              data={this.props.jugadores}
-              keyExtractor={item => item.uid}
-              renderItem={({ item }) => this.renderRow(item)}
-              onEndReached={this.handleLoadMore}
-              onEndReachedThershold={0}
-              ref={ref => {
-                this.listRef = ref;
-              }}
-            />
+            <View>
+              <FlatList
+                data={this.props.jugadores}
+                keyExtractor={item => item.uid}
+                renderItem={({ item }) => this.renderRow(item)}
+                onEndReached={this.handleLoadMore}
+                onEndReachedThershold={0}
+                ref={ref => {
+                  this.listRef = ref;
+                }}
+              />
+            </View>
           </View>
         </View>
       );
@@ -425,7 +427,7 @@ class DetalleQuinielaAdministrada extends Component {
               {this.props.navigation.state.params.quiniela.codigoq}
             </Titulo>
           </View>
-          <View style={styles.cuerpo}>{this.activa()}</View>
+          {this.activa()}
           {/*    <View style={containerStyle}>
             <Text headerTextStyle1>
               Codigo: {this.props.navigation.state.params.quiniela.codigoq}
@@ -454,7 +456,7 @@ const styles = EStyleSheet.create({
   headerTextStyle11: {
     fontSize: 18,
     color: color.$qxaHeaderTextStyle,
-    padding: 20,
+    padding: 5,
     justifyContent: "center",
     alignItems: "center"
   },
@@ -488,11 +490,13 @@ const styles = EStyleSheet.create({
     flexDirection: "column"
   },
   titulo: {
-    padding: 10
+    padding: 1
   },
   cuerpo: { flex: 1 },
   bottom: {
-    padding: 20
+    flex: 1,
+    padding: 10,
+    justifyContent: "flex-end"
   },
   inputBox: {
     flex: 8,
