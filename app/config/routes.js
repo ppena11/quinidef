@@ -108,6 +108,10 @@ const RootNavigatort = TabNavigator(
 
 const RootNavigator = StackNavigator(
   {
+    CargandoHome: {
+      screen: CargandoHome
+    },
+
     Login: {
       screen: Login
     },
@@ -117,26 +121,9 @@ const RootNavigator = StackNavigator(
     CrearCuenta: {
       screen: CrearCuenta
     },
-    ConfirmacionCorreo: {
-      screen: ConfirmacionCorreo
-    },
-    Log: {
-      screen: Home
-    },
+    
     TusQuinielas: {
       screen: TusQuinielas
-    },
-    QuinielasAdministradas: {
-      screen: QuinielasAdministradas
-    },
-    EliminarQuinielaAdministrada: {
-      screen: EliminarQuinielaAdministrada
-    },
-    CreaciondeQuiniela: {
-      screen: CreaciondeQuiniela
-    },
-    DetalleQuinielaAdministrada: {
-      screen: DetalleQuinielaAdministrada
     },
     UnirseAQuiniela: {
       screen: UnirseAQuiniela
@@ -145,19 +132,36 @@ const RootNavigator = StackNavigator(
       screen: RegistrarQuiniela
     },
 
+    QuinielasAdministradas: {
+      screen: QuinielasAdministradas
+    },
+    CreaciondeQuiniela: {
+      screen: CreaciondeQuiniela
+    },
+    EliminarQuinielaAdministrada: {
+      screen: EliminarQuinielaAdministrada
+    },
+    DetalleQuinielaAdministrada: {
+      screen: DetalleQuinielaAdministrada
+    },
+    ReglasAdmin: {
+      screen: ReglasAdmin
+    },
+    
+    
+    
+    ConfirmacionCorreo: {
+      screen: ConfirmacionCorreo
+    },
+    Log: {
+      screen: Home
+    },
+
     EliminarApuesta: {
       screen: EliminarApuesta
     },
     EliminarQuiniela: {
       screen: EliminarQuiniela
-    },
-
-    CargandoHome: {
-      screen: CargandoHome
-    },
-
-    ReglasAdmin: {
-      screen: ReglasAdmin
     },
     Apuestas: {
       screen: Apuestas

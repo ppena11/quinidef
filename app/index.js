@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Provider, connect } from 'react-redux';
 import firebase from 'firebase';
-import { addNavigationHelpers, YellowBox } from 'react-navigation';
+import { addNavigationHelpers } from 'react-navigation';
 import _ from 'lodash';
 
 import store from './config/store';
@@ -35,7 +35,7 @@ export default class extends Component {
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
-    console.ignoredYellowBox = ['Setting a timer'];
+    console.ignoredYellowBox = ['Setting a timer', 'Warning: isMounted', 'VirtualizedList'];
   }
 
   render() {

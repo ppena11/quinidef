@@ -9,10 +9,6 @@ import { modificarquiniela } from "../../actions";
 import color from "../../comun/colors";
 
 class Qx extends Component {
-  /*   touch(text) {
-    alert(text);
-  }
- */
 
   detalleQuiniela() {
     this.props.modificarquiniela(this.props.quiniela);

@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   Text,
   BackHandler,
-  Switch
+  Switch,
 } from "react-native";
 import { Spinner } from "../components/Spinner";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -55,6 +55,7 @@ class DetalleQuinielaAdministrada extends Component {
     };
 
     this.run1 = this.run1.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
   }
 
   componentDidMount() {
@@ -79,9 +80,9 @@ class DetalleQuinielaAdministrada extends Component {
       "keyboardDidHide",
       this.keyboardWillHide
     );
-    BackHandler.addEventListener("hardwareBackPress", () =>
-      this.props.navigation.goBack()
-    );
+
+    console.log("(DetalleQuinielaAdministrada) componentDidMount")
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -117,6 +118,14 @@ class DetalleQuinielaAdministrada extends Component {
         }/info/quinielasActivos`
       )
       .off();
+
+      console.log("(DetalleQuinielaAdministrada) componentWillUnmount")
+      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+  handleBackButton() {
+    this.props.navigation.goBack();
+    return true;
   }
 
   run1 = async () => {
@@ -155,18 +164,9 @@ class DetalleQuinielaAdministrada extends Component {
     // navigate('EliminarApuesta');
   }
 
-  tusquinielas() {
-    // console.log('TEST2');
-    this.props.reloadingJugadores();
-    // this.props.irAdministradas();
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: "QuinielasAdministradas" })
-      ]
-    });
-    this.props.navigation.dispatch(resetAction);
-    // this.props.navigation.goBack();
+  cancelar() {
+    // this.props.reloadingJugadores();
+    this.props.navigation.goBack();
   }
 
   comprar() {
@@ -298,7 +298,7 @@ class DetalleQuinielaAdministrada extends Component {
           <BotonPrincipal onPress={() => this.comprar()}>
             Comprar...
           </BotonPrincipal>
-          <BotonPrincipal onPress={() => this.tusquinielas()}>
+          <BotonPrincipal onPress={() => this.cancelar()}>
             Regresar
           </BotonPrincipal>
         </View>
@@ -492,7 +492,9 @@ const styles = EStyleSheet.create({
   titulo: {
     padding: 1
   },
-  cuerpo: { flex: 1 },
+  cuerpo: {
+    flex: 1 
+  },
   bottom: {
     flex: 1,
     padding: 10,

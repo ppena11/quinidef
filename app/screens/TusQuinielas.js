@@ -6,12 +6,14 @@ import {
   FlatList,
   Text,
   BackHandler,
-  Image
+  Image,
+  Alert
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
 import { connect } from "react-redux";
 import firebase from "firebase";
+import { NavigationActions } from "react-navigation";
 
 import {
   buscarQuinielas,
@@ -40,13 +42,32 @@ class TusQuinielas extends Component {
 
     this.loading = this.loading.bind(this);
     this.run = this.run.bind(this);
+    this.handleBackButtonTusQuinielas = this.handleBackButtonTusQuinielas.bind(this);
   }
 
   componentDidMount() {
     this.run();
-    BackHandler.addEventListener("hardwareBackPress", () =>
-      this.props.navigation.goBack()
+    console.log("(TusQuinielas) componentDidMount")
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonTusQuinielas);
+  }
+
+  componentWillUnmount() {
+    console.log("(TusQuinielas) componentWillUnmount")
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonTusQuinielas);
+  }
+
+  handleBackButtonTusQuinielas() {
+    Alert.alert(
+      'Confirmación...',
+      '¿Deseas salir?',
+      [
+        {text: 'Cerrar Sesión', onPress: () => this.props.salirSistema()},
+        {text: 'Sí, Salir', onPress: () => BackHandler.exitApp()},
+        {text: 'Cancelar', onPress: () => {return true}},
+      ],
+      { cancelable: false }
     );
+    return true;
   }
 
   run = async () => {

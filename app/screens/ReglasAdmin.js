@@ -10,7 +10,7 @@ import {
   ScrollView,
   BackHandler,
   TouchableOpacity,
-  Text
+  Text,
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
@@ -48,13 +48,12 @@ class ReglasAdmin extends Component {
     };
     this.run = this.run.bind(this);
     this.run2 = this.run2.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
   }
 
   componentDidMount() {
     this.run();
-    BackHandler.addEventListener("hardwareBackPress", () =>
-      this.props.navigation.goBack()
-    );
+
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
       this.keyboardWillShow
@@ -63,12 +62,23 @@ class ReglasAdmin extends Component {
       "keyboardDidHide",
       this.keyboardWillHide
     );
+
+    console.log("(ReglasAdmin) componentDidMount")
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   componentWillUnmount() {
     this.setState({ validando: false });
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
+
+    console.log("(ReglasAdmin) componentWillUnmount")
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    this.props.navigation.goBack();
+    return true;
   }
 
   run = async () => {
@@ -125,8 +135,7 @@ class ReglasAdmin extends Component {
     // navigate('EliminarApuesta');
   }
 
-  tusquinielas() {
-    // console.log('TEST2');
+  cancelar() {
     this.run();
     this.props.navigation.goBack();
   }
@@ -161,7 +170,7 @@ class ReglasAdmin extends Component {
             <View style={styles.vire} />
           </View>
 
-          <BotonPrincipal onPress={() => this.tusquinielas()}>
+          <BotonPrincipal onPress={() => this.cancelar()}>
             Cancelar
           </BotonPrincipal>
         </View>

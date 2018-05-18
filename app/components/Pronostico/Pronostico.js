@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Image, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Image, Text, TextInput, TouchableOpacity, Picker } from "react-native";
 import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
 import moment from "moment";
@@ -173,7 +173,10 @@ class Pronostico extends Component {
     }
 
     if (!re[this.props.partido.key].bloqueado) {
+      let valor = this.state.valuea == "" ? this.state.prevGolesA : this.state.valuea;
       return (
+
+      // Con Teclado Numérico
         <TextInput
           style={styles.marcador}
           selectionColor={color.$selectionColor}
@@ -181,12 +184,35 @@ class Pronostico extends Component {
           underlineColorAndroid={color.$underlineColorAndroid}
           placeholder={this.state.prevGolesA}
           textAlign="center"
-          maxLength={2}
+          maxLength={1}
           keyboardType="numeric"
           onChangeText={q => this.presseda(q)}
           autoCapitalize="none"
           value={this.state.valuea}
         />
+
+      // Con Picker
+        // <View style={styles.viewPicker}>
+        //   <Picker
+        //     style={styles.picker}
+        //     selectedValue={valor}
+        //     mode={'dropdown'}
+        //     onValueChange={itemValue => this.presseda(itemValue)}
+        //   >
+        //     <Picker.Item label='-' value="null" />
+        //     <Picker.Item label='0' value='0' />
+        //     <Picker.Item label='1' value='1' />
+        //     <Picker.Item label='2' value='2' />
+        //     <Picker.Item label='3' value='3' />
+        //     <Picker.Item label='4' value='4' />
+        //     <Picker.Item label='5' value='5' />
+        //     <Picker.Item label='6' value='6' />
+        //     <Picker.Item label='7' value='7' />
+        //     <Picker.Item label='8' value='8' />
+        //     <Picker.Item label='9' value='9' />
+        //   </Picker>
+        // </View>
+
       );
     } else {
       return (
@@ -206,7 +232,10 @@ class Pronostico extends Component {
     const y = moment(this.props.hora.hora);
 
     if (!re[this.props.partido.key].bloqueado) {
+      let valor = this.state.valueb == "" ? this.state.prevGolesB : this.state.valueb;
       return (
+
+      // Con Teclado Numérico
         <TextInput
           style={styles.marcador}
           selectionColor={color.$selectionColor}
@@ -214,11 +243,34 @@ class Pronostico extends Component {
           underlineColorAndroid={color.$underlineColorAndroid}
           placeholder={this.state.prevGolesB}
           textAlign="center"
-          maxLength={2}
+          maxLength={1}
           keyboardType="numeric"
           onChangeText={q => this.pressedb(q)}
           value={this.state.valueb}
         />
+
+      // Con Picker
+        // <View style={styles.viewPicker}>
+        //   <Picker
+        //     style={styles.picker}
+        //     selectedValue={valor}
+        //     mode={'dropdown'}
+        //     onValueChange={itemValue => this.pressedb(itemValue)}
+        //   >
+        //     <Picker.Item label='-' value="null" />
+        //     <Picker.Item label='0' value='0' />
+        //     <Picker.Item label='1' value='1' />
+        //     <Picker.Item label='2' value='2' />
+        //     <Picker.Item label='3' value='3' />
+        //     <Picker.Item label='4' value='4' />
+        //     <Picker.Item label='5' value='5' />
+        //     <Picker.Item label='6' value='6' />
+        //     <Picker.Item label='7' value='7' />
+        //     <Picker.Item label='8' value='8' />
+        //     <Picker.Item label='9' value='9' />
+        //   </Picker>
+        // </View>
+
       );
     } else {
       return (

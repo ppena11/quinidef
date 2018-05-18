@@ -48,12 +48,23 @@ class UnirseAQuiniela extends Component {
     this.run = this.run.bind(this);
     this.focusNextField = this.focusNextField.bind(this);
     this.inputs = {};
+
+    this.handleBackButton = this.handleBackButton.bind(this);
   }
 
   componentDidMount() {
-    BackHandler.addEventListener("hardwareBackPress", () =>
-      this.props.navigation.goBack()
-    );
+    console.log("(UnirseAQuinielas) componentDidMount")
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  componentWillUnmount() {
+    console.log("(UnirseAQuinielas) componentWillUnmount")
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    this.props.navigation.goBack();
+    return true;
   }
 
   run = async uid1 => {

@@ -124,7 +124,9 @@ class Qxa extends Component {
             onPress={() => this.onReglasPress()}
             style={headerContentStyle}
           >
-            <Text style={headerTextStyle}>Modificar reglas</Text>
+            <Text style={headerTextStyle}>
+              Modificar reglas
+            </Text>
           </TouchableOpacity>
         </CardSectionText>
       </Card>

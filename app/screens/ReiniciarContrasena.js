@@ -4,7 +4,8 @@ import {
   StatusBar,
   KeyboardAvoidingView,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  BackHandler,
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { connect } from "react-redux";
@@ -16,18 +17,34 @@ import { FormContrasena } from "../components/FormContrasena";
 import { TextIndication } from "../components/TextIndication";
 import color from "../comun/colors";
 
-class ReiniciarContrasena extends Component<{}> {
+class ReiniciarContrasena extends Component {
   static navigationOptions = {
     header: null
   };
   constructor() {
     super();
     this.confirmar = this.confirmar.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
+  }
+
+  componentDidMount() {
+    console.log("(ReiniciarContraseña) componentDidMount")
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  componentWillUnmount() {
+    console.log("(ReiniciarContraseña) componentWillUnmount")
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    this.props.navigation.goBack();
+    return true;
   }
 
   confirmar(navigate) {
     this.props.gotohome(); // Limpiar el formulario
-    navigate("Login");
+    this.props.navigation.goBack();
   }
 
   render() {

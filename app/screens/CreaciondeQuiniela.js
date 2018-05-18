@@ -48,12 +48,13 @@ class TusQuinielas extends Component {
       validando: false
     };
     this.run = this.run.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
   }
 
   componentDidMount() {
-    BackHandler.addEventListener("hardwareBackPress", () =>
-      this.props.navigation.goBack()
-    );
+    console.log("(CreaciondeQuiniela) componentDidMount")
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+
     this.props.buscarTorneos();
     this.createDataSource(this.props);
     Object.keys(this.props.torneos).map(key => {
@@ -63,6 +64,16 @@ class TusQuinielas extends Component {
         // console.log(`WILL MOUNT....  ${this.props.torneos[key].info.nombre}`);
       }
     });
+  }
+
+  componentWillUnmount(){
+    console.log("(CreaciondeQuiniela) componentWillUnmount")
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    this.props.navigation.goBack();
+    return true;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -211,9 +222,8 @@ class TusQuinielas extends Component {
     }
   }
 
-  cancelar(goBack) {
-    Keyboard.dismiss();
-    goBack();
+  cancelar() {
+    this.props.navigation.goBack();
   }
 
   renderRow(torneo) {
@@ -318,7 +328,7 @@ class TusQuinielas extends Component {
               </TouchableOpacity>
               <View style={styles.vire} />
             </View>
-            <BotonPrincipal onPress={() => this.cancelar(goBack)}>
+            <BotonPrincipal onPress={() => this.cancelar()}>
               Cancelar
             </BotonPrincipal>
           </View>

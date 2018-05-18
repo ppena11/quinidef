@@ -51,13 +51,11 @@ class DetalleApuestas extends Component {
     };
     this.run = this.run.bind(this);
     this.run2 = this.run2.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
   }
 
   componentDidMount() {
     this.run();
-    BackHandler.addEventListener("hardwareBackPress", () =>
-      this.props.navigation.goBack()
-    );
 
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -67,6 +65,8 @@ class DetalleApuestas extends Component {
       "keyboardDidHide",
       this.keyboardWillHide
     );
+
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   componentWillUnmount() {
@@ -74,6 +74,13 @@ class DetalleApuestas extends Component {
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
     this.props.limpiarapuesta();
+
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    this.props.navigation.goBack();
+    return true;
   }
 
   tusquinielas() {

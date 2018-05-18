@@ -95,5 +95,24 @@ export default EStyleSheet.create({
     height: 35,
     padding: 0,
     margin: 0
-  }
+  },
+  
+  viewPicker: {
+    borderRadius: 5,
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: "center",
+    // borderWidth: 1,
+    // borderColor: 'blue',
+    // position: 'relative',
+    // backgroundColor: 'green',
+  },
+  picker: {
+    width: 45,
+    height: 35,
+    backgroundColor: color.$fondoBotonInput,
+    color: color.$formInputBoxColor,
+    padding: 0,
+    margin: 0,
+  },
 });

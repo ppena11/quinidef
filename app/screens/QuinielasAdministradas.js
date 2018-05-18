@@ -12,7 +12,7 @@ import {
 import EStyleSheet from 'react-native-extended-stylesheet';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { NavigationActions } from 'react-navigation';
+// import { NavigationActions } from 'react-navigation';
 
 import {
   buscarQuinielasAdministradas,
@@ -48,14 +48,17 @@ class QuinielasAdministradas extends Component {
     this.state = {
       menu: 'yes',
     };
+
+    this.handleBackButton = this.handleBackButton.bind(this);
   }
 
   componentDidMount() {
     this.props.buscarQuinielasAdministradas(); // Busca las quinielas administradas :)
     this.keyboardWillShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
     this.keyboardWillHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
-    BackHandler.addEventListener('hardwareBackPress', () => this.props.navigation.goBack());
-    //  this.createDataSource(this.props);
+
+    console.log("(QuinielasAdministradas) componentDidMount")
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -86,11 +89,18 @@ class QuinielasAdministradas extends Component {
   componentWillUnmount() {
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
+
+    console.log("(QuinielasAdministradas) componentWillUnmount")
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    this.props.navigation.goBack();
+    return true;
   }
 
   crear() {
     // console.log('TEST');
-
     this.props.navigation.navigate('CreaciondeQuiniela');
   }
 
@@ -127,15 +137,7 @@ class QuinielasAdministradas extends Component {
   }
 
   tusquinielas() {
-    // console.log('TEST2');
-    // this.props.reloadingQuinielas();
-    // this.props.irTusQuinielas();
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'TusQuinielas' })],
-    });
-    this.props.navigation.dispatch(resetAction);
-    //  this.props.navigation.goBack();
+    this.props.navigation.goBack();
   }
 
   renderRow(quiniela) {
