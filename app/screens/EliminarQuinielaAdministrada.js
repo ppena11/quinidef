@@ -8,7 +8,8 @@ import {
   TextInput,
   FlatList,
   ScrollView,
-  Text
+  Text,
+  BackHandler,
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
@@ -65,6 +66,7 @@ class EliminarQuinielaAdministrada extends Component {
     this.updateInputValue = this.updateInputValue.bind(this);
     this.eliminarTest1 = this.eliminarTest1.bind(this);
     this.run = this.run.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
   }
 
   componentDidMount() {
@@ -76,13 +78,24 @@ class EliminarQuinielaAdministrada extends Component {
       "keyboardDidHide",
       this.keyboardWillHide
     );
+
+    console.log("(EliminarQuinielaAdministrada) componentDidMount")
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   componentWillUnmount() {
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
+
+    console.log("(EliminarQuinielaAdministrada) componentWillUnmount")
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
   }
 
+  handleBackButton() {
+    this.props.navigation.goBack();
+    return true;
+  }
+  
   keyboardWillShow = () => {
     this.setState({ menu: "no" });
   };
@@ -156,10 +169,8 @@ class EliminarQuinielaAdministrada extends Component {
     // console.log(`ttttttttttttttttttttttttttt : ${t}`);
   }
 
-  tusquinielas(goBack) {
-    // console.log('TEST2');
-    // this.props.reloadingJugadores();
-    goBack();
+  cancelar () {
+    this.props.navigation.goBack();
   }
 
   pressed(e) {
@@ -175,7 +186,7 @@ class EliminarQuinielaAdministrada extends Component {
 
   warning() {
     if (this.state.warning === "yes") {
-      return <Text style={styles.warning}>El codigo no coincide {"\n"}</Text>;
+      return <Text style={styles.warning}>El código no coincide {"\n"}</Text>;
     }
     return <Text />;
   }
@@ -204,8 +215,7 @@ class EliminarQuinielaAdministrada extends Component {
             <Text style={styles.subtitulo1}>
               {this.warning()}
               <Text>
-                Introduce el codigo de activacion para {"\n"} eliminar la
-                quiniela{" "}
+                Introduce el código de activación para eliminar la quiniela:{"\n"}
                 <Text style={styles.bold}>{quiniela.quinielaNombre}</Text>
               </Text>
             </Text>
@@ -214,7 +224,7 @@ class EliminarQuinielaAdministrada extends Component {
               <TextInput
                 style={styles.inputBox}
                 underlineColorAndroid={color.$underlineColorAndroid}
-                placeholder="Codigo"
+                placeholder="Código"
                 placeholderTextColor={color.$placeholderTextColor}
                 selectionColor={color.$selectionColor}
                 keyboardType="email-address"
@@ -226,7 +236,7 @@ class EliminarQuinielaAdministrada extends Component {
               <View style={styles2.vire} />
             </View>
             <Text style={styles.subtitulo1}>
-              Codigo de activacion: {quiniela.codigoq}{" "}
+              Código de activación: {quiniela.codigoq}{" "}
             </Text>
             {this.menustatus1(quiniela.quinielaNombre)}
           </View>
@@ -237,7 +247,7 @@ class EliminarQuinielaAdministrada extends Component {
               <BotonPrincipal onPress={() => this.eliminarTest1(goBack)}>
                 Eliminar quiniela...
               </BotonPrincipal>
-              <BotonPrincipal onPress={() => this.tusquinielas(goBack)}>
+              <BotonPrincipal onPress={() => this.cancelar()}>
                 Cancelar
               </BotonPrincipal>
             </View>
@@ -261,7 +271,8 @@ const styles = EStyleSheet.create({
   },
   warning: {
     fontWeight: "bold",
-    fontSize: 20
+    fontSize: 20,
+    color: 'red',
   },
   subtitulo: {
     fontSize: 15,

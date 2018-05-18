@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { View, StatusBar, KeyboardAvoidingView, Text, TouchableOpacity } from 'react-native';
+import {
+  View,
+  StatusBar,
+  KeyboardAvoidingView,
+  Text,
+  TouchableOpacity,
+  BackHandler,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 
@@ -15,9 +22,29 @@ class CrearCuenta extends Component {
     header: null,
   };
 
+  constructor() {
+    super();
+    this.handleBackButton = this.handleBackButton.bind(this);
+  }
+
+  componentDidMount() {
+    console.log("(CrearCuenta) componentDidMount")
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  componentWillUnmount() {
+    console.log("(CrearCuenta) componentWillUnmount")
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    this.props.navigation.goBack();
+    return true;
+  }
+
   confirmar(navigate) {
     this.props.gotohome(); // Limpiar el formulario
-    navigate('Login');
+    this.props.navigation.goBack();
   }
 
   render() {

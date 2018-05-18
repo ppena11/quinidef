@@ -96,6 +96,7 @@ export default EStyleSheet.create({
     padding: 0,
     margin: 0
   },
+  
   viewPicker: {
     borderRadius: 5,
     overflow: 'hidden',
@@ -114,16 +115,4 @@ export default EStyleSheet.create({
     padding: 0,
     margin: 0,
   },
-  // pickerItem: {
-  //   color: color.$formInputBoxColor,
-  //   backgroundColor: color.$fondoBotonInput,
-  //   width: 80,
-  //   height: 35,
-  //   fontSize: 5,
-  //   textAlign: 'center',
-  //   padding: 0,
-  //   margin: 0,
-  //   borderWidth: 5,
-  //   borderColor: 'yellow',
-  // }
 });

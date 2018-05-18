@@ -51,13 +51,13 @@ class DetalleApuestas extends Component {
     };
     this.run = this.run.bind(this);
     this.run2 = this.run2.bind(this);
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
 
   componentDidMount() {
     this.run();
-    BackHandler.addEventListener("hardwareBackPress", () =>
-      this.props.navigation.goBack()
-    );
+
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
 
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -73,6 +73,13 @@ class DetalleApuestas extends Component {
     this.setState({ validando: false });
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
+
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
+
+  handleBackButtonClick() {
+    this.props.navigation.goBack();
+    return true;
   }
 
   tusquinielas() {

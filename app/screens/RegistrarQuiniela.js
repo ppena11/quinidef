@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { connect } from "react-redux";
-// import firebase from 'firebase';
 import { NavigationActions } from "react-navigation";
 
 import { Container } from "../components/Container";
@@ -45,12 +44,13 @@ class RegistrarQuiniela extends Component {
 
     this.updateInputValue = this.updateInputValue.bind(this);
     this.run = this.run.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
   }
 
   componentDidMount() {
-    BackHandler.addEventListener("hardwareBackPress", () =>
-      this.props.navigation.goBack()
-    );
+    console.log("(RegistrarQuiniela) componentDidMount")
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
       this.keyboardWillShow
@@ -64,6 +64,14 @@ class RegistrarQuiniela extends Component {
   componentWillUnmount() {
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
+
+    console.log("(RegistrarQuiniela) componentWillUnmount")
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    this.props.navigation.goBack();
+    return true;
   }
 
   keyboardWillShow = () => {

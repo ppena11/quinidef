@@ -182,7 +182,7 @@ class EliminarApuesta extends Component {
 
   warning() {
     if (this.state.warning === "yes") {
-      return <Text style={styles.warning}>El codigo no coincide {"\n"}</Text>;
+      return <Text style={styles.warning}>El código no coincide{"\n"}</Text>;
     }
     return <Text />;
   }
@@ -216,7 +216,7 @@ class EliminarApuesta extends Component {
             <Text style={styles.subtitulo1}>
               {this.warning()}
               <Text>
-                Introduce el codigo de activacion para {"\n"} eliminar a{" "}
+                Introduce el código de activación para eliminar a:{"\n"}
                 <Text style={styles.bold}>{jugador.nombreapuesta}</Text>
               </Text>
             </Text>
@@ -237,7 +237,7 @@ class EliminarApuesta extends Component {
               <View style={styles2.vire} />
             </View>
             <Text style={styles.subtitulo1}>
-              Codigo de activacion: {this.props.navigation.state.params.codigo}{" "}
+              Código de activación: {this.props.navigation.state.params.codigo}{" "}
             </Text>
             {this.menustatus1(jugador.nombre)}
           </View>

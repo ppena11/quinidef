@@ -48,13 +48,13 @@ class Reglas extends Component {
     };
     this.run = this.run.bind(this);
     this.run2 = this.run2.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
   }
 
   componentDidMount() {
     this.run();
-    BackHandler.addEventListener("hardwareBackPress", () =>
-      this.props.navigation.goBack()
-    );
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
       this.keyboardWillShow
@@ -69,6 +69,13 @@ class Reglas extends Component {
     this.setState({ validando: false });
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
+
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    this.props.navigation.goBack();
+    return true;
   }
 
   run = async () => {

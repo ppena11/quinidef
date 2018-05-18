@@ -25,9 +25,13 @@ class Login extends Component {
   };
 
   componentDidMount() {
-    const { navigate } = this.props.navigation;
-
+    console.log("(Login) componentDidMount")
     BackHandler.addEventListener('hardwareBackPress', () => BackHandler.exitApp());
+  }
+
+  componentWillUnmount() {
+    console.log("(Login) componentWillUnmount")
+    BackHandler.removeEventListener('hardwareBackPress', () => BackHandler.exitApp());
   }
 
   // componentWillReceiveProps(nextProps) {

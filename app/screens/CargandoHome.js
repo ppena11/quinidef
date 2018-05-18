@@ -15,19 +15,22 @@ class CargandoHome extends Component {
 
   componentDidMount() {
     const { navigate } = this.props.navigation;
-    // BackHandler.addEventListener('hardwareBackPress', () => this.props.navigation.goBack());
+    console.log("(CargandoHome) componentDidMount")
+    BackHandler.addEventListener('hardwareBackPress', () => {return true});
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        //    console.log('WEPA');
-
         navigate('TusQuinielas');
       } else {
         navigate('Login');
-        //   console.log('BYEEEEEE');
       }
     });
   }
+
+  componentWillUnmount() {
+    console.log("(CargandoHome) componentWillUnmount")
+    BackHandler.removeEventListener('hardwareBackPress', () => {return true});
+  }  
 
   render() {
     return (

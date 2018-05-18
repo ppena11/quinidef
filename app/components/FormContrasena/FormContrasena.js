@@ -8,7 +8,7 @@ import { emailChanged, recuperarEmail, salirSistema } from '../../actions';
 import { Spinner } from '../Spinner';
 import color from '../../comun/colors';
 
-class FormContrasena extends Component<{}> {
+class FormContrasena extends Component {
   constructor() {
     super();
     this.registrar = this.registrar.bind(this);

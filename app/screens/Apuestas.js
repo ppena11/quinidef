@@ -4,7 +4,7 @@ import _ from "lodash";
 import moment from "moment";
 import {
   StatusBar,
-  View,
+  View, Image,
   Keyboard,
   BackHandler,
   Text,
@@ -42,18 +42,18 @@ class Apuestas extends Component {
       partidos: {},
       apuestas: {},
       validando: false,
+      cargando: true,
       menu: "yes"
     };
     this.run = this.run.bind(this);
     this.run2 = this.run2.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
   }
 
   componentDidMount() {
     this.run();
 
-    BackHandler.addEventListener("hardwareBackPress", () =>
-      this.props.navigation.goBack()
-    );
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
 
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -69,6 +69,13 @@ class Apuestas extends Component {
     this.setState({ validando: false });
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
+
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    this.props.navigation.goBack(null);
+    return true;
   }
 
   tusquinielas() {
@@ -108,6 +115,7 @@ class Apuestas extends Component {
     } catch (e) {
       //   console.log(e);
     }
+    this.setState({ cargando: false });
   };
 
   run2 = async () => {
@@ -236,7 +244,7 @@ class Apuestas extends Component {
     if (this.state.validando) {
       return <Spinner style={styles.buttonText} size="small" />;
     }
-    return <Text style={styles.buttonText}>Guargar cambios..</Text>;
+    return <Text style={styles.buttonText}>Guardar cambios</Text>;
   }
 
   activa() {
@@ -314,37 +322,48 @@ class Apuestas extends Component {
       return dateA - dateB;
     });
 
-    return (
-      <View style={styles.container}>
-        <StatusBar
-          translucent={false}
-          barStyle="light-content"
-          backgroundColor={color.$statusBarBackgroundColor}
-        />
-        <View style={styles.form}>
-          <View>{this.activa()}</View>
-
-          <Text style={styles.buttonText}>
-            Puedes modificar tus apuestas hasta 30 min antes que empiece cada
-            juego
-          </Text>
-
-          <View style={styles.cuerpo}>
-            <FlatList
-              data={partidos}
-              renderItem={({ item }) => this.renderRow(item)}
-              keyboardShouldPersistTaps="always"
-              keyboardDismissMode="none"
-              onEndReachedThershold={0}
-              ref={ref => {
-                this.listRef = ref;
-              }}
-            />
+    if(this.state.cargando){
+      return(
+        <Container>
+          <View style={styles.viewStyle}>
+            <Spinner size="large" />
           </View>
-          <View>{this.menustatus()}</View>
+        </Container>
+      );
+    }
+    else {
+      return (
+        <View style={styles.container}>
+          <StatusBar
+            translucent={false}
+            barStyle="light-content"
+            backgroundColor={color.$statusBarBackgroundColor}
+          />
+          <View style={styles.form}>
+            <View>{this.activa()}</View>
+
+            <Text style={styles.buttonText}>
+              Puedes modificar tus apuestas hasta 30 min antes que empiece cada
+              juego
+            </Text>
+
+            <View style={styles.cuerpo}>
+              <FlatList
+                data={partidos}
+                renderItem={({ item }) => this.renderRow(item)}
+                keyboardShouldPersistTaps="always"
+                keyboardDismissMode="none"
+                onEndReachedThershold={0}
+                ref={ref => {
+                  this.listRef = ref;
+                }}
+              />
+            </View>
+            <View>{this.menustatus()}</View>
+          </View>
         </View>
-      </View>
-    );
+      );
+    }
   }
 }
 
@@ -410,6 +429,13 @@ const styles = EStyleSheet.create({
     fontWeight: "500",
     color: color.$formButtonTextColor,
     textAlign: "center"
+  },
+
+  viewStyle: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });
 

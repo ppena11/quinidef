@@ -37,7 +37,7 @@ const colores = {
   $inputColor: $blanco,
   $logoTextColor: $blanco,
   $qxTextColor: $blanco,
-  $textIndicationLabelColor: $rojoOscuro,
+  $textIndicationLabelColor: 'red',
   $tituloTextColor: $blanco,
   $posiciones: $doradoOscuro,
   $buttonbColor: $blanco,
