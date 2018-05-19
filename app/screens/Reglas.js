@@ -53,7 +53,7 @@ class Reglas extends Component {
 
   componentDidMount() {
     this.run();
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
 
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -70,7 +70,7 @@ class Reglas extends Component {
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
 
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   handleBackButton() {
@@ -81,14 +81,17 @@ class Reglas extends Component {
   run = async () => {
     try {
       //   console.log(this.props.navigation.state.params.quiniela.uid);
+      this.setState({ validando: true });
       const regla = await this.props.buscarReglasAdmin(
         this.props.quiniela.quiniela
       );
       const r1 = regla.toJSON();
       this.setState({ regla: r1 });
+      this.setState({ validando: false });
       // console.log(r1);
     } catch (e) {
       //    console.log(e);
+      this.setState({ validando: false });
     }
   };
 
@@ -184,6 +187,22 @@ class Reglas extends Component {
     return <Text style={styles.buttonText}>Guargar cambios..</Text>;
   }
 
+  loading(reglas) {
+    if (this.state.validando) {
+      return <Spinner size="large" />;
+    }
+    return (
+      <FlatList
+        data={reglas}
+        renderItem={({ item }) => this.renderRow(item)}
+        onEndReachedThershold={0}
+        ref={ref => {
+          this.listRef = ref;
+        }}
+      />
+    );
+  }
+
   render() {
     const reglas = _.map(this.state.regla, (val, uid) => ({ ...val, uid }));
 
@@ -200,18 +219,12 @@ class Reglas extends Component {
         />
         <View style={styles.titulo}>
           <Titulo>REGLAS</Titulo>
+          <Text style={styles.subText}>
+            Detalle de puntos a obtener por cada pronóstico
+          </Text>
         </View>
         <View style={styles.form}>
-          <View style={styles.cuerpo}>
-            <FlatList
-              data={reglas}
-              renderItem={({ item }) => this.renderRow(item)}
-              onEndReachedThershold={0}
-              ref={ref => {
-                this.listRef = ref;
-              }}
-            />
-          </View>
+          <View style={styles.cuerpo}>{this.loading(reglas)}</View>
         </View>
       </Container>
     );
@@ -271,6 +284,12 @@ const styles = EStyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
+    fontWeight: "500",
+    color: color.$formButtonTextColor,
+    textAlign: "center"
+  },
+  subText: {
+    fontSize: 13,
     fontWeight: "500",
     color: color.$formButtonTextColor,
     textAlign: "center"

@@ -2,7 +2,8 @@ import {
   RESET_DETALLE_QUINIELA,
   BUSCAR_PARTIDOS_EXITO,
   MODIFICAR_APUESTAS,
-} from '../actions/types';
+  RESET_DETALLE_QUINIELA_PA
+} from "../actions/types";
 
 const INITIAL_STATE = {};
 
@@ -11,9 +12,9 @@ export default (state = INITIAL_STATE, action) => {
     case BUSCAR_PARTIDOS_EXITO:
       return action.payload;
 
-    case RESET_DETALLE_QUINIELA:
+    case RESET_DETALLE_QUINIELA_PA:
       return {
-        ...INITIAL_STATE,
+        ...INITIAL_STATE
       };
 
     default:

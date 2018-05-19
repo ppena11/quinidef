@@ -4,7 +4,8 @@ import _ from "lodash";
 import moment from "moment";
 import {
   StatusBar,
-  View, Image,
+  View,
+  Image,
   Keyboard,
   BackHandler,
   Text,
@@ -20,7 +21,8 @@ import {
   buscarApuestas,
   buscarHora,
   escribirHora,
-  bloquearPartido
+  bloquearPartido,
+  ReinicarCargaApuesta
 } from "../actions";
 import { Container } from "../components/Container";
 import { Titulo } from "../components/Titulo";
@@ -53,7 +55,7 @@ class Apuestas extends Component {
   componentDidMount() {
     this.run();
 
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
 
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -69,8 +71,8 @@ class Apuestas extends Component {
     this.setState({ validando: false });
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
-
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    this.props.ReinicarCargaApuesta();
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   handleBackButton() {
@@ -99,18 +101,16 @@ class Apuestas extends Component {
 
       const escribirHora = await this.props.escribirHora();
       const Hora = await this.props.buscarHora();
-
-      const apuestas = await this.props.buscarApuestas(
+      this.props.buscarPartidos(this.props.quiniela.torneoid);
+      this.props.buscarApuestas(
         this.props.quiniela.quiniela,
         this.props.quiniela.nombreapuesta
       );
-      const partidos = await this.props.buscarPartidos(
-        this.props.quiniela.torneoid
-      );
-      const r1 = partidos.toJSON();
-      const r2 = apuestas.toJSON();
-      this.setState({ partidos: r1 });
-      this.setState({ apuestas: r2 });
+
+      // const r1 = partidos.toJSON();
+      // const r2 = apuestas.toJSON();
+      // this.setState({ partidos: r1 });
+      // this.setState({ apuestas: r2 });
       // console.log(r1);
     } catch (e) {
       //   console.log(e);
@@ -126,7 +126,8 @@ class Apuestas extends Component {
       const Hora = await this.props.buscarHora();
 
       var hor = Hora.toJSON();
-      const kk = this.props.apuestast;
+      let kk = Object.assign({}, this.props.apuestast);
+      delete kk.cargando;
       const tt = _.map(kk, (val, uid) => ({ ...val, uid }));
       //console.log(hor);
       var yy = _.remove(tt, function(n) {
@@ -258,19 +259,43 @@ class Apuestas extends Component {
     return <View />;
   }
 
+  spinner(partidos) {
+    if (this.props.apuestast.cargando) {
+      return (
+        <Container>
+          <View style={styles.viewStyle}>
+            <Spinner size="large" />
+          </View>
+        </Container>
+      );
+    } else {
+      return (
+        <FlatList
+          data={partidos}
+          renderItem={({ item }) => this.renderRow(item)}
+          keyboardShouldPersistTaps="always"
+          keyboardDismissMode="none"
+          onEndReachedThershold={0}
+          ref={ref => {
+            this.listRef = ref;
+          }}
+        />
+      );
+    }
+  }
+
   render() {
     let partidos2 = [];
     let partidos = [];
     let golA = "";
     let golB = "";
-    partidos1 = this.state.partidos;
+    let partidos1 = this.props.partidost;
 
-    apuestas1 = this.state.apuestas;
-    const apuestasm = Object.assign(
-      {},
-      this.state.partidos,
-      this.state.apuestas
-    );
+    let apuestas1 = Object.assign({}, this.props.apuestast);
+    delete apuestas1.cargando;
+    console.log(this.props.apuestast);
+
+    const apuestasm = Object.assign({}, this.props.partidost, apuestas1);
     partidos2 = Object.keys(partidos1).map(key => {
       if (apuestas1 != null) {
         if (typeof apuestas1[key] !== "undefined") {
@@ -322,48 +347,26 @@ class Apuestas extends Component {
       return dateA - dateB;
     });
 
-    if(this.state.cargando){
-      return(
-        <Container>
-          <View style={styles.viewStyle}>
-            <Spinner size="large" />
-          </View>
-        </Container>
-      );
-    }
-    else {
-      return (
-        <View style={styles.container}>
-          <StatusBar
-            translucent={false}
-            barStyle="light-content"
-            backgroundColor={color.$statusBarBackgroundColor}
-          />
-          <View style={styles.form}>
-            <View>{this.activa()}</View>
+    return (
+      <View style={styles.container}>
+        <StatusBar
+          translucent={false}
+          barStyle="light-content"
+          backgroundColor={color.$statusBarBackgroundColor}
+        />
+        <View style={styles.form}>
+          <View>{this.activa()}</View>
 
-            <Text style={styles.buttonText}>
-              Puedes modificar tus apuestas hasta 30 min antes que empiece cada
-              juego
-            </Text>
+          <Text style={styles.buttonText}>
+            Puedes modificar tus apuestas hasta 30 min antes que empiece cada
+            juego
+          </Text>
 
-            <View style={styles.cuerpo}>
-              <FlatList
-                data={partidos}
-                renderItem={({ item }) => this.renderRow(item)}
-                keyboardShouldPersistTaps="always"
-                keyboardDismissMode="none"
-                onEndReachedThershold={0}
-                ref={ref => {
-                  this.listRef = ref;
-                }}
-              />
-            </View>
-            <View>{this.menustatus()}</View>
-          </View>
+          <View style={styles.cuerpo}>{this.spinner(partidos)}</View>
+          <View>{this.menustatus()}</View>
         </View>
-      );
-    }
+      </View>
+    );
   }
 }
 
@@ -433,9 +436,9 @@ const styles = EStyleSheet.create({
 
   viewStyle: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 
@@ -459,5 +462,6 @@ export default connect(mapStateToProps, {
   buscarHora,
   modificarApuestasBD,
   escribirHora,
-  bloquearPartido
+  bloquearPartido,
+  ReinicarCargaApuesta
 })(Apuestas);

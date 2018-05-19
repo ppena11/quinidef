@@ -42,28 +42,41 @@ class TusQuinielas extends Component {
 
     this.loading = this.loading.bind(this);
     this.run = this.run.bind(this);
-    this.handleBackButtonTusQuinielas = this.handleBackButtonTusQuinielas.bind(this);
+    this.handleBackButtonTusQuinielas = this.handleBackButtonTusQuinielas.bind(
+      this
+    );
   }
 
   componentDidMount() {
     this.run();
-    console.log("(TusQuinielas) componentDidMount")
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonTusQuinielas);
+    console.log("(TusQuinielas) componentDidMount");
+    BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.handleBackButtonTusQuinielas
+    );
   }
 
   componentWillUnmount() {
-    console.log("(TusQuinielas) componentWillUnmount")
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonTusQuinielas);
+    console.log("(TusQuinielas) componentWillUnmount");
+    BackHandler.removeEventListener(
+      "hardwareBackPress",
+      this.handleBackButtonTusQuinielas
+    );
   }
 
   handleBackButtonTusQuinielas() {
     Alert.alert(
-      'Confirmación...',
-      '¿Deseas salir?',
+      "Confirmación...",
+      "¿Deseas salir?",
       [
-        {text: 'Cerrar Sesión', onPress: () => this.props.salirSistema()},
-        {text: 'Sí, Salir', onPress: () => BackHandler.exitApp()},
-        {text: 'Cancelar', onPress: () => {return true}},
+        { text: "Cerrar Sesión", onPress: () => this.props.salirSistema() },
+        { text: "Sí, Salir", onPress: () => BackHandler.exitApp() },
+        {
+          text: "Cancelar",
+          onPress: () => {
+            return true;
+          }
+        }
       ],
       { cancelable: false }
     );
@@ -73,15 +86,15 @@ class TusQuinielas extends Component {
   run = async () => {
     try {
       const { currentUser } = firebase.auth();
-      // this.setState({ validando: true });
+      this.setState({ validando: true });
       const test = await this.props.buscarQuinielas(currentUser.uid);
       const tt1 = test.toJSON();
       //   console.log(`TESTTTTTSTSTSTS ${test}`);
       this.setState({ qu: tt1 });
-      // this.setState({ validando: false });
+      this.setState({ validando: false });
     } catch (e) {
-      //   console.log(e);
-      // this.setState({ validando: false });
+      //console.log(e);
+      this.setState({ validando: false });
     }
   };
 
@@ -116,16 +129,7 @@ class TusQuinielas extends Component {
     if (this.state.validando) {
       return (
         <Container>
-          <View style={styles.viewImgStyle}>
-            <Image
-              style={styles.imgStyle}
-              source={require("../components/Logo/images/copa1.png")}
-            />
-          </View>
-          <View style={styles.viewStyle}>
-            <Spinner size="large" />
-          </View>
-          <View style={styles.viewStyle} />
+          <Spinner size="large" />
         </Container>
       );
     }

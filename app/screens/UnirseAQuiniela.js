@@ -6,7 +6,8 @@ import {
   BackHandler,
   Keyboard,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  KeyboardAvoidingView
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { connect } from "react-redux";
@@ -53,13 +54,13 @@ class UnirseAQuiniela extends Component {
   }
 
   componentDidMount() {
-    console.log("(UnirseAQuinielas) componentDidMount")
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    console.log("(UnirseAQuinielas) componentDidMount");
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   componentWillUnmount() {
-    console.log("(UnirseAQuinielas) componentWillUnmount")
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    console.log("(UnirseAQuinielas) componentWillUnmount");
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   handleBackButton() {
@@ -383,22 +384,24 @@ class UnirseAQuiniela extends Component {
           </View>
         </View>
 
-        <View style={styles.conta}>
-          <View style={styles.vire} />
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.buscarCodigo(uid1)}
-          >
-            {this.status()}
-          </TouchableOpacity>
-          <View style={styles.vire} />
-        </View>
+        <KeyboardAvoidingView behavior="padding" style={styles.form}>
+          <View style={styles.conta}>
+            <View style={styles.vire} />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.buscarCodigo(uid1)}
+            >
+              {this.status()}
+            </TouchableOpacity>
+            <View style={styles.vire} />
+          </View>
 
-        <View>
-          <BotonPrincipal onPress={() => this.cancelar()}>
-            Cancelar
-          </BotonPrincipal>
-        </View>
+          <View>
+            <BotonPrincipal onPress={() => this.cancelar()}>
+              Cancelar
+            </BotonPrincipal>
+          </View>
+        </KeyboardAvoidingView>
       </Container>
     );
   }

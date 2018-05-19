@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from "lodash";
 import {
   QUINIELA_UPDATE,
   BUSCAR_JUGADORES_ADMINISTRADAS_EXITO,
@@ -6,8 +6,8 @@ import {
   BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO_T,
   CAMBIAR_ESTATUS_JUGADOR,
   RELOADING_JUGADORES,
-  ELIMINAR_JUGADOR,
-} from '../actions/types';
+  ELIMINAR_JUGADOR
+} from "../actions/types";
 
 const INITIAL_STATE = {};
 
@@ -18,7 +18,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, [action.payload.prop]: action.payload.value };
 
     case BUSCAR_JUGADORES_ADMINISTRADAS_EXITO:
-      return { ...state, ...action.payload };
+      return action.payload;
 
     case BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO_T:
       return { ...state, ...action.payload };
@@ -29,7 +29,7 @@ export default (state = INITIAL_STATE, action) => {
     case CAMBIAR_ESTATUS_JUGADOR:
       return {
         ...state,
-        [action.payload.uid]: _.omit(action.payload, 'uid'),
+        [action.payload.uid]: _.omit(action.payload, "uid")
       };
 
     case ELIMINAR_JUGADOR:

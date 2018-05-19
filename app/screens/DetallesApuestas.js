@@ -66,7 +66,7 @@ class DetalleApuestas extends Component {
       this.keyboardWillHide
     );
 
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   componentWillUnmount() {
@@ -75,7 +75,7 @@ class DetalleApuestas extends Component {
     this.keyboardWillHideListener.remove();
     this.props.limpiarapuesta();
 
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   handleBackButton() {
@@ -102,7 +102,7 @@ class DetalleApuestas extends Component {
       //console.log(this.props.quiniela.quiniela);
       //console.log(this.props.navigation.state.params.posicion.nombreapuesta);
 
-      const apuestas = await this.props.buscarDetalleApuestas(
+      this.props.buscarDetalleApuestas(
         this.props.quiniela.quiniela,
         this.props.navigation.state.params.posicion.nombreapuesta
       );
@@ -234,6 +234,23 @@ class DetalleApuestas extends Component {
     return <View />;
   }
 
+  spinner(partidos) {
+    if (this.props.apuestast.cargando) {
+      return <Spinner size="large" />;
+    } else {
+      return (
+        <FlatList
+          data={this.props.detalleapuestas}
+          renderItem={({ item }) => this.renderRow(item)}
+          onEndReachedThershold={0}
+          ref={ref => {
+            this.listRef = ref;
+          }}
+        />
+      );
+    }
+  }
+
   render() {
     return (
       <Container>
@@ -247,16 +264,7 @@ class DetalleApuestas extends Component {
           se bloquean las apuestas
         </Text>
         <View style={styles.form}>
-          <View style={styles.cuerpo}>
-            <FlatList
-              data={this.props.detalleapuestas}
-              renderItem={({ item }) => this.renderRow(item)}
-              onEndReachedThershold={0}
-              ref={ref => {
-                this.listRef = ref;
-              }}
-            />
-          </View>
+          <View style={styles.cuerpo}>{this.spinner()}</View>
           {/*
         <View>
           <Pronostico equipoA="rus" equipoB="ksa"/>
@@ -338,8 +346,10 @@ const styles = EStyleSheet.create({
 
 const mapStateToProps = state => {
   const partidost = state.partidos;
-  const apuestast = state.apuestas;
-  let detalleapuestas1 = _.map(state.detalleapuesta, (val, uid) => ({
+  const apuestast = state.detalleapuesta;
+  let apuestas1 = Object.assign({}, state.detalleapuesta);
+  delete apuestas1.cargando;
+  let detalleapuestas1 = _.map(apuestas1, (val, uid) => ({
     ...val,
     uid
   }));
