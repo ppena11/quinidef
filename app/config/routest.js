@@ -21,8 +21,6 @@ import DetallesApuestas from "../screens/DetallesApuestas";
 import EliminarQuiniela from "../screens/EliminarQuiniela";
 import Mas from "../screens/Mas";
 
-import EliminarApuesta from "../screens/EliminarApuesta";
-
 import CargandoHome from "../screens/CargandoHome";
 import Ionicons from "react-native-vector-icons/Ionicons";
 

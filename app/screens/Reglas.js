@@ -10,7 +10,7 @@ import {
   ScrollView,
   BackHandler,
   TouchableOpacity,
-  Text
+  Text,
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
@@ -53,7 +53,6 @@ class Reglas extends Component {
 
   componentDidMount() {
     this.run();
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
 
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -63,6 +62,9 @@ class Reglas extends Component {
       "keyboardDidHide",
       this.keyboardWillHide
     );
+
+    console.log("(Reglas) componentDidMount");
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   componentWillUnmount() {
@@ -70,11 +72,13 @@ class Reglas extends Component {
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
 
+    console.log("(Reglas) componentWillUnmount");
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   handleBackButton() {
-    this.props.navigation.goBack();
+    this.props.screenProps.rootNavigation.goBack();
+    // this.props.navigation.goBack();
     return true;
   }
 

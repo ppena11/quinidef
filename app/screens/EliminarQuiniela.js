@@ -67,7 +67,7 @@ class EliminarQuiniela extends Component {
       this.keyboardWillHide
     );
 
-    console.log("(EliminarQuiniela->Apuesta) componentDidMount")
+    console.log("(EliminarQuiniela->Como Usuario) componentDidMount");
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
@@ -75,11 +75,13 @@ class EliminarQuiniela extends Component {
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
 
-    console.log("(EliminarQuiniela->Apuesta) componentWillUnmount")
+    console.log("(EliminarQuiniela->Como Usuario) componentWillUnmount");
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   handleBackButton() {
+    // const { keypadre } = this.props.navigation.state.params;
+    // this.props.navigation.goBack(keypadre);
     this.props.navigation.goBack();
     return true;
   }

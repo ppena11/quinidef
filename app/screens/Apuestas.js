@@ -53,8 +53,6 @@ class Apuestas extends Component {
   componentDidMount() {
     this.run();
 
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
       this.keyboardWillShow
@@ -63,6 +61,9 @@ class Apuestas extends Component {
       "keyboardDidHide",
       this.keyboardWillHide
     );
+
+    console.log("(Apuestas) componentDidMount");
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   componentWillUnmount() {
@@ -70,19 +71,21 @@ class Apuestas extends Component {
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
 
+    console.log("(Apuestas) componentWillUnmount");
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   handleBackButton() {
-    this.props.navigation.goBack(null);
+    this.props.screenProps.rootNavigation.goBack();
+    // this.props.navigation.goBack();
     return true;
   }
 
-  tusquinielas() {
-    // console.log('TEST2');
-    this.run();
-    this.props.navigation.goBack();
-  }
+  // tusquinielas() {
+  //   // console.log('TEST2');
+  //   this.run();
+  //   this.props.navigation.goBack();
+  // }
 
   keyboardWillShow = () => {
     this.setState({ menu: "no" });

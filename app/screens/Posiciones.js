@@ -47,15 +47,18 @@ class Posiciones extends Component {
 
   componentDidMount() {
     this.run();
+    console.log("(Posiciones) componentDidMount");
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   componentWillUnmount() {
+    console.log("(Posiciones) componentWillUnmount");
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   handleBackButton() {
-    this.props.navigation.goBack();
+    this.props.screenProps.rootNavigation.goBack();
+    // this.props.navigation.goBack();
     return true;
   }
 

@@ -48,14 +48,24 @@ const stackRouterConfig = {
   initialRouteName: "CargandoHome"
 };
 
-const PosicionesStack = StackNavigator({
-  HomePosiciones: { screen: Posiciones },
-  DetallesPosiciones: { screen: DetallesApuestas }
+const PosicionesStack = StackNavigator(
+  {
+    HomePosiciones: {
+      screen: Posiciones
+    },
+    DetallesPosiciones: {
+      screen: DetallesApuestas
+    },
 });
 
-const MasStack = StackNavigator({
-  Mas: { screen: Mas },
-  EliminarQuiniela: { screen: EliminarQuiniela }
+const MasStack = StackNavigator(
+  {
+    Mas: {
+      screen: Mas
+    },
+    EliminarQuiniela: {
+      screen: EliminarQuiniela
+    },
 });
 
 const RootNavigatort = TabNavigator(
@@ -102,7 +112,8 @@ const RootNavigatort = TabNavigator(
     tabBarComponent: TabBarBottom,
     tabBarPosition: "bottom",
     animationEnabled: false,
-    swipeEnabled: false
+    swipeEnabled: false,
+    // lazy: false,
   }
 );
 
@@ -141,36 +152,36 @@ const RootNavigator = StackNavigator(
     EliminarQuinielaAdministrada: {
       screen: EliminarQuinielaAdministrada
     },
-    DetalleQuinielaAdministrada: {
-      screen: DetalleQuinielaAdministrada
-    },
     ReglasAdmin: {
       screen: ReglasAdmin
     },
-    
-    
-    
-    ConfirmacionCorreo: {
-      screen: ConfirmacionCorreo
+    DetalleQuinielaAdministrada: {
+      screen: DetalleQuinielaAdministrada
     },
-    Log: {
-      screen: Home
-    },
-
     EliminarApuesta: {
       screen: EliminarApuesta
     },
-    EliminarQuiniela: {
-      screen: EliminarQuiniela
-    },
-    Apuestas: {
-      screen: Apuestas
-    },
+
+    // ConfirmacionCorreo: {
+    //   screen: ConfirmacionCorreo
+    // },
+    // Log: {
+    //   screen: Home
+    // },
+
     Apuesta: {
       screen: ({ navigation }) => (
         <RootNavigatort screenProps={{ rootNavigation: navigation }} />
-      )
-    }
+      ),
+    },
+
+    // Apuestas: {
+    //   screen: Apuestas
+    // },
+    // EliminarQuiniela: {
+    //   screen: EliminarQuiniela
+    // },
+
   },
   stackRouterConfig
 );

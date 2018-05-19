@@ -35,7 +35,12 @@ export default class extends Component {
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
-    console.ignoredYellowBox = ['Setting a timer', 'Warning: isMounted', 'VirtualizedList'];
+    console.ignoredYellowBox = [
+      'Setting a timer',
+      'Warning: isMounted',
+      'VirtualizedList',
+      'Remote debugger'
+    ];
   }
 
   render() {

@@ -9,7 +9,7 @@ import {
   BackHandler,
   Text,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { connect } from "react-redux";
@@ -52,15 +52,18 @@ class Mas extends Component {
   }
 
   componentDidMount() {
+    console.log("(Mas) componentDidMount");
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   componentWillUnmount() {
+    console.log("(Mas) componentWillUnmount");
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   handleBackButton() {
-    this.props.navigation.goBack();
+    this.props.screenProps.rootNavigation.goBack();
+    // this.props.navigation.goBack();
     return true;
   }
 
@@ -68,7 +71,8 @@ class Mas extends Component {
     if (partidos.imagen == "basura") {
       this.props.navigation.navigate("EliminarQuiniela", {
         quiniela: this.props.quiniela,
-        jugadores: this.props.jugadores
+        jugadores: this.props.jugadores,
+        // keypadre: this.props.navigation.state.key
       });
     }
     if (partidos.imagen == "salir") {

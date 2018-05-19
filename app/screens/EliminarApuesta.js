@@ -8,7 +8,8 @@ import {
   TextInput,
   FlatList,
   ScrollView,
-  Text
+  Text,
+  BackHandler,
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
@@ -63,6 +64,7 @@ class EliminarApuesta extends Component {
     this.updateInputValue = this.updateInputValue.bind(this);
     this.eliminarTest1 = this.eliminarTest1.bind(this);
     this.run = this.run.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
   }
 
   componentDidMount() {
@@ -74,11 +76,22 @@ class EliminarApuesta extends Component {
       "keyboardDidHide",
       this.keyboardWillHide
     );
+
+    console.log("(EliminarApuesta->Como Administrador) componentDidMount")
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   componentWillUnmount() {
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
+
+    console.log("(EliminarApuesta->Como Administrador) componentWillUnmount")
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    this.props.navigation.goBack();
+    return true;
   }
 
   keyboardWillShow = () => {
@@ -149,7 +162,7 @@ class EliminarApuesta extends Component {
       }
       // this.setState({ validando: false });
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       goBack();
       // this.setState({ validando: false });
     }
@@ -163,10 +176,8 @@ class EliminarApuesta extends Component {
     // console.log(`ttttttttttttttttttttttttttt : ${t}`);
   }
 
-  tusquinielas(goBack) {
-    // console.log('TEST2');
-    // this.props.reloadingJugadores();
-    goBack();
+  cancelar() {
+    this.props.navigation.goBack();
   }
 
   pressed(e) {
@@ -248,7 +259,7 @@ class EliminarApuesta extends Component {
               <BotonPrincipal onPress={() => this.eliminarTest1(goBack)}>
                 Eliminar jugador...
               </BotonPrincipal>
-              <BotonPrincipal onPress={() => this.tusquinielas(goBack)}>
+              <BotonPrincipal onPress={() => this.cancelar()}>
                 Cancelar
               </BotonPrincipal>
             </View>
@@ -272,7 +283,8 @@ const styles = EStyleSheet.create({
   },
   warning: {
     fontWeight: "bold",
-    fontSize: 20
+    fontSize: 20,
+    color: 'red'
   },
   subtitulo: {
     fontSize: 15,

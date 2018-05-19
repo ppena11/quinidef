@@ -6,7 +6,7 @@ import {
   BackHandler,
   Text,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { connect } from "react-redux";
@@ -66,6 +66,7 @@ class DetalleApuestas extends Component {
       this.keyboardWillHide
     );
 
+    console.log("(DetallesApuestas) componentDidMount");
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
@@ -75,6 +76,7 @@ class DetalleApuestas extends Component {
     this.keyboardWillHideListener.remove();
     this.props.limpiarapuesta();
 
+    console.log("(DetallesApuestas) componentWillUnmount");
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
   }
 
@@ -83,11 +85,11 @@ class DetalleApuestas extends Component {
     return true;
   }
 
-  tusquinielas() {
-    // console.log('TEST2');
-    this.run();
-    this.props.navigation.goBack();
-  }
+  // tusquinielas() {
+  //   // console.log('TEST2');
+  //   this.run();
+  //   this.props.navigation.goBack();
+  // }
 
   keyboardWillShow = () => {
     this.setState({ menu: "no" });
