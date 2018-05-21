@@ -102,7 +102,10 @@ class QuinielasAdministradas extends Component {
   run = async () => {
     try {
       this.setState({ validando: true });
-      const test = await this.props.buscarQuinielasAdministradas();
+      const { currentUser } = firebase.auth();
+      const test = await this.props.buscarQuinielasAdministradas(
+        currentUser.uid
+      );
 
       this.setState({ validando: false });
     } catch (e) {
@@ -248,21 +251,6 @@ class QuinielasAdministradas extends Component {
             <Titulo>QUINIELAS ADMINISTRADAS</Titulo>
           </View>
 
-          <View style={styles2.conta}>
-            <View style={styles2.vire} />
-            <TextInput
-              style={styles.inputBox}
-              underlineColorAndroid={color.$underlineColorAndroid}
-              placeholder="Buscar..."
-              placeholderTextColor={color.$placeholderTextColor}
-              selectionColor={color.$selectionColor}
-              autoCapitalize="characters"
-              onSubmitEditing={() => this.pressed()}
-              onChangeText={q => this.filtrarQuinielas(q)}
-            />
-            <View style={styles2.vire} />
-          </View>
-
           <View style={styles.cuerpo}>
             <FlatList
               data={this.props.quinielas}
@@ -344,7 +332,7 @@ const mapStateToProps = state => {
 
   // const quinielas = tt;
 
-  const quinielas = _.orderBy(tt, ["uid"], ["desc"]);
+  const quinielas = _.orderBy(tt, ["quinielaNombre"], ["asc"]);
 
   // const quinielas = tt;
 

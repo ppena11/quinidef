@@ -14,6 +14,7 @@ import firebase from "firebase";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
 import { connect } from "react-redux";
+import { NavigationActions } from "react-navigation";
 
 import {
   nombreQuinielaCambio,
@@ -52,8 +53,8 @@ class TusQuinielas extends Component {
   }
 
   componentDidMount() {
-    console.log("(CreaciondeQuiniela) componentDidMount")
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    console.log("(CreaciondeQuiniela) componentDidMount");
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
 
     this.props.buscarTorneos();
     this.createDataSource(this.props);
@@ -66,9 +67,9 @@ class TusQuinielas extends Component {
     });
   }
 
-  componentWillUnmount(){
-    console.log("(CreaciondeQuiniela) componentWillUnmount")
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  componentWillUnmount() {
+    console.log("(CreaciondeQuiniela) componentWillUnmount");
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   handleBackButton() {
@@ -143,9 +144,17 @@ class TusQuinielas extends Component {
             reglas,
             disponible
           });
-          this.props.reloadingQuinielas();
+          //this.props.reloadingQuinielas();
           this.setState({ validando: false });
-          goBack();
+          const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [
+              NavigationActions.navigate({
+                routeName: "QuinielasAdministradas"
+              })
+            ]
+          });
+          this.props.navigation.dispatch(resetAction);
         } else {
           //    console.log(newCodigo);
           this.run(newCodigo, quinielaNombre, torneo, torneoid);
@@ -177,9 +186,17 @@ class TusQuinielas extends Component {
               reglas,
               disponible
             });
-            this.props.reloadingQuinielas();
+            //this.props.reloadingQuinielas();
             this.setState({ validando: false });
-            goBack();
+            const resetAction = NavigationActions.reset({
+              index: 0,
+              actions: [
+                NavigationActions.navigate({
+                  routeName: "QuinielasAdministradas"
+                })
+              ]
+            });
+            this.props.navigation.dispatch(resetAction);
           } else {
             //    console.log(newCodigo);
             this.run(newCodigo, quinielaNombre, torneo, torneoid);
