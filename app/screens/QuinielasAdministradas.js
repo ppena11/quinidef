@@ -9,6 +9,7 @@ import {
   TextInput,
   BackHandler
 } from "react-native";
+import firebase from "firebase";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
 import { connect } from "react-redux";
@@ -47,7 +48,10 @@ class QuinielasAdministradas extends Component {
 
     this.state = {
       menu: "yes",
-      validando: false
+      validando: false,
+      refdb: firebase
+        .database()
+        .ref(`/users/${firebase.auth().uid}/quinielasadministradas/`)
     };
 
     this.handleBackButton = this.handleBackButton.bind(this);
@@ -110,7 +114,7 @@ class QuinielasAdministradas extends Component {
   componentWillUnmount() {
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
-
+    this.state.refdb.off();
     console.log("(QuinielasAdministradas) componentWillUnmount");
     BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
   }

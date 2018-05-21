@@ -172,6 +172,14 @@ export const buscarQuinielasAdministradasMaxT = (max, queryText) => {
   };
 };
 
+export const buscarQuinielasAdministradas1 = refdbj => dispatch =>
+  refdbj.on("value", snapshot => {
+    dispatch({
+      type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO,
+      payload: snapshot.val()
+    });
+  });
+
 export const buscarQuinielasAdministradas = () => {
   const { currentUser } = firebase.auth();
 

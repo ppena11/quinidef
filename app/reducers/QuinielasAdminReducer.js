@@ -17,7 +17,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, [action.payload.prop]: action.payload.value };
 
     case BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO:
-      return { ...state, ...action.payload };
+      return { ...action.payload };
 
     case BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO_T:
       return { ...state, ...action.payload };
