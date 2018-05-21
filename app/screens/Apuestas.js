@@ -10,7 +10,8 @@ import {
   BackHandler,
   Text,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
+  NetInfo
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { connect } from "react-redux";

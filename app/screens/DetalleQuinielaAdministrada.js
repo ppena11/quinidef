@@ -182,7 +182,7 @@ class DetalleQuinielaAdministrada extends Component {
 
   comprar() {
     // console.log('TEST2');
-    this.props.reloadingJugadores();
+    // this.props.reloadingJugadores();
 
     this.props.navigation.navigate("SolicitarPagos");
   }

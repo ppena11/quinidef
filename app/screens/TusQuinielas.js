@@ -7,7 +7,8 @@ import {
   Text,
   BackHandler,
   Image,
-  Alert
+  Alert,
+  NetInfo
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
@@ -42,6 +43,7 @@ class TusQuinielas extends Component {
 
     this.loading = this.loading.bind(this);
     this.run = this.run.bind(this);
+
     this.handleBackButtonTusQuinielas = this.handleBackButtonTusQuinielas.bind(
       this
     );
