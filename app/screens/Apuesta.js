@@ -31,6 +31,7 @@ export default class extends Component {
       }
     };
   };
+
   render() {
     //console.log(this.props.navigation);
     return (

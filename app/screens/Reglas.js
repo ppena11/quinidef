@@ -77,6 +77,8 @@ class Reglas extends Component {
   }
 
   handleBackButton() {
+    console.log("(Reglas) handleBackButton");
+    console.log('(Reglas) this.props ', this.props);
     this.props.screenProps.rootNavigation.goBack();
     // this.props.navigation.goBack();
     return true;
@@ -123,12 +125,12 @@ class Reglas extends Component {
     this.setState({ menu: "yes" });
   };
 
-  createDataSource({ quinielas }) {
-    // const ds = new ListView.DataSource({
-    //  rowHasChanged: (r1, r2) => r1 !== r2,
-    // });
-    // this.dataSource = ds.cloneWithRows(quinielas);
-  }
+  // createDataSource({ quinielas }) {
+  //   const ds = new ListView.DataSource({
+  //    rowHasChanged: (r1, r2) => r1 !== r2,
+  //   });
+  //   this.dataSource = ds.cloneWithRows(quinielas);
+  // }
 
   crear() {
     this.run2();
@@ -157,36 +159,36 @@ class Reglas extends Component {
     Keyboard.dismiss();
   }
 
-  menustatus() {
-    if (this.state.menu === "yes") {
-      return (
-        <View style={styles.bottom}>
-          <View style={styles.conta}>
-            <View style={styles.vire} />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.crear()}
-            >
-              {this.status()}
-            </TouchableOpacity>
-            <View style={styles.vire} />
-          </View>
+  // menustatus() {
+  //   if (this.state.menu === "yes") {
+  //     return (
+  //       <View style={styles.bottom}>
+  //         <View style={styles.conta}>
+  //           <View style={styles.vire} />
+  //           <TouchableOpacity
+  //             style={styles.button}
+  //             onPress={() => this.crear()}
+  //           >
+  //             {this.status()}
+  //           </TouchableOpacity>
+  //           <View style={styles.vire} />
+  //         </View>
 
-          <BotonPrincipal onPress={() => this.tusquinielas()}>
-            Cancelar
-          </BotonPrincipal>
-        </View>
-      );
-    }
-    return <View />;
-  }
+  //         <BotonPrincipal onPress={() => this.tusquinielas()}>
+  //           Cancelar
+  //         </BotonPrincipal>
+  //       </View>
+  //     );
+  //   }
+  //   return <View />;
+  // }
 
-  status() {
-    if (this.state.validando) {
-      return <Spinner style={styles.buttonText} size="small" />;
-    }
-    return <Text style={styles.buttonText}>Guargar cambios..</Text>;
-  }
+  // status() {
+  //   if (this.state.validando) {
+  //     return <Spinner style={styles.buttonText} size="small" />;
+  //   }
+  //   return <Text style={styles.buttonText}>Guargar cambios..</Text>;
+  // }
 
   render() {
     const reglas = _.map(this.state.regla, (val, uid) => ({ ...val, uid }));

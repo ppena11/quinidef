@@ -14,7 +14,6 @@ import UnirseAQuiniela from "../screens/UnirseAQuiniela";
 import RegistrarQuiniela from "../screens/RegistrarQuiniela";
 import ReglasAdmin from "../screens/ReglasAdmin";
 import Apuestas from "../screens/Apuestas";
-//import Apuesta from "../screens/Apuesta";
 import Posiciones from "../screens/Posiciones";
 import Reglas from "../screens/Reglas";
 import DetallesApuestas from "../screens/DetallesApuestas";
@@ -101,20 +100,29 @@ const RootNavigatort = TabNavigator(
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
         return <Ionicons name={iconName} size={25} color={tintColor} />;
-      }
+      },
+      // tabBarOnPress: ({ previousScene, scene, jumpToIndex }) => {
+      //   console.log('previousScene:', previousScene);
+      //   console.log('scene:', scene);
+      //   jumpToIndex(scene.index);
+      // },
     }),
+
     tabBarOptions: {
       activeTintColor: "white",
       inactiveTintColor: "gray",
       activeBackgroundColor: "#084B7C",
-      inactiveBackgroundColor: "#084B7C"
+      inactiveBackgroundColor: "#084B7C",
     },
+
     tabBarComponent: TabBarBottom,
     tabBarPosition: "bottom",
     animationEnabled: false,
     swipeEnabled: false,
+    // initialRouteName: 'Apuestas',
     // lazy: false,
-  }
+    // backBehavior : 'initialRoute',
+    },
 );
 
 const RootNavigator = StackNavigator(
@@ -174,7 +182,7 @@ const RootNavigator = StackNavigator(
         <RootNavigatort screenProps={{ rootNavigation: navigation }} />
       ),
     },
-
+    
     // Apuestas: {
     //   screen: Apuestas
     // },

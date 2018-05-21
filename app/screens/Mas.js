@@ -62,6 +62,8 @@ class Mas extends Component {
   }
 
   handleBackButton() {
+    console.log("(Mas) handleBackButton");
+    console.log('(Mas) this.props ', this.props);
     this.props.screenProps.rootNavigation.goBack();
     // this.props.navigation.goBack();
     return true;
@@ -72,7 +74,6 @@ class Mas extends Component {
       this.props.navigation.navigate("EliminarQuiniela", {
         quiniela: this.props.quiniela,
         jugadores: this.props.jugadores,
-        // keypadre: this.props.navigation.state.key
       });
     }
     if (partidos.imagen == "salir") {

@@ -80,9 +80,8 @@ class EliminarQuiniela extends Component {
   }
 
   handleBackButton() {
-    // const { keypadre } = this.props.navigation.state.params;
-    // this.props.navigation.goBack(keypadre);
-    this.props.navigation.goBack();
+    console.log("(EliminarQuiniela) handleBackButton");
+    this.props.screenProps.rootNavigation.goBack();
     return true;
   }
 
