@@ -7,7 +7,8 @@ import {
   Text,
   BackHandler,
   Image,
-  Alert
+  Alert,
+  Button,
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
@@ -29,10 +30,6 @@ import color from "../comun/colors";
 import { Spinner } from "../components/Spinner";
 
 class TusQuinielas extends Component {
-  static navigationOptions = {
-    header: null
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -43,7 +40,19 @@ class TusQuinielas extends Component {
     this.loading = this.loading.bind(this);
     this.run = this.run.bind(this);
     this.handleBackButtonTusQuinielas = this.handleBackButtonTusQuinielas.bind(this);
+    this.alertLogout = this.alertLogout.bind(this);
   }
+
+  static navigationOptions = {
+    title: "Mis Quinielas",
+    headerRight: (
+      <Button
+        onPress={() => this.alertLogout}
+        title="Logout"
+        color="#000"
+      />
+    ),
+  };
 
   componentDidMount() {
     this.run();
@@ -65,7 +74,20 @@ class TusQuinielas extends Component {
         {text: 'Sí, Salir', onPress: () => BackHandler.exitApp()},
         {text: 'Cancelar', onPress: () => {return true}},
       ],
-      { cancelable: false }
+      { cancelable: true }
+    );
+    return true;
+  }
+
+  alertLogout() {
+    Alert.alert(
+      'Confirmación...',
+      '¿Deseas cerrar la sesión?',
+      [
+        {text: 'Sí', onPress: () => this.props.salirSistema()},
+        {text: 'Cancelar', onPress: () => {return true}},
+      ],
+      { cancelable: true }
     );
     return true;
   }
@@ -137,9 +159,9 @@ class TusQuinielas extends Component {
           backgroundColor={color.$statusBarBackgroundColor}
         />
         <View style={styles.form}>
-          <View style={styles.titulo}>
+          {/* <View style={styles.titulo}>
             <Titulo>MIS QUINIELAS</Titulo>
-          </View>
+          </View> */}
 
           <FlatList
             data={tt}
@@ -173,7 +195,6 @@ class TusQuinielas extends Component {
 const styles = EStyleSheet.create({
   form: {
     flex: 1,
-
     justifyContent: "space-between",
     flexDirection: "column"
   },
@@ -201,7 +222,7 @@ const styles = EStyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center"
-  }
+  },
 });
 
 const mapStateToProps = state => {

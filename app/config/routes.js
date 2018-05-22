@@ -36,11 +36,11 @@ const stackRouterConfig = {
           } - ${params.quiniela.puntos} PTS`
         : "A Nested Details Screen",
       headerStyle: {
-        backgroundColor: "#084B7C"
+        backgroundColor: '#207AB8'
       },
-      headerTintColor: "#fff",
+      headerTintColor: '#fff',
       headerTitleStyle: {
-        fontWeight: "bold"
+        fontWeight: 'normal',
       }
     };
   },

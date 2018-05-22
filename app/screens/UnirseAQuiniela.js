@@ -30,7 +30,7 @@ import {
 
 class UnirseAQuiniela extends Component {
   static navigationOptions = {
-    header: null
+    title: "Unirse a Quiniela",
   };
 
   constructor(props) {
