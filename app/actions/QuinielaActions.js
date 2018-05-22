@@ -656,7 +656,7 @@ export const bloquearPartido = tid => dispatch => {
     .catch(error => crearQuinielaError(dispatch, error));
 };
 
-export const crearCodigoQuiniela = codigo => dispatch => {
+export const crearCodigoQuiniela = () => dispatch => {
   const codigoNew = generarCodigo();
 
   return firebase
@@ -664,15 +664,12 @@ export const crearCodigoQuiniela = codigo => dispatch => {
     .ref(`/quinielas/codigos/${codigoNew}`)
     .transaction(
       currentData => {
-        const test = {
-          1234: 32323,
-          4321: 34234234,
-          5345: 345345345,
-          5453: 53453453
-        };
-
         if (currentData === null) {
+          console.log("El código no está en uso: ", codigoNew);
           return codigoNew;
+        }
+        else {
+          console.log("Código ya existente: ", codigoNew);
         }
       },
 

@@ -102,30 +102,28 @@ class TusQuinielas extends Component {
     this.dataSource = ds.cloneWithRows(torneos);
   }
 
-  run = async (goBack, codigo, quinielaNombre, torneo, torneoid, uid1) => {
+  run = async (goBack, quinielaNombre, torneo, torneoid, uid1) => {
     try {
-      let code = await this.props.crearCodigoQuiniela(codigo);
+      let code = await this.props.crearCodigoQuiniela();
       let items = code.snapshot.toJSON();
+      console.log('typeof items: ', typeof items);
       while (typeof items !== "string") {
-        codigo = generarCodigo();
-        code = await this.props.crearCodigoQuiniela(codigo);
+        code = await this.props.crearCodigoQuiniela();
         items = code.snapshot.toJSON();
-        console.log(typeof items);
+        console.log('typeof items: ', typeof items);
       }
 
       this.setState({ validando: true });
-      console.log(torneoid);
       const quinielasAdmini = await this.props.buscarQuinielasAdminTorneo(
         torneoid,
         uid1
       );
 
-      console.log(quinielasAdmini.toJSON());
+      // console.log(quinielasAdmini.toJSON());
 
       const maxi = await this.props.buscarActivacionesDB(torneoid);
       const max = maxi.toJSON();
 
-      console.log(max);
       // console.log(Object.keys(quinielasAdmini.toJSON()).length);
       if (quinielasAdmini.toJSON() === null) {
         // const code = await this.props.crearCodigoQuiniela(codigo);
@@ -133,7 +131,7 @@ class TusQuinielas extends Component {
         const disponibles = await this.props.buscarDisponiblesDemo(torneoid);
         const disponible = disponibles.toJSON();
         //  console.log(`DISPONIBLESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS ${disponible}`);
-        const newCodigo = generarCodigo();
+//        const newCodigo = generarCodigo();
         // const link4 = link3.codigo;
         // console.log(link4);
         //const items = code.snapshot.toJSON();
@@ -215,7 +213,7 @@ class TusQuinielas extends Component {
 
   crear(goBack, uid1) {
     Keyboard.dismiss();
-    codigo = generarCodigo();
+    // codigo = generarCodigo();
 
     const { quinielaNombre, torneo, torneoid } = this.props;
 
@@ -226,7 +224,6 @@ class TusQuinielas extends Component {
     if (quinielaNombre != "") {
       this.run(
         goBack,
-        codigo,
         quinielaNombre.toUpperCase(),
         torneo,
         torneoid,
