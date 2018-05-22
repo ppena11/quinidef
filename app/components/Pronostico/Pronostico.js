@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, Image, Text, TextInput, TouchableOpacity, Picker } from "react-native";
+import {
+  View,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Picker
+} from "react-native";
 import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
 import moment from "moment";
@@ -51,7 +58,8 @@ class Pronostico extends Component {
 
   presseda(e) {
     const re = this.props.partidos;
-    const ra = this.props.apuestas;
+    let ra = Object.assign({}, this.props.apuestas);
+    delete ra.cargando;
     this.setState({ valuea: e });
     if (e == " ") {
       // console.log("1 espacio");
@@ -105,7 +113,8 @@ class Pronostico extends Component {
 
   pressedb(e) {
     const re = this.props.partidos;
-    const ra = this.props.apuestas;
+    let ra = Object.assign({}, this.props.apuestas);
+    delete ra.cargando;
     this.setState({ valueb: e });
     if (e == " ") {
       // console.log("1 espacio");
@@ -173,10 +182,10 @@ class Pronostico extends Component {
     }
 
     if (!re[this.props.partido.key].bloqueado) {
-      let valor = this.state.valuea == "" ? this.state.prevGolesA : this.state.valuea;
+      let valor =
+        this.state.valuea == "" ? this.state.prevGolesA : this.state.valuea;
       return (
-
-      // Con Teclado Numérico
+        // Con Teclado Numérico
         <TextInput
           style={styles.marcador}
           selectionColor={color.$selectionColor}
@@ -191,7 +200,7 @@ class Pronostico extends Component {
           value={this.state.valuea}
         />
 
-      // Con Picker
+        // Con Picker
         // <View style={styles.viewPicker}>
         //   <Picker
         //     style={styles.picker}
@@ -212,7 +221,6 @@ class Pronostico extends Component {
         //     <Picker.Item label='9' value='9' />
         //   </Picker>
         // </View>
-
       );
     } else {
       return (
@@ -232,10 +240,10 @@ class Pronostico extends Component {
     const y = moment(this.props.hora.hora);
 
     if (!re[this.props.partido.key].bloqueado) {
-      let valor = this.state.valueb == "" ? this.state.prevGolesB : this.state.valueb;
+      let valor =
+        this.state.valueb == "" ? this.state.prevGolesB : this.state.valueb;
       return (
-
-      // Con Teclado Numérico
+        // Con Teclado Numérico
         <TextInput
           style={styles.marcador}
           selectionColor={color.$selectionColor}
@@ -249,7 +257,7 @@ class Pronostico extends Component {
           value={this.state.valueb}
         />
 
-      // Con Picker
+        // Con Picker
         // <View style={styles.viewPicker}>
         //   <Picker
         //     style={styles.picker}
@@ -270,7 +278,6 @@ class Pronostico extends Component {
         //     <Picker.Item label='9' value='9' />
         //   </Picker>
         // </View>
-
       );
     } else {
       return (

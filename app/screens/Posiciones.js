@@ -57,26 +57,23 @@ class Posiciones extends Component {
   }
 
   handleBackButton() {
-    console.log("(Posiciones) handleBackButton");
-    console.log('(Posiciones) this.props ', this.props);
     this.props.screenProps.rootNavigation.goBack();
-    // this.props.navigation.goBack();
     return true;
   }
 
   run = async () => {
     try {
-      // this.setState({ validando: true });
+      this.setState({ validando: true });
       const test = await this.props.buscarPosiciones(
         this.props.quiniela.quiniela
       );
       const tt1 = test.toJSON();
       //console.log(tt1);
       this.setState({ qu: tt1 });
-      // this.setState({ validando: false });
+      this.setState({ validando: false });
     } catch (e) {
       //   console.log(e);
-      // this.setState({ validando: false });
+      this.setState({ validando: false });
     }
   };
 
@@ -89,7 +86,7 @@ class Posiciones extends Component {
     if (!this.props.quiniela.activo) {
       return (
         <Text style={styles.buttonText}>
-          Contacta al administrador para que tu quiniela apareza en la tabla de
+          Contacta al administrador para que tu quiniela aparezca en la tabla de
           posiciones y los puntos de tu quiniela sean contabilizados
         </Text>
       );
@@ -101,16 +98,9 @@ class Posiciones extends Component {
     if (this.state.validando) {
       return (
         <Container>
-          <View style={styles.viewImgStyle}>
-            <Image
-              style={styles.imgStyle}
-              source={require("../components/Logo/images/copa1.png")}
-            />
-          </View>
           <View style={styles.viewStyle}>
             <Spinner size="large" />
           </View>
-          <View style={styles.viewStyle} />
         </Container>
       );
     }

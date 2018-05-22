@@ -22,6 +22,7 @@ import Mas from "../screens/Mas";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import EliminarApuesta from "../screens/EliminarApuesta";
 import EliminarQuinielaAdministrada from "../screens/EliminarQuinielaAdministrada";
+import ModalScreen from "../screens/ModalScreen";
 
 import CargandoHome from "../screens/CargandoHome";
 
@@ -140,7 +141,7 @@ const RootNavigator = StackNavigator(
     CrearCuenta: {
       screen: CrearCuenta
     },
-    
+
     TusQuinielas: {
       screen: TusQuinielas
     },
@@ -189,6 +190,10 @@ const RootNavigator = StackNavigator(
     // EliminarQuiniela: {
     //   screen: EliminarQuiniela
     // },
+
+    MyModal: {
+      screen: ModalScreen
+    },
 
   },
   stackRouterConfig

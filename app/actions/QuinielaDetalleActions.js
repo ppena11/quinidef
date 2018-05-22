@@ -22,7 +22,9 @@ import {
   BUSCAR_APUESTAS_EXITO,
   BUSCAR_DETALLE_APUESTAS_EXITO,
   HORA_UPDATE,
-  RESET_DETALLE_QUINIELA_AP
+  RESET_DETALLE_QUINIELA_AP,
+  RESET_CARGANDO_AP,
+  RESET_DETALLE_AP
 } from "./types";
 
 export const BuscarJugadorTexto = value => ({
@@ -30,18 +32,19 @@ export const BuscarJugadorTexto = value => ({
   payload: value
 });
 
-export const buscarDisponibles = quiniela => dispatch => {
-  firebase
-    .database()
-    .ref(`/quinielas/${quiniela}/info/`)
-    .on("value", snapshot => {
-      if (snapshot.exists()) {
-        dispatch({
-          type: ACTIVACION_UPDATE,
-          payload: snapshot.val()
-        });
-      }
-    });
+export const ReinicarCargaApuesta = value => ({
+  type: RESET_CARGANDO_AP
+});
+
+export const buscarDisponibles = (quiniela, refbd) => dispatch => {
+  refbd.on("value", snapshot => {
+    if (snapshot.exists()) {
+      dispatch({
+        type: ACTIVACION_UPDATE,
+        payload: snapshot.val()
+      });
+    }
+  });
 };
 
 export const buscarPartidos = torneo => dispatch =>
@@ -91,7 +94,7 @@ export const buscarDetalleApuestas = (quinielaid, nombreapuesta) => dispatch =>
     });
 
 export const limpiarapuesta = () => ({
-  type: RESET_DETALLE_QUINIELA_AP
+  type: RESET_DETALLE_AP
 });
 
 export const buscarPorActivar = quiniela => dispatch => {
@@ -141,7 +144,15 @@ export const buscarDisponiblesq = quiniela => dispatch => {
     });
 };
 
-export const buscarJugadoresAdministradas = quiniela => dispatch => {
+export const buscarJugadoresAdministradas = (quiniela, refdbj) => dispatch =>
+  refdbj.on("value", snapshot => {
+    dispatch({
+      type: BUSCAR_JUGADORES_ADMINISTRADAS_EXITO,
+      payload: snapshot.val()
+    });
+  });
+
+export const buscarJugadoresAdministradas123 = quiniela => dispatch => {
   firebase
     .database()
     .ref(`/quinielas/${quiniela}/clasificacion/`)

@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   Text,
   BackHandler,
-  Switch,
+  Switch
 } from "react-native";
 import { Spinner } from "../components/Spinner";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -51,7 +51,19 @@ class DetalleQuinielaAdministrada extends Component {
       cargo: false,
       toggled: false,
       actualizando: false,
-      menu: "yes"
+      menu: "yes",
+      refdb: firebase
+        .database()
+        .ref(
+          `/quinielas/${this.props.navigation.state.params.quiniela.uid}/info/`
+        ),
+      refdbj: firebase
+        .database()
+        .ref(
+          `/quinielas/${
+            this.props.navigation.state.params.quiniela.uid
+          }/clasificacion/`
+        )
     };
 
     this.run1 = this.run1.bind(this);
@@ -65,13 +77,12 @@ class DetalleQuinielaAdministrada extends Component {
     // console.log(_.map(this.props.navigation.state.params.quiniela.Users, (val, uid) => ({ ...val, uid })));
     this.run1();
     this.props.buscarDisponibles(
-      this.props.navigation.state.params.quiniela.uid
+      this.props.navigation.state.params.quiniela.uid,
+      this.state.refdb
     );
     // this.props.buscarPorActivar(this.props.navigation.state.params.quiniela.uid);
     // this.props.buscarActivos(this.props.navigation.state.params.quiniela.uid);
-    this.props.buscarJugadoresAdministradas(
-      this.props.navigation.state.params.quiniela.uid
-    );
+
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
       this.keyboardWillShow
@@ -81,8 +92,8 @@ class DetalleQuinielaAdministrada extends Component {
       this.keyboardWillHide
     );
 
-    console.log("(DetalleQuinielaAdministrada) componentDidMount")
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    console.log("(DetalleQuinielaAdministrada) componentDidMount");
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -94,37 +105,24 @@ class DetalleQuinielaAdministrada extends Component {
   componentWillUnmount() {
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
-    firebase
-      .database()
-      .ref(
-        `/quinielas/${
-          this.props.navigation.state.params.quiniela.uid
-        }/info/quinielasDisponibles`
-      )
-      .off();
-    firebase
-      .database()
-      .ref(
-        `/quinielas/${
-          this.props.navigation.state.params.quiniela.uid
-        }/info/quinielasPorActivar`
-      )
-      .off();
-    firebase
-      .database()
-      .ref(
-        `/quinielas/${
-          this.props.navigation.state.params.quiniela.uid
-        }/info/quinielasActivos`
-      )
-      .off();
+    this.state.refdb.off();
+    this.state.refdbj.off();
+    this.setState({ cargo: false });
+    this.props.reloadingJugadores();
 
-      console.log("(DetalleQuinielaAdministrada) componentWillUnmount")
-      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-    }
+    console.log("(DetalleQuinielaAdministrada) componentWillUnmount");
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
+  }
 
   handleBackButton() {
-    this.props.navigation.goBack();
+    //this.props.navigation.goBack();
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: "QuinielasAdministradas" })
+      ]
+    });
+    this.props.navigation.dispatch(resetAction);
     return true;
   }
 
@@ -134,6 +132,10 @@ class DetalleQuinielaAdministrada extends Component {
       //console.log(this.props.quiniela.nombreapuesta);
       const escribirHora = await this.props.buscarCodigos(
         this.props.navigation.state.params.quiniela.codigoq
+      );
+      const wait = await this.props.buscarJugadoresAdministradas(
+        this.props.navigation.state.params.quiniela.uid,
+        this.state.refdbj
       );
 
       this.setState({ cargo: true });
@@ -166,12 +168,21 @@ class DetalleQuinielaAdministrada extends Component {
 
   cancelar() {
     // this.props.reloadingJugadores();
-    this.props.navigation.goBack();
+    //this.props.navigation.goBack();
+    // Este reset es para poder cargar nuevamente las quinielas por activar
+    // en la pagina quinielas administradas
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: "QuinielasAdministradas" })
+      ]
+    });
+    this.props.navigation.dispatch(resetAction);
   }
 
   comprar() {
     // console.log('TEST2');
-    this.props.reloadingJugadores();
+    // this.props.reloadingJugadores();
 
     this.props.navigation.navigate("SolicitarPagos");
   }
@@ -359,7 +370,7 @@ class DetalleQuinielaAdministrada extends Component {
             </TouchableOpacity>
           </View>
 
-          <View style={styles2.conta}>
+          {/* <View style={styles2.conta}>
             <View style={styles2.vire} />
             <TextInput
               style={styles.inputBox}
@@ -373,7 +384,7 @@ class DetalleQuinielaAdministrada extends Component {
             />
 
             <View style={styles2.vire} />
-          </View>
+          </View> */}
 
           <View>
             <View>
@@ -381,7 +392,7 @@ class DetalleQuinielaAdministrada extends Component {
                 data={this.props.jugadores}
                 keyExtractor={item => item.uid}
                 renderItem={({ item }) => this.renderRow(item)}
-                onEndReached={this.handleLoadMore}
+                //onEndReached={this.handleLoadMore}
                 onEndReachedThershold={0}
                 ref={ref => {
                   this.listRef = ref;
@@ -493,10 +504,10 @@ const styles = EStyleSheet.create({
     padding: 1
   },
   cuerpo: {
-    flex: 1 
+    flex: 8
   },
   bottom: {
-    flex: 1,
+    flex: 5,
     padding: 10,
     justifyContent: "flex-end"
   },
@@ -537,7 +548,7 @@ const mapStateToProps = state => {
   const tt = _.map(state.jugadoresadmin, (val, uid) => ({ ...val, uid }));
 
   const jugadores = _.orderBy(tt, ["nombre"], ["asc"]);
-
+  console.log(jugadores);
   return {
     jugadores,
     ultima: state.jugadorlast.last,
