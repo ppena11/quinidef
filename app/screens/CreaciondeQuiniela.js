@@ -104,6 +104,15 @@ class TusQuinielas extends Component {
 
   run = async (goBack, codigo, quinielaNombre, torneo, torneoid, uid1) => {
     try {
+      let code = await this.props.crearCodigoQuiniela(codigo);
+      let items = code.snapshot.toJSON();
+      while (typeof items !== "string") {
+        codigo = generarCodigo();
+        code = await this.props.crearCodigoQuiniela(codigo);
+        items = code.snapshot.toJSON();
+        console.log(typeof items);
+      }
+
       this.setState({ validando: true });
       console.log(torneoid);
       const quinielasAdmini = await this.props.buscarQuinielasAdminTorneo(
@@ -119,7 +128,7 @@ class TusQuinielas extends Component {
       console.log(max);
       // console.log(Object.keys(quinielasAdmini.toJSON()).length);
       if (quinielasAdmini.toJSON() === null) {
-        const code = await this.props.crearCodigoQuiniela(codigo);
+        // const code = await this.props.crearCodigoQuiniela(codigo);
         const regla = await this.props.buscarReglas(torneoid);
         const disponibles = await this.props.buscarDisponiblesDemo(torneoid);
         const disponible = disponibles.toJSON();
@@ -127,13 +136,49 @@ class TusQuinielas extends Component {
         const newCodigo = generarCodigo();
         // const link4 = link3.codigo;
         // console.log(link4);
-        const items = code.snapshot.toJSON();
+        //const items = code.snapshot.toJSON();
         // console.log(regla);
         const reglas = regla.toJSON();
         //  console.log(typeof items);
         //  codigoq = items[Object.keys(items)[Object.keys(items).length - 1]];
 
-        if (typeof items !== "object") {
+        const codigoq = items;
+
+        this.props.crearQuiniela({
+          quinielaNombre,
+          torneo,
+          torneoid,
+          codigoq,
+          reglas,
+          disponible
+        });
+        //this.props.reloadingQuinielas();
+        this.setState({ validando: false });
+        const resetAction = NavigationActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({
+              routeName: "QuinielasAdministradas"
+            })
+          ]
+        });
+        this.props.navigation.dispatch(resetAction);
+      } else {
+        if (Object.keys(quinielasAdmini.toJSON()).length < max) {
+          //const code = await this.props.crearCodigoQuiniela(codigo);
+          const regla = await this.props.buscarReglas(torneoid);
+          const disponibles = await this.props.buscarDisponiblesDemo(torneoid);
+          const disponible = disponibles.toJSON();
+          //  console.log(`DISPONIBLESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS ${disponible}`);
+          // const newCodigo = generarCodigo();
+          // const link4 = link3.codigo;
+          // console.log(link4);
+          // const items = code.snapshot.toJSON();
+          // console.log(regla);
+          const reglas = regla.toJSON();
+          //  console.log(typeof items);
+          //  codigoq = items[Object.keys(items)[Object.keys(items).length - 1]];
+
           const codigoq = items;
 
           this.props.crearQuiniela({
@@ -156,52 +201,6 @@ class TusQuinielas extends Component {
           });
           this.props.navigation.dispatch(resetAction);
         } else {
-          //    console.log(newCodigo);
-          this.run(newCodigo, quinielaNombre, torneo, torneoid);
-        }
-      } else {
-        if (Object.keys(quinielasAdmini.toJSON()).length < max) {
-          const code = await this.props.crearCodigoQuiniela(codigo);
-          const regla = await this.props.buscarReglas(torneoid);
-          const disponibles = await this.props.buscarDisponiblesDemo(torneoid);
-          const disponible = disponibles.toJSON();
-          //  console.log(`DISPONIBLESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS ${disponible}`);
-          const newCodigo = generarCodigo();
-          // const link4 = link3.codigo;
-          // console.log(link4);
-          const items = code.snapshot.toJSON();
-          // console.log(regla);
-          const reglas = regla.toJSON();
-          //  console.log(typeof items);
-          //  codigoq = items[Object.keys(items)[Object.keys(items).length - 1]];
-
-          if (typeof items !== "object") {
-            const codigoq = items;
-
-            this.props.crearQuiniela({
-              quinielaNombre,
-              torneo,
-              torneoid,
-              codigoq,
-              reglas,
-              disponible
-            });
-            //this.props.reloadingQuinielas();
-            this.setState({ validando: false });
-            const resetAction = NavigationActions.reset({
-              index: 0,
-              actions: [
-                NavigationActions.navigate({
-                  routeName: "QuinielasAdministradas"
-                })
-              ]
-            });
-            this.props.navigation.dispatch(resetAction);
-          } else {
-            //    console.log(newCodigo);
-            this.run(newCodigo, quinielaNombre, torneo, torneoid);
-          }
-        } else {
           alert(
             "No puedes administrar nuevas quinielas en este torneo, debes eliminar una quiniela administrada para crear otra quiniela"
           );
@@ -216,8 +215,7 @@ class TusQuinielas extends Component {
 
   crear(goBack, uid1) {
     Keyboard.dismiss();
-
-    const codigo = generarCodigo();
+    codigo = generarCodigo();
 
     const { quinielaNombre, torneo, torneoid } = this.props;
 
