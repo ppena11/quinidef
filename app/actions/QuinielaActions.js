@@ -172,7 +172,26 @@ export const buscarQuinielasAdministradasMaxT = (max, queryText) => {
   };
 };
 
-export const buscarQuinielasAdministradas = () => {
+export const buscarQuinielasAdministradas1 = refdbj => dispatch =>
+  refdbj.on("value", snapshot => {
+    dispatch({
+      type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO,
+      payload: snapshot.val()
+    });
+  });
+
+export const buscarQuinielasAdministradas = uid => dispatch =>
+  firebase
+    .database()
+    .ref(`/users/${uid}/quinielasadministradas/`)
+    .once("value", snapshot => {
+      dispatch({
+        type: BUSCAR_QUINIELAS_ADMINISTRADAS_EXITO,
+        payload: snapshot.val()
+      });
+    });
+
+export const buscarQuinielasAdministradas2 = () => {
   const { currentUser } = firebase.auth();
 
   return dispatch => {

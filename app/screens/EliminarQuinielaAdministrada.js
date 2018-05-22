@@ -9,11 +9,12 @@ import {
   FlatList,
   ScrollView,
   Text,
-  BackHandler,
+  BackHandler
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
 import { connect } from "react-redux";
+import { NavigationActions } from "react-navigation";
 
 import {
   buscarJugadoresAdministradas,
@@ -79,23 +80,23 @@ class EliminarQuinielaAdministrada extends Component {
       this.keyboardWillHide
     );
 
-    console.log("(EliminarQuinielaAdministrada) componentDidMount")
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    console.log("(EliminarQuinielaAdministrada) componentDidMount");
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   componentWillUnmount() {
     this.keyboardWillShowListener.remove();
     this.keyboardWillHideListener.remove();
 
-    console.log("(EliminarQuinielaAdministrada) componentWillUnmount")
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    console.log("(EliminarQuinielaAdministrada) componentWillUnmount");
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   handleBackButton() {
     this.props.navigation.goBack();
     return true;
   }
-  
+
   keyboardWillShow = () => {
     this.setState({ menu: "no" });
   };
@@ -123,7 +124,13 @@ class EliminarQuinielaAdministrada extends Component {
       // this.run(quiniela, jugador, goBack);
       //
       this.props.buscarQuinielasAdministradas();
-      goBack();
+      const resetAction = NavigationActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({ routeName: "QuinielasAdministradas" })
+        ]
+      });
+      this.props.navigation.dispatch(resetAction);
     } else {
       this.setState({ warning: "yes" });
     }
@@ -169,7 +176,7 @@ class EliminarQuinielaAdministrada extends Component {
     // console.log(`ttttttttttttttttttttttttttt : ${t}`);
   }
 
-  cancelar () {
+  cancelar() {
     this.props.navigation.goBack();
   }
 
@@ -215,7 +222,9 @@ class EliminarQuinielaAdministrada extends Component {
             <Text style={styles.subtitulo1}>
               {this.warning()}
               <Text>
-                Introduce el código de activación para eliminar la quiniela:{"\n"}
+                Introduce el código de activación para eliminar la quiniela:{
+                  "\n"
+                }
                 <Text style={styles.bold}>{quiniela.quinielaNombre}</Text>
               </Text>
             </Text>
@@ -272,7 +281,7 @@ const styles = EStyleSheet.create({
   warning: {
     fontWeight: "bold",
     fontSize: 20,
-    color: 'red',
+    color: "red"
   },
   subtitulo: {
     fontSize: 15,

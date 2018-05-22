@@ -378,7 +378,7 @@ class UnirseAQuiniela extends Component {
               placeholder="X"
               maxLength={1}
               onSubmitEditing={() => {
-                this.buscarCodigo();
+                this.buscarCodigo(uid1);
               }}
             />
           </View>
