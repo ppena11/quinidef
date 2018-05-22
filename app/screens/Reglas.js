@@ -53,10 +53,6 @@ class Reglas extends Component {
 
   componentDidMount() {
     this.run();
-<<<<<<< HEAD
-=======
-    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
->>>>>>> pedrofinal
 
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
