@@ -34,47 +34,66 @@ class TusQuinielas extends Component {
     super(props);
     this.state = {
       validando: false,
-      qu: {}
+      qu: {},
+      handle: null
     };
 
     this.loading = this.loading.bind(this);
     this.run = this.run.bind(this);
     this.handleBackButtonTusQuinielas = this.handleBackButtonTusQuinielas.bind(this);
-    this.alertLogout = this.alertLogout.bind(this);
+    // this.log1out = this.log1out.bind(this);
+    this.props.navigation.setParams({ handle: this.log1out });
   }
 
-  static navigationOptions = {
-    title: "Mis Quinielas",
+  // static navigationOptions = {
+  //   title: "Mis Quinielas",
 
-    // headerRight: ({ state }) => (
-    //   <Button
-    //     onPress={() => state.params.handleFuncion()}
-    //     title="Logout"
-    //     color="#000"
-    //   />
-    // ),
+  //   headerRight: (
+  //     <Button
+  //       onPress={() => {
+  //         Alert.alert(
+  //           'Confirmación...',
+  //           '¿Deseas cerrar la sesión?',
+  //           [
+  //             // {text: 'Sí', onPress: () => this.props.salirSistema()},
+  //             // {text: 'Sí', onPress: () => this.params.handle()},
+  //             {text: 'Sí', onPress: () => this.state.handle},
+  //             {text: 'Cancelar', onPress: () => { return true }},
+  //           ],
+  //           { cancelable: true }
+  //         )
+  //       }}
+  //       title="Logout"
+  //       color="#000"
+  //     />
+  //   ),
+  // };
 
-    // header: ({ state }) => ({
-    //   right:
-    //     <Button
-    //       onPress={() => state.params.handleFuncion()}
-    //       title="Logout"
-    //       color="#000"
-    //     />
-    // }),
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    console.log('navigation.state: ', navigation.state);
 
-    // headerRight: (
-    //   <Button
-    //     onPress={this.state.params.handleFuncion}
-    //     title="Logout"
-    //     color="#000"
-    //   />
-    // ),
+    const log2out = params.handle || {};
+
+    return {
+      // headerTitle: <LogoTitle />,
+      title: "Mis Quinielas",
+      headerRight: (
+        <Button onPress={log2out} title="Logout" color="#000" />
+      ),
+    };
   };
+
+  // componentWillMount() {
+  //   this.props.navigation.setParams({ alertLogout: this._alertLogout });
+  // }
+
+  log1out = () => this.props.salirSistema();
 
   componentDidMount() {
     this.run();
-    this.props.navigation.setParams({ handleFuncion: this.alertLogout });
+    // this.setState({ handle: this.log1out });
+    this.props.navigation.setParams({ handle: this.log1out });
 
     console.log("(TusQuinielas) componentDidMount")
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonTusQuinielas);
@@ -97,18 +116,6 @@ class TusQuinielas extends Component {
       { cancelable: false }
     );
     return true;
-  }
-
-  alertLogout() {
-    Alert.alert(
-      'Confirmación...',
-      '¿Deseas cerrar la sesión?',
-      [
-        {text: 'Sí', onPress: () => this.props.salirSistema()},
-        {text: 'Cancelar', onPress: () => {return true}},
-      ],
-      { cancelable: true }
-    );
   }
 
   run = async () => {
