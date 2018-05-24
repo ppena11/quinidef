@@ -1,5 +1,6 @@
 import React from "react";
 import { StackNavigator, TabNavigator, TabBarBottom } from "react-navigation";
+import { TouchableOpacity } from "react-native";
 
 import Login from "../screens/Login";
 import ReiniciarContrasena from "../screens/ReiniciarContrasena";
@@ -22,8 +23,8 @@ import Mas from "../screens/Mas";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import EliminarApuesta from "../screens/EliminarApuesta";
 import EliminarQuinielaAdministrada from "../screens/EliminarQuinielaAdministrada";
-
 import CargandoHome from "../screens/CargandoHome";
+import color from "../comun/colors";
 
 const stackRouterConfig = {
   navigationOptions: ({ navigation }) => {
@@ -36,12 +37,15 @@ const stackRouterConfig = {
           } - ${params.quiniela.puntos} PTS`
         : "A Nested Details Screen",
       headerStyle: {
-        backgroundColor: '#207AB8'
+        backgroundColor: color.$headerBackgroundColor,
       },
-      headerTintColor: '#fff',
+      headerTintColor: color.$headerTextColor,
       headerTitleStyle: {
         fontWeight: 'normal',
-      }
+        textAlign: 'center',
+        flexGrow: 1,
+      },
+      headerRight: (<TouchableOpacity/>),
     };
   },
   initialRouteName: "CargandoHome"

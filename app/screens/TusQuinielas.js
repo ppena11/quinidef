@@ -8,7 +8,7 @@ import {
   BackHandler,
   Image,
   Alert,
-  Button,
+  TouchableOpacity,
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
@@ -26,74 +26,46 @@ import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
 import { Titulo } from "../components/Titulo";
 import { Qx } from "../components/Qx";
-import color from "../comun/colors";
 import { Spinner } from "../components/Spinner";
+import color from "../comun/colors";
 
 class TusQuinielas extends Component {
+  static this2 = null;
   constructor(props) {
     super(props);
     this.state = {
       validando: false,
       qu: {},
-      handle: null
     };
 
     this.loading = this.loading.bind(this);
     this.run = this.run.bind(this);
     this.handleBackButtonTusQuinielas = this.handleBackButtonTusQuinielas.bind(this);
-    // this.log1out = this.log1out.bind(this);
-    this.props.navigation.setParams({ handle: this.log1out });
+    this.alertLogout = this.alertLogout.bind(this);
+    this2 = this;
   }
 
-  // static navigationOptions = {
-  //   title: "Mis Quinielas",
-
-  //   headerRight: (
-  //     <Button
-  //       onPress={() => {
-  //         Alert.alert(
-  //           'Confirmación...',
-  //           '¿Deseas cerrar la sesión?',
-  //           [
-  //             // {text: 'Sí', onPress: () => this.props.salirSistema()},
-  //             // {text: 'Sí', onPress: () => this.params.handle()},
-  //             {text: 'Sí', onPress: () => this.state.handle},
-  //             {text: 'Cancelar', onPress: () => { return true }},
-  //           ],
-  //           { cancelable: true }
-  //         )
-  //       }}
-  //       title="Logout"
-  //       color="#000"
-  //     />
-  //   ),
-  // };
-
-  static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state;
-    console.log('navigation.state: ', navigation.state);
-
-    const log2out = params.handle || {};
-
-    return {
-      // headerTitle: <LogoTitle />,
-      title: "Mis Quinielas",
-      headerRight: (
-        <Button onPress={log2out} title="Logout" color="#000" />
-      ),
-    };
+  static navigationOptions = {
+    title: 'Tus Quinielas', //<Text style={{ textAlign: 'center' }}>"Mis Quinielas"</Text>,
+    headerRight: (
+      <TouchableOpacity onPress={ () => this2.alertLogout() }>
+        <Image
+          style={{
+            height: 30,
+            aspectRatio: 1,
+            padding: 0,
+            margin: 10,
+            tintColor: color.$headerImageColor,
+          }}
+          source={require('../images/logout.png')}
+        />
+      </TouchableOpacity>
+    ),
+    headerLeft: (<TouchableOpacity/>),
   };
-
-  // componentWillMount() {
-  //   this.props.navigation.setParams({ alertLogout: this._alertLogout });
-  // }
-
-  log1out = () => this.props.salirSistema();
 
   componentDidMount() {
     this.run();
-    // this.setState({ handle: this.log1out });
-    this.props.navigation.setParams({ handle: this.log1out });
 
     console.log("(TusQuinielas) componentDidMount")
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonTusQuinielas);
@@ -116,6 +88,18 @@ class TusQuinielas extends Component {
       { cancelable: false }
     );
     return true;
+  }
+
+  alertLogout() {
+    Alert.alert(
+      'Confirmación...',
+      '¿Deseas cerrar la sesión?',
+      [
+        {text: 'Sí', onPress: () => this.props.salirSistema()},
+        {text: 'Cancelar', onPress: () => { return true }},
+      ],
+      { cancelable: true }
+    );
   }
 
   run = async () => {

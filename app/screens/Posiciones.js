@@ -57,10 +57,7 @@ class Posiciones extends Component {
   }
 
   handleBackButton() {
-    console.log("(Posiciones) handleBackButton");
-    console.log('(Posiciones) this.props ', this.props);
     this.props.screenProps.rootNavigation.goBack();
-    // this.props.navigation.goBack();
     return true;
   }
 

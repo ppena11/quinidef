@@ -21,7 +21,8 @@ import color from '../comun/colors';
 
 class Login extends Component {
   static navigationOptions = {
-    header: null,
+    title: 'Login',
+    headerLeft: (<TouchableOpacity/>),
   };
 
   componentDidMount() {

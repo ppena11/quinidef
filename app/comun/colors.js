@@ -49,7 +49,11 @@ const colores = {
   $cardBorderColor: "#4876ac",
   $cardShadowColor: $negro,
 
-  $textoPronostico: $blanco
+  $textoPronostico: $blanco,
+
+  $headerTextColor: $blanco,
+  $headerBackgroundColor: $azulClaro,
+  $headerImageColor: '#07406a',
 };
 
 export default colores;
