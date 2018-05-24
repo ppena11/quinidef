@@ -3,6 +3,7 @@ import { View, BackHandler, Image } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
+import { NavigationActions } from "react-navigation";
 
 import { Container } from '../components/Container';
 import { Spinner } from '../components/Spinner';
@@ -19,11 +20,23 @@ class CargandoHome extends Component {
     BackHandler.addEventListener('hardwareBackPress', () => {return true});
 
     firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        navigate('TusQuinielas');
-      } else {
-        navigate('Login');
+      let pantallaInicio;
+      if(user) {
+        // navigate('TusQuinielas');
+        pantallaInicio = 'TusQuinielas';
       }
+      else {
+        // navigate('Login');
+        pantallaInicio = 'Login';
+      }
+
+      const resetAction = NavigationActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({ routeName: pantallaInicio })
+        ]
+      });
+      this.props.navigation.dispatch(resetAction);
     });
   }
 

@@ -8,7 +8,8 @@ import {
   BackHandler,
   Image,
   Alert,
-  NetInfo
+  NetInfo,
+  TouchableOpacity,
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
@@ -26,36 +27,48 @@ import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
 import { Titulo } from "../components/Titulo";
 import { Qx } from "../components/Qx";
-import color from "../comun/colors";
 import { Spinner } from "../components/Spinner";
+import color from "../comun/colors";
 
 class TusQuinielas extends Component {
-  static navigationOptions = {
-    header: null
-  };
-
+  static this2 = null;
   constructor(props) {
     super(props);
     this.state = {
       validando: false,
-      qu: {}
+      qu: {},
     };
 
     this.loading = this.loading.bind(this);
     this.run = this.run.bind(this);
-
-    this.handleBackButtonTusQuinielas = this.handleBackButtonTusQuinielas.bind(
-      this
-    );
+    this.handleBackButtonTusQuinielas = this.handleBackButtonTusQuinielas.bind(this);
+    this.alertLogout = this.alertLogout.bind(this);
+    this2 = this;
   }
+
+  static navigationOptions = {
+    title: 'Tus Quinielas', //<Text style={{ textAlign: 'center' }}>"Mis Quinielas"</Text>,
+    headerRight: (
+      <TouchableOpacity onPress={ () => this2.alertLogout() }>
+        <Image
+          style={{
+            height: 30,
+            aspectRatio: 1,
+            padding: 0,
+            margin: 10,
+            tintColor: color.$headerImageColor,
+          }}
+          source={require('../images/logout.png')}
+        />
+      </TouchableOpacity>
+    ),
+    headerLeft: (<TouchableOpacity/>),
+  };
 
   componentDidMount() {
     this.run();
-    console.log("(TusQuinielas) componentDidMount");
-    BackHandler.addEventListener(
-      "hardwareBackPress",
-      this.handleBackButtonTusQuinielas
-    );
+    console.log("(TusQuinielas) componentDidMount")
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonTusQuinielas);
   }
 
   componentWillUnmount() {
@@ -71,18 +84,25 @@ class TusQuinielas extends Component {
       "Confirmación...",
       "¿Deseas salir?",
       [
-        { text: "Cerrar Sesión", onPress: () => this.props.salirSistema() },
-        { text: "Sí, Salir", onPress: () => BackHandler.exitApp() },
-        {
-          text: "Cancelar",
-          onPress: () => {
-            return true;
-          }
-        }
+        // {text: 'Cerrar Sesión', onPress: () => this.props.salirSistema()},
+        {text: 'Sí, Salir', onPress: () => BackHandler.exitApp()},
+        {text: 'Cancelar', onPress: () => {return true}},
       ],
       { cancelable: false }
     );
     return true;
+  }
+
+  alertLogout() {
+    Alert.alert(
+      'Confirmación...',
+      '¿Deseas cerrar la sesión?',
+      [
+        {text: 'Sí', onPress: () => this.props.salirSistema()},
+        {text: 'Cancelar', onPress: () => { return true }},
+      ],
+      { cancelable: true }
+    );
   }
 
   run = async () => {
@@ -143,9 +163,9 @@ class TusQuinielas extends Component {
           backgroundColor={color.$statusBarBackgroundColor}
         />
         <View style={styles.form}>
-          <View style={styles.titulo}>
+          {/* <View style={styles.titulo}>
             <Titulo>MIS QUINIELAS</Titulo>
-          </View>
+          </View> */}
 
           <FlatList
             data={tt}
@@ -179,7 +199,6 @@ class TusQuinielas extends Component {
 const styles = EStyleSheet.create({
   form: {
     flex: 1,
-
     justifyContent: "space-between",
     flexDirection: "column"
   },
@@ -207,7 +226,7 @@ const styles = EStyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center"
-  }
+  },
 });
 
 const mapStateToProps = state => {
