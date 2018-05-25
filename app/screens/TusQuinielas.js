@@ -58,7 +58,7 @@ class TusQuinielas extends Component {
             margin: 10,
             tintColor: color.$headerImageColor,
           }}
-          source={require('../images/logout.png')}
+          source={require('../images/masOpciones.png')}
         />
       </TouchableOpacity>
     ),
@@ -85,7 +85,7 @@ class TusQuinielas extends Component {
       "¿Deseas salir?",
       [
         // {text: 'Cerrar Sesión', onPress: () => this.props.salirSistema()},
-        {text: 'Sí, Salir', onPress: () => BackHandler.exitApp()},
+        {text: 'Sí', onPress: () => BackHandler.exitApp()},
         {text: 'Cancelar', onPress: () => {return true}},
       ],
       { cancelable: false }

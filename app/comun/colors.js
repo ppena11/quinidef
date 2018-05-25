@@ -53,7 +53,7 @@ const colores = {
 
   $headerTextColor: $blanco,
   $headerBackgroundColor: $azulClaro,
-  $headerImageColor: '#07406a',
+  $headerImageColor: $blanco,//'#07406a',
 };
 
 export default colores;
