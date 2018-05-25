@@ -51,7 +51,7 @@ class Qx extends Component {
           >
             <Image
               style={thumbnailStyle}
-              source={require("../../images/logo.png")}
+              source={require("../../images/logo2018rusia.png")}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -107,7 +107,7 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 5,
-    marginRight: 5
+    marginRight: 5,
   }
 };
 
