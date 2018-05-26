@@ -8,6 +8,7 @@ import { CardSection } from "../CardSection";
 import { CardSectionText } from "../CardSectionText";
 import { Buttonb } from "../Buttonb";
 import color from "../../comun/colors";
+import { iconos } from "../../comun/imagenes";
 
 import { buscarDisponiblesq } from "../../actions";
 
@@ -101,7 +102,7 @@ class Qxa extends Component {
           >
             <Image
               style={thumbnailStyle}
-              source={require("../Logo/images/borrar1.png")}
+              source={iconos[`$borrar`]}
             />
           </TouchableOpacity>
           <TouchableOpacity style={headerContentStyle}>

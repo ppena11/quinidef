@@ -8,6 +8,7 @@ import _ from "lodash";
 import { Card } from "../Card";
 import { CardSection } from "../CardSection";
 import color from "../../comun/colors";
+import { iconos } from "../../comun/imagenes";
 
 import {
   cambiarEstatusQuiniela,
@@ -111,7 +112,7 @@ class QuinielaAdminItem extends Component {
       return (
         <Image
           style={styles.thumbnailStyle}
-          source={require("../Logo/images/borrar1.png")}
+          source={iconos[`$borrar`]}
         />
       );
     }

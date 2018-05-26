@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
 import moment from "moment";
 import { Card } from "../Card";
-import banderas from "../../components/Logo/images/banderas";
+import { banderas } from "../../comun/imagenes";
 import { pais3letras } from "../../comun/pais";
 import styles from "./styles";
 import color from "../../comun/colors";

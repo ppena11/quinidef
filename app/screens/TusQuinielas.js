@@ -29,6 +29,7 @@ import { Titulo } from "../components/Titulo";
 import { Qx } from "../components/Qx";
 import { Spinner } from "../components/Spinner";
 import color from "../comun/colors";
+import { iconos } from "../comun/imagenes";
 
 class TusQuinielas extends Component {
   static this2 = null;
@@ -58,7 +59,7 @@ class TusQuinielas extends Component {
             margin: 10,
             tintColor: color.$headerImageColor,
           }}
-          source={require('../images/masOpciones.png')}
+          source={iconos[`$masopciones`]}
         />
       </TouchableOpacity>
     ),

@@ -4,7 +4,7 @@ import { withNavigation } from "react-navigation";
 import { connect } from "react-redux";
 import { Card } from "../Card";
 import { CardSection } from "../CardSection";
-import banderas from "../../components/Logo/images/banderas";
+import { iconos } from "../../comun/imagenes";
 
 import { modificarquiniela } from "../../actions";
 import color from "../../comun/colors";
@@ -19,7 +19,7 @@ const ListaMas = ({ onPress, children, menu }) => (
         >
           <Image
             style={styles.thumbnailStyle}
-            source={banderas[`$${menu.imagen}`]}
+            source={iconos[`$${menu.imagen}`]}
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={onPress} style={styles.headerContentStyle}>
@@ -37,13 +37,7 @@ const styles = {
     flex: 4,
     flexDirection: "column",
     justifyContent: "space-between",
-    alignItems: "flex-start"
-  },
-  headerContentStyle1: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "flex-start",
   },
   headerTextStyle: {
     fontSize: 18,
@@ -51,24 +45,13 @@ const styles = {
     justifyContent: "center",
     alignItems: "center"
   },
-  switchStyle: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginLeft: 10,
-    marginRight: 10
-  },
-  headerTextStyle2: {
-    fontSize: 12,
-    color: color.$qxaHeaderTextStyle2
-  },
   thumbnailStyle: {
     height: 30,
-    width: 30
+    width: 30,
   },
   thumbnailContainerStyle: {
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 5,
-    marginRight: 5
+    marginRight: 5,
   }
 };

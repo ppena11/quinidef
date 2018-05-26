@@ -6,6 +6,8 @@ import { Card } from "../Card";
 import { CardT } from "../CardT";
 import { CardSection } from "../CardSection";
 import styles from "./styles";
+import { iconos } from "../../comun/imagenes";
+
 import { modificarquiniela, buscarHora, escribirHora } from "../../actions";
 
 class Pos extends Component {
@@ -71,7 +73,7 @@ class Pos extends Component {
               <View style={thumbnailContainerStyle}>
                 <Image
                   style={thumbnailStyle}
-                  source={require("../../comun/images/banderas1/lupa.png")}
+                  source={iconos[`$lupa`]}
                 />
                 <Text style={styleUser}>{`  ${index}`}</Text>
               </View>

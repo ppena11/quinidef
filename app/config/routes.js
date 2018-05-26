@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native";
 import Login from "../screens/Login";
 import ReiniciarContrasena from "../screens/ReiniciarContrasena";
 import CrearCuenta from "../screens/CrearCuenta";
-import ConfirmacionCorreo from "../screens/ConfirmacionCorreo";
+// import ConfirmacionCorreo from "../screens/ConfirmacionCorreo";
 import Home from "../screens/Home";
 import TusQuinielas from "../screens/TusQuinielas";
 import QuinielasAdministradas from "../screens/QuinielasAdministradas";

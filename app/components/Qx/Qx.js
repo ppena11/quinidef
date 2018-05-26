@@ -4,7 +4,6 @@ import { withNavigation } from "react-navigation";
 import { connect } from "react-redux";
 import { Card } from "../Card";
 import { CardSection } from "../CardSection";
-
 import { modificarquiniela } from "../../actions";
 import color from "../../comun/colors";
 
@@ -51,7 +50,7 @@ class Qx extends Component {
           >
             <Image
               style={thumbnailStyle}
-              source={require("../../images/logo2018rusia.png")}
+              source={require("../../images/logosTorneos/2018rusia.png")}
             />
           </TouchableOpacity>
           <TouchableOpacity
