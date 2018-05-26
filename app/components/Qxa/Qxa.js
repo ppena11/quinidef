@@ -102,7 +102,7 @@ class Qxa extends Component {
           >
             <Image
               style={thumbnailStyle}
-              source={iconos[`$borrar`]}
+              source={iconos['$basura']}
             />
           </TouchableOpacity>
           <TouchableOpacity style={headerContentStyle}>

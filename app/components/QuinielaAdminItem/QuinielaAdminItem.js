@@ -112,7 +112,7 @@ class QuinielaAdminItem extends Component {
       return (
         <Image
           style={styles.thumbnailStyle}
-          source={iconos[`$borrar`]}
+          source={iconos[`$basura`]}
         />
       );
     }
