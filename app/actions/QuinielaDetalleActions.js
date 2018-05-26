@@ -364,6 +364,49 @@ export const manejarDisponibles = (qu, e1) => dispatch =>
         // console.log("Ada's data: ", snapshot.val());
       }
     );
+
+export const reducirPorActivar = (qu, e1) => dispatch =>
+  firebase
+    .database()
+    .ref(`/quinielas/${qu}/info/`)
+    .transaction(
+      currentData1 => {
+        console.log(`qqqqqqqqqqqqqqqEEEEEEEEEEEEEEEEE1 ${qu}`);
+        if (currentData1 !== null) {
+          console.log(`EEEEEEEEEEEEEEEEE1 ${currentData1}`);
+          console.log(`EEEEEEEEEEEEEEEEE1 ${qu}`);
+          if (e1) {
+            currentData1.quinielasDisponibles =
+              Number(currentData1.quinielasDisponibles) + 1;
+            currentData1.quinielasActivos =
+              Number(currentData1.quinielasActivos) - 1;
+            return currentData1;
+          }
+          currentData1.quinielasPorActivar =
+            Number(currentData1.quinielasPorActivar) - 1;
+          return currentData1;
+        }
+        return "DONDE ESTOY";
+      },
+
+      // Abort the transaction.
+      (error, committed, snapshot) => {
+        if (error) {
+          console.log("Transaction failed abnormally!", error);
+        } else if (!committed) {
+          console.log(
+            "We aborted the transaction (because ada already exists)."
+          );
+        } else {
+          console.log("User ada added!");
+        }
+        dispatch({
+          type: ACTUALIZAR_CODIGO_QUINIELA,
+          payload: snapshot
+        });
+        console.log("Ada's data: ", snapshot.val());
+      }
+    );
 export const manejarActivacion = (codigo, e1) => dispatch =>
   firebase
     .database()
@@ -448,7 +491,7 @@ export const aumentarDisponibles = qu => dispatch =>
       }
     );
 
-export const reducirPorActivar = (qu, e1) => dispatch =>
+export const reducirPorActivar1 = (qu, e1) => dispatch =>
   firebase
     .database()
     .ref(`/quinielas/${qu}/info/`)
@@ -456,26 +499,29 @@ export const reducirPorActivar = (qu, e1) => dispatch =>
       currentData => {
         if (currentData !== null) {
           if (e1) {
-            currentData.quinielasDisponibles += 1;
-            currentData.quinielasActivos -= 1;
-
+            currentData.quinielasDisponibles =
+              Number(currentData.quinielasDisponibles) + 1;
+            currentData.quinielasActivos =
+              Number(currentData.quinielasActivos) - 1;
+            return currentData;
+          } else {
+            currentData.quinielasPorActivar =
+              Number(currentData.quinielasPorActivar) - 1;
             return currentData;
           }
-
-          currentData.quinielasPorActivar -= 1;
-
-          return currentData;
         }
       },
 
       // Abort the transaction.
       (error, committed, snapshot) => {
         if (error) {
-          //   console.log('Transaction failed abnormally!', error);
+          console.log("Transaction failed abnormally!", error);
         } else if (!committed) {
-          //   console.log('We aborted the transaction (because ada already exists).');
+          console.log(
+            "We aborted the transaction (because ada already exists)."
+          );
         } else {
-          //   console.log('User adahksjfhksjdfhksdjfhjksdfhkdjfh added!');
+          console.log("User adahksjfhksjdfhksdjfhjksdfhkdjfh added!");
         }
         dispatch({
           type: ACTUALIZAR_CODIGO_QUINIELA,
