@@ -23,6 +23,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import EliminarApuesta from "../screens/EliminarApuesta";
 import EliminarQuinielaAdministrada from "../screens/EliminarQuinielaAdministrada";
 import ModalScreen from "../screens/ModalScreen";
+import DatosAdmin from "../screens/DatosAdmin";
 
 import CargandoHome from "../screens/CargandoHome";
 
@@ -48,24 +49,25 @@ const stackRouterConfig = {
   initialRouteName: "CargandoHome"
 };
 
-const PosicionesStack = StackNavigator(
-  {
-    HomePosiciones: {
-      screen: Posiciones
-    },
-    DetallesPosiciones: {
-      screen: DetallesApuestas
-    },
+const PosicionesStack = StackNavigator({
+  HomePosiciones: {
+    screen: Posiciones
+  },
+  DetallesPosiciones: {
+    screen: DetallesApuestas
+  }
 });
 
-const MasStack = StackNavigator(
-  {
-    Mas: {
-      screen: Mas
-    },
-    EliminarQuiniela: {
-      screen: EliminarQuiniela
-    },
+const MasStack = StackNavigator({
+  Mas: {
+    screen: Mas
+  },
+  EliminarQuiniela: {
+    screen: EliminarQuiniela
+  },
+  DatosAdmin: {
+    screen: DatosAdmin
+  }
 });
 
 const RootNavigatort = TabNavigator(
@@ -101,7 +103,7 @@ const RootNavigatort = TabNavigator(
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
         return <Ionicons name={iconName} size={25} color={tintColor} />;
-      },
+      }
       // tabBarOnPress: ({ previousScene, scene, jumpToIndex }) => {
       //   console.log('previousScene:', previousScene);
       //   console.log('scene:', scene);
@@ -113,17 +115,17 @@ const RootNavigatort = TabNavigator(
       activeTintColor: "white",
       inactiveTintColor: "gray",
       activeBackgroundColor: "#084B7C",
-      inactiveBackgroundColor: "#084B7C",
+      inactiveBackgroundColor: "#084B7C"
     },
 
     tabBarComponent: TabBarBottom,
     tabBarPosition: "bottom",
     animationEnabled: false,
-    swipeEnabled: false,
+    swipeEnabled: false
     // initialRouteName: 'Apuestas',
     // lazy: false,
     // backBehavior : 'initialRoute',
-    },
+  }
 );
 
 const RootNavigator = StackNavigator(
@@ -181,9 +183,9 @@ const RootNavigator = StackNavigator(
     Apuesta: {
       screen: ({ navigation }) => (
         <RootNavigatort screenProps={{ rootNavigation: navigation }} />
-      ),
+      )
     },
-    
+
     // Apuestas: {
     //   screen: Apuestas
     // },
@@ -193,8 +195,7 @@ const RootNavigator = StackNavigator(
 
     MyModal: {
       screen: ModalScreen
-    },
-
+    }
   },
   stackRouterConfig
 );

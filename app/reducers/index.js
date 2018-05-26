@@ -20,6 +20,7 @@ import PosicionesReducer from "./PosicionesReducer";
 import DetalleApuestaReducer from "./DetalleApuestaReducer";
 import HoraReducer from "./HoraReducer";
 import TimeReducer from "./TimeReducer";
+import AdminReducers from "./AdminReducers";
 
 export default combineReducers({
   auth: AuthReducer,
@@ -41,5 +42,6 @@ export default combineReducers({
   posiciones: PosicionesReducer,
   detalleapuesta: DetalleApuestaReducer,
   hora: HoraReducer,
-  time: TimeReducer
+  time: TimeReducer,
+  admin: AdminReducers
 });

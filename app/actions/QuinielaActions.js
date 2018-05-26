@@ -27,7 +27,8 @@ import {
   ACTUALIZAR_NOMBRE_QUINIELA,
   BUSCAR_DISPONIBLES_EXITO,
   QUINIELA_UPDATE_ID,
-  BUSCAR_POSICIONES_EXITO
+  BUSCAR_POSICIONES_EXITO,
+  BUSCAR_DETALLEADMIN_EXITO
 } from "./types";
 
 export const QuinielaUpdate = ({ prop, value }) => ({
@@ -667,8 +668,7 @@ export const crearCodigoQuiniela = () => dispatch => {
         if (currentData === null) {
           console.log("El código no está en uso: ", codigoNew);
           return codigoNew;
-        }
-        else {
+        } else {
           console.log("Código ya existente: ", codigoNew);
         }
       },
@@ -721,6 +721,14 @@ export const buscarReglasAdmin = qid => dispatch =>
     .ref(`/quinielas/${qid}/info/reglas`)
     .once("value", snapshot => {
       dispatch({ type: BUSCAR_REGLAS_EXITO, payload: snapshot.val() });
+    });
+
+export const buscarDetalleAdmin = admin => dispatch =>
+  firebase
+    .database()
+    .ref(`/users/${admin}/info`)
+    .once("value", snapshot => {
+      dispatch({ type: BUSCAR_DETALLEADMIN_EXITO, payload: snapshot.val() });
     });
 
 const crearQuinielaExito = dispatch => {
