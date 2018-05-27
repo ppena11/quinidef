@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import firebase from "firebase";
-import _ from "lodash";
-import moment from "moment";
+import React, { Component } from "react"
+import firebase from "firebase"
+import _ from "lodash"
+import moment from "moment"
 import {
   StatusBar,
   View,
@@ -12,9 +12,9 @@ import {
   FlatList,
   TouchableOpacity,
   NetInfo
-} from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import { connect } from "react-redux";
+} from "react-native"
+import EStyleSheet from "react-native-extended-stylesheet"
+import { connect } from "react-redux"
 
 import {
   buscarPartidos,
@@ -24,22 +24,22 @@ import {
   escribirHora,
   bloquearPartido,
   ReinicarCargaApuesta
-} from "../actions";
-import { Container } from "../components/Container";
-import { Titulo } from "../components/Titulo";
-import { Pronostico } from "../components/Pronostico";
-import { PuntajeJugador } from "../comun/puntaje";
-import { BotonPrincipal } from "../components/BotonPrincipal";
-import { Spinner } from "../components/Spinner";
+} from "../actions"
+import { Container } from "../components/Container"
+import { Titulo } from "../components/Titulo"
+import { Pronostico } from "../components/Pronostico"
+import { PuntajeJugador } from "../comun/puntaje"
+import { BotonPrincipal } from "../components/BotonPrincipal"
+import { Spinner } from "../components/Spinner"
 
-import color from "../comun/colors";
+import color from "../comun/colors"
 
 class Apuestas extends Component {
   static navigationOptions = {
     header: null
-  };
+  }
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       partidos: {},
@@ -47,42 +47,42 @@ class Apuestas extends Component {
       validando: false,
       cargando: true,
       menu: "yes"
-    };
-    this.run = this.run.bind(this);
-    this.run2 = this.run2.bind(this);
-    this.handleBackButton = this.handleBackButton.bind(this);
+    }
+    this.run = this.run.bind(this)
+    this.run2 = this.run2.bind(this)
+    this.handleBackButton = this.handleBackButton.bind(this)
   }
 
   componentDidMount() {
-    this.run();
+    this.run()
 
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
       this.keyboardWillShow
-    );
+    )
     this.keyboardWillHideListener = Keyboard.addListener(
       "keyboardDidHide",
       this.keyboardWillHide
-    );
+    )
 
-    console.log("(Apuestas) componentDidMount");
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    console.log("(Apuestas) componentDidMount")
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton)
   }
 
   componentWillUnmount() {
-    this.setState({ validando: false });
-    this.keyboardWillShowListener.remove();
-    this.keyboardWillHideListener.remove();
+    this.setState({ validando: false })
+    this.keyboardWillShowListener.remove()
+    this.keyboardWillHideListener.remove()
 
-    this.props.ReinicarCargaApuesta();
+    this.props.ReinicarCargaApuesta()
 
-    console.log("(Apuestas) componentWillUnmount");
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    console.log("(Apuestas) componentWillUnmount")
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton)
   }
 
   handleBackButton() {
-    this.props.screenProps.rootNavigation.goBack();
-    return true;
+    this.props.screenProps.rootNavigation.goBack()
+    return true
   }
 
   // tusquinielas() {
@@ -92,25 +92,25 @@ class Apuestas extends Component {
   // }
 
   keyboardWillShow = () => {
-    this.setState({ menu: "no" });
-  };
+    this.setState({ menu: "no" })
+  }
 
   keyboardWillHide = () => {
-    this.setState({ menu: "yes" });
-  };
+    this.setState({ menu: "yes" })
+  }
 
   run = async () => {
     try {
       //console.log(this.props.quiniela.quiniela);
       //console.log(this.props.quiniela.nombreapuesta);
 
-      const escribirHora = await this.props.escribirHora();
-      const Hora = await this.props.buscarHora();
-      this.props.buscarPartidos(this.props.quiniela.torneoid);
+      const escribirHora = await this.props.escribirHora()
+      const Hora = await this.props.buscarHora()
+      this.props.buscarPartidos(this.props.quiniela.torneoid)
       this.props.buscarApuestas(
         this.props.quiniela.quiniela,
         this.props.quiniela.nombreapuesta
-      );
+      )
 
       // const r1 = partidos.toJSON();
       // const r2 = apuestas.toJSON();
@@ -120,43 +120,43 @@ class Apuestas extends Component {
     } catch (e) {
       //   console.log(e);
     }
-    this.setState({ cargando: false });
-  };
+    this.setState({ cargando: false })
+  }
 
   run2 = async () => {
     try {
-      this.setState({ validando: true });
+      this.setState({ validando: true })
       // const test = await this.props.modifarReglasBD(
-      const escribirHora = await this.props.escribirHora();
-      const Hora = await this.props.buscarHora();
+      const escribirHora = await this.props.escribirHora()
+      const Hora = await this.props.buscarHora()
 
-      var hor = Hora.toJSON();
-      let kk = Object.assign({}, this.props.apuestast);
-      delete kk.cargando;
-      const tt = _.map(kk, (val, uid) => ({ ...val, uid }));
+      var hor = Hora.toJSON()
+      let kk = Object.assign({}, this.props.apuestast)
+      delete kk.cargando
+      const tt = _.map(kk, (val, uid) => ({ ...val, uid }))
       //console.log(hor);
       var yy = _.remove(tt, function(n) {
-        const k = moment.utc(n.inicioGMT0);
-        const y = moment(hor.time);
+        const k = moment.utc(n.inicioGMT0)
+        const y = moment(hor.time)
 
-        k.subtract(1800, "seconds");
+        k.subtract(1800, "seconds")
         if (moment(y).isAfter(k)) {
           if (!n.bloqueado) {
-            this.props.bloquearPartido(this.props.quiniela.torneoid);
+            this.props.bloquearPartido(this.props.quiniela.torneoid)
           }
         }
-        return !moment(y).isAfter(k);
-      });
+        return !moment(y).isAfter(k)
+      })
 
       //console.log(yy);
 
       const arrayToObject = (array, keyField) =>
         array.reduce((obj, item) => {
-          obj[item[keyField]] = item;
-          return obj;
-        }, {});
+          obj[item[keyField]] = item
+          return obj
+        }, {})
 
-      const ap = arrayToObject(yy, "uid");
+      const ap = arrayToObject(yy, "uid")
 
       //console.log(ap);
 
@@ -165,51 +165,51 @@ class Apuestas extends Component {
         this.props.quiniela.quiniela,
         this.props.quiniela.nombreapuesta,
         ap
-      );
+      )
       //console.log(this.props.quiniela.uid);
       //console.log(this.props.quiniela.quiniela);
       //
       //   console.log(test);
       // this.run();
-      this.setState({ validando: false });
+      this.setState({ validando: false })
       // this.props.navigation.goBack();
     } catch (e) {
       //   console.log(e);
-      this.setState({ validando: false });
+      this.setState({ validando: false })
 
       // this.props.navigation.goBack();
     }
-  };
+  }
 
   crear() {
-    this.run2();
+    this.run2()
     // console.log('TEST');
     // navigate('EliminarApuesta');
   }
 
   fechaHoraDispositivo(fechaHoraGMT0) {
-    fechaHoraGMT0 = fechaHoraGMT0.replace(/-/g, "/");
-    const diahora = new Date(`${fechaHoraGMT0} UTC`);
+    fechaHoraGMT0 = fechaHoraGMT0.replace(/-/g, "/")
+    const diahora = new Date(`${fechaHoraGMT0} UTC`)
     const dia =
-      diahora.getDate() < 10 ? `0${diahora.getDate()}` : diahora.getDate();
+      diahora.getDate() < 10 ? `0${diahora.getDate()}` : diahora.getDate()
     const mes =
       diahora.getMonth() + 1 < 10
         ? `0${diahora.getMonth() + 1}`
-        : diahora.getMonth() + 1;
+        : diahora.getMonth() + 1
     const hora =
-      diahora.getHours() < 10 ? `0${diahora.getHours()}` : diahora.getHours();
+      diahora.getHours() < 10 ? `0${diahora.getHours()}` : diahora.getHours()
     const minutos =
       diahora.getMinutes() < 10
         ? `0${diahora.getMinutes()}`
-        : diahora.getMinutes();
-    return `${dia}/${mes}/${diahora.getFullYear()} ${hora}:${minutos}`;
+        : diahora.getMinutes()
+    return `${dia}/${mes}/${diahora.getFullYear()} ${hora}:${minutos}`
   }
 
   grupofasetext(grupoFase) {
-    let resultado = "";
-    if (grupoFase.length == 1) resultado = `Grupo ${grupoFase}`;
-    else resultado = grupoFase;
-    return resultado;
+    let resultado = ""
+    if (grupoFase.length == 1) resultado = `Grupo ${grupoFase}`
+    else resultado = grupoFase
+    return resultado
   }
 
   renderRow(partidos) {
@@ -223,7 +223,7 @@ class Apuestas extends Component {
         fecha={this.fechaHoraDispositivo(partidos.value.inicioGMT0)}
         grupoFase={this.grupofasetext(partidos.value.grupofase)}
       />
-    );
+    )
   }
 
   menustatus() {
@@ -241,16 +241,21 @@ class Apuestas extends Component {
             <View style={styles.vire} />
           </View>
         </View>
-      );
+      )
     }
-    return <View />;
+    return <View />
   }
 
   status() {
     if (this.state.validando) {
-      return <Spinner style={styles.buttonText} size="small" />;
+      return <Spinner style={styles.buttonText} size="small" />
     }
-    return <Text style={styles.buttonText}>Guardar cambios</Text>;
+    return (
+      <Image
+        style={styles.thumbnailStyle}
+        source={require(`../components/Logo/images/save.png`)}
+      />
+    )
   }
 
   activa() {
@@ -259,9 +264,9 @@ class Apuestas extends Component {
         <Text style={styles.buttonText}>
           Contacta al administrador para activar tu quiniela
         </Text>
-      );
+      )
     }
-    return <View />;
+    return <View />
   }
 
   spinner(partidos) {
@@ -272,7 +277,7 @@ class Apuestas extends Component {
             <Spinner size="large" />
           </View>
         </Container>
-      );
+      )
     } else {
       return (
         <FlatList
@@ -282,49 +287,49 @@ class Apuestas extends Component {
           keyboardDismissMode="none"
           onEndReachedThershold={0}
           ref={ref => {
-            this.listRef = ref;
+            this.listRef = ref
           }}
         />
-      );
+      )
     }
   }
 
   render() {
-    let partidos2 = [];
-    let partidos = [];
-    let golA = "";
-    let golB = "";
-    let partidos1 = this.props.partidost;
+    let partidos2 = []
+    let partidos = []
+    let golA = ""
+    let golB = ""
+    let partidos1 = this.props.partidost
 
-    let apuestas1 = Object.assign({}, this.props.apuestast);
-    delete apuestas1.cargando;
-    console.log(this.props.apuestast);
+    let apuestas1 = Object.assign({}, this.props.apuestast)
+    delete apuestas1.cargando
+    console.log(this.props.apuestast)
 
-    const apuestasm = Object.assign({}, this.props.partidost, apuestas1);
+    const apuestasm = Object.assign({}, this.props.partidost, apuestas1)
     partidos2 = Object.keys(partidos1).map(key => {
       if (apuestas1 != null) {
         if (typeof apuestas1[key] !== "undefined") {
           if (typeof apuestas1[key].golesA !== "undefined") {
-            golA = apuestasm[key].golesA;
+            golA = apuestasm[key].golesA
           } else {
-            golA = "null";
+            golA = "null"
           }
         } else {
-          golA = "null";
+          golA = "null"
         }
 
         if (typeof apuestas1[key] !== "undefined") {
           if (typeof apuestas1[key].golesB !== "undefined") {
-            golB = apuestasm[key].golesB;
+            golB = apuestasm[key].golesB
           } else {
-            golB = "null";
+            golB = "null"
           }
         } else {
-          golB = "null";
+          golB = "null"
         }
       } else {
-        golA = "null";
-        golB = "null";
+        golA = "null"
+        golB = "null"
       }
 
       // golA = this.state.apuestas[key].golesA;
@@ -340,17 +345,17 @@ class Apuestas extends Component {
           idB: partidos1[key].idB,
           inicioGMT0: partidos1[key].inicioGMT0
         }
-      };
-    });
+      }
+    })
 
     partidos = partidos2.sort(function compare(a, b) {
-      var dateA = moment(a.value.inicioGMT0);
-      var dateB = moment(b.value.inicioGMT0);
+      var dateA = moment(a.value.inicioGMT0)
+      var dateB = moment(b.value.inicioGMT0)
 
       // console.log(a);
       //console.log(dateA.format());
-      return dateA - dateB;
-    });
+      return dateA - dateB
+    })
 
     return (
       <View style={styles.container}>
@@ -361,17 +366,26 @@ class Apuestas extends Component {
         />
         <View style={styles.form}>
           <View>{this.activa()}</View>
+          <View style={styles.linecont}>
+            <View style={styles.textcont}>
+              <Text style={styles.buttonText}>
+                Puedes modificar tus apuestas hasta 30 min antes que empiece
+                cada juego
+              </Text>
+            </View>
 
-          <Text style={styles.buttonText}>
-            Puedes modificar tus apuestas hasta 30 min antes que empiece cada
-            juego
-          </Text>
+            <TouchableOpacity
+              style={styles.imgcont}
+              onPress={() => this.crear()}
+            >
+              {this.status()}
+            </TouchableOpacity>
+          </View>
 
           <View style={styles.cuerpo}>{this.spinner(partidos)}</View>
-          <View>{this.menustatus()}</View>
         </View>
       </View>
-    );
+    )
   }
 }
 
@@ -382,6 +396,11 @@ const styles = EStyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "column"
   },
+  linecont: {
+    justifyContent: "space-between",
+    flexDirection: "row",
+    padding: 10
+  },
   container: {
     flex: 1,
     // padding: 20,
@@ -390,6 +409,14 @@ const styles = EStyleSheet.create({
   },
   titulo: {
     padding: 20
+  },
+  imgcont: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  textcont: {
+    flex: 5
   },
   cuerpo: { flex: 1 },
   bottom: {
@@ -438,6 +465,10 @@ const styles = EStyleSheet.create({
     color: color.$formButtonTextColor,
     textAlign: "center"
   },
+  thumbnailStyle: {
+    height: 45,
+    width: 45
+  },
 
   viewStyle: {
     flex: 1,
@@ -445,21 +476,21 @@ const styles = EStyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   }
-});
+})
 
 const mapStateToProps = state => {
-  const partidost = state.partidos;
-  const apuestast = state.apuestas;
-  const quiniela = state.quini;
-  const hora = state.hora;
+  const partidost = state.partidos
+  const apuestast = state.apuestas
+  const quiniela = state.quini
+  const hora = state.hora
 
   return {
     partidost,
     apuestast,
     quiniela,
     hora
-  };
-};
+  }
+}
 
 export default connect(mapStateToProps, {
   buscarApuestas,
@@ -469,4 +500,4 @@ export default connect(mapStateToProps, {
   escribirHora,
   bloquearPartido,
   ReinicarCargaApuesta
-})(Apuestas);
+})(Apuestas)
