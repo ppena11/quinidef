@@ -43,7 +43,7 @@ class PosicionesItem extends Component {
             <View style={thumbnailContainerStyle}>
               <Text
                 style={thumbnailStyle}
-                source={require("../../images/logo.png")}
+                source={require("../Logo/images/copa1.png")}
               >
                 {puntos}
               </Text>

@@ -3,7 +3,6 @@ import { View, BackHandler, Image } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
-import { NavigationActions } from "react-navigation";
 
 import { Container } from '../components/Container';
 import { Spinner } from '../components/Spinner';
@@ -20,23 +19,11 @@ class CargandoHome extends Component {
     BackHandler.addEventListener('hardwareBackPress', () => {return true});
 
     firebase.auth().onAuthStateChanged((user) => {
-      let pantallaInicio;
-      if(user) {
-        // navigate('TusQuinielas');
-        pantallaInicio = 'TusQuinielas';
+      if (user) {
+        navigate('TusQuinielas');
+      } else {
+        navigate('Login');
       }
-      else {
-        // navigate('Login');
-        pantallaInicio = 'Login';
-      }
-
-      const resetAction = NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({ routeName: pantallaInicio })
-        ]
-      });
-      this.props.navigation.dispatch(resetAction);
     });
   }
 
@@ -49,7 +36,7 @@ class CargandoHome extends Component {
     return (
       <Container>
         <View style={styles.viewImgStyle}>
-          <Image style={styles.imgStyle} source={require('../images/logo.png')} />
+          <Image style={styles.imgStyle} source={require('../components/Logo/images/copa1.png')} />
         </View>
         <View style={styles.viewStyle}>
           <Spinner size="large" />
@@ -68,8 +55,8 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
   },
   imgStyle: {
-    height: 250,
-    width: 250,
+    height: 200,
+    width: 200,
   },
   viewStyle: {
     flex: 1,

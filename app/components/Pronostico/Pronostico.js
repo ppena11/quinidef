@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 import {
   View,
   Image,
@@ -6,21 +6,21 @@ import {
   TextInput,
   TouchableOpacity,
   Picker
-} from "react-native";
-import { connect } from "react-redux";
-import { withNavigation } from "react-navigation";
-import moment from "moment";
-import { Card } from "../Card";
-import banderas from "../../components/Logo/images/banderas";
-import { pais3letras } from "../../comun/pais";
-import styles from "./styles";
-import color from "../../comun/colors";
+} from "react-native"
+import { connect } from "react-redux"
+import { withNavigation } from "react-navigation"
+import moment from "moment"
+import { Card } from "../Card"
+import banderas from "../../components/Logo/images/banderas"
+import { pais3letras } from "../../comun/pais"
+import styles from "./styles"
+import color from "../../comun/colors"
 
-import { modificarApuestas, bloquearPartido } from "../../actions";
+import { modificarApuestas, bloquearPartido } from "../../actions"
 
 class Pronostico extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       valuea: "",
       placeholdera: "",
@@ -28,10 +28,10 @@ class Pronostico extends Component {
       placeholderb: "",
       prevGolesA: "",
       prevGolesB: ""
-    };
+    }
 
-    this.presseda = this.presseda.bind(this);
-    this.pressedb = this.pressedb.bind(this);
+    this.presseda = this.presseda.bind(this)
+    this.pressedb = this.pressedb.bind(this)
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -44,64 +44,64 @@ class Pronostico extends Component {
       const a =
         nextProps.golesA.toString() == "null"
           ? " - "
-          : nextProps.golesA.toString();
+          : nextProps.golesA.toString()
       const b =
         nextProps.golesB.toString() == "null"
           ? " - "
-          : nextProps.golesB.toString();
+          : nextProps.golesB.toString()
       return {
         prevGolesA: a,
         prevGolesB: b
-      };
+      }
     }
   }
 
   presseda(e) {
-    const re = this.props.partidos;
-    let ra = Object.assign({}, this.props.apuestas);
-    delete ra.cargando;
-    this.setState({ valuea: e });
+    const re = this.props.partidos
+    let ra = Object.assign({}, this.props.apuestas)
+    delete ra.cargando
+    this.setState({ valuea: e })
     if (e == " ") {
       // console.log("1 espacio");
-      this.setState({ valuea: "" });
+      this.setState({ valuea: "" })
     }
     if (e == "") {
       // console.log("0 espacio");
-      this.setState({ valuea: "" });
-      re[this.props.partido.key].golesA = this.state.prevGolesA;
+      this.setState({ valuea: "" })
+      re[this.props.partido.key].golesA = this.state.prevGolesA
       if (ra != null) {
         if (typeof ra[this.props.partido.key] !== "undefined") {
-          re[this.props.partido.key].golesB = ra[this.props.partido.key].golesB;
+          re[this.props.partido.key].golesB = ra[this.props.partido.key].golesB
         }
       }
     } else {
       if (e == " ") {
         // console.log(re[this.props.partido.key]);
       } else {
-        e = e.replace(/\D/g, "");
-        this.setState({ valuea: e });
+        e = e.replace(/\D/g, "")
+        this.setState({ valuea: e })
         if (e != "") {
-          const k = Number(e);
+          const k = Number(e)
           if (!isNaN(k) && Number.isInteger(k)) {
             if (k >= 0) {
               //  console.log('GUARDALO');
               //  console.log(this.props.regla.key);
-              re[this.props.partido.key].golesA = k;
+              re[this.props.partido.key].golesA = k
               if (ra != null) {
                 if (typeof ra[this.props.partido.key] !== "undefined") {
                   re[this.props.partido.key].golesB =
-                    ra[this.props.partido.key].golesB;
+                    ra[this.props.partido.key].golesB
                 }
               }
               //  console.log(re[this.props.partido.key]);
               this.props.modificarApuestas(
                 re[this.props.partido.key],
                 this.props.partido.key
-              );
+              )
               //   console.log(re);
             }
           } else {
-            this.setState({ valuea: "" });
+            this.setState({ valuea: "" })
           }
         }
       }
@@ -112,53 +112,53 @@ class Pronostico extends Component {
   }
 
   pressedb(e) {
-    const re = this.props.partidos;
-    let ra = Object.assign({}, this.props.apuestas);
-    delete ra.cargando;
-    this.setState({ valueb: e });
+    const re = this.props.partidos
+    let ra = Object.assign({}, this.props.apuestas)
+    delete ra.cargando
+    this.setState({ valueb: e })
     if (e == " ") {
       // console.log("1 espacio");
-      this.setState({ valueb: "" });
+      this.setState({ valueb: "" })
     }
     if (e == "") {
       // console.log("0 espacio");
-      this.setState({ valueb: "" });
-      re[this.props.partido.key].golesB = this.state.prevGolesB;
+      this.setState({ valueb: "" })
+      re[this.props.partido.key].golesB = this.state.prevGolesB
       if (ra != null) {
         if (typeof ra[this.props.partido.key] !== "undefined") {
-          re[this.props.partido.key].golesA = ra[this.props.partido.key].golesA;
+          re[this.props.partido.key].golesA = ra[this.props.partido.key].golesA
         }
       }
     } else {
       if (e == " ") {
         // console.log(re[this.props.partido.key]);
       } else {
-        e = e.replace(/\D/g, "");
-        this.setState({ valueb: e });
-        console.log(e);
+        e = e.replace(/\D/g, "")
+        this.setState({ valueb: e })
+        console.log(e)
         if (e != "") {
-          const k = Number(e);
-          console.log(k);
+          const k = Number(e)
+          console.log(k)
           if (!isNaN(k) && Number.isInteger(k)) {
             if (k >= 0) {
               //  console.log('GUARDALO');
               //  console.log(this.props.regla.key);
-              re[this.props.partido.key].golesB = k;
+              re[this.props.partido.key].golesB = k
               if (ra != null) {
                 if (typeof ra[this.props.partido.key] !== "undefined") {
                   re[this.props.partido.key].golesA =
-                    ra[this.props.partido.key].golesA;
+                    ra[this.props.partido.key].golesA
                 }
               }
               //  console.log(re[this.props.partido.key]);
               this.props.modificarApuestas(
                 re[this.props.partido.key],
                 this.props.partido.key
-              );
+              )
               //   console.log(re);
             }
           } else {
-            this.setState({ valueb: "" });
+            this.setState({ valueb: "" })
           }
         }
       }
@@ -169,21 +169,21 @@ class Pronostico extends Component {
   }
 
   apuestaA() {
-    const re = this.props.partidos;
+    const re = this.props.partidos
 
-    const k = moment.utc(re[this.props.partido.key].inicioGMT0);
-    const y = moment(this.props.hora.hora);
+    const k = moment.utc(re[this.props.partido.key].inicioGMT0)
+    const y = moment(this.props.hora.hora)
 
-    k.subtract(1800, "seconds");
+    k.subtract(1800, "seconds")
     if (moment(y).isAfter(k)) {
       if (!re[this.props.partido.key].bloqueado) {
-        this.props.bloquearPartido(this.props.quiniela.torneoid);
+        this.props.bloquearPartido(this.props.quiniela.torneoid)
       }
     }
 
     if (!re[this.props.partido.key].bloqueado) {
       let valor =
-        this.state.valuea == "" ? this.state.prevGolesA : this.state.valuea;
+        this.state.valuea == "" ? this.state.prevGolesA : this.state.valuea
       return (
         // Con Teclado Numérico
         <TextInput
@@ -195,6 +195,7 @@ class Pronostico extends Component {
           textAlign="center"
           maxLength={1}
           keyboardType="numeric"
+          returnKeyType="done"
           onChangeText={q => this.presseda(q)}
           autoCapitalize="none"
           value={this.state.valuea}
@@ -221,7 +222,7 @@ class Pronostico extends Component {
         //     <Picker.Item label='9' value='9' />
         //   </Picker>
         // </View>
-      );
+      )
     } else {
       return (
         <Text style={styles.text2}>
@@ -229,19 +230,19 @@ class Pronostico extends Component {
             ? " - "
             : this.props.golesA.toString()}
         </Text>
-      );
+      )
     }
   }
 
   apuestaB() {
-    const re = this.props.partidos;
+    const re = this.props.partidos
 
-    const k = moment.utc(re[this.props.partido.key].inicioGMT0);
-    const y = moment(this.props.hora.hora);
+    const k = moment.utc(re[this.props.partido.key].inicioGMT0)
+    const y = moment(this.props.hora.hora)
 
     if (!re[this.props.partido.key].bloqueado) {
       let valor =
-        this.state.valueb == "" ? this.state.prevGolesB : this.state.valueb;
+        this.state.valueb == "" ? this.state.prevGolesB : this.state.valueb
       return (
         // Con Teclado Numérico
         <TextInput
@@ -253,6 +254,7 @@ class Pronostico extends Component {
           textAlign="center"
           maxLength={1}
           keyboardType="numeric"
+          returnKeyType="done"
           onChangeText={q => this.pressedb(q)}
           value={this.state.valueb}
         />
@@ -278,7 +280,7 @@ class Pronostico extends Component {
         //     <Picker.Item label='9' value='9' />
         //   </Picker>
         // </View>
-      );
+      )
     } else {
       return (
         <Text style={styles.text2}>
@@ -286,7 +288,7 @@ class Pronostico extends Component {
             ? " - "
             : this.props.golesB.toString()}
         </Text>
-      );
+      )
     }
   }
 
@@ -322,20 +324,20 @@ class Pronostico extends Component {
           </View>
         </View>
       </View>
-    );
+    )
   }
 }
 
 const mapStateToProps = state => {
-  const partidos = state.partidos;
-  const apuestas = state.apuestas;
-  const hora = state.hora;
-  const time = state.time;
-  const quiniela = state.quini;
+  const partidos = state.partidos
+  const apuestas = state.apuestas
+  const hora = state.hora
+  const time = state.time
+  const quiniela = state.quini
 
-  return { partidos, apuestas, hora, time, quiniela };
-};
+  return { partidos, apuestas, hora, time, quiniela }
+}
 
 export default connect(mapStateToProps, { modificarApuestas, bloquearPartido })(
   withNavigation(Pronostico)
-);
+)

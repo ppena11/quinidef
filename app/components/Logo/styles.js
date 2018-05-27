@@ -2,7 +2,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { Dimensions } from 'react-native';
 import color from '../../comun/colors';
 
-const imageWidth = Dimensions.get('window').width / 1.75;
+const imageWidth = Dimensions.get('window').width / 3;
 const imageHeight = Dimensions.get('window').height / 5;
 
 export default EStyleSheet.create({

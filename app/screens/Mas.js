@@ -62,7 +62,10 @@ class Mas extends Component {
   }
 
   handleBackButton() {
+    console.log("(Mas) handleBackButton");
+    console.log('(Mas) this.props ', this.props);
     this.props.screenProps.rootNavigation.goBack();
+    // this.props.navigation.goBack();
     return true;
   }
 

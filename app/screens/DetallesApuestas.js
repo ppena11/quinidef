@@ -81,6 +81,7 @@ class DetalleApuestas extends Component {
   }
 
   handleBackButton() {
+    console.log("(DetallesApuestas) handleBackButton");
     this.props.screenProps.rootNavigation.goBack();
     return true;
   }

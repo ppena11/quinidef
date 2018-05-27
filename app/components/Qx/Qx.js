@@ -51,7 +51,7 @@ class Qx extends Component {
           >
             <Image
               style={thumbnailStyle}
-              source={require("../../images/logo.png")}
+              source={require("../Logo/images/copa1.png")}
             />
           </TouchableOpacity>
           <TouchableOpacity

@@ -77,7 +77,10 @@ class Reglas extends Component {
   }
 
   handleBackButton() {
+    console.log("(Reglas) handleBackButton");
+    console.log('(Reglas) this.props ', this.props);
     this.props.screenProps.rootNavigation.goBack();
+    // this.props.navigation.goBack();
     return true;
   }
 
