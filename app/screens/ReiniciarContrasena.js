@@ -19,8 +19,8 @@ import color from "../comun/colors";
 
 class ReiniciarContrasena extends Component {
   static navigationOptions = {
-    header: null
-  };
+    title: 'Reiniciar Contraseña',
+};
   constructor() {
     super();
     this.confirmar = this.confirmar.bind(this);
@@ -65,11 +65,11 @@ class ReiniciarContrasena extends Component {
 
           <TextIndication description={this.props.error} />
 
-          <View style={styles.signupTextCont}>
+          {/* <View style={styles.signupTextCont}>
             <TouchableOpacity onPress={() => this.confirmar(navigate)}>
               <Text style={styles.signupButton}>Entrar</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
       </Container>
     );

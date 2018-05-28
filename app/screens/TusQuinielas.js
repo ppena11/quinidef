@@ -49,7 +49,7 @@ class TusQuinielas extends Component {
 
   static navigationOptions = {
     title: 'Tus Quinielas', //<Text style={{ textAlign: 'center' }}>"Mis Quinielas"</Text>,
-    headerRight: (
+    headerLeft: (
       <TouchableOpacity onPress={ () => this2.alertLogout() }>
         <Image
           style={{
@@ -63,7 +63,7 @@ class TusQuinielas extends Component {
         />
       </TouchableOpacity>
     ),
-    headerLeft: (<TouchableOpacity/>),
+    headerRight: (<TouchableOpacity/>),
   };
 
   componentDidMount() {

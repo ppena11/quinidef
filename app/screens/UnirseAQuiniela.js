@@ -238,13 +238,13 @@ class UnirseAQuiniela extends Component {
           backgroundColor={color.$statusBarBackgroundColor}
         />
 
-        <View style={styles.titulo}>
+        {/* <View style={styles.titulo}>
           <Titulo>UNIRSE A QUINIELA</Titulo>
-        </View>
+        </View> */}
 
         <View>
           <Text style={styles.texto}>
-            Introduzca el{"\n"}Código de Activación:
+            Introduzca{"\n"}Código de Activación:
           </Text>
         </View>
 

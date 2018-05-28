@@ -31,7 +31,7 @@ import {
 
 class RegistrarQuiniela extends Component {
   static navigationOptions = {
-    header: null
+    title: "Registro de Apuesta",
   };
 
   constructor(props) {
@@ -164,7 +164,7 @@ class RegistrarQuiniela extends Component {
     if (this.state.validando) {
       return <Spinner style={styles.buttonText} size="small" />;
     }
-    return <Text style={styles.buttonText}>Registrate..</Text>;
+    return <Text style={styles.buttonText}>Registrar</Text>;
   }
 
   cuerpo() {
@@ -182,7 +182,7 @@ class RegistrarQuiniela extends Component {
             {"\n"}
             Administrador: {this.props.navigation.state.params.admin.nombre}
             {"\n"}
-            Email del Administrador:{" "}
+            Email del Administrador:{"\n"}
             {this.props.navigation.state.params.admin.email}
           </Text>
         </View>
@@ -202,10 +202,11 @@ class RegistrarQuiniela extends Component {
           backgroundColor={color.$statusBarBackgroundColor}
         />
         <View style={styles.titulo}>
-          <Titulo>Selecciona un nombre de usuario para tu quiniela</Titulo>
+          {/* <Titulo>Escribe un nombre de usuario para tu quiniela</Titulo> */}
+          <Text style={styles.textoTitulo}>Introduzca un nombre de usuario para su quiniela:</Text>
         </View>
         <View style={styles.conta}>
-          <View style={styles.vire} />
+          {/* <View style={styles.vire} /> */}
           <TextInput
             style={styles.inputBox}
             underlineColorAndroid={color.$underlineColorAndroid}
@@ -220,7 +221,6 @@ class RegistrarQuiniela extends Component {
           <View style={styles.vire} />
         </View>
         {this.cuerpo()}
-
         <View style={styles.bottom}>
           <View style={styles.conta}>
             <View style={styles.vire} />
@@ -233,9 +233,9 @@ class RegistrarQuiniela extends Component {
             <View style={styles.vire} />
           </View>
 
-          <BotonPrincipal onPress={() => this.cancelar(navigate)}>
+          {/* <BotonPrincipal onPress={() => this.cancelar(navigate)}>
             Cancelar
-          </BotonPrincipal>
+          </BotonPrincipal> */}
         </View>
       </Container>
     );
@@ -245,51 +245,57 @@ class RegistrarQuiniela extends Component {
 const styles = EStyleSheet.create({
   form: {
     flex: 1,
-
     justifyContent: "space-between",
-    flexDirection: "column"
+    flexDirection: "column",
   },
 
   titulo: {
-    padding: 10
+    padding: 20,
+    paddingBottom: 0,
   },
   cuerpo: {
-    flex: 1
+    // flex: 1,
   },
   bottom: {
-    padding: 20
+    padding: 20,
   },
   texto: {
     fontSize: 15,
     color: color.$tituloTextColor,
     fontWeight: "300",
-    textAlign: "center"
+    textAlign: "center",
+  },
+  textoTitulo: {
+    fontSize: 20,
+    color: color.$tituloTextColor,
+    fontWeight: "500",
+    textAlign: "center",
   },
   view1: {
     flexDirection: "row",
     justifyContent: "center",
-    padding: 20
+    padding: 20,
   },
   conta: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    padding: 20
+    padding: 20,
   },
   vire: {
-    flex: 0.5
+    flex: 0.5,
   },
   signupText: {
     color: color.$signupTextColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   signupButton: {
     color: color.$signupButtonColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   inputBox: {
     flex: 8,
@@ -298,20 +304,20 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     color: color.$formInputBoxColor,
-    marginVertical: 10
+    marginVertical: 0,
   },
   buttonText: {
     fontSize: 16,
     fontWeight: "500",
     color: color.$formButtonTextColor,
-    textAlign: "center"
+    textAlign: "center",
   },
   button: {
     flex: 8,
     backgroundColor: color.$fondoBotonPrincipal,
     borderRadius: 25,
     marginVertical: 0,
-    paddingVertical: 11
+    paddingVertical: 11,
   }
 });
 

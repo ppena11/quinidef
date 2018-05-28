@@ -11,8 +11,8 @@ export default EStyleSheet.create({
     flex: 1,
   },
   text: {
-    fontSize: 26,
-    fontWeight: '500',
+    fontSize: 20,
+    fontWeight: '200',
     color: color.$tituloTextColor,
     textAlign: 'center',
   },
