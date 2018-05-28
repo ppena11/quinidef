@@ -18,18 +18,18 @@ EStyleSheet.build({
 */
 })
 
-const App = ({ dispatch, nav }) => <RootNavigator />
-const mapStateToProps = state => ({ nav: state.nav })
-const AppWithNavigation = connect(mapStateToProps)(App)
+const App = ({ dispatch, nav }) => <RootNavigator />;
+const mapStateToProps = state => ({ nav: state.nav });
+const AppWithNavigation = connect(mapStateToProps)(App);
 
-const entornoProductivoFirebase = false // cambiar a false para apuntar a proyecto de pruebas
+const entornoProductivoFirebase = true; // cambiar a false para apuntar a proyecto de pruebas
 
 export default class extends Component {
   componentWillMount() {
     let firebaseConfig
     if (entornoProductivoFirebase) {
-      // Entorno Productivo
       firebaseConfig = {
+        // Entorno Productivo
         apiKey: "AIzaSyAjBk7uGmz4TzmBlEzi8VuHPC0GjVmXDuw",
         authDomain: "futbol-y-quinielas.firebaseapp.com",
         databaseURL: "https://futbol-y-quinielas.firebaseio.com"
