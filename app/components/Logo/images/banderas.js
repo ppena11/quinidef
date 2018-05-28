@@ -43,7 +43,8 @@ const banderas = {
 
   // IMAGENES PARA EL MENU MAS
   $basura: require("../../Logo/images/borrar1.png"),
-  $salir: require("../../Logo/images/Logout.png")
+  $salir: require("../../Logo/images/Logout.png"),
+  $admin: require("../../Logo/images/admin.png")
 };
 
 export default banderas;

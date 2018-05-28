@@ -23,7 +23,8 @@ import {
   buscarHora,
   escribirHora,
   bloquearPartido,
-  ReinicarCargaApuesta
+  ReinicarCargaApuesta,
+  buscarAdministrador
 } from "../actions";
 import { Container } from "../components/Container";
 import { Titulo } from "../components/Titulo";
@@ -66,7 +67,7 @@ class Apuestas extends Component {
     );
 
     console.log("(Apuestas) componentDidMount");
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   componentWillUnmount() {
@@ -77,7 +78,7 @@ class Apuestas extends Component {
     this.props.ReinicarCargaApuesta();
 
     console.log("(Apuestas) componentWillUnmount");
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   handleBackButton() {
@@ -111,6 +112,7 @@ class Apuestas extends Component {
         this.props.quiniela.quiniela,
         this.props.quiniela.nombreapuesta
       );
+      this.props.buscarAdministrador(this.props.quiniela.quiniela);
 
       // const r1 = partidos.toJSON();
       // const r2 = apuestas.toJSON();
@@ -468,5 +470,6 @@ export default connect(mapStateToProps, {
   modificarApuestasBD,
   escribirHora,
   bloquearPartido,
-  ReinicarCargaApuesta
+  ReinicarCargaApuesta,
+  buscarAdministrador
 })(Apuestas);
