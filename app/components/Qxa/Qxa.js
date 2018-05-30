@@ -105,7 +105,10 @@ class Qxa extends Component {
               source={iconos['$basura']}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={headerContentStyle}>
+          <TouchableOpacity
+            style={headerContentStyle}
+            onPress={() => this.onRowPress()}
+          >
             <Text style={headerTextStyle}>
               {quinielaNombre} - Código: {codigoq}
             </Text>

@@ -52,7 +52,7 @@ const colores = {
   $textoPronostico: $blanco,
 
   $headerTextColor: $blanco,
-  $headerBackgroundColor: $azulClaro,
+  $headerBackgroundColor: '#082B4C',
   $headerImageColor: $blanco,//'#07406a',
 };
 

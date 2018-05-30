@@ -38,7 +38,7 @@ import color from "../comun/colors";
 
 class EliminarQuinielaAdministrada extends Component {
   static navigationOptions = {
-    header: null
+    title: "Eliminar Quiniela",
   };
   constructor(props) {
     super(props);
@@ -186,7 +186,7 @@ class EliminarQuinielaAdministrada extends Component {
 
   menustatus(jugador) {
     if (this.state.menu === "yes") {
-      return <Titulo>ELIMINAR QUINIELA</Titulo>;
+      // return <Titulo>ELIMINAR QUINIELA</Titulo>;
     }
     return <View />;
   }

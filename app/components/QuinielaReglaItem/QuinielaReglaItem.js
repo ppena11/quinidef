@@ -109,8 +109,7 @@ const styles = {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-
-    width: 250
+    width: 250,
   },
   input: {
     backgroundColor: color.$fondoBotonInput,

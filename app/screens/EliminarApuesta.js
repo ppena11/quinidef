@@ -35,7 +35,7 @@ import color from "../comun/colors";
 
 class EliminarApuesta extends Component {
   static navigationOptions = {
-    header: null
+    title: "Eliminar Quiniela",
   };
   constructor(props) {
     super(props);
@@ -186,7 +186,7 @@ class EliminarApuesta extends Component {
 
   menustatus(jugador) {
     if (this.state.menu === "yes") {
-      return <Titulo>Eliminar jugador</Titulo>;
+      // return <Titulo>Eliminar jugador</Titulo>;
     }
     return <View />;
   }

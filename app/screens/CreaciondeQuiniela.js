@@ -40,7 +40,7 @@ import { Spinner } from "../components/Spinner";
 
 class TusQuinielas extends Component {
   static navigationOptions = {
-    header: null
+    title: "Creación de Quiniela",
   };
 
   constructor(props) {
@@ -285,9 +285,9 @@ class TusQuinielas extends Component {
           backgroundColor={color.$statusBarBackgroundColor}
         />
         <View style={styles.form}>
-          <View style={styles.titulo}>
+          {/* <View style={styles.titulo}>
             <Titulo>CREA TU QUINIELA</Titulo>
-          </View>
+          </View> */}
 
           <View>
             <View style={styles2.conta}>
@@ -353,8 +353,7 @@ class TusQuinielas extends Component {
 const styles = EStyleSheet.create({
   form: {
     flex: 1,
-
-    justifyContent: "space-between",
+    justifyContent: "center",
     flexDirection: "column"
   },
   conta: {
@@ -375,7 +374,6 @@ const styles = EStyleSheet.create({
   },
   inputBox1: {
     flex: 8,
-
     color: color.$formInputBoxColor,
     marginVertical: 10
   },

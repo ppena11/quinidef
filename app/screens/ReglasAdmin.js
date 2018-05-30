@@ -36,7 +36,7 @@ import { Spinner } from "../components/Spinner";
 
 class ReglasAdmin extends Component {
   static navigationOptions = {
-    header: null
+    title: "Modificar Reglas",
   };
   constructor(props) {
     super(props);
@@ -203,7 +203,7 @@ class ReglasAdmin extends Component {
         <View style={styles.form}>
           <View style={styles.titulo}>
             <Titulo>
-              MODIFICAR REGLAS {"\n"}
+              {/* MODIFICAR REGLAS {"\n"} */}
               {this.props.navigation.state.params.quiniela.quinielaNombre}
             </Titulo>
           </View>

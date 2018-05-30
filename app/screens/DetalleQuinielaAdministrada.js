@@ -43,7 +43,8 @@ import color from "../comun/colors";
 
 class DetalleQuinielaAdministrada extends Component {
   static navigationOptions = {
-    header: null
+    title: "Ajustes Quiniela Administrada",
+    headerLeft: (<TouchableOpacity/>),
   };
   constructor(props) {
     super(props);
@@ -54,16 +55,10 @@ class DetalleQuinielaAdministrada extends Component {
       menu: "yes",
       refdb: firebase
         .database()
-        .ref(
-          `/quinielas/${this.props.navigation.state.params.quiniela.uid}/info/`
-        ),
+        .ref(`/quinielas/${this.props.navigation.state.params.quiniela.uid}/info/`),
       refdbj: firebase
         .database()
-        .ref(
-          `/quinielas/${
-            this.props.navigation.state.params.quiniela.uid
-          }/clasificacion/`
-        )
+        .ref(`/quinielas/${this.props.navigation.state.params.quiniela.uid}/clasificacion/`)
     };
 
     this.run1 = this.run1.bind(this);

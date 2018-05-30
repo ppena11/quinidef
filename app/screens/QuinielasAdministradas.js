@@ -7,7 +7,8 @@ import {
   ScrollView,
   FlatList,
   TextInput,
-  BackHandler
+  BackHandler,
+  TouchableOpacity,
 } from "react-native";
 import firebase from "firebase";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -40,7 +41,8 @@ import color from "../comun/colors";
 
 class QuinielasAdministradas extends Component {
   static navigationOptions = {
-    header: null
+    title: "Quinielas Administradas",
+    headerLeft: (<TouchableOpacity/>),
   };
 
   constructor(props) {
@@ -247,9 +249,9 @@ class QuinielasAdministradas extends Component {
           backgroundColor={color.$statusBarBackgroundColor}
         />
         <View style={styles.form}>
-          <View style={styles.titulo}>
+          {/* <View style={styles.titulo}>
             <Titulo>QUINIELAS ADMINISTRADAS</Titulo>
-          </View>
+          </View> */}
 
           <View style={styles.cuerpo}>
             <FlatList
