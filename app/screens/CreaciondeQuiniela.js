@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 import {
   StatusBar,
   ListView,
@@ -9,13 +9,13 @@ import {
   Text,
   TouchableOpacity,
   BackHandler
-} from "react-native";
-import firebase from "firebase";
-import EStyleSheet from "react-native-extended-stylesheet";
-import _ from "lodash";
-import { connect } from "react-redux";
-import { NavigationActions } from "react-navigation";
-
+} from "react-native"
+import firebase from "firebase"
+import EStyleSheet from "react-native-extended-stylesheet"
+import _ from "lodash"
+import { connect } from "react-redux"
+import { NavigationActions } from "react-navigation"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import {
   nombreQuinielaCambio,
   buscarTorneos,
@@ -29,118 +29,118 @@ import {
   buscarDisponiblesDemo,
   buscarQuinielasAdminTorneo,
   buscarActivacionesDB
-} from "../actions";
-import { Container } from "../components/Container";
-import { BotonPrincipal } from "../components/BotonPrincipal";
-import { Titulo } from "../components/Titulo";
-import { TorneoItem } from "../components/TorneoItem";
-import color from "../comun/colors";
-import { generarCodigo } from "../comun/helper";
-import { Spinner } from "../components/Spinner";
+} from "../actions"
+import { Container } from "../components/Container"
+import { BotonPrincipal } from "../components/BotonPrincipal"
+import { Titulo } from "../components/Titulo"
+import { TorneoItem } from "../components/TorneoItem"
+import color from "../comun/colors"
+import { generarCodigo } from "../comun/helper"
+import { Spinner } from "../components/Spinner"
 
 class TusQuinielas extends Component {
   static navigationOptions = {
     header: null
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       validando: false
-    };
-    this.run = this.run.bind(this);
-    this.handleBackButton = this.handleBackButton.bind(this);
+    }
+    this.run = this.run.bind(this)
+    this.handleBackButton = this.handleBackButton.bind(this)
   }
 
   componentDidMount() {
-    console.log("(CreaciondeQuiniela) componentDidMount");
-    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
+    console.log("(CreaciondeQuiniela) componentDidMount")
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton)
 
-    this.props.buscarTorneos();
-    this.createDataSource(this.props);
+    this.props.buscarTorneos()
+    this.createDataSource(this.props)
     Object.keys(this.props.torneos).map(key => {
       if (this.props.torneos[key].info.selected == true) {
-        this.registrart(this.props.torneos[key].info.nombre);
-        this.registrartID(this.props.torneos[key].uid);
+        this.registrart(this.props.torneos[key].info.nombre)
+        this.registrartID(this.props.torneos[key].uid)
         // console.log(`WILL MOUNT....  ${this.props.torneos[key].info.nombre}`);
       }
-    });
+    })
   }
 
   componentWillUnmount() {
-    console.log("(CreaciondeQuiniela) componentWillUnmount");
-    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
+    console.log("(CreaciondeQuiniela) componentWillUnmount")
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton)
   }
 
   handleBackButton() {
-    this.props.navigation.goBack();
-    return true;
+    this.props.navigation.goBack()
+    return true
   }
 
   componentWillReceiveProps(nextProps) {
     // nextPropos are the next set of props that this componnet will receive
     // this.props is still the old set of props
 
-    this.createDataSource(nextProps);
+    this.createDataSource(nextProps)
     Object.keys(nextProps.torneos).map(key => {
       if (nextProps.torneos[key].info.selected == true) {
         // this.registrart(nextProps.torneos[key].info.nombre);
 
         if (this.props.torneo == "Rusia 2018") {
-          this.registrart(nextProps.torneos[key].info.nombre);
-          this.registrartID(nextProps.torneos[key].uid);
+          this.registrart(nextProps.torneos[key].info.nombre)
+          this.registrartID(nextProps.torneos[key].uid)
         }
       }
-    });
+    })
   }
 
   createDataSource({ torneos }) {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
-    });
+    })
 
-    this.dataSource = ds.cloneWithRows(torneos);
+    this.dataSource = ds.cloneWithRows(torneos)
   }
 
   run = async (goBack, quinielaNombre, torneo, torneoid, uid1) => {
     try {
-      let code = await this.props.crearCodigoQuiniela();
-      let items = code.snapshot.toJSON();
-      console.log('typeof items: ', typeof items);
+      let code = await this.props.crearCodigoQuiniela()
+      let items = code.snapshot.toJSON()
+      console.log("typeof items: ", typeof items)
       while (typeof items !== "string") {
-        code = await this.props.crearCodigoQuiniela();
-        items = code.snapshot.toJSON();
-        console.log('typeof items: ', typeof items);
+        code = await this.props.crearCodigoQuiniela()
+        items = code.snapshot.toJSON()
+        console.log("typeof items: ", typeof items)
       }
 
-      this.setState({ validando: true });
+      this.setState({ validando: true })
       const quinielasAdmini = await this.props.buscarQuinielasAdminTorneo(
         torneoid,
         uid1
-      );
+      )
 
       // console.log(quinielasAdmini.toJSON());
 
-      const maxi = await this.props.buscarActivacionesDB(torneoid);
-      const max = maxi.toJSON();
+      const maxi = await this.props.buscarActivacionesDB(torneoid)
+      const max = maxi.toJSON()
 
       // console.log(Object.keys(quinielasAdmini.toJSON()).length);
       if (quinielasAdmini.toJSON() === null) {
         // const code = await this.props.crearCodigoQuiniela(codigo);
-        const regla = await this.props.buscarReglas(torneoid);
-        const disponibles = await this.props.buscarDisponiblesDemo(torneoid);
-        const disponible = disponibles.toJSON();
+        const regla = await this.props.buscarReglas(torneoid)
+        const disponibles = await this.props.buscarDisponiblesDemo(torneoid)
+        const disponible = disponibles.toJSON()
         //  console.log(`DISPONIBLESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS ${disponible}`);
-//        const newCodigo = generarCodigo();
+        //        const newCodigo = generarCodigo();
         // const link4 = link3.codigo;
         // console.log(link4);
         //const items = code.snapshot.toJSON();
         // console.log(regla);
-        const reglas = regla.toJSON();
+        const reglas = regla.toJSON()
         //  console.log(typeof items);
         //  codigoq = items[Object.keys(items)[Object.keys(items).length - 1]];
 
-        const codigoq = items;
+        const codigoq = items
 
         this.props.crearQuiniela({
           quinielaNombre,
@@ -149,9 +149,9 @@ class TusQuinielas extends Component {
           codigoq,
           reglas,
           disponible
-        });
+        })
         //this.props.reloadingQuinielas();
-        this.setState({ validando: false });
+        this.setState({ validando: false })
         const resetAction = NavigationActions.reset({
           index: 0,
           actions: [
@@ -159,25 +159,25 @@ class TusQuinielas extends Component {
               routeName: "QuinielasAdministradas"
             })
           ]
-        });
-        this.props.navigation.dispatch(resetAction);
+        })
+        this.props.navigation.dispatch(resetAction)
       } else {
         if (Object.keys(quinielasAdmini.toJSON()).length < max) {
           //const code = await this.props.crearCodigoQuiniela(codigo);
-          const regla = await this.props.buscarReglas(torneoid);
-          const disponibles = await this.props.buscarDisponiblesDemo(torneoid);
-          const disponible = disponibles.toJSON();
+          const regla = await this.props.buscarReglas(torneoid)
+          const disponibles = await this.props.buscarDisponiblesDemo(torneoid)
+          const disponible = disponibles.toJSON()
           //  console.log(`DISPONIBLESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS ${disponible}`);
           // const newCodigo = generarCodigo();
           // const link4 = link3.codigo;
           // console.log(link4);
           // const items = code.snapshot.toJSON();
           // console.log(regla);
-          const reglas = regla.toJSON();
+          const reglas = regla.toJSON()
           //  console.log(typeof items);
           //  codigoq = items[Object.keys(items)[Object.keys(items).length - 1]];
 
-          const codigoq = items;
+          const codigoq = items
 
           this.props.crearQuiniela({
             quinielaNombre,
@@ -186,9 +186,9 @@ class TusQuinielas extends Component {
             codigoq,
             reglas,
             disponible
-          });
+          })
           //this.props.reloadingQuinielas();
-          this.setState({ validando: false });
+          this.setState({ validando: false })
           const resetAction = NavigationActions.reset({
             index: 0,
             actions: [
@@ -196,59 +196,53 @@ class TusQuinielas extends Component {
                 routeName: "QuinielasAdministradas"
               })
             ]
-          });
-          this.props.navigation.dispatch(resetAction);
+          })
+          this.props.navigation.dispatch(resetAction)
         } else {
           alert(
             "No puedes administrar nuevas quinielas en este torneo, debes eliminar una quiniela administrada para crear otra quiniela"
-          );
-          this.setState({ validando: false });
+          )
+          this.setState({ validando: false })
         }
       }
     } catch (e) {
-      this.setState({ validando: false });
+      this.setState({ validando: false })
       //  console.log(e);
     }
-  };
+  }
 
   crear(goBack, uid1) {
-    Keyboard.dismiss();
+    Keyboard.dismiss()
     // codigo = generarCodigo();
 
-    const { quinielaNombre, torneo, torneoid } = this.props;
+    const { quinielaNombre, torneo, torneoid } = this.props
 
     // const code = this.props.crearCodigoQuiniela(codigo);
 
     //  console.log(`quinielaNombre.length ${quinielaNombre.length}`);
     //  console.log(`quinielaNombre ${quinielaNombre}`);
     if (quinielaNombre != "") {
-      this.run(
-        goBack,
-        quinielaNombre.toUpperCase(),
-        torneo,
-        torneoid,
-        uid1
-      );
+      this.run(goBack, quinielaNombre.toUpperCase(), torneo, torneoid, uid1)
     } else {
-      goBack();
+      goBack()
     }
   }
 
   cancelar() {
-    this.props.navigation.goBack();
+    this.props.navigation.goBack()
   }
 
   renderRow(torneo) {
-    return <TorneoItem torneo={torneo} />;
+    return <TorneoItem torneo={torneo} />
   }
 
   registrare(nombreQuiniela) {
-    this.props.nombreQuinielaCambio(nombreQuiniela);
+    this.props.nombreQuinielaCambio(nombreQuiniela)
   }
 
   registrart(nombreTorneo) {
-    this.setState({ selected: nombreTorneo });
-    this.props.nombreTorneoCambio(nombreTorneo);
+    this.setState({ selected: nombreTorneo })
+    this.props.nombreTorneoCambio(nombreTorneo)
 
     // <ScrollView style={styles.cuerpo}>
     // <ListView enableEmptySections dataSource={this.dataSource} renderRow={this.renderRow} />
@@ -256,7 +250,7 @@ class TusQuinielas extends Component {
   }
 
   registrartID(idTorneo) {
-    this.props.idTorneoCambio(idTorneo);
+    this.props.idTorneoCambio(idTorneo)
 
     // <ScrollView style={styles.cuerpo}>
     // <ListView enableEmptySections dataSource={this.dataSource} renderRow={this.renderRow} />
@@ -265,17 +259,17 @@ class TusQuinielas extends Component {
 
   status() {
     if (this.state.validando) {
-      return <Spinner style={styles.buttonText} size="small" />;
+      return <Spinner style={styles.buttonText} size="small" />
     }
-    return <Text style={styles.buttonText}>Crear....</Text>;
+    return <Text style={styles.buttonText}>Crear....</Text>
   }
 
   render() {
     // Object.keys(this.props.torneos).map(key => console.log(this.props.torneos[key].info.nombre)); // if you have a bunch of keys value pair
 
-    const { navigate, goBack } = this.props.navigation;
-    const { currentUser } = firebase.auth();
-    let uid1 = currentUser.uid;
+    const { navigate, goBack } = this.props.navigation
+    const { currentUser } = firebase.auth()
+    let uid1 = currentUser.uid
 
     return (
       <Container>
@@ -288,46 +282,50 @@ class TusQuinielas extends Component {
           <View style={styles.titulo}>
             <Titulo>CREA TU QUINIELA</Titulo>
           </View>
+          <KeyboardAwareScrollView>
+            <View>
+              <View style={styles2.conta}>
+                <View style={styles2.vire} />
+                <Picker
+                  style={styles.inputBox1}
+                  selectedValue={this.props.torneo}
+                  onValueChange={(itemValue, x, y) => {
+                    this.registrart(itemValue)
+                    this.registrartID(this.props.torneos[x].uid)
+                  }}
+                >
+                  {Object.keys(this.props.torneos).map(key => (
+                    <Picker.Item
+                      label={this.props.torneos[key].info.nombre}
+                      value={this.props.torneos[key].info.nombre}
+                      key={key}
+                    />
+                  ))}
+                </Picker>
+                <View style={styles2.vire} />
+              </View>
 
-          <View>
-            <View style={styles2.conta}>
-              <View style={styles2.vire} />
-              <Picker
-                style={styles.inputBox1}
-                selectedValue={this.props.torneo}
-                onValueChange={(itemValue, x, y) => {
-                  this.registrart(itemValue);
-                  this.registrartID(this.props.torneos[x].uid);
-                }}
-              >
-                {Object.keys(this.props.torneos).map(key => (
-                  <Picker.Item
-                    label={this.props.torneos[key].info.nombre}
-                    value={this.props.torneos[key].info.nombre}
-                    key={key}
-                  />
-                ))}
-              </Picker>
-              <View style={styles2.vire} />
-            </View>
+              <View style={styles2.conta}>
+                <View style={styles2.vire} />
 
-            <View style={styles2.conta}>
-              <View style={styles2.vire} />
-
-              <TextInput
-                style={styles.inputBox}
-                underlineColorAndroid={color.$underlineColorAndroid}
-                placeholder="Nombre de la quiniela..."
-                placeholderTextColor={color.$placeholderTextColor}
-                selectionColor={color.$selectionColor}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                onChangeText={nombreQuiniela => this.registrare(nombreQuiniela)}
-                value={this.props.email}
-              />
-              <View style={styles2.vire} />
-            </View>
-          </View>
+                <TextInput
+                  style={styles.inputBox}
+                  underlineColorAndroid={color.$underlineColorAndroid}
+                  placeholder="Nombre de la quiniela..."
+                  placeholderTextColor={color.$placeholderTextColor}
+                  selectionColor={color.$selectionColor}
+                  keyboardType="email-address"
+                  returnKeyType="done"
+                  autoCapitalize="none"
+                  onChangeText={nombreQuiniela =>
+                    this.registrare(nombreQuiniela)
+                  }
+                  value={this.props.email}
+                />
+                <View style={styles2.vire} />
+              </View>
+            </View>{" "}
+          </KeyboardAwareScrollView>
           <View style={styles.bottom}>
             <Text>{this.props.error}</Text>
             <View style={styles.conta}>
@@ -346,7 +344,7 @@ class TusQuinielas extends Component {
           </View>
         </View>
       </Container>
-    );
+    )
   }
 }
 
@@ -403,7 +401,7 @@ const styles = EStyleSheet.create({
     color: color.$formButtonTextColor,
     textAlign: "center"
   }
-});
+})
 
 const styles2 = EStyleSheet.create({
   conta: {
@@ -426,12 +424,12 @@ const styles2 = EStyleSheet.create({
     fontWeight: "500",
     paddingHorizontal: 20
   }
-});
+})
 
 const mapStateToProps = state => {
   // console.log(state.torneos);
-  const torneos = _.map(state.torneos, (val, uid) => ({ ...val, uid }));
-  const tt = _.orderBy(torneos, ["info.nombre"], ["des"]);
+  const torneos = _.map(state.torneos, (val, uid) => ({ ...val, uid }))
+  const tt = _.orderBy(torneos, ["info.nombre"], ["des"])
 
   return {
     torneos,
@@ -441,8 +439,8 @@ const mapStateToProps = state => {
     codigo: state.creacionquinielas.codigo,
     error: state.creacionquinielas.error,
     selected: state.selected
-  };
-};
+  }
+}
 
 export default connect(mapStateToProps, {
   buscarTorneos,
@@ -457,4 +455,4 @@ export default connect(mapStateToProps, {
   buscarDisponiblesDemo,
   buscarQuinielasAdminTorneo,
   buscarActivacionesDB
-})(TusQuinielas);
+})(TusQuinielas)
