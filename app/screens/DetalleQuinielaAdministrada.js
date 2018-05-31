@@ -18,7 +18,7 @@ import { Spinner } from "../components/Spinner";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { NavigationActions } from "react-navigation";
+import { NavigationActions, HeaderBackButton } from "react-navigation";
 import {
   buscarJugadoresAdministradas,
   buscarJugadoresAdministradasT,
@@ -42,10 +42,7 @@ import { QuinielaAdminItem } from "../components/QuinielaAdminItem";
 import color from "../comun/colors";
 
 class DetalleQuinielaAdministrada extends Component {
-  static navigationOptions = {
-    title: "Ajustes Quiniela Administrada",
-    headerLeft: (<TouchableOpacity/>),
-  };
+  static this2 = null;
   constructor(props) {
     super(props);
     this.state = {
@@ -63,7 +60,22 @@ class DetalleQuinielaAdministrada extends Component {
 
     this.run1 = this.run1.bind(this);
     this.handleBackButton = this.handleBackButton.bind(this);
+    this2 = this;
   }
+
+  static navigationOptions = {
+    headerTitle: (
+      <Text style={{ fontSize: 18, color: 'white', fontWeight: 'normal' }}>
+      Administración Quiniela</Text>
+    ),
+    // title: "Ajustes Quiniela Administrada",
+    headerLeft: (
+      <HeaderBackButton
+        onPress = {() => this2.handleBackButton()}
+        tintColor = {color.$headerImageColor}
+      />
+    )
+  };
 
   componentDidMount() {
     // Buscar los jugaroes de la quiniela y su estado
@@ -110,7 +122,6 @@ class DetalleQuinielaAdministrada extends Component {
   }
 
   handleBackButton() {
-    //this.props.navigation.goBack();
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [
@@ -118,7 +129,7 @@ class DetalleQuinielaAdministrada extends Component {
       ]
     });
     this.props.navigation.dispatch(resetAction);
-    return true;
+    return true;    
   }
 
   run1 = async () => {
@@ -304,9 +315,9 @@ class DetalleQuinielaAdministrada extends Component {
           <BotonPrincipal onPress={() => this.comprar()}>
             Comprar...
           </BotonPrincipal>
-          <BotonPrincipal onPress={() => this.cancelar()}>
+          {/* <BotonPrincipal onPress={() => this.cancelar()}>
             Regresar
-          </BotonPrincipal>
+          </BotonPrincipal> */}
         </View>
       );
     }
@@ -330,7 +341,7 @@ class DetalleQuinielaAdministrada extends Component {
             </TouchableOpacity>
           </CardSectionT>
           <View style={styles.containerStyle}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => this.onReglasPress()}
               style={styles.headerContentStyle}
             >
@@ -338,7 +349,7 @@ class DetalleQuinielaAdministrada extends Component {
               <Text style={styles.headerTextStyle}>
                 {this.props.info.quinielasCompradas}
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               onPress={() => this.onReglasPress()}
               style={styles.headerContentStyle}
@@ -428,6 +439,7 @@ class DetalleQuinielaAdministrada extends Component {
         <View style={styles.form}>
           <View style={styles.titulo}>
             <Titulo>
+              Quiniela:{" "}
               {this.props.navigation.state.params.quiniela.quinielaNombre}
               {"\n"}Código:{" "}
               {this.props.navigation.state.params.quiniela.codigoq}
@@ -439,7 +451,9 @@ class DetalleQuinielaAdministrada extends Component {
               Codigo: {this.props.navigation.state.params.quiniela.codigoq}
             </Text>
           </View> */}
-          <View style={styles.bottom}>{this.menustatus()}</View>
+          <View style={styles.bottom}>
+            {this.menustatus()}
+          </View>
         </View>
       </Container>
     );
@@ -451,60 +465,60 @@ const styles = EStyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     position: "relative",
-    alignItems: "center"
+    alignItems: "center",
   },
   headerContentStyle1: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
   headerTextStyle11: {
     fontSize: 18,
     color: color.$qxaHeaderTextStyle,
     padding: 5,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   switchStyle: {
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 10,
-    marginRight: 10
+    marginRight: 10,
   },
 
   containerStyle: {
     justifyContent: "space-around",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   headerTextStyle: {
     fontSize: 16,
     color: color.$qxaHeaderTextStyle,
-    alignContent: "center"
+    alignContent: "center",
   },
 
   headerTextStyle1: {
     fontSize: 12,
     color: color.$qxaHeaderTextStyle,
     alignContent: "center",
-    fontWeight: "500"
+    fontWeight: "500",
   },
   form: {
     flex: 1,
-
     justifyContent: "space-between",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   titulo: {
-    padding: 1
+    padding: 1,
+    marginTop: 5,
   },
   cuerpo: {
-    flex: 8
+    flex: 8,
   },
   bottom: {
     flex: 5,
     padding: 10,
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
   inputBox: {
     flex: 8,
@@ -513,7 +527,7 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     color: color.$formInputBoxColor,
-    marginVertical: 10
+    marginVertical: 10,
   }
 });
 

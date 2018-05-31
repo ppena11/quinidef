@@ -48,7 +48,7 @@ class TusQuinielas extends Component {
   }
 
   static navigationOptions = {
-    title: 'Tus Quinielas', //<Text style={{ textAlign: 'center' }}>"Mis Quinielas"</Text>,
+    title: 'Tus Quinielas',
     headerLeft: (
       <TouchableOpacity onPress={ () => this2.alertLogout() }>
         <Image
@@ -164,10 +164,6 @@ class TusQuinielas extends Component {
           backgroundColor={color.$statusBarBackgroundColor}
         />
         <View style={styles.form}>
-          {/* <View style={styles.titulo}>
-            <Titulo>MIS QUINIELAS</Titulo>
-          </View> */}
-
           <FlatList
             data={tt}
             renderItem={this._renderItem}
@@ -201,32 +197,32 @@ const styles = EStyleSheet.create({
   form: {
     flex: 1,
     justifyContent: "space-between",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   titulo: {
-    padding: 20
+    padding: 20,
   },
   cuerpo: {
-    flex: 1
+    flex: 1,
   },
   bottom: {
-    padding: 20
+    padding: 10,
   },
   viewImgStyle: {
     flex: 3,
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   imgStyle: {
     height: 200,
-    width: 200
+    width: 200,
   },
   viewStyle: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
 });
 

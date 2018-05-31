@@ -141,38 +141,39 @@ class Qxa extends Component {
 const styles = {
   headerContentStyle: {
     flexDirection: "column",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
   headerContentStyle1: {
     flexDirection: "column",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
   cardSectionStyle: {
     flexDirection: "row",
     justifyContent: "space-around",
-    position: "relative"
+    position: "relative",
   },
   headerTextStyle: {
     fontSize: 18,
-    color: color.$qxaHeaderTextStyle
+    color: color.$qxaHeaderTextStyle,
   },
   headerTextStyle1: {
     fontSize: 18,
-    color: color.$qxaHeaderTextStyle
+    color: color.$qxaHeaderTextStyle,
   },
   headerTextStyle2: {
     fontSize: 12,
-    color: color.$qxaHeaderTextStyle2
+    color: color.$qxaHeaderTextStyle2,
   },
   thumbnailStyle: {
-    height: 50,
-    width: 50
+    height: 30,
+    width: 30,
+    tintColor: color.$iconDangerColor,
   },
   thumbnailContainerStyle: {
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 10,
-    marginRight: 10
+    marginLeft: 5,
+    marginRight: 10,
   }
 };
 

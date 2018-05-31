@@ -9,7 +9,7 @@ const $doradoOscuro = "#E4C484";
 const $azulOscuro = "#084B7C";
 const $rojoOscuro = "#910913";
 const $negroLogo = "#222126";
-// Otros
+// Estandar
 const $negro = "#000";
 const $blanco = "#FFF";
 const $transparente = "#0000";
@@ -20,14 +20,14 @@ const colores = {
   $fondoBotonInput: "#FFF2",
   $fondoBotonPrincipal: "#00244f",
   $textoBotonPrincipal: $blanco,
-  $fondoBoton: "#00aeef",
+  $fondoBoton: "#00AEEF",
   $textoBoton: $blanco,
   $underlineColorAndroid: $transparente,
   $placeholderTextColor: "#FFF8",
   $selectionColor: "#33A",
   $signupTextColor: $blanco,
   $signupButtonColor: $blanco,
-  $statusBarBackgroundColor: "#1c313a",
+  $statusBarBackgroundColor: "#1C313A",
   $buttonTextColor: $blanco,
   $formTextColor: $blanco,
   $formInputBoxColor: $blanco,
@@ -51,9 +51,18 @@ const colores = {
 
   $textoPronostico: $blanco,
 
+  $iconDangerColor: '#500',
+
+  // Header
   $headerTextColor: $blanco,
   $headerBackgroundColor: '#082B4C',
-  $headerImageColor: $blanco,//'#07406a',
+  $headerImageColor: $blanco,
+
+  //Tab Navigator
+  $tabActiveTintColor: 'white',
+  $tabInactiveTintColor: 'gray',
+  $tabActiveBackgroundColor: $azulOscuro,
+  $tabInactiveBackgroundColor: $azulOscuro,
 };
 
 export default colores;

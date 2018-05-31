@@ -9,12 +9,13 @@ import {
   TextInput,
   BackHandler,
   TouchableOpacity,
+  Text,
 } from "react-native";
 import firebase from "firebase";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { NavigationActions } from "react-navigation";
+import { NavigationActions, HeaderBackButton } from "react-navigation";
 import { Spinner } from "../components/Spinner";
 import {
   buscarQuinielasAdministradas,
@@ -40,11 +41,7 @@ import { Qxa } from "../components/Qxa";
 import color from "../comun/colors";
 
 class QuinielasAdministradas extends Component {
-  static navigationOptions = {
-    title: "Quinielas Administradas",
-    headerLeft: (<TouchableOpacity/>),
-  };
-
+  static this2 = null;
   constructor(props) {
     super(props);
 
@@ -56,9 +53,24 @@ class QuinielasAdministradas extends Component {
         .ref(`/users/${firebase.auth().uid}/quinielasadministradas/`)
     };
 
-    this.handleBackButton = this.handleBackButton.bind(this);
     this.run = this.run.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
+    this2 = this;
   }
+
+  static navigationOptions = {
+    headerTitle: (
+      <Text style={{ fontSize: 18, color: 'white', fontWeight: 'normal' }}>
+      Quinielas Administradas</Text>
+    ),
+    // title: "Quinielas Administradas",
+    headerLeft: (
+      <HeaderBackButton
+        onPress = {() => this2.handleBackButton()}
+        tintColor = {color.$headerImageColor}
+      />
+    )
+  };
 
   componentDidMount() {
     this.run();
@@ -280,18 +292,17 @@ class QuinielasAdministradas extends Component {
 const styles = EStyleSheet.create({
   form: {
     flex: 1,
-
     justifyContent: "space-between",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   titulo: {
-    padding: 5
+    padding: 5,
   },
   cuerpo: {
-    flex: 1
+    flex: 1,
   },
   bottom: {
-    padding: 20
+    padding: 10,
   },
   inputBox: {
     flex: 8,
@@ -300,31 +311,31 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     color: color.$formInputBoxColor,
-    marginVertical: 10
-  }
+    marginVertical: 10,
+  },
 });
 
 const styles2 = EStyleSheet.create({
   conta: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   vire: {
-    flex: 1
+    flex: 1,
   },
   signupText: {
     color: color.$signupTextColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   signupButton: {
     color: color.$signupButtonColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20
-  }
+    paddingHorizontal: 20,
+  },
 });
 
 const mapStateToProps = state => {

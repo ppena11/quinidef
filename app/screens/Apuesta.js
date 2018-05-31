@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import RootNavigatort from "../config/routest";
+import color from "../comun/colors";
 
 const App = ({ dispatch, nav }) => <RootNavigatort />;
 
@@ -23,9 +24,9 @@ export default class extends Component {
           } - ${params.quiniela.puntos} PTS`
         : "A Nested Details Screen",
       headerStyle: {
-        backgroundColor: "#084B7C"
+        backgroundColor: color.$primaryBackground,
       },
-      headerTintColor: "#fff",
+      // headerTintColor: color.$headerImageColor,
       headerTitleStyle: {
         fontWeight: "bold"
       }

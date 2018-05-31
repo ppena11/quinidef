@@ -19,6 +19,7 @@ import Reglas from "../screens/Reglas";
 import DetallesApuestas from "../screens/DetallesApuestas";
 import EliminarQuiniela from "../screens/EliminarQuiniela";
 import Mas from "../screens/Mas";
+import color from "../comun/colors";
 
 import CargandoHome from "../screens/CargandoHome";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -69,10 +70,10 @@ const RootNavigatort = TabNavigator(
       }
     }),
     tabBarOptions: {
-      activeTintColor: "white",
-      inactiveTintColor: "gray",
-      activeBackgroundColor: "#084B7C",
-      inactiveBackgroundColor: "#084B7C"
+      activeTintColor: color.$tabActiveTintColor,
+      inactiveTintColor: color.$tabInactiveTintColor,
+      activeBackgroundColor: color.$tabActiveBackgroundColor,
+      inactiveBackgroundColor: color.$tabInactiveBackgroundColor,
     },
     tabBarComponent: TabBarBottom,
     tabBarPosition: "bottom",

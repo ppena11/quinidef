@@ -19,7 +19,6 @@ import { DetalleAp } from "../components/DetalleAp";
 import { PuntajeJugador } from "../comun/puntaje";
 import { BotonPrincipal } from "../components/BotonPrincipal";
 import { Spinner } from "../components/Spinner";
-
 import color from "../comun/colors";
 
 class DetalleApuestas extends Component {
@@ -31,9 +30,9 @@ class DetalleApuestas extends Component {
         ? `${params.posicion.nombreapuesta} - ${params.posicion.puntos} PTS`
         : "A Nested Details Screen",
       headerStyle: {
-        backgroundColor: "#084B7C"
+        backgroundColor: color.$primaryBackground,
       },
-      headerTintColor: "#fff",
+      // headerTintColor: color.$headerImageColor,
       headerTitleStyle: {
         fontWeight: "bold"
       }

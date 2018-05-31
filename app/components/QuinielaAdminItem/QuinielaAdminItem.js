@@ -54,7 +54,7 @@ class QuinielaAdminItem extends Component {
 
   pressed(e) {
     if (this.props.info.quinielasDisponibles == 0 && e) {
-      alert("Debes adquinir mas quinielas");
+      alert("Debes adquirir más quinielas");
     } else {
       const { activo, puntos, nombre, uid, jid } = this.props.jugador;
       if (!this.state.actualizando && !this.props.jugadores[uid].cargando) {
@@ -179,13 +179,13 @@ const styles = {
   },
   thumbnailStyle: {
     height: 25,
-    width: 25
+    width: 25,
+    tintColor: color.$iconDangerColor,
   },
   thumbnailContainerStyle: {
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 5,
-    marginRight: 5
+    marginRight: 5,
   }
 };
 
