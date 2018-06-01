@@ -24,7 +24,8 @@ import {
   HORA_UPDATE,
   RESET_DETALLE_QUINIELA_AP,
   RESET_CARGANDO_AP,
-  RESET_DETALLE_AP
+  RESET_DETALLE_AP,
+  BUSCAR_ADMIN_EXITO
 } from "./types";
 
 export const BuscarJugadorTexto = value => ({
@@ -63,6 +64,15 @@ export const buscarApuestas = (quinielaid, nombreapuesta) => dispatch =>
     // .ref(`master/torneos/idTorneo2/partidos`)
     .once("value", snapshot => {
       dispatch({ type: BUSCAR_APUESTAS_EXITO, payload: snapshot.val() });
+    });
+
+export const buscarAdministrador = quinielaid => dispatch =>
+  firebase
+    .database()
+    .ref(`/quinielas/${quinielaid}/info/`)
+    // .ref(`master/torneos/idTorneo2/partidos`)
+    .once("value", snapshot => {
+      dispatch({ type: BUSCAR_ADMIN_EXITO, payload: snapshot.val() });
     });
 
 export const buscarHora = () => dispatch =>

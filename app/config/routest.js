@@ -1,38 +1,38 @@
-import React from "react";
-import { StackNavigator, TabNavigator, TabBarBottom } from "react-navigation";
+import React from "react"
+import { StackNavigator, TabNavigator, TabBarBottom } from "react-navigation"
 
-import Login from "../screens/Login";
-import ReiniciarContrasena from "../screens/ReiniciarContrasena";
-import CrearCuenta from "../screens/CrearCuenta";
-import ConfirmacionCorreo from "../screens/ConfirmacionCorreo";
-import Home from "../screens/Home";
-import TusQuinielas from "../screens/TusQuinielas";
-import QuinielasAdministradas from "../screens/QuinielasAdministradas";
-import CreaciondeQuiniela from "../screens/CreaciondeQuiniela";
-import DetalleQuinielaAdministrada from "../screens/DetalleQuinielaAdministrada";
-import UnirseAQuiniela from "../screens/UnirseAQuiniela";
-import RegistrarQuiniela from "../screens/RegistrarQuiniela";
-import ReglasAdmin from "../screens/ReglasAdmin";
-import Apuestas from "../screens/Apuestas";
-import Apuesta from "../screens/Apuesta";
-import Posiciones from "../screens/Posiciones";
-import Reglas from "../screens/Reglas";
-import DetallesApuestas from "../screens/DetallesApuestas";
-import EliminarQuiniela from "../screens/EliminarQuiniela";
-import Mas from "../screens/Mas";
+import Login from "../screens/Login"
+import ReiniciarContrasena from "../screens/ReiniciarContrasena"
+import CrearCuenta from "../screens/CrearCuenta"
+import ConfirmacionCorreo from "../screens/ConfirmacionCorreo"
+import Home from "../screens/Home"
+import TusQuinielas from "../screens/TusQuinielas"
+import QuinielasAdministradas from "../screens/QuinielasAdministradas"
+import CreaciondeQuiniela from "../screens/CreaciondeQuiniela"
+import DetalleQuinielaAdministrada from "../screens/DetalleQuinielaAdministrada"
+import UnirseAQuiniela from "../screens/UnirseAQuiniela"
+import RegistrarQuiniela from "../screens/RegistrarQuiniela"
+import ReglasAdmin from "../screens/ReglasAdmin"
+import Apuestas from "../screens/Apuestas"
+import Apuesta from "../screens/Apuesta"
+import Posiciones from "../screens/Posiciones"
+import Reglas from "../screens/Reglas"
+import DetallesApuestas from "../screens/DetallesApuestas"
+import EliminarQuiniela from "../screens/EliminarQuiniela"
+import Mas from "../screens/Mas"
 
-import CargandoHome from "../screens/CargandoHome";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import CargandoHome from "../screens/CargandoHome"
+import { Ionicons } from "@expo/vector-icons"
 
 const PosicionesStack = StackNavigator({
   HomePosiciones: { screen: Posiciones },
   DetallesPosiciones: { screen: DetallesApuestas }
-});
+})
 
 const MasStack = StackNavigator({
   Mas: { screen: Mas },
   EliminarQuiniela: { screen: EliminarQuiniela }
-});
+})
 
 const RootNavigatort = TabNavigator(
   {
@@ -52,21 +52,21 @@ const RootNavigatort = TabNavigator(
   {
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
+        const { routeName } = navigation.state
+        let iconName
         if (routeName === "Apuestas") {
-          iconName = `md-football${focused ? "" : ""}`;
+          iconName = `md-football${focused ? "" : ""}`
         } else if (routeName === "Posiciones") {
-          iconName = `md-analytics${focused ? "" : ""}`;
+          iconName = `md-analytics${focused ? "" : ""}`
         } else if (routeName === "Reglas") {
-          iconName = `md-flag${focused ? "" : ""}`;
+          iconName = `md-flag${focused ? "" : ""}`
         } else if (routeName === "Mas") {
-          iconName = `md-options${focused ? "" : ""}`;
+          iconName = `md-options${focused ? "" : ""}`
         }
 
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
-        return <Ionicons name={iconName} size={25} color={tintColor} />;
+        return <Ionicons name={iconName} size={25} color={tintColor} />
       }
     }),
     tabBarOptions: {
@@ -80,6 +80,6 @@ const RootNavigatort = TabNavigator(
     animationEnabled: false,
     swipeEnabled: false
   }
-);
+)
 
-export default RootNavigatort;
+export default RootNavigatort

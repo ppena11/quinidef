@@ -16,7 +16,7 @@ import EStyleSheet from "react-native-extended-stylesheet"
 import _ from "lodash"
 import { connect } from "react-redux"
 import { NavigationActions } from "react-navigation"
-
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import {
   nombreQuinielaCambio,
   buscarTorneos,
@@ -47,6 +47,7 @@ class TusQuinielas extends Component {
   constructor(props) {
     super(props)
     this.state = {
+
       validando: false,
       menu: "yes"
     }
@@ -57,6 +58,7 @@ class TusQuinielas extends Component {
   componentDidMount() {
     console.log("(CreaciondeQuiniela) componentDidMount")
     BackHandler.addEventListener("hardwareBackPress", this.handleBackButton)
+
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
       this.keyboardWillShow
@@ -65,6 +67,8 @@ class TusQuinielas extends Component {
       "keyboardDidHide",
       this.keyboardWillHide
     )
+
+
     this.props.buscarTorneos()
     this.createDataSource(this.props)
     Object.keys(this.props.torneos).map(key => {
@@ -92,6 +96,7 @@ class TusQuinielas extends Component {
 
   keyboardWillHide = () => {
     this.setState({ menu: "yes" })
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -327,44 +332,66 @@ class TusQuinielas extends Component {
           <View style={styles.titulo}>
             <Titulo>CREA TU QUINIELA</Titulo>
           </View>
-          <View>
-            {this.picker(this.props.torneo, this.props.torneos)}
-
-            <View style={styles2.conta}>
-              <View style={styles2.vire} />
-
-              <TextInput
-                style={styles.inputBox}
-                underlineColorAndroid={color.$underlineColorAndroid}
-                placeholder="Nombre de la quiniela..."
-                placeholderTextColor={color.$placeholderTextColor}
-                selectionColor={color.$selectionColor}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                onChangeText={nombreQuiniela => this.registrare(nombreQuiniela)}
-                value={this.props.email}
-              />
-              <View style={styles2.vire} />
-            </View>
-          </View>{" "}
-          <KeyboardAvoidingView behavior="padding" style={styles.form}>
-            <View style={styles.bottom}>
-              <Text>{this.props.error}</Text>
-              <View style={styles.conta}>
-                <View style={styles.vire} />
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => this.crear(goBack, uid1)}
+          <KeyboardAwareScrollView>
+            <View>
+              <View style={styles2.conta}>
+                <View style={styles2.vire} />
+                <Picker
+                  style={styles.inputBox1}
+                  selectedValue={this.props.torneo}
+                  onValueChange={(itemValue, x, y) => {
+                    this.registrart(itemValue)
+                    this.registrartID(this.props.torneos[x].uid)
+                  }}
                 >
-                  {this.status()}
-                </TouchableOpacity>
-                <View style={styles.vire} />
+                  {Object.keys(this.props.torneos).map(key => (
+                    <Picker.Item
+                      label={this.props.torneos[key].info.nombre}
+                      value={this.props.torneos[key].info.nombre}
+                      key={key}
+                    />
+                  ))}
+                </Picker>
+                <View style={styles2.vire} />
               </View>
-              <BotonPrincipal onPress={() => this.cancelar()}>
-                Cancelar
-              </BotonPrincipal>
+
+              <View style={styles2.conta}>
+                <View style={styles2.vire} />
+
+                <TextInput
+                  style={styles.inputBox}
+                  underlineColorAndroid={color.$underlineColorAndroid}
+                  placeholder="Nombre de la quiniela..."
+                  placeholderTextColor={color.$placeholderTextColor}
+                  selectionColor={color.$selectionColor}
+                  keyboardType="email-address"
+                  returnKeyType="done"
+                  autoCapitalize="none"
+                  onChangeText={nombreQuiniela =>
+                    this.registrare(nombreQuiniela)
+                  }
+                  value={this.props.email}
+                />
+                <View style={styles2.vire} />
+              </View>
             </View>{" "}
-          </KeyboardAvoidingView>
+          </KeyboardAwareScrollView>
+          <View style={styles.bottom}>
+            <Text>{this.props.error}</Text>
+            <View style={styles.conta}>
+              <View style={styles.vire} />
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => this.crear(goBack, uid1)}
+              >
+                {this.status()}
+              </TouchableOpacity>
+              <View style={styles.vire} />
+            </View>
+            <BotonPrincipal onPress={() => this.cancelar()}>
+              Cancelar
+            </BotonPrincipal>
+          </View>
         </View>
       </Container>
     )

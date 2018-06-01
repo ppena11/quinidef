@@ -9,7 +9,7 @@ import {
   BackHandler,
   Text,
   FlatList,
-  TouchableOpacity,
+  TouchableOpacity
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { connect } from "react-redux";
@@ -53,12 +53,12 @@ class Mas extends Component {
 
   componentDidMount() {
     console.log("(Mas) componentDidMount");
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   componentWillUnmount() {
     console.log("(Mas) componentWillUnmount");
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   handleBackButton() {
@@ -73,11 +73,17 @@ class Mas extends Component {
     if (partidos.imagen == "basura") {
       this.props.navigation.navigate("EliminarQuiniela", {
         quiniela: this.props.quiniela,
-        jugadores: this.props.jugadores,
+        jugadores: this.props.jugadores
       });
     }
     if (partidos.imagen == "salir") {
       this.props.salirSistema();
+    }
+    if (partidos.imagen == "admin") {
+      this.props.navigation.navigate("DatosAdmin", {
+        quiniela: this.props.quiniela,
+        jugadores: this.props.jugadores
+      });
     }
   }
 
@@ -95,6 +101,7 @@ class Mas extends Component {
 
   render() {
     let menu = [
+      { imagen: "admin", titulo: "Datos del administrador" },
       { imagen: "basura", titulo: "Eliminar quiniela" },
       { imagen: "salir", titulo: "Salir del sistema" }
     ];
