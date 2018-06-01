@@ -65,7 +65,7 @@ class DetalleQuinielaAdministrada extends Component {
 
   static navigationOptions = {
     headerTitle: (
-      <Text style={{ fontSize: 18, color: 'white', fontWeight: 'normal' }}>
+      <Text style={{ flex: 1, fontSize: 18, color: color.$headerTextColor, fontWeight: 'normal', textAlign: 'center' }}>
       Administración Quiniela</Text>
     ),
     // title: "Ajustes Quiniela Administrada",

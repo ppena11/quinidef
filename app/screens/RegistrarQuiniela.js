@@ -31,7 +31,11 @@ import {
 
 class RegistrarQuiniela extends Component {
   static navigationOptions = {
-    title: "Registro de Apuesta",
+    headerTitle: (
+      <Text style={{ flex: 1, fontSize: 18, color: color.$headerTextColor, fontWeight: 'normal', textAlign: 'center' }}>
+        Registro de Quiniela
+      </Text>
+    ),
   };
 
   constructor(props) {

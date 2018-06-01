@@ -60,10 +60,10 @@ class QuinielasAdministradas extends Component {
 
   static navigationOptions = {
     headerTitle: (
-      <Text style={{ fontSize: 18, color: 'white', fontWeight: 'normal' }}>
-      Quinielas Administradas</Text>
+      <Text style={{ flex: 1, fontSize: 18, color: color.$headerTextColor, fontWeight: 'normal', textAlign: 'center' }}>
+        Quinielas Administradas
+      </Text>
     ),
-    // title: "Quinielas Administradas",
     headerLeft: (
       <HeaderBackButton
         onPress = {() => this2.handleBackButton()}

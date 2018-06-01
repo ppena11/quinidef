@@ -18,11 +18,11 @@ export default class extends Component {
     const { params } = navigation.state;
 
     return {
-      title: params
-        ? `${params.quiniela.nombreapuesta} - ${
-            params.quiniela.quinielaNombre
-          } - ${params.quiniela.puntos} PTS`
-        : "A Nested Details Screen",
+      // title: params
+      //   ? `${params.quiniela.nombreapuesta} - ${
+      //       params.quiniela.quinielaNombre
+      //     } - ${params.quiniela.puntos} PTS`
+      //   : "A Nested Details Screen",
       headerStyle: {
         backgroundColor: color.$primaryBackground,
       },

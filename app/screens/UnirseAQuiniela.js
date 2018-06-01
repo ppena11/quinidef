@@ -32,6 +32,7 @@ import {
 class UnirseAQuiniela extends Component {
   static navigationOptions = {
     title: "Unirse a Quiniela",
+    backTitle: null,
   };
 
   constructor(props) {

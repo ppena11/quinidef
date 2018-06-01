@@ -18,14 +18,19 @@ import { TextIndication } from "../components/TextIndication";
 import color from "../comun/colors";
 
 class ReiniciarContrasena extends Component {
-  static navigationOptions = {
-    title: 'Reiniciar Contraseña',
-};
   constructor() {
     super();
     this.confirmar = this.confirmar.bind(this);
     this.handleBackButton = this.handleBackButton.bind(this);
   }
+
+  static navigationOptions = {
+    headerTitle: (
+      <Text style={{ flex: 1, fontSize: 18, color: color.$headerTextColor, fontWeight: 'normal', textAlign: 'center' }}>
+        Reiniciar Contraseña
+      </Text>
+    ),
+  };
 
   componentDidMount() {
     console.log("(ReiniciarContraseña) componentDidMount")
@@ -60,7 +65,7 @@ class ReiniciarContrasena extends Component {
 
           <Logo />
           <KeyboardAvoidingView behavior="padding" style={styles.form}>
-            <FormContrasena type="Reiniciar contraseña" />
+            <FormContrasena type="Reiniciar Contraseña" />
           </KeyboardAvoidingView>
 
           <TextIndication description={this.props.error} />

@@ -68,20 +68,29 @@ class Login extends Component {
           />
 
           <Logo />
+
+          <TextIndication description={this.props.error} />
+
           <KeyboardAvoidingView behavior="padding" style={styles.form}>
             <Form type="Entrar" />
           </KeyboardAvoidingView>
 
-          <TextIndication description={this.props.error} />
-
-          <View style={styles.signupTextCont}>
-            <TouchableOpacity onPress={() => this.reiniciar(navigate)}>
-              <Text style={styles.signupText}>Recuperar contraseña</Text>
+          <View style={styles.conta}>
+            <View style={styles.vire} />
+            <TouchableOpacity style={styles.button} onPress={() => this.crear(navigate)}>
+              <Text style={styles.buttonText}> Registrate</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.crear(navigate)}>
-              <Text style={styles.signupButton}> Registrate</Text>
-            </TouchableOpacity>
+            <View style={styles.vire} />
           </View>
+
+          <View style={styles.conta}>
+            <View style={styles.vire} />
+            <TouchableOpacity style={styles.button} onPress={() => this.reiniciar(navigate)}>
+              <Text style={styles.buttonText}>Recuperar Contraseña</Text>
+            </TouchableOpacity>
+            <View style={styles.vire} />
+          </View>
+
         </View>
       </Container>
     );
@@ -132,6 +141,32 @@ const styles = EStyleSheet.create({
     color: color.$signupButtonColor,
     fontSize: 16,
     fontWeight: '500',
+  },
+  button: {
+    flex: 8,
+    backgroundColor: color.$fondoBotonPrincipal,
+    borderRadius: 25,
+    marginVertical: 10,
+    paddingVertical: 13,
+  },
+  conta: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: color.$formButtonTextColor,
+    textAlign: 'center',
+  },
+  vire: {
+    flex: 1,
+  },
+  container: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

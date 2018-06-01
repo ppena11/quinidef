@@ -25,17 +25,25 @@ class DetalleApuestas extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
 
+    let titulo = params ? <Text>{params.posicion.nombreapuesta} - {params.posicion.puntos} pts</Text> : 'Pantalla Anidada';
+
     return {
-      title: params
-        ? `${params.posicion.nombreapuesta} - ${params.posicion.puntos} PTS`
-        : "A Nested Details Screen",
+      // title: params
+      //   ? `${params.posicion.nombreapuesta} - ${params.posicion.puntos} PTS`
+      //   : "A Nested Details Screen",
+      headerTitle: (
+        <Text style={{ flex: 1, fontSize: 18, color: color.$headerTextColor, fontWeight: 'normal', textAlign: 'center' }}>
+          {titulo}
+        </Text>
+      ),
       headerStyle: {
         backgroundColor: color.$primaryBackground,
       },
       // headerTintColor: color.$headerImageColor,
       headerTitleStyle: {
         fontWeight: "bold"
-      }
+      },
+      headerRight: (<TouchableOpacity/>),
     };
   };
 

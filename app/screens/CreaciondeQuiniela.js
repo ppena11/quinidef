@@ -40,7 +40,11 @@ import { Spinner } from "../components/Spinner";
 
 class TusQuinielas extends Component {
   static navigationOptions = {
-    title: "Creación de Quiniela",
+    headerTitle: (
+      <Text style={{ flex: 1, fontSize: 18, color: color.$headerTextColor, fontWeight: 'normal', textAlign: 'center' }}>
+        Creación de Quiniela
+      </Text>
+    ),
   };
 
   constructor(props) {
