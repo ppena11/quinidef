@@ -1,13 +1,13 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 
-import { Text, View, Image, Switch, TouchableOpacity } from "react-native";
-import { withNavigation } from "react-navigation";
-import { connect } from "react-redux";
-import _ from "lodash";
+import { Text, View, Image, Switch, TouchableOpacity } from "react-native"
+import { withNavigation } from "react-navigation"
+import { connect } from "react-redux"
+import _ from "lodash"
 
-import { Card } from "../Card";
-import { CardSection } from "../CardSection";
-import color from "../../comun/colors";
+import { Card } from "../Card"
+import { CardSection } from "../CardSection"
+import color from "../../comun/colors"
 
 import {
   cambiarEstatusQuiniela,
@@ -15,24 +15,24 @@ import {
   buscarDisponibles,
   validarUsuario,
   reloadingJugadores
-} from "../../actions";
+} from "../../actions"
 
 class QuinielaAdminItem extends Component {
   constructor(props) {
-    super(props);
-    this.state = { toggled: false, actualizando: false };
+    super(props)
+    this.state = { toggled: false, actualizando: false }
   }
 
   detalleQuiniela(qu) {
-    this.props.reloadingJugadores();
+    this.props.reloadingJugadores()
     // this.props.irAdministradas();
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [
         NavigationActions.navigate({ routeName: "QuinielasAdministradas" })
       ]
-    });
-    this.props.navigation.dispatch(resetAction);
+    })
+    this.props.navigation.dispatch(resetAction)
   }
 
   onRowPress() {
@@ -42,25 +42,26 @@ class QuinielaAdminItem extends Component {
       quiniela: this.props.quiniela,
       quinielan: this.props.quinielan,
       codigo: this.props.codigo
-    });
-    this.run = this.run.bind(this);
+    })
+    this.run = this.run.bind(this)
   }
 
   componentDidMount() {
-    const { activo, puntos, nombre, uid } = this.props.jugador;
-    this.setState({ toggled: this.props.jugadores[uid].activo });
+    const { activo, puntos, nombre, uid } = this.props.jugador
+    console.log(this.props.jugador)
+    this.setState({ toggled: this.props.jugadores[uid].activo })
   }
 
   pressed(e) {
     if (this.props.info.quinielasDisponibles == 0 && e) {
-      alert("Debes adquinir mas quinielas");
+      alert("Debes adquinir mas quinielas")
     } else {
-      const { activo, puntos, nombre, uid, jid } = this.props.jugador;
+      const { activo, puntos, nombre, uid, jid } = this.props.jugador
       if (!this.state.actualizando && !this.props.jugadores[uid].cargando) {
-        this.setState({ actualizando: true });
+        this.setState({ actualizando: true })
         if (e != this.props.jugadores[uid].activo) {
-          this.setState({ toggled: this.props.jugadores[uid].activo });
-          this.run(this.props.jugador, this.props.quiniela, e);
+          this.setState({ toggled: this.props.jugadores[uid].activo })
+          this.run(this.props.jugador, this.props.quiniela, e)
         }
       }
     }
@@ -75,14 +76,14 @@ class QuinielaAdminItem extends Component {
       // const test = await this.props.cambiarEstatusQuiniela(jug, qu, e1);
       // this.setState({ toggled: this.props.jugadores[uid].activo });
       // console.log(test);
-      console.log(qu);
-      console.log(jug.nombreapuesta);
+      console.log(qu)
+      console.log(jug.nombreapuesta)
 
-      const validarusuario1 = await this.props.validarUsuario(qu, jug);
-      const r1 = validarusuario1.toJSON();
-      console.log(r1);
+      const validarusuario1 = await this.props.validarUsuario(qu, jug)
+      const r1 = validarusuario1.toJSON()
+      console.log(r1)
       if (r1 !== null) {
-        const test1 = await this.props.manejarDisponibles(qu, e1);
+        const test1 = await this.props.manejarDisponibles(qu, e1)
         // console.log(test1);
         if (test1.committed) {
           const test = await this.props.cambiarEstatusQuiniela(
@@ -90,21 +91,21 @@ class QuinielaAdminItem extends Component {
             qu,
             e1,
             test1.snapshot.val()
-          );
+          )
           // console.log(`TESXXXXXXXXXXXXXXXXXXXXXXXXXXXTTTTTTTTT ${test}`);
-          this.setState({ actualizando: false });
+          this.setState({ actualizando: false })
         }
       } else {
-        this.props.buscarDisponibles(qu);
-        this.detalleQuiniela(qu);
+        this.props.buscarDisponibles(qu)
+        this.detalleQuiniela(qu)
       }
 
       // this.setState({ validando: false });
     } catch (e) {
-      console.log(e);
+      console.log(e)
       // this.setState({ validando: false });
     }
-  };
+  }
 
   iconstatus(uid) {
     if (!this.props.jugadores[uid].activo) {
@@ -113,13 +114,13 @@ class QuinielaAdminItem extends Component {
           style={styles.thumbnailStyle}
           source={require("../Logo/images/borrar1.png")}
         />
-      );
+      )
     }
-    return <View />;
+    return <View />
   }
 
   render() {
-    const { activo, puntos, nombreapuesta, uid } = this.props.jugador;
+    const { activo, puntos, nombreapuesta, uid } = this.props.jugador
     // console.log(this.props.jugadores[uid].cargando);
     const {
       headerContentStyle,
@@ -128,7 +129,7 @@ class QuinielaAdminItem extends Component {
       thumbnailStyle,
       thumbnailContainerStyle,
       switchStyle
-    } = styles;
+    } = styles
 
     return (
       <Card>
@@ -149,7 +150,7 @@ class QuinielaAdminItem extends Component {
           </TouchableOpacity>
         </CardSection>
       </Card>
-    );
+    )
   }
 }
 
@@ -186,12 +187,12 @@ const styles = {
     marginLeft: 5,
     marginRight: 5
   }
-};
+}
 
 const mapStateToProps = state => {
-  const jugadores = state.jugadoresadmin;
-  return { jugadores };
-};
+  const jugadores = state.jugadoresadmin
+  return { jugadores }
+}
 
 export default connect(mapStateToProps, {
   manejarDisponibles,
@@ -199,4 +200,4 @@ export default connect(mapStateToProps, {
   buscarDisponibles,
   validarUsuario,
   reloadingJugadores
-})(withNavigation(QuinielaAdminItem));
+})(withNavigation(QuinielaAdminItem))

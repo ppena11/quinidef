@@ -1,5 +1,5 @@
-import firebase from "firebase";
-import _ from "lodash";
+import firebase from "firebase"
+import _ from "lodash"
 
 import {
   ULTIMA_JUGADOR_LLEGO_NO,
@@ -26,27 +26,27 @@ import {
   RESET_CARGANDO_AP,
   RESET_DETALLE_AP,
   BUSCAR_ADMIN_EXITO
-} from "./types";
+} from "./types"
 
 export const BuscarJugadorTexto = value => ({
   type: BUSCAR_JUGADOR_UPDATE,
   payload: value
-});
+})
 
 export const ReinicarCargaApuesta = value => ({
   type: RESET_CARGANDO_AP
-});
+})
 
 export const buscarDisponibles = (quiniela, refbd) => dispatch => {
-  refbd.on("value", snapshot => {
+  refbd.once("value", snapshot => {
     if (snapshot.exists()) {
       dispatch({
         type: ACTIVACION_UPDATE,
         payload: snapshot.val()
-      });
+      })
     }
-  });
-};
+  })
+}
 
 export const buscarPartidos = torneo => dispatch =>
   firebase
@@ -54,8 +54,8 @@ export const buscarPartidos = torneo => dispatch =>
     .ref(`/torneos/${torneo}/partidos`)
     // .ref(`master/torneos/idTorneo2/partidos`)
     .once("value", snapshot => {
-      dispatch({ type: BUSCAR_PARTIDOS_EXITO, payload: snapshot.val() });
-    });
+      dispatch({ type: BUSCAR_PARTIDOS_EXITO, payload: snapshot.val() })
+    })
 
 export const buscarApuestas = (quinielaid, nombreapuesta) => dispatch =>
   firebase
@@ -63,8 +63,8 @@ export const buscarApuestas = (quinielaid, nombreapuesta) => dispatch =>
     .ref(`/quinielas/${quinielaid}/clasificacion/${nombreapuesta}/partidos`)
     // .ref(`master/torneos/idTorneo2/partidos`)
     .once("value", snapshot => {
-      dispatch({ type: BUSCAR_APUESTAS_EXITO, payload: snapshot.val() });
-    });
+      dispatch({ type: BUSCAR_APUESTAS_EXITO, payload: snapshot.val() })
+    })
 
 export const buscarAdministrador = quinielaid => dispatch =>
   firebase
@@ -72,24 +72,24 @@ export const buscarAdministrador = quinielaid => dispatch =>
     .ref(`/quinielas/${quinielaid}/info/`)
     // .ref(`master/torneos/idTorneo2/partidos`)
     .once("value", snapshot => {
-      dispatch({ type: BUSCAR_ADMIN_EXITO, payload: snapshot.val() });
-    });
+      dispatch({ type: BUSCAR_ADMIN_EXITO, payload: snapshot.val() })
+    })
 
 export const buscarHora = () => dispatch =>
   firebase
     .database()
     .ref("currentTime/")
     .once("value", snapshot => {
-      dispatch({ type: HORA_UPDATE, payload: snapshot.val().time });
-    });
+      dispatch({ type: HORA_UPDATE, payload: snapshot.val().time })
+    })
 
 export const escribirHora = () => dispatch =>
   firebase
     .database()
     .ref("currentTime/")
     .update({ time: firebase.database.ServerValue.TIMESTAMP }, snapshot => {
-      dispatch({ type: HORA_UPDATE, payload: snapshot });
-    });
+      dispatch({ type: HORA_UPDATE, payload: snapshot })
+    })
 
 export const buscarDetalleApuestas = (quinielaid, nombreapuesta) => dispatch =>
   firebase
@@ -100,12 +100,12 @@ export const buscarDetalleApuestas = (quinielaid, nombreapuesta) => dispatch =>
       dispatch({
         type: BUSCAR_DETALLE_APUESTAS_EXITO,
         payload: snapshot.val()
-      });
-    });
+      })
+    })
 
 export const limpiarapuesta = () => ({
   type: RESET_DETALLE_AP
-});
+})
 
 export const buscarPorActivar = quiniela => dispatch => {
   firebase
@@ -116,10 +116,10 @@ export const buscarPorActivar = quiniela => dispatch => {
         dispatch({
           type: ACTIVACION_UPDATE_POR_ACTIVAR,
           payload: snapshot.val()
-        });
+        })
       }
-    });
-};
+    })
+}
 
 export const buscarActivos = quiniela => dispatch => {
   firebase
@@ -130,37 +130,37 @@ export const buscarActivos = quiniela => dispatch => {
         dispatch({
           type: ACTIVACION_UPDATE_ACTIVOS,
           payload: snapshot.val()
-        });
+        })
       }
-    });
-};
+    })
+}
 
 export const buscarDisponiblesq = quiniela => dispatch => {
   // console.log(quiniela);
-  const q = quiniela;
+  const q = quiniela
 
   return firebase
     .database()
     .ref(`/quinielas/${quiniela.quinielaID}/info/quinielasDisponibles`)
     .once("value", snapshot => {
       if (snapshot.exists()) {
-        q.quinielasDisponibles = snapshot.val();
+        q.quinielasDisponibles = snapshot.val()
         //   console.log(q);
         dispatch({
           type: UPDATE_DISPO,
           payload: q
-        });
+        })
       }
-    });
-};
+    })
+}
 
 export const buscarJugadoresAdministradas = (quiniela, refdbj) => dispatch =>
-  refdbj.on("value", snapshot => {
+  refdbj.once("value", snapshot => {
     dispatch({
       type: BUSCAR_JUGADORES_ADMINISTRADAS_EXITO,
       payload: snapshot.val()
-    });
-  });
+    })
+  })
 
 export const buscarJugadoresAdministradas123 = quiniela => dispatch => {
   firebase
@@ -171,39 +171,39 @@ export const buscarJugadoresAdministradas123 = quiniela => dispatch => {
     .limitToLast(15)
     .once("value", snapshot => {
       if (snapshot.exists()) {
-        const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
+        const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }))
 
-        const dd = tt.reverse();
-        const dd1 = dd.pop().uid;
+        const dd = tt.reverse()
+        const dd1 = dd.pop().uid
 
         dispatch({
           type: ULTIMA_JUGADOR_LLEGO_NO
-        });
+        })
         dispatch({
           type: MOSTRAR_TODAS_JUGADOR_ADMIN
-        });
+        })
         dispatch({
           type: BUSCAR_JUGADORES_ADMINISTRADAS_EXITO,
           payload: snapshot.val()
-        });
+        })
 
         dispatch({
           type: ULTIMA_JUGADOR_UPDATE,
           payload: dd1
-        });
+        })
       }
 
       if (snapshot.exists()) {
         // console.log(`TAMANO DE LA DATA ${Object.keys(snapshot.val()).length}`);
         if (Object.keys(snapshot.val()).length < 15) {
-          dispatch({ type: ULTIMA_JUGADOR_LLEGO });
-          dispatch({ type: MOSTRAR_TODAS_JUGADOR_ADMIN });
+          dispatch({ type: ULTIMA_JUGADOR_LLEGO })
+          dispatch({ type: MOSTRAR_TODAS_JUGADOR_ADMIN })
         } else {
-          dispatch({ type: OCULTAR_ULTIMA_JUGADOR_ADMIN });
+          dispatch({ type: OCULTAR_ULTIMA_JUGADOR_ADMIN })
         }
       }
-    });
-};
+    })
+}
 
 export const buscarJugadoresAdministradasMax = (max, quiniela) => dispatch => {
   firebase
@@ -214,33 +214,33 @@ export const buscarJugadoresAdministradasMax = (max, quiniela) => dispatch => {
     .limitToLast(15)
     .once("value", snapshot => {
       if (snapshot.exists()) {
-        const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
+        const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }))
 
-        const dd = tt.reverse();
-        const dd1 = dd.pop().uid;
+        const dd = tt.reverse()
+        const dd1 = dd.pop().uid
 
         // console.log(`APUNTADOR CON MAX ${dd1}`);
         dispatch({
           type: ULTIMA_JUGADOR_LLEGO_NO
-        });
+        })
         dispatch({
           type: ULTIMA_JUGADOR_UPDATE,
           payload: dd1
-        });
+        })
         dispatch({
           type: BUSCAR_JUGADORES_ADMINISTRADAS_EXITO,
           payload: snapshot.val()
-        });
+        })
 
         if (Object.keys(snapshot.val()).length < 15) {
-          dispatch({ type: ULTIMA_JUGADOR_LLEGO });
-          dispatch({ type: MOSTRAR_TODAS_JUGADOR_ADMIN });
+          dispatch({ type: ULTIMA_JUGADOR_LLEGO })
+          dispatch({ type: MOSTRAR_TODAS_JUGADOR_ADMIN })
         } else {
-          dispatch({ type: OCULTAR_ULTIMA_JUGADOR_ADMIN });
+          dispatch({ type: OCULTAR_ULTIMA_JUGADOR_ADMIN })
         }
       }
-    });
-};
+    })
+}
 
 export const buscarJugadoresAdministradasT = (
   queryText,
@@ -256,42 +256,42 @@ export const buscarJugadoresAdministradasT = (
 
     .once("value", snapshot => {
       if (snapshot.exists()) {
-        const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
-        const dd = tt;
-        const dd1 = dd.pop().nombre;
+        const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }))
+        const dd = tt
+        const dd1 = dd.pop().nombre
         // console.log(`APUNTADOR INICIAL CON BUSQUEDA TEXTO ${dd1}`);
         dispatch({
           type: ULTIMA_JUGADOR_LLEGO_NO
-        });
+        })
 
-        dispatch({ type: RESET_JUGADORES_ADMIN });
+        dispatch({ type: RESET_JUGADORES_ADMIN })
         dispatch({
           type: BUSCAR_JUGADORES_ADMINISTRADAS_EXITO,
           payload: snapshot.val()
-        });
+        })
         dispatch({
           type: ULTIMA_JUGADOR_UPDATE,
           payload: dd1
-        });
-        dispatch({ type: MOSTRAR_TODAS_JUGADOR_ADMIN });
+        })
+        dispatch({ type: MOSTRAR_TODAS_JUGADOR_ADMIN })
       } else {
-        dispatch({ type: RESET_JUGADORES_ADMIN });
+        dispatch({ type: RESET_JUGADORES_ADMIN })
       }
 
       if (snapshot.exists()) {
         // console.log(`TAMOANO DE QUINIELAS BUSQUEDA TEXTO INICIAL  ${Object.keys(snapshot.val()).length}`);
         if (Object.keys(snapshot.val()).length < 15) {
-          dispatch({ type: ULTIMA_JUGADOR_LLEGO });
-          dispatch({ type: MOSTRAR_TODAS_JUGADOR_ADMIN });
+          dispatch({ type: ULTIMA_JUGADOR_LLEGO })
+          dispatch({ type: MOSTRAR_TODAS_JUGADOR_ADMIN })
         } else {
-          dispatch({ type: OCULTAR_ULTIMA_JUGADOR_ADMIN });
+          dispatch({ type: OCULTAR_ULTIMA_JUGADOR_ADMIN })
         }
       }
-    });
-};
+    })
+}
 
 export const buscarJugadoresAdministradasMaxT = (max, queryText, quiniela) => {
-  const { currentUser } = firebase.auth();
+  const { currentUser } = firebase.auth()
   return dispatch => {
     firebase
       .database()
@@ -302,34 +302,34 @@ export const buscarJugadoresAdministradasMaxT = (max, queryText, quiniela) => {
       .limitToFirst(15)
       .once("value", snapshot => {
         if (snapshot.exists()) {
-          const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }));
-          const dd = tt.reverse();
-          const dd1 = dd.pop().nombre;
+          const tt = _.map(snapshot.val(), (val, uid) => ({ ...val, uid }))
+          const dd = tt.reverse()
+          const dd1 = dd.pop().nombre
           // console.log(`APUNTADOR sec CON BUSQUEDA TEXTO ${dd1}`);
           dispatch({
             type: ULTIMA_JUGADOR_LLEGO_NO
-          });
+          })
           dispatch({
             type: ULTIMA_JUGADOR_UPDATE,
             payload: dd1
-          });
+          })
           dispatch({
             type: BUSCAR_JUGADORES_ADMINISTRADAS_EXITO,
             payload: snapshot.val()
-          });
+          })
         }
         if (snapshot.exists()) {
           // console.log(`TAMOANO DE QUINIELAS BUSQUEDA TEXTO SIGUIENTE  ${Object.keys(snapshot.val()).length}`);
           if (Object.keys(snapshot.val()).length < 15) {
-            dispatch({ type: ULTIMA_JUGADOR_LLEGO });
-            dispatch({ type: MOSTRAR_TODAS_JUGADOR_ADMIN });
+            dispatch({ type: ULTIMA_JUGADOR_LLEGO })
+            dispatch({ type: MOSTRAR_TODAS_JUGADOR_ADMIN })
           } else {
-            dispatch({ type: OCULTAR_ULTIMA_JUGADOR_ADMIN });
+            dispatch({ type: OCULTAR_ULTIMA_JUGADOR_ADMIN })
           }
         }
-      });
-  };
-};
+      })
+  }
+}
 
 export const manejarDisponibles = (qu, e1) => dispatch =>
   firebase
@@ -338,24 +338,27 @@ export const manejarDisponibles = (qu, e1) => dispatch =>
     .transaction(
       currentData => {
         // console.log(`EEEEEEEEEEEEEEEEE1 ${e1}`);
+        if (currentData !== null) {
+          if (e1) {
+            currentData.quinielasDisponibles =
+              Number(currentData.quinielasDisponibles) - 1
+            currentData.quinielasActivos =
+              Number(currentData.quinielasActivos) + 1
+            currentData.quinielasPorActivar =
+              Number(currentData.quinielasPorActivar) - 1
 
-        if (e1) {
+            return currentData
+          }
           currentData.quinielasDisponibles =
-            Number(currentData.quinielasDisponibles) - 1;
+            Number(currentData.quinielasDisponibles) + 1
           currentData.quinielasActivos =
-            Number(currentData.quinielasActivos) + 1;
+            Number(currentData.quinielasActivos) - 1
           currentData.quinielasPorActivar =
-            Number(currentData.quinielasPorActivar) - 1;
+            Number(currentData.quinielasPorActivar) + 1
 
-          return currentData;
+          return currentData
         }
-        currentData.quinielasDisponibles =
-          Number(currentData.quinielasDisponibles) + 1;
-        currentData.quinielasActivos = Number(currentData.quinielasActivos) - 1;
-        currentData.quinielasPorActivar =
-          Number(currentData.quinielasPorActivar) + 1;
-
-        return currentData;
+        return "DONDE ESTOY"
       },
 
       // Abort the transaction.
@@ -370,10 +373,10 @@ export const manejarDisponibles = (qu, e1) => dispatch =>
         dispatch({
           type: ACTUALIZAR_CODIGO_QUINIELA,
           payload: snapshot
-        });
+        })
         // console.log("Ada's data: ", snapshot.val());
       }
-    );
+    )
 
 export const reducirPorActivar = (qu, e1) => dispatch =>
   firebase
@@ -381,42 +384,42 @@ export const reducirPorActivar = (qu, e1) => dispatch =>
     .ref(`/quinielas/${qu}/info/`)
     .transaction(
       currentData1 => {
-        console.log(`qqqqqqqqqqqqqqqEEEEEEEEEEEEEEEEE1 ${qu}`);
+        console.log(`qqqqqqqqqqqqqqqEEEEEEEEEEEEEEEEE1 ${qu}`)
         if (currentData1 !== null) {
-          console.log(`EEEEEEEEEEEEEEEEE1 ${currentData1}`);
-          console.log(`EEEEEEEEEEEEEEEEE1 ${qu}`);
+          console.log(`EEEEEEEEEEEEEEEEE1 ${currentData1}`)
+          console.log(`EEEEEEEEEEEEEEEEE1 ${qu}`)
           if (e1) {
             currentData1.quinielasDisponibles =
-              Number(currentData1.quinielasDisponibles) + 1;
+              Number(currentData1.quinielasDisponibles) + 1
             currentData1.quinielasActivos =
-              Number(currentData1.quinielasActivos) - 1;
-            return currentData1;
+              Number(currentData1.quinielasActivos) - 1
+            return currentData1
           }
           currentData1.quinielasPorActivar =
-            Number(currentData1.quinielasPorActivar) - 1;
-          return currentData1;
+            Number(currentData1.quinielasPorActivar) - 1
+          return currentData1
         }
-        return "DONDE ESTOY";
+        return "DONDE ESTOY"
       },
 
       // Abort the transaction.
       (error, committed, snapshot) => {
         if (error) {
-          console.log("Transaction failed abnormally!", error);
+          console.log("Transaction failed abnormally!", error)
         } else if (!committed) {
           console.log(
             "We aborted the transaction (because ada already exists)."
-          );
+          )
         } else {
-          console.log("User ada added!");
+          console.log("User ada added!")
         }
         dispatch({
           type: ACTUALIZAR_CODIGO_QUINIELA,
           payload: snapshot
-        });
-        console.log("Ada's data: ", snapshot.val());
+        })
+        console.log("Ada's data: ", snapshot.val())
       }
-    );
+    )
 export const manejarActivacion = (codigo, e1) => dispatch =>
   firebase
     .database()
@@ -425,7 +428,7 @@ export const manejarActivacion = (codigo, e1) => dispatch =>
       currentData => {
         // console.log(`EEEEEEEEEEEEEEEEE1 ${e1}`);
 
-        return e1;
+        return e1
       },
 
       // Abort the transaction.
@@ -440,10 +443,10 @@ export const manejarActivacion = (codigo, e1) => dispatch =>
         dispatch({
           type: ACTUALIZAR_CODIGO_QUINIELA,
           payload: snapshot
-        });
+        })
         // console.log("Ada's data: ", snapshot.val());
       }
-    );
+    )
 
 export const reducirDisponibles = qu => dispatch =>
   firebase
@@ -451,9 +454,9 @@ export const reducirDisponibles = qu => dispatch =>
     .ref(`/quinielas/${qu}/info/`)
     .transaction(
       currentData => {
-        Number((currentData.quinielasPorActivar -= 1));
+        Number((currentData.quinielasPorActivar -= 1))
 
-        return currentData;
+        return currentData
       },
 
       // Abort the transaction.
@@ -468,10 +471,10 @@ export const reducirDisponibles = qu => dispatch =>
         dispatch({
           type: ACTUALIZAR_CODIGO_QUINIELA,
           payload: snapshot
-        });
+        })
         // console.log("Ada's data: ", snapshot.val());
       }
-    );
+    )
 
 export const aumentarDisponibles = qu => dispatch =>
   firebase
@@ -479,9 +482,9 @@ export const aumentarDisponibles = qu => dispatch =>
     .ref(`/quinielas/${qu}/info/`)
     .transaction(
       currentData => {
-        Number((currentData.quinielasDisponibles += 1));
+        Number((currentData.quinielasDisponibles += 1))
 
-        return currentData;
+        return currentData
       },
 
       // Abort the transaction.
@@ -496,10 +499,10 @@ export const aumentarDisponibles = qu => dispatch =>
         dispatch({
           type: ACTUALIZAR_CODIGO_QUINIELA,
           payload: snapshot
-        });
+        })
         // console.log("Ada's data: ", snapshot.val());
       }
-    );
+    )
 
 export const reducirPorActivar1 = (qu, e1) => dispatch =>
   firebase
@@ -510,14 +513,14 @@ export const reducirPorActivar1 = (qu, e1) => dispatch =>
         if (currentData !== null) {
           if (e1) {
             currentData.quinielasDisponibles =
-              Number(currentData.quinielasDisponibles) + 1;
+              Number(currentData.quinielasDisponibles) + 1
             currentData.quinielasActivos =
-              Number(currentData.quinielasActivos) - 1;
-            return currentData;
+              Number(currentData.quinielasActivos) - 1
+            return currentData
           } else {
             currentData.quinielasPorActivar =
-              Number(currentData.quinielasPorActivar) - 1;
-            return currentData;
+              Number(currentData.quinielasPorActivar) - 1
+            return currentData
           }
         }
       },
@@ -525,21 +528,21 @@ export const reducirPorActivar1 = (qu, e1) => dispatch =>
       // Abort the transaction.
       (error, committed, snapshot) => {
         if (error) {
-          console.log("Transaction failed abnormally!", error);
+          console.log("Transaction failed abnormally!", error)
         } else if (!committed) {
           console.log(
             "We aborted the transaction (because ada already exists)."
-          );
+          )
         } else {
-          console.log("User adahksjfhksjdfhksdjfhjksdfhkdjfh added!");
+          console.log("User adahksjfhksjdfhksdjfhjksdfhkdjfh added!")
         }
         dispatch({
           type: ACTUALIZAR_CODIGO_QUINIELA,
           payload: snapshot
-        });
+        })
         // console.log("Ada's data: ", snapshot.val());
       }
-    );
+    )
 
 export const cambiarEstatusQuiniela = (
   apuesta,
@@ -547,14 +550,14 @@ export const cambiarEstatusQuiniela = (
   status,
   info
 ) => dispatch => {
-  apuesta.activo = status;
-  apuesta.cargando = true;
-  dispatch({ type: CAMBIAR_ESTATUS_JUGADOR, payload: apuesta });
+  apuesta.activo = status
+  apuesta.cargando = true
+  dispatch({ type: CAMBIAR_ESTATUS_JUGADOR, payload: apuesta })
   // console.log(`INFOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO ${info}`);
-  const a = info.quinielasActivos;
+  const a = info.quinielasActivos
 
   if (typeof apuesta.partidos === "undefined") {
-    apuesta.partidos = {};
+    apuesta.partidos = {}
   }
   const postData = {
     activo: apuesta.activo,
@@ -569,7 +572,7 @@ export const cambiarEstatusQuiniela = (
     quiniela: info.quinielaID,
     partidos: apuesta.partidos,
     apuestaid: apuesta.apuestaid
-  };
+  }
 
   const postData1 = {
     apuestaid: apuesta.apuestaid,
@@ -584,9 +587,9 @@ export const cambiarEstatusQuiniela = (
     quinielasDisponibles: info.quinielasDisponibles,
     quinielasPorActivar: info.quinielasPorActivar,
     quinielasActivos: a
-  };
-  const postData2 = info.quinielasDisponibles;
-  const postData3 = a;
+  }
+  const postData2 = info.quinielasDisponibles
+  const postData3 = a
   //console.log(apuesta.jid);
   //console.log(apuesta.uid);
   //console.log(info.admin);
@@ -595,14 +598,14 @@ export const cambiarEstatusQuiniela = (
   //console.log(postData);
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
-  const updates = {};
-  updates[`/users/${apuesta.jid}/quinielas/${apuesta.apuestaid}`] = postData;
+  const updates = {}
+  updates[`/users/${apuesta.jid}/quinielas/${apuesta.apuestaid}`] = postData
   updates[
     `/users/${info.admin}/quinielasadministradas/${info.quinielaID}`
-  ] = postData1;
+  ] = postData1
   updates[
     `/quinielas/${info.quinielaID}/clasificacion/${apuesta.uid}`
-  ] = postData;
+  ] = postData
 
   return firebase
     .database()
@@ -610,13 +613,13 @@ export const cambiarEstatusQuiniela = (
     .update(updates)
     .then(error => {
       // console.log(`jalksjdlkasjdlkasjdlasjdlksad ${error}`);
-      crearQuinielaExito(dispatch, apuesta);
+      crearQuinielaExito(dispatch, apuesta)
     })
-    .catch(error => crearQuinielaError(dispatch, error));
-};
+    .catch(error => crearQuinielaError(dispatch, error))
+}
 
 export const cambiarEstatusQuinielaA = (quiniela, info, ju) => dispatch => {
-  const a = info.quinielasActivos;
+  const a = info.quinielasActivos
 
   const postData1 = {
     admin: info.admin,
@@ -631,12 +634,12 @@ export const cambiarEstatusQuinielaA = (quiniela, info, ju) => dispatch => {
     quinielasPorActivar: info.quinielasPorActivar,
     quinielasActivos: a,
     reglas: info.reglas
-  };
+  }
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
-  const updates = {};
+  const updates = {}
   //updates[`quinielas/${info.quinielaID}/info`] = postData1;
-  updates[`users/${info.admin}/quinielasadministradas/${quiniela}`] = postData1;
+  updates[`users/${info.admin}/quinielasadministradas/${quiniela}`] = postData1
 
   return firebase
     .database()
@@ -644,20 +647,20 @@ export const cambiarEstatusQuinielaA = (quiniela, info, ju) => dispatch => {
     .update(updates)
     .then(error => {
       // console.log(`jalksjdlkasjdlkasjdlasjdlksad ${error}`);
-      crearQuinielaExito(dispatch, apuesta);
+      crearQuinielaExito(dispatch, apuesta)
     })
-    .catch(error => crearQuinielaError(dispatch, error));
-};
+    .catch(error => crearQuinielaError(dispatch, error))
+}
 
 function crearQuinielaExito(dispatch, apuesta) {
-  apuesta.cargando = false;
-  return dispatch({ type: CAMBIAR_ESTATUS_JUGADOR, payload: apuesta });
+  apuesta.cargando = false
+  return dispatch({ type: CAMBIAR_ESTATUS_JUGADOR, payload: apuesta })
 }
 
 const crearQuinielaError = (dispatch, error) => {
   // dispatch({ type: CREATE_QUINIELA_FAIL, payload: error });
-};
+}
 
 export const reloadingJugadores = () => ({
   type: RELOADING_JUGADORES
-});
+})
