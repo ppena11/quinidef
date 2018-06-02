@@ -22,7 +22,7 @@ import EliminarQuiniela from "../screens/EliminarQuiniela"
 import Mas from "../screens/Mas"
 
 import CargandoHome from "../screens/CargandoHome"
-import { Ionicons } from "@expo/vector-icons"
+import Ionicons from "react-native-vector-icons/Ionicons"
 
 const PosicionesStack = StackNavigator({
   HomePosiciones: { screen: Posiciones },
