@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 import {
   Text,
   View,
@@ -7,26 +7,26 @@ import {
   TouchableOpacity,
   TextInput,
   Keyboard
-} from "react-native";
-import { withNavigation } from "react-navigation";
-import { connect } from "react-redux";
-import _ from "lodash";
+} from "react-native"
+import { withNavigation } from "react-navigation"
+import { connect } from "react-redux"
+import _ from "lodash"
 
-import { Card } from "../Card";
-import { CardSection } from "../CardSection";
-import { CardSectionText } from "../CardSectionText";
+import { Card } from "../Card"
+import { CardSection } from "../CardSection"
+import { CardSectionText } from "../CardSectionText"
 
-import color from "../../comun/colors";
+import color from "../../comun/colors"
 
-import { cambiarEstatusQuiniela, modificarReglas } from "../../actions";
+import { cambiarEstatusQuiniela, modificarReglas } from "../../actions"
 
 class QuinielaReglaItem extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       toggled: false,
       regla: {}
-    };
+    }
   }
 
   onRowPress() {
@@ -36,24 +36,24 @@ class QuinielaReglaItem extends Component {
       quiniela: this.props.quiniela,
       quinielan: this.props.quinielan,
       codigo: this.props.codigo
-    });
+    })
   }
 
   onSubmit() {
-    Keyboard.dismiss();
+    Keyboard.dismiss()
   }
 
   pressed(e) {
-    const k = Number(e);
+    const k = Number(e)
     if (!isNaN(k) && Number.isInteger(k)) {
       if (k >= 0) {
         //  console.log('GUARDALO');
-        const re = this.props.reglas;
+        const re = this.props.reglas
         //console.log(this.props.regla.uid);
         //console.log(re[this.props.regla.uid]);
 
-        re[this.props.regla.uid].puntos = k;
-        this.props.modificarReglas(re);
+        re[this.props.regla.uid].puntos = k
+        this.props.modificarReglas(re)
         //   console.log(re);
       }
     } else if (e == "") {
@@ -73,7 +73,7 @@ class QuinielaReglaItem extends Component {
       thumbnailContainerStyle,
       switchStyle,
       input
-    } = styles;
+    } = styles
 
     return (
       <TouchableOpacity>
@@ -93,6 +93,7 @@ class QuinielaReglaItem extends Component {
                 maxLength={3}
                 // value={this.props.regla.value.toString()}
                 keyboardType="numeric"
+                returnKeyType="done"
                 onSubmitEditing={() => this.onSubmit()}
                 onChangeText={q => this.pressed(q)}
               />
@@ -100,7 +101,7 @@ class QuinielaReglaItem extends Component {
           </CardSectionText>
         </Card>
       </TouchableOpacity>
-    );
+    )
   }
 }
 
@@ -115,7 +116,7 @@ const styles = {
   input: {
     backgroundColor: color.$fondoBotonInput,
 
-    fontSize: 16,
+    fontSize: 25,
     color: color.$formInputBoxColor
   },
   headerContentStyleL: {
@@ -148,15 +149,15 @@ const styles = {
     marginLeft: 5,
     marginRight: 5
   }
-};
+}
 
 const mapStateToProps = state => {
-  const jugadores = state.jugadoresadmin;
-  const reglas = state.creacionquinielas.reglas;
-  return { jugadores, reglas };
-};
+  const jugadores = state.jugadoresadmin
+  const reglas = state.creacionquinielas.reglas
+  return { jugadores, reglas }
+}
 
 export default connect(mapStateToProps, {
   cambiarEstatusQuiniela,
   modificarReglas
-})(withNavigation(QuinielaReglaItem));
+})(withNavigation(QuinielaReglaItem))

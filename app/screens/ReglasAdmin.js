@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 import {
   KeyboardAvoidingView,
   StatusBar,
@@ -10,11 +10,12 @@ import {
   ScrollView,
   BackHandler,
   TouchableOpacity,
-  Text,
-} from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import _ from "lodash";
-import { connect } from "react-redux";
+  Text
+} from "react-native"
+import EStyleSheet from "react-native-extended-stylesheet"
+import _ from "lodash"
+import { connect } from "react-redux"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 import {
   buscarJugadoresAdministradas,
@@ -26,59 +27,59 @@ import {
   buscarReglasAdmin,
   modifarReglasBD,
   reinicarReglas
-} from "../actions";
-import { Container } from "../components/Container";
-import { BotonPrincipal } from "../components/BotonPrincipal";
-import { Titulo } from "../components/Titulo";
-import { QuinielaReglaItem } from "../components/QuinielaReglaItem";
-import color from "../comun/colors";
-import { Spinner } from "../components/Spinner";
+} from "../actions"
+import { Container } from "../components/Container"
+import { BotonPrincipal } from "../components/BotonPrincipal"
+import { Titulo } from "../components/Titulo"
+import { QuinielaReglaItem } from "../components/QuinielaReglaItem"
+import color from "../comun/colors"
+import { Spinner } from "../components/Spinner"
 
 class ReglasAdmin extends Component {
   static navigationOptions = {
     header: null
-  };
+  }
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       menu: "yes",
       validando: false,
       regla: {}
-    };
-    this.run = this.run.bind(this);
-    this.run2 = this.run2.bind(this);
-    this.handleBackButton = this.handleBackButton.bind(this);
+    }
+    this.run = this.run.bind(this)
+    this.run2 = this.run2.bind(this)
+    this.handleBackButton = this.handleBackButton.bind(this)
   }
 
   componentDidMount() {
-    this.run();
+    this.run()
 
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
       this.keyboardWillShow
-    );
+    )
     this.keyboardWillHideListener = Keyboard.addListener(
       "keyboardDidHide",
       this.keyboardWillHide
-    );
+    )
 
     console.log("(ReglasAdmin) componentDidMount")
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton)
   }
 
   componentWillUnmount() {
-    this.setState({ validando: false });
-    this.keyboardWillShowListener.remove();
-    this.keyboardWillHideListener.remove();
+    this.setState({ validando: false })
+    this.keyboardWillShowListener.remove()
+    this.keyboardWillHideListener.remove()
 
     console.log("(ReglasAdmin) componentWillUnmount")
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton)
   }
 
   handleBackButton() {
-    this.props.navigation.goBack();
-    return true;
+    this.props.navigation.goBack()
+    return true
   }
 
   run = async () => {
@@ -86,41 +87,41 @@ class ReglasAdmin extends Component {
       //   console.log(this.props.navigation.state.params.quiniela.uid);
       const regla = await this.props.buscarReglasAdmin(
         this.props.navigation.state.params.quiniela.uid
-      );
-      const r1 = regla.toJSON();
-      this.setState({ regla: r1 });
+      )
+      const r1 = regla.toJSON()
+      this.setState({ regla: r1 })
       //   console.log(r1);
     } catch (e) {
       //    console.log(e);
     }
-  };
+  }
 
   run2 = async () => {
     try {
-      this.setState({ validando: true });
+      this.setState({ validando: true })
       const test = await this.props.modifarReglasBD(
         this.props.navigation.state.params.quiniela.uid,
         this.props.reglast
-      );
+      )
       //   console.log(test);
-      this.run();
-      this.setState({ validando: false });
-      this.props.navigation.goBack();
+      this.run()
+      this.setState({ validando: false })
+      this.props.navigation.goBack()
     } catch (e) {
       //   console.log(e);
-      this.setState({ validando: false });
+      this.setState({ validando: false })
 
-      this.props.navigation.goBack();
+      this.props.navigation.goBack()
     }
-  };
+  }
 
   keyboardWillShow = () => {
-    this.setState({ menu: "no" });
-  };
+    this.setState({ menu: "no" })
+  }
 
   keyboardWillHide = () => {
-    this.setState({ menu: "yes" });
-  };
+    this.setState({ menu: "yes" })
+  }
 
   createDataSource({ quinielas }) {
     // const ds = new ListView.DataSource({
@@ -130,14 +131,14 @@ class ReglasAdmin extends Component {
   }
 
   crear() {
-    this.run2();
+    this.run2()
     // console.log('TEST');
     // navigate('EliminarApuesta');
   }
 
   cancelar() {
-    this.run();
-    this.props.navigation.goBack();
+    this.run()
+    this.props.navigation.goBack()
   }
 
   renderRow(regla) {
@@ -148,11 +149,11 @@ class ReglasAdmin extends Component {
         quinielan={this.props.navigation.state.params.quiniela.quinielaNombre}
         codigo={this.props.navigation.state.params.quiniela.codigoq}
       />
-    );
+    )
   }
 
   pressed(e) {
-    Keyboard.dismiss();
+    Keyboard.dismiss()
   }
 
   menustatus() {
@@ -174,20 +175,20 @@ class ReglasAdmin extends Component {
             Cancelar
           </BotonPrincipal>
         </View>
-      );
+      )
     }
-    return <View />;
+    return <View />
   }
 
   status() {
     if (this.state.validando) {
-      return <Spinner style={styles.buttonText} size="small" />;
+      return <Spinner style={styles.buttonText} size="small" />
     }
-    return <Text style={styles.buttonText}>Guargar cambios..</Text>;
+    return <Text style={styles.buttonText}>Guargar cambios..</Text>
   }
 
   render() {
-    const reglas = _.map(this.state.regla, (val, uid) => ({ ...val, uid }));
+    const reglas = _.map(this.state.regla, (val, uid) => ({ ...val, uid }))
 
     //const reglas = Object.keys(this.state.regla).map(key => ({
     // key,
@@ -207,22 +208,22 @@ class ReglasAdmin extends Component {
               {this.props.navigation.state.params.quiniela.quinielaNombre}
             </Titulo>
           </View>
-
-          <View style={styles.cuerpo}>
-            <FlatList
-              data={reglas}
-              renderItem={({ item }) => this.renderRow(item)}
-              onEndReachedThershold={0}
-              ref={ref => {
-                this.listRef = ref;
-              }}
-            />
-          </View>
-
+          <KeyboardAwareScrollView>
+            <View style={styles.cuerpo}>
+              <FlatList
+                data={reglas}
+                renderItem={({ item }) => this.renderRow(item)}
+                onEndReachedThershold={0}
+                ref={ref => {
+                  this.listRef = ref
+                }}
+              />
+            </View>
+          </KeyboardAwareScrollView>
           <View>{this.menustatus()}</View>
         </View>
       </Container>
-    );
+    )
   }
 }
 
@@ -283,13 +284,13 @@ const styles = EStyleSheet.create({
     color: color.$formButtonTextColor,
     textAlign: "center"
   }
-});
+})
 const mapStateToProps = state => {
-  const reglast = state.creacionquinielas.reglas;
+  const reglast = state.creacionquinielas.reglas
   const reglas = _.map(state.creacionquinielas.reglas, (val, uid) => ({
     ...val,
     uid
-  }));
+  }))
 
   //const reglas = Object.keys(reglast).map(key => ({ key, value: reglast[key] }));
 
@@ -301,8 +302,8 @@ const mapStateToProps = state => {
     reload: state.jugadorlast.reload,
     mostrarMenus: state.jugadorlast.mostrarMenu,
     buscarTexto: state.jugadorlast.buscar
-  };
-};
+  }
+}
 
 export default connect(mapStateToProps, {
   buscarJugadoresAdministradas,
@@ -314,4 +315,4 @@ export default connect(mapStateToProps, {
   buscarReglasAdmin,
   modifarReglasBD,
   reinicarReglas
-})(ReglasAdmin);
+})(ReglasAdmin)
