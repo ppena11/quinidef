@@ -47,7 +47,6 @@ class TusQuinielas extends Component {
   constructor(props) {
     super(props)
     this.state = {
-
       validando: false,
       menu: "yes"
     }
@@ -67,7 +66,6 @@ class TusQuinielas extends Component {
       "keyboardDidHide",
       this.keyboardWillHide
     )
-
 
     this.props.buscarTorneos()
     this.createDataSource(this.props)
@@ -96,7 +94,6 @@ class TusQuinielas extends Component {
 
   keyboardWillHide = () => {
     this.setState({ menu: "yes" })
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -374,7 +371,7 @@ class TusQuinielas extends Component {
                 />
                 <View style={styles2.vire} />
               </View>
-            </View>{" "}
+            </View>
           </KeyboardAwareScrollView>
           <View style={styles.bottom}>
             <Text>{this.props.error}</Text>

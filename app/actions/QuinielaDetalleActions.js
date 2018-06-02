@@ -371,8 +371,8 @@ export const manejarDisponibles = (qu, e1) => dispatch =>
           // console.log('User ada added!');
         }
         dispatch({
-          type: ACTUALIZAR_CODIGO_QUINIELA,
-          payload: snapshot
+          type: ACTIVACION_UPDATE,
+          payload: snapshot.toJSON()
         })
         // console.log("Ada's data: ", snapshot.val());
       }
@@ -387,17 +387,18 @@ export const reducirPorActivar = (qu, e1) => dispatch =>
         console.log(`qqqqqqqqqqqqqqqEEEEEEEEEEEEEEEEE1 ${qu}`)
         if (currentData1 !== null) {
           console.log(`EEEEEEEEEEEEEEEEE1 ${currentData1}`)
-          console.log(`EEEEEEEEEEEEEEEEE1 ${qu}`)
+          console.log(`EEEEEEEEEEEEEEEEE1 ${e1}`)
           if (e1) {
             currentData1.quinielasDisponibles =
               Number(currentData1.quinielasDisponibles) + 1
             currentData1.quinielasActivos =
               Number(currentData1.quinielasActivos) - 1
             return currentData1
+          } else {
+            currentData1.quinielasPorActivar =
+              Number(currentData1.quinielasPorActivar) - 1
+            return currentData1
           }
-          currentData1.quinielasPorActivar =
-            Number(currentData1.quinielasPorActivar) - 1
-          return currentData1
         }
         return "DONDE ESTOY"
       },

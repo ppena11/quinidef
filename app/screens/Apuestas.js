@@ -363,30 +363,31 @@ class Apuestas extends Component {
 
     return (
       <View style={styles.container}>
-        <StatusBar
-          translucent={false}
-          barStyle="light-content"
-          backgroundColor={color.$statusBarBackgroundColor}
-        />
-        <View style={styles.form}>
-          <View>{this.activa()}</View>
-          <View style={styles.linecont}>
-            <View style={styles.textcont}>
-              <Text style={styles.buttonText}>
-                Puedes modificar tus apuestas hasta 30 min antes que empiece
-                cada juego
-              </Text>
-            </View>
-
-            <TouchableOpacity
-              style={styles.imgcont}
-              onPress={() => this.crear()}
-            >
-              {this.status()}
-            </TouchableOpacity>
-          </View>
-        </View>
         <KeyboardAwareScrollView>
+          <StatusBar
+            translucent={false}
+            barStyle="light-content"
+            backgroundColor={color.$statusBarBackgroundColor}
+          />
+          <View style={styles.form}>
+            <View>{this.activa()}</View>
+            <View style={styles.linecont}>
+              <View style={styles.textcont}>
+                <Text style={styles.buttonText}>
+                  Puedes modificar tus apuestas hasta 30 min antes que empiece
+                  cada juego
+                </Text>
+              </View>
+
+              <TouchableOpacity
+                style={styles.imgcont}
+                onPress={() => this.crear()}
+              >
+                {this.status()}
+              </TouchableOpacity>
+            </View>
+          </View>
+
           <View style={styles.cuerpo}>{this.spinner(partidos)}</View>
         </KeyboardAwareScrollView>
       </View>

@@ -53,7 +53,10 @@ class QuinielaAdminItem extends Component {
   }
 
   pressed(e) {
-    if (this.props.info.quinielasDisponibles == 0 && e) {
+    console.log("SKLJDLAHSDFDFHJGSJFSD")
+    console.log(this.props.disponibles["quinielasDisponibles"])
+    console.log(this.props.disponibles)
+    if (this.props.disponibles["quinielasDisponibles"] <= 0 && e) {
       alert("Debes adquinir mas quinielas")
     } else {
       const { activo, puntos, nombre, uid, jid } = this.props.jugador
@@ -191,7 +194,8 @@ const styles = {
 
 const mapStateToProps = state => {
   const jugadores = state.jugadoresadmin
-  return { jugadores }
+  const disponibles = state.activacion
+  return { jugadores, disponibles }
 }
 
 export default connect(mapStateToProps, {
