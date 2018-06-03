@@ -28,6 +28,7 @@ import { BotonPrincipal } from "../components/BotonPrincipal";
 import { Titulo } from "../components/Titulo";
 import { Qx } from "../components/Qx";
 import { Spinner } from "../components/Spinner";
+import { HeaderText } from '../components/HeaderText';
 import color from "../comun/colors";
 import { iconos } from "../comun/imagenes";
 
@@ -48,7 +49,7 @@ class TusQuinielas extends Component {
   }
 
   static navigationOptions = {
-    title: 'Tus Quinielas',
+    headerTitle: <HeaderText texto="Tus Quinielas"/>,
     headerLeft: (
       <TouchableOpacity onPress={ () => this2.alertLogout() }>
         <Image
@@ -57,7 +58,7 @@ class TusQuinielas extends Component {
             aspectRatio: 1,
             padding: 0,
             margin: 10,
-            tintColor: color.$headerImageColor,
+            tintColor: color.$headerImageTintColor,
           }}
           source={iconos[`$masopciones`]}
         />

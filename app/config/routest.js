@@ -13,7 +13,7 @@ import UnirseAQuiniela from "../screens/UnirseAQuiniela";
 import RegistrarQuiniela from "../screens/RegistrarQuiniela";
 import ReglasAdmin from "../screens/ReglasAdmin";
 import Apuestas from "../screens/Apuestas";
-import Apuesta from "../screens/Apuesta";
+// import Apuesta from "../screens/Apuesta";
 import Posiciones from "../screens/Posiciones";
 import Reglas from "../screens/Reglas";
 import DetallesApuestas from "../screens/DetallesApuestas";

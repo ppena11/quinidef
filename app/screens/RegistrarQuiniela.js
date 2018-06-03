@@ -15,8 +15,9 @@ import { NavigationActions } from "react-navigation";
 import { Container } from "../components/Container";
 import { Titulo } from "../components/Titulo";
 import { BotonPrincipal } from "../components/BotonPrincipal";
-import color from "../comun/colors";
 import { Spinner } from "../components/Spinner";
+import { HeaderText } from '../components/HeaderText';
+import color from "../comun/colors";
 
 import {
   buscarCodigos,
@@ -31,11 +32,7 @@ import {
 
 class RegistrarQuiniela extends Component {
   static navigationOptions = {
-    headerTitle: (
-      <Text style={{ flex: 1, fontSize: 18, color: color.$headerTextColor, fontWeight: 'normal', textAlign: 'center' }}>
-        Registro de Quiniela
-      </Text>
-    ),
+    headerTitle: <HeaderText texto="Registro de Quiniela"/>,
   };
 
   constructor(props) {

@@ -18,6 +18,7 @@ import { Titulo } from "../components/Titulo";
 import { InputLetra } from "../components/InputLetra";
 import { BotonPrincipal } from "../components/BotonPrincipal";
 import { Spinner } from "../components/Spinner";
+import { HeaderText } from '../components/HeaderText';
 import color from "../comun/colors";
 
 import {
@@ -31,7 +32,7 @@ import {
 
 class UnirseAQuiniela extends Component {
   static navigationOptions = {
-    title: "Unirse a Quiniela",
+    headerTitle: <HeaderText texto="Unirse a Quiniela"/>,
     backTitle: null,
   };
 

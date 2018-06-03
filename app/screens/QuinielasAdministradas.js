@@ -38,6 +38,7 @@ import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
 import { Titulo } from "../components/Titulo";
 import { Qxa } from "../components/Qxa";
+import { HeaderText } from "../components/HeaderText";
 import color from "../comun/colors";
 
 class QuinielasAdministradas extends Component {
@@ -59,15 +60,11 @@ class QuinielasAdministradas extends Component {
   }
 
   static navigationOptions = {
-    headerTitle: (
-      <Text style={{ flex: 1, fontSize: 18, color: color.$headerTextColor, fontWeight: 'normal', textAlign: 'center' }}>
-        Quinielas Administradas
-      </Text>
-    ),
+    headerTitle: <HeaderText texto="Quinielas Administradas"/>,
     headerLeft: (
       <HeaderBackButton
         onPress = {() => this2.handleBackButton()}
-        tintColor = {color.$headerImageColor}
+        tintColor = {color.$headerImageTintColor}
       />
     )
   };

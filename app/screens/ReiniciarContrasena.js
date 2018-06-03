@@ -11,6 +11,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { connect } from "react-redux";
 
 import { Container } from "../components/Container";
+import { HeaderText } from "../components/HeaderText";
 import { gotohome } from "../actions";
 import { Logo } from "../components/Logo";
 import { FormContrasena } from "../components/FormContrasena";
@@ -25,11 +26,7 @@ class ReiniciarContrasena extends Component {
   }
 
   static navigationOptions = {
-    headerTitle: (
-      <Text style={{ flex: 1, fontSize: 18, color: color.$headerTextColor, fontWeight: 'normal', textAlign: 'center' }}>
-        Reiniciar Contraseña
-      </Text>
-    ),
+    headerTitle: <HeaderText texto="Reiniciar Contraseña"/>,
   };
 
   componentDidMount() {

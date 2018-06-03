@@ -55,8 +55,10 @@ const colores = {
 
   // Header
   $headerTextColor: $blanco,
+  $headerImageTintColor: $blanco,
   $headerBackgroundColor: '#082B4C',
-  $headerImageColor: $blanco,
+  $headerAnidadoImageTintColor: $blanco,
+  $headerAnidadoBackgroundColor: '#083B64',
 
   //Tab Navigator
   $tabActiveTintColor: 'white',

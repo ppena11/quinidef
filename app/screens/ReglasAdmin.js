@@ -31,12 +31,13 @@ import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
 import { Titulo } from "../components/Titulo";
 import { QuinielaReglaItem } from "../components/QuinielaReglaItem";
-import color from "../comun/colors";
 import { Spinner } from "../components/Spinner";
+import { HeaderText } from '../components/HeaderText';
+import color from "../comun/colors";
 
 class ReglasAdmin extends Component {
   static navigationOptions = {
-    title: "Modificar Reglas",
+    headerTitle: <HeaderText texto="Modificar Reglas"/>,
   };
   constructor(props) {
     super(props);
@@ -203,7 +204,6 @@ class ReglasAdmin extends Component {
         <View style={styles.form}>
           <View style={styles.titulo}>
             <Titulo>
-              {/* MODIFICAR REGLAS {"\n"} */}
               {this.props.navigation.state.params.quiniela.quinielaNombre}
             </Titulo>
           </View>

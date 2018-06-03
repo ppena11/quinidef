@@ -39,6 +39,7 @@ import { Card } from "../components/Card";
 import { CardSectionT } from "../components/CardSectionT";
 import { Titulo } from "../components/Titulo";
 import { QuinielaAdminItem } from "../components/QuinielaAdminItem";
+import { HeaderText } from "../components/HeaderText";
 import color from "../comun/colors";
 
 class DetalleQuinielaAdministrada extends Component {
@@ -64,15 +65,11 @@ class DetalleQuinielaAdministrada extends Component {
   }
 
   static navigationOptions = {
-    headerTitle: (
-      <Text style={{ flex: 1, fontSize: 18, color: color.$headerTextColor, fontWeight: 'normal', textAlign: 'center' }}>
-      Administración Quiniela</Text>
-    ),
-    // title: "Ajustes Quiniela Administrada",
+    headerTitle: <HeaderText texto="Administración Quiniela"/>,
     headerLeft: (
       <HeaderBackButton
         onPress = {() => this2.handleBackButton()}
-        tintColor = {color.$headerImageColor}
+        tintColor = {color.$headerImageTintColor}
       />
     )
   };
@@ -439,7 +436,7 @@ class DetalleQuinielaAdministrada extends Component {
         <View style={styles.form}>
           <View style={styles.titulo}>
             <Titulo>
-              Quiniela:{" "}
+              {/* Quiniela:{" "} */}
               {this.props.navigation.state.params.quiniela.quinielaNombre}
               {"\n"}Código:{" "}
               {this.props.navigation.state.params.quiniela.codigoq}

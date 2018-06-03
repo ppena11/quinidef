@@ -32,7 +32,6 @@ export default class extends Component {
     console.ignoredYellowBox = [
       'Setting a timer',
       'Warning: isMounted',
-      'VirtualizedList',
       'Remote debugger'
     ];
   }

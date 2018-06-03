@@ -19,30 +19,21 @@ import { DetalleAp } from "../components/DetalleAp";
 import { PuntajeJugador } from "../comun/puntaje";
 import { BotonPrincipal } from "../components/BotonPrincipal";
 import { Spinner } from "../components/Spinner";
+import { HeaderText } from "../components/HeaderText";
 import color from "../comun/colors";
 
 class DetalleApuestas extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
 
-    let titulo = params ? <Text>{params.posicion.nombreapuesta} - {params.posicion.puntos} pts</Text> : 'Pantalla Anidada';
+    let titulo = params ? `${params.posicion.nombreapuesta} - ${params.posicion.puntos} pts` : 'Error Header DetallesApuesta';
 
     return {
-      // title: params
-      //   ? `${params.posicion.nombreapuesta} - ${params.posicion.puntos} PTS`
-      //   : "A Nested Details Screen",
-      headerTitle: (
-        <Text style={{ flex: 1, fontSize: 18, color: color.$headerTextColor, fontWeight: 'normal', textAlign: 'center' }}>
-          {titulo}
-        </Text>
-      ),
+      headerTitle: <HeaderText texto={titulo}/>,
       headerStyle: {
-        backgroundColor: color.$primaryBackground,
+        backgroundColor: color.$headerAnidadoBackgroundColor,
       },
-      // headerTintColor: color.$headerImageColor,
-      headerTitleStyle: {
-        fontWeight: "bold"
-      },
+      headerTintColor: color.$headerAnidadoImageTintColor,
       headerRight: (<TouchableOpacity/>),
     };
   };

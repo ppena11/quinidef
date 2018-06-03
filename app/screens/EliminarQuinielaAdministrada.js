@@ -34,11 +34,12 @@ import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
 import { Titulo } from "../components/Titulo";
 import { QuinielaAdminItem } from "../components/QuinielaAdminItem";
+import { HeaderText } from '../components/HeaderText';
 import color from "../comun/colors";
 
 class EliminarQuinielaAdministrada extends Component {
   static navigationOptions = {
-    title: "Eliminar Quiniela",
+    headerTitle: <HeaderText texto="Eliminar Quiniela"/>,
   };
   constructor(props) {
     super(props);

@@ -15,11 +15,12 @@ import { Logo } from '../components/Logo';
 import { Form } from '../components/Form';
 import { TextIndication } from '../components/TextIndication';
 import { gotohome } from '../actions';
+import { HeaderText } from '../components/HeaderText';
 import color from '../comun/colors';
 
 class CrearCuenta extends Component {
   static navigationOptions = {
-    title: 'Crear Cuenta',
+    headerTitle: <HeaderText texto="Crear Cuenta"/>,
   };
 
   constructor() {

@@ -34,17 +34,14 @@ import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
 import { Titulo } from "../components/Titulo";
 import { TorneoItem } from "../components/TorneoItem";
-import color from "../comun/colors";
 import { generarCodigo } from "../comun/helper";
 import { Spinner } from "../components/Spinner";
+import { HeaderText } from "../components/HeaderText";
+import color from "../comun/colors";
 
 class TusQuinielas extends Component {
   static navigationOptions = {
-    headerTitle: (
-      <Text style={{ flex: 1, fontSize: 18, color: color.$headerTextColor, fontWeight: 'normal', textAlign: 'center' }}>
-        Creación de Quiniela
-      </Text>
-    ),
+    headerTitle: <HeaderText texto="Creación de Quiniela"/>,
   };
 
   constructor(props) {

@@ -17,11 +17,12 @@ import { TextIndication } from '../components/TextIndication';
 import { Form } from '../components/Form';
 import { Spinner } from '../components/Spinner';
 import { limpiarFormularioLogin, usuarioRegistrado, loginUser1, logeddUser1 } from '../actions';
+import { HeaderText } from '../components/HeaderText';
 import color from '../comun/colors';
 
 class Login extends Component {
   static navigationOptions = {
-    title: 'Login',
+    headerTitle: <HeaderText texto="Login"/>,
     headerLeft: (<TouchableOpacity/>),
   };
 
@@ -78,7 +79,7 @@ class Login extends Component {
           <View style={styles.conta}>
             <View style={styles.vire} />
             <TouchableOpacity style={styles.button} onPress={() => this.crear(navigate)}>
-              <Text style={styles.buttonText}> Registrate</Text>
+              <Text style={styles.buttonText}> Registrarse</Text>
             </TouchableOpacity>
             <View style={styles.vire} />
           </View>

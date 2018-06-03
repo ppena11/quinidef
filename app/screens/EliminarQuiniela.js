@@ -265,7 +265,7 @@ const styles = EStyleSheet.create({
   warning: {
     fontWeight: "bold",
     fontSize: 20,
-    color: 'red'
+    color: color.$textIndicationLabelColor,
   },
   subtitulo: {
     fontSize: 15,

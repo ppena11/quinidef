@@ -25,33 +25,20 @@ import EliminarApuesta from "../screens/EliminarApuesta";
 import EliminarQuinielaAdministrada from "../screens/EliminarQuinielaAdministrada";
 import ModalScreen from "../screens/ModalScreen";
 import CargandoHome from "../screens/CargandoHome";
+import { HeaderText } from "../components/HeaderText";
 import color from "../comun/colors";
 
 const stackRouterConfig = {
   navigationOptions: ({ navigation }) => {
     const { params } = navigation.state;
 
-    let titulo = params ? <Text>{params.quiniela.quinielaNombre}{"\n"}{params.quiniela.nombreapuesta} - {params.quiniela.puntos} pts</Text> : 'Pantalla Anidada';
+    let titulo = params ? `${params.quiniela.quinielaNombre}\n${params.quiniela.nombreapuesta} - ${params.quiniela.puntos} pts` : 'Error Header routes';
 
     return {
-      // title: params
-      //   ? `${params.quiniela.nombreapuesta} - ${
-      //       params.quiniela.quinielaNombre
-      //     } - ${params.quiniela.puntos} PTS`
-      //   : "A Nested Details Screen",
-      headerTitle: (
-        <Text style={{ flex: 1, fontSize: 18, color: color.$headerTextColor, fontWeight: 'normal', textAlign: 'center' }}>
-          {titulo}
-        </Text>
-      ),
+      headerTitle: <HeaderText texto={titulo}/>,
+      headerTintColor: color.$headerImageTintColor,
       headerStyle: {
         backgroundColor: color.$headerBackgroundColor,
-      },
-      headerTintColor: color.$headerTextColor,
-      headerTitleStyle: {
-        fontWeight: 'normal',
-        textAlign: 'center',
-        flexGrow: 1,
       },
       headerRight: (<TouchableOpacity/>),
     };

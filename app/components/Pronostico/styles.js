@@ -103,7 +103,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
     justifyContent: "center",
     // borderWidth: 1,
-    // borderColor: 'blue',
+    // borderColor: 'red',
     // position: 'relative',
     // backgroundColor: 'green',
   },

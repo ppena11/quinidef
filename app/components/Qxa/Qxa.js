@@ -109,10 +109,8 @@ class Qxa extends Component {
             style={headerContentStyle}
             onPress={() => this.onRowPress()}
           >
-            <Text style={headerTextStyle}>
-              {quinielaNombre} - Código: {codigoq}
-            </Text>
-            <Text style={headerTextStyle2}>{torneo}</Text>
+            <Text style={headerTextStyle}>{quinielaNombre}</Text>
+            <Text style={headerTextStyle2}>{torneo} - Código: {codigoq}</Text>
           </TouchableOpacity>
         </CardSection>
         <CardSectionText>
@@ -161,7 +159,7 @@ const styles = {
     color: color.$qxaHeaderTextStyle,
   },
   headerTextStyle2: {
-    fontSize: 12,
+    fontSize: 13,
     color: color.$qxaHeaderTextStyle2,
   },
   thumbnailStyle: {

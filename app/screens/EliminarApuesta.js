@@ -31,11 +31,12 @@ import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
 import { Titulo } from "../components/Titulo";
 import { QuinielaAdminItem } from "../components/QuinielaAdminItem";
+import { HeaderText } from "../components/HeaderText";
 import color from "../comun/colors";
 
 class EliminarApuesta extends Component {
   static navigationOptions = {
-    title: "Eliminar Quiniela",
+    headerTitle: <HeaderText texto="Eliminar Quiniela"/>,
   };
   constructor(props) {
     super(props);
@@ -284,7 +285,7 @@ const styles = EStyleSheet.create({
   warning: {
     fontWeight: "bold",
     fontSize: 20,
-    color: 'red'
+    color: color.$textIndicationLabelColor,
   },
   subtitulo: {
     fontSize: 15,

@@ -59,8 +59,8 @@ class Qx extends Component {
           >
             <Text style={headerTextStyle}>{nombreapuesta}</Text>
             <Text style={headerTextStyle2}>
-              {torneo} - {quinielaNombre} -{" "}
-              {activo ? "Activado" : "No Activado"}
+              {quinielaNombre}{"\n"}{torneo}{" - "}
+              {activo ? <Text style={{color: 'green'}}>Activado</Text>: <Text style={{color: 'red'}}>No Activado</Text>}
             </Text>
           </TouchableOpacity>
         </CardSection>
