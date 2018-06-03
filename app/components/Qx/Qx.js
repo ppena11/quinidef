@@ -36,15 +36,15 @@ class Qx extends Component {
           quiniela: this.props.quiniela
         })
       } else {
-        // const resetAction = NavigationActions.reset({
-        //   index: 0,
-        //   actions: [
-        //      NavigationActions.navigate({
-        //        routeName: "TusQuinielas"
-        //      })
-        //     ]
-        //   })
-        //   this.props.navigation.dispatch(resetAction)
+        const resetAction = NavigationActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({
+              routeName: "TusQuinielas"
+            })
+          ]
+        })
+        this.props.navigation.dispatch(resetAction)
       }
     } else {
       this.setState({ validando: false })
