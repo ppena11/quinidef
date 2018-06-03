@@ -21,6 +21,8 @@ class QuinielaAdminItem extends Component {
   constructor(props) {
     super(props)
     this.state = { toggled: false, actualizando: false }
+    this.run = this.run.bind(this)
+    this.onRowPress = this.onRowPress.bind(this)
   }
 
   detalleQuiniela(qu) {
@@ -35,15 +37,22 @@ class QuinielaAdminItem extends Component {
     this.props.navigation.dispatch(resetAction)
   }
 
-  onRowPress() {
-    this.props.navigation.navigate("EliminarApuesta", {
-      jugador: this.props.jugador,
-      jugadores: this.props.jugadores,
-      quiniela: this.props.quiniela,
-      quinielan: this.props.quinielan,
-      codigo: this.props.codigo
-    })
-    this.run = this.run.bind(this)
+  onRowPress = async () => {
+    const validarusuario1 = await this.props.validarUsuario(
+      this.props.quiniela,
+      this.props.jugador
+    )
+    const r1 = validarusuario1.toJSON()
+    console.log(`USUARIO EXISTE {r1}`)
+    if (r1 !== null) {
+      this.props.navigation.navigate("EliminarApuesta", {
+        jugador: this.props.jugador,
+        jugadores: this.props.jugadores,
+        quiniela: this.props.quiniela,
+        quinielan: this.props.quinielan,
+        codigo: this.props.codigo
+      })
+    }
   }
 
   componentDidMount() {
