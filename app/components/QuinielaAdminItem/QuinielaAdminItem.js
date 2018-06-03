@@ -24,7 +24,7 @@ class QuinielaAdminItem extends Component {
   }
 
   detalleQuiniela(qu) {
-    this.props.reloadingJugadores()
+    //this.props.reloadingJugadores()
     // this.props.irAdministradas();
     const resetAction = NavigationActions.reset({
       index: 0,

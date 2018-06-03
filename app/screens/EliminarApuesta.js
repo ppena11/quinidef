@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 import {
   KeyboardAvoidingView,
   StatusBar,
@@ -9,11 +9,11 @@ import {
   FlatList,
   ScrollView,
   Text,
-  BackHandler,
-} from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import _ from "lodash";
-import { connect } from "react-redux";
+  BackHandler
+} from "react-native"
+import EStyleSheet from "react-native-extended-stylesheet"
+import _ from "lodash"
+import { connect } from "react-redux"
 
 import {
   buscarJugadoresAdministradas,
@@ -26,19 +26,19 @@ import {
   reducirDisponibles,
   cambiarEstatusQuinielaA,
   irTusQuinielas
-} from "../actions";
-import { Container } from "../components/Container";
-import { BotonPrincipal } from "../components/BotonPrincipal";
-import { Titulo } from "../components/Titulo";
-import { QuinielaAdminItem } from "../components/QuinielaAdminItem";
-import color from "../comun/colors";
+} from "../actions"
+import { Container } from "../components/Container"
+import { BotonPrincipal } from "../components/BotonPrincipal"
+import { Titulo } from "../components/Titulo"
+import { QuinielaAdminItem } from "../components/QuinielaAdminItem"
+import color from "../comun/colors"
 
 class EliminarApuesta extends Component {
   static navigationOptions = {
     header: null
-  };
+  }
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       users: _.map(
@@ -59,48 +59,48 @@ class EliminarApuesta extends Component {
       menu: "yes",
       inputfield: "",
       warning: "no"
-    };
+    }
 
-    this.updateInputValue = this.updateInputValue.bind(this);
-    this.eliminarTest1 = this.eliminarTest1.bind(this);
-    this.run = this.run.bind(this);
-    this.handleBackButton = this.handleBackButton.bind(this);
+    this.updateInputValue = this.updateInputValue.bind(this)
+    this.eliminarTest1 = this.eliminarTest1.bind(this)
+    this.run = this.run.bind(this)
+    this.handleBackButton = this.handleBackButton.bind(this)
   }
 
   componentDidMount() {
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
       this.keyboardWillShow
-    );
+    )
     this.keyboardWillHideListener = Keyboard.addListener(
       "keyboardDidHide",
       this.keyboardWillHide
-    );
+    )
 
     console.log("(EliminarApuesta->Como Administrador) componentDidMount")
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton)
   }
 
   componentWillUnmount() {
-    this.keyboardWillShowListener.remove();
-    this.keyboardWillHideListener.remove();
+    this.keyboardWillShowListener.remove()
+    this.keyboardWillHideListener.remove()
 
     console.log("(EliminarApuesta->Como Administrador) componentWillUnmount")
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton)
   }
 
   handleBackButton() {
-    this.props.navigation.goBack();
-    return true;
+    this.props.navigation.goBack()
+    return true
   }
 
   keyboardWillShow = () => {
-    this.setState({ menu: "no" });
-  };
+    this.setState({ menu: "no" })
+  }
 
   keyboardWillHide = () => {
-    this.setState({ menu: "yes" });
-  };
+    this.setState({ menu: "yes" })
+  }
 
   eliminar(goBack) {
     // console.log('TEST');
@@ -111,9 +111,9 @@ class EliminarApuesta extends Component {
       quiniela,
       quinielan,
       jugadores
-    } = this.props.navigation.state.params;
-    this.props.eliminarJugador(jugador, quiniela, quinielan, jugadores);
-    goBack();
+    } = this.props.navigation.state.params
+    this.props.eliminarJugador(jugador, quiniela, quinielan, jugadores)
+    goBack()
   }
 
   eliminarTest1(goBack) {
@@ -123,16 +123,16 @@ class EliminarApuesta extends Component {
       quinielan,
       jugadores,
       codigo
-    } = this.props.navigation.state.params;
+    } = this.props.navigation.state.params
     // console.log('TEST');
     // navigate('CreaciondeQuiniela');
 
     if (codigo == this.state.inputfield) {
-      this.props.eliminarJugador(jugador, quiniela, quinielan, jugadores);
-      this.run(quiniela, jugador, goBack);
+      this.props.eliminarJugador(jugador, quiniela, quinielan, jugadores)
+      this.run(quiniela, jugador, goBack)
       //
     } else {
-      this.setState({ warning: "yes" });
+      this.setState({ warning: "yes" })
     }
   }
 
@@ -145,74 +145,74 @@ class EliminarApuesta extends Component {
       // const test = await this.props.cambiarEstatusQuiniela(jug, qu, e1);
       // this.setState({ toggled: this.props.jugadores[uid].activo });
       // console.log(test);
-      const t = await this.props.reducirDisponibles(qu);
+      const t = await this.props.reducirDisponibles(qu)
       if (t.committed) {
         //  console.log(t.snapshot.val());
-        //  console.log(jug);
+        console.log("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
         const test = await this.props.cambiarEstatusQuinielaA(
           qu,
           t.snapshot.val(),
           jug
-        );
+        )
         //   console.log(`TESXXXXXXXXXXXXXXXXXXXXXXXXXXXTTTTTTTTT ${test}`);
         //goBack();
         // console.log(this.props.nav);
         //this.props.irTusQuinielas();
-        goBack();
+        goBack()
       }
       // this.setState({ validando: false });
     } catch (e) {
-      // console.log(e);
-      goBack();
+      console.log(e)
+      goBack()
       // this.setState({ validando: false });
     }
-  };
+  }
 
   updateInputValue(t) {
     // console.log('TEST');
     // navigate('CreaciondeQuiniela');
-    this.setState({ inputfield: t.toUpperCase() });
-    this.setState({ warning: "no" });
+    this.setState({ inputfield: t.toUpperCase() })
+    this.setState({ warning: "no" })
     // console.log(`ttttttttttttttttttttttttttt : ${t}`);
   }
 
   cancelar() {
-    this.props.navigation.goBack();
+    this.props.navigation.goBack()
   }
 
   pressed(e) {
-    Keyboard.dismiss();
+    Keyboard.dismiss()
   }
 
   menustatus(jugador) {
     if (this.state.menu === "yes") {
-      return <Titulo>Eliminar jugador</Titulo>;
+      return <Titulo>Eliminar jugador</Titulo>
     }
-    return <View />;
+    return <View />
   }
 
   warning() {
     if (this.state.warning === "yes") {
-      return <Text style={styles.warning}>El código no coincide{"\n"}</Text>;
+      return <Text style={styles.warning}>El código no coincide{"\n"}</Text>
     }
-    return <Text />;
+    return <Text />
   }
 
   menustatus1(jugador) {
     if (this.state.menu !== "yes") {
-      return <Text style={styles.subtitulo1} />;
+      return <Text style={styles.subtitulo1} />
     }
-    return <View />;
+    return <View />
   }
 
   render() {
-    const { navigate, goBack } = this.props.navigation;
+    const { navigate, goBack } = this.props.navigation
     const {
       jugador,
       quiniela,
       quinielan,
       jugadores
-    } = this.props.navigation.state.params;
+    } = this.props.navigation.state.params
 
     return (
       <Container>
@@ -266,7 +266,7 @@ class EliminarApuesta extends Component {
           </View>
         </View>
       </Container>
-    );
+    )
   }
 }
 
@@ -284,7 +284,7 @@ const styles = EStyleSheet.create({
   warning: {
     fontWeight: "bold",
     fontSize: 20,
-    color: 'red'
+    color: "red"
   },
   subtitulo: {
     fontSize: 15,
@@ -316,7 +316,7 @@ const styles = EStyleSheet.create({
     color: color.$formInputBoxColor,
     marginVertical: 10
   }
-});
+})
 
 const styles2 = EStyleSheet.create({
   conta: {
@@ -339,11 +339,11 @@ const styles2 = EStyleSheet.create({
     fontWeight: "500",
     paddingHorizontal: 20
   }
-});
+})
 const mapStateToProps = state => {
-  const tt = _.map(state.jugadoresadmin, (val, uid) => ({ ...val, uid }));
+  const tt = _.map(state.jugadoresadmin, (val, uid) => ({ ...val, uid }))
 
-  const jugadores = _.orderBy(tt, ["nombre"], ["asc"]);
+  const jugadores = _.orderBy(tt, ["nombre"], ["asc"])
 
   return {
     jugadores,
@@ -352,12 +352,12 @@ const mapStateToProps = state => {
     reload: state.jugadorlast.reload,
     mostrarMenus: state.jugadorlast.mostrarMenu,
     buscarTexto: state.jugadorlast.buscar
-  };
-};
+  }
+}
 
 export default connect(mapStateToProps, {
   eliminarJugador,
   reducirDisponibles,
   cambiarEstatusQuinielaA,
   irTusQuinielas
-})(EliminarApuesta);
+})(EliminarApuesta)

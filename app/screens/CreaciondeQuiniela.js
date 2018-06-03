@@ -372,23 +372,23 @@ class TusQuinielas extends Component {
                 <View style={styles2.vire} />
               </View>
             </View>
+            <View style={styles.bottom}>
+              <Text>{this.props.error}</Text>
+              <View style={styles.conta}>
+                <View style={styles.vire} />
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => this.crear(goBack, uid1)}
+                >
+                  {this.status()}
+                </TouchableOpacity>
+                <View style={styles.vire} />
+              </View>
+              <BotonPrincipal onPress={() => this.cancelar()}>
+                Cancelar
+              </BotonPrincipal>
+            </View>{" "}
           </KeyboardAwareScrollView>
-          <View style={styles.bottom}>
-            <Text>{this.props.error}</Text>
-            <View style={styles.conta}>
-              <View style={styles.vire} />
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => this.crear(goBack, uid1)}
-              >
-                {this.status()}
-              </TouchableOpacity>
-              <View style={styles.vire} />
-            </View>
-            <BotonPrincipal onPress={() => this.cancelar()}>
-              Cancelar
-            </BotonPrincipal>
-          </View>
         </View>
       </Container>
     )

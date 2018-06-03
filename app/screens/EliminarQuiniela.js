@@ -140,10 +140,11 @@ class EliminarQuiniela extends Component {
       if (t.committed) {
         //  console.log(t.snapshot.val());
         //  console.log(jug);
-        const test = await this.props.cambiarEstatusQuinielaA(
+        const test = await this.props.cambiarEstatusQuiniela(
+          jug,
           qu,
-          t.snapshot.val(),
-          jug
+          jug.activo,
+          t.snapshot.val()
         )
       }
 

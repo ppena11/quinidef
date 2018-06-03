@@ -455,9 +455,12 @@ export const reducirDisponibles = qu => dispatch =>
     .ref(`/quinielas/${qu}/info/`)
     .transaction(
       currentData => {
-        Number((currentData.quinielasPorActivar -= 1))
+        if (currentData !== null) {
+          Number((currentData.quinielasPorActivar -= 1))
 
-        return currentData
+          return currentData
+        }
+        return "DONDE ESTOY"
       },
 
       // Abort the transaction.
@@ -470,8 +473,8 @@ export const reducirDisponibles = qu => dispatch =>
           //   console.log('User adahksjfhksjdfhksdjfhjksdfhkdjfh added!');
         }
         dispatch({
-          type: ACTUALIZAR_CODIGO_QUINIELA,
-          payload: snapshot
+          type: ACTIVACION_UPDATE,
+          payload: snapshot.toJSON()
         })
         // console.log("Ada's data: ", snapshot.val());
       }
