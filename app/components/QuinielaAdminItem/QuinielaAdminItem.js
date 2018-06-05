@@ -5,9 +5,10 @@ import { withNavigation } from "react-navigation"
 import { connect } from "react-redux"
 import _ from "lodash"
 
-import { Card } from "../Card"
-import { CardSection } from "../CardSection"
-import color from "../../comun/colors"
+import { Card } from "../Card";
+import { CardSection } from "../CardSection";
+import { iconos } from "../../comun/imagenes";
+import color from "../../comun/colors";
 
 import {
   cambiarEstatusQuiniela,
@@ -62,11 +63,11 @@ class QuinielaAdminItem extends Component {
   }
 
   pressed(e) {
-    console.log("SKLJDLAHSDFDFHJGSJFSD")
-    console.log(this.props.disponibles["quinielasDisponibles"])
-    console.log(this.props.disponibles)
-    if (this.props.disponibles["quinielasDisponibles"] <= 0 && e) {
-      alert("Debes adquinir mas quinielas")
+    console.log(this.props.disponibles["quinielasDisponibles"]);
+    console.log(this.props.disponibles);
+    // if (this.props.info.quinielasDisponibles == 0 && e) {
+      if (this.props.disponibles["quinielasDisponibles"] <= 0 && e) {
+      alert("Debes adquirir más quinielas");
     } else {
       const { activo, puntos, nombre, uid, jid } = this.props.jugador
       if (!this.state.actualizando && !this.props.jugadores[uid].cargando) {
@@ -124,7 +125,7 @@ class QuinielaAdminItem extends Component {
       return (
         <Image
           style={styles.thumbnailStyle}
-          source={require("../Logo/images/borrar1.png")}
+          source={iconos['$basura']}
         />
       )
     }
@@ -191,13 +192,13 @@ const styles = {
   },
   thumbnailStyle: {
     height: 25,
-    width: 25
+    width: 25,
+    tintColor: color.$iconDangerColor,
   },
   thumbnailContainerStyle: {
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 5,
-    marginRight: 5
+    marginRight: 5,
   }
 }
 

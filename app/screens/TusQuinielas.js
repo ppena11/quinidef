@@ -8,7 +8,8 @@ import {
   BackHandler,
   Image,
   Alert,
-  NetInfo
+  NetInfo,
+  TouchableOpacity,
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
@@ -26,14 +27,12 @@ import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
 import { Titulo } from "../components/Titulo";
 import { Qx } from "../components/Qx";
-import color from "../comun/colors";
 import { Spinner } from "../components/Spinner";
+import { HeaderText } from '../components/HeaderText';
+import { iconos } from "../comun/imagenes";
+import color from "../comun/colors";
 
 class TusQuinielas extends Component {
-  static navigationOptions = {
-    header: null
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -43,27 +42,39 @@ class TusQuinielas extends Component {
 
     this.loading = this.loading.bind(this);
     this.run = this.run.bind(this);
-
-    this.handleBackButtonTusQuinielas = this.handleBackButtonTusQuinielas.bind(
-      this
-    );
+    this.handleBackButtonTusQuinielas = this.handleBackButtonTusQuinielas.bind(this);
+    // this.alertLogout = this.alertLogout.bind(this);
+    this2 = this;
   }
+
+  static navigationOptions = {
+    headerTitle: <HeaderText texto="Tus Quinielas"/>,
+    headerLeft: (
+      <TouchableOpacity onPress={ () => this2.alertLogout() }>
+        <Image
+          style={{
+            height: 30,
+            aspectRatio: 1,
+            padding: 0,
+            margin: 10,
+            tintColor: color.$headerImageTintColor,
+          }}
+          source={iconos['$masopciones']}
+        />
+      </TouchableOpacity>
+    ),
+    headerRight: (<TouchableOpacity/>),
+  };
 
   componentDidMount() {
     this.run();
     console.log("(TusQuinielas) componentDidMount");
-    BackHandler.addEventListener(
-      "hardwareBackPress",
-      this.handleBackButtonTusQuinielas
-    );
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButtonTusQuinielas);
   }
 
   componentWillUnmount() {
     console.log("(TusQuinielas) componentWillUnmount");
-    BackHandler.removeEventListener(
-      "hardwareBackPress",
-      this.handleBackButtonTusQuinielas
-    );
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButtonTusQuinielas);
   }
 
   handleBackButtonTusQuinielas() {
@@ -71,18 +82,25 @@ class TusQuinielas extends Component {
       "Confirmación...",
       "¿Deseas salir?",
       [
-        { text: "Cerrar Sesión", onPress: () => this.props.salirSistema() },
-        { text: "Sí, Salir", onPress: () => BackHandler.exitApp() },
-        {
-          text: "Cancelar",
-          onPress: () => {
-            return true;
-          }
-        }
+        // {text: 'Cerrar Sesión', onPress: () => this.props.salirSistema()},
+        {text: 'Sí', onPress: () => BackHandler.exitApp()},
+        {text: 'Cancelar', onPress: () => {return true}},
       ],
       { cancelable: false }
     );
     return true;
+  }
+
+  alertLogout() {
+    Alert.alert(
+      'Confirmación...',
+      '¿Deseas cerrar la sesión?',
+      [
+        {text: 'Sí', onPress: () => this.props.salirSistema()},
+        {text: 'Cancelar', onPress: () => { return true }},
+      ],
+      { cancelable: true }
+    );
   }
 
   run = async () => {
@@ -143,10 +161,6 @@ class TusQuinielas extends Component {
           backgroundColor={color.$statusBarBackgroundColor}
         />
         <View style={styles.form}>
-          <View style={styles.titulo}>
-            <Titulo>MIS QUINIELAS</Titulo>
-          </View>
-
           <FlatList
             data={tt}
             renderItem={this._renderItem}
@@ -155,10 +169,12 @@ class TusQuinielas extends Component {
 
           <View style={styles.bottom}>
             <BotonPrincipal onPress={() => this.unirseAQuiniela()}>
-              Unirse a una Quiniela
+              {/* Unirse a una Quiniela */}
+              Unirse a Quiniela Existente
             </BotonPrincipal>
             <BotonPrincipal onPress={() => this.crear()}>
-              Organiza una Quiniela
+              {/* Organiza una Quiniela */}
+              Quinielas Administradas
             </BotonPrincipal>
           </View>
         </View>
@@ -179,35 +195,34 @@ class TusQuinielas extends Component {
 const styles = EStyleSheet.create({
   form: {
     flex: 1,
-
     justifyContent: "space-between",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   titulo: {
-    padding: 20
+    padding: 20,
   },
-  cuerpo: {
-    flex: 1
-  },
+  // cuerpo: {
+  //   flex: 1,
+  // },
   bottom: {
-    padding: 20
+    padding: 10,
   },
-  viewImgStyle: {
-    flex: 3,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  imgStyle: {
-    height: 200,
-    width: 200
-  },
-  viewStyle: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center"
-  }
+  // viewImgStyle: {
+  //   flex: 3,
+  //   flexDirection: "column",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
+  // imgStyle: {
+  //   height: 200,
+  //   width: 200,
+  // },
+  // viewStyle: {
+  //   flex: 1,
+  //   flexDirection: "column",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
 });
 
 const mapStateToProps = state => {

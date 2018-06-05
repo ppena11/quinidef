@@ -8,7 +8,7 @@ const Logo = () => (
     <Image
       // resizeMode="contain"
       style={styles.containerImage}
-      source={require('./images/copa1.png')}
+      source={require('../../images/logoapp.png')}
     />
   </View>
 );

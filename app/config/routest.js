@@ -1,25 +1,26 @@
 import React from "react"
 import { StackNavigator, TabNavigator, TabBarBottom } from "react-navigation"
 
-import Login from "../screens/Login"
-import ReiniciarContrasena from "../screens/ReiniciarContrasena"
-import CrearCuenta from "../screens/CrearCuenta"
-import ConfirmacionCorreo from "../screens/ConfirmacionCorreo"
-import Home from "../screens/Home"
-import TusQuinielas from "../screens/TusQuinielas"
-import QuinielasAdministradas from "../screens/QuinielasAdministradas"
-import CreaciondeQuiniela from "../screens/CreaciondeQuiniela"
-import DetalleQuinielaAdministrada from "../screens/DetalleQuinielaAdministrada"
-import UnirseAQuiniela from "../screens/UnirseAQuiniela"
-import RegistrarQuiniela from "../screens/RegistrarQuiniela"
-import ReglasAdmin from "../screens/ReglasAdmin"
-import Apuestas from "../screens/Apuestas"
-import Apuesta from "../screens/Apuesta"
-import Posiciones from "../screens/Posiciones"
-import Reglas from "../screens/Reglas"
-import DetallesApuestas from "../screens/DetallesApuestas"
-import EliminarQuiniela from "../screens/EliminarQuiniela"
-import Mas from "../screens/Mas"
+import Login from "../screens/Login";
+import ReiniciarContrasena from "../screens/ReiniciarContrasena";
+import CrearCuenta from "../screens/CrearCuenta";
+// import ConfirmacionCorreo from "../screens/ConfirmacionCorreo"
+import Home from "../screens/Home";
+import TusQuinielas from "../screens/TusQuinielas";
+import QuinielasAdministradas from "../screens/QuinielasAdministradas";
+import CreaciondeQuiniela from "../screens/CreaciondeQuiniela";
+import DetalleQuinielaAdministrada from "../screens/DetalleQuinielaAdministrada";
+import UnirseAQuiniela from "../screens/UnirseAQuiniela";
+import RegistrarQuiniela from "../screens/RegistrarQuiniela";
+import ReglasAdmin from "../screens/ReglasAdmin";
+import Apuestas from "../screens/Apuestas";
+// import Apuesta from "../screens/Apuesta";
+import Posiciones from "../screens/Posiciones";
+import Reglas from "../screens/Reglas";
+import DetallesApuestas from "../screens/DetallesApuestas";
+import EliminarQuiniela from "../screens/EliminarQuiniela";
+import Mas from "../screens/Mas";
+import color from "../comun/colors";
 
 import CargandoHome from "../screens/CargandoHome"
 import Ionicons from "react-native-vector-icons/Ionicons"
@@ -70,10 +71,10 @@ const RootNavigatort = TabNavigator(
       }
     }),
     tabBarOptions: {
-      activeTintColor: "white",
-      inactiveTintColor: "gray",
-      activeBackgroundColor: "#084B7C",
-      inactiveBackgroundColor: "#084B7C"
+      activeTintColor: color.$tabActiveTintColor,
+      inactiveTintColor: color.$tabInactiveTintColor,
+      activeBackgroundColor: color.$tabActiveBackgroundColor,
+      inactiveBackgroundColor: color.$tabInactiveBackgroundColor,
     },
     tabBarComponent: TabBarBottom,
     tabBarPosition: "bottom",

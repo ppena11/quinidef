@@ -34,11 +34,12 @@ import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
 import { Titulo } from "../components/Titulo";
 import { QuinielaAdminItem } from "../components/QuinielaAdminItem";
+import { HeaderText } from '../components/HeaderText';
 import color from "../comun/colors";
 
 class EliminarQuinielaAdministrada extends Component {
   static navigationOptions = {
-    header: null
+    headerTitle: <HeaderText texto="Eliminar Quiniela"/>,
   };
   constructor(props) {
     super(props);
@@ -186,7 +187,7 @@ class EliminarQuinielaAdministrada extends Component {
 
   menustatus(jugador) {
     if (this.state.menu === "yes") {
-      return <Titulo>ELIMINAR QUINIELA</Titulo>;
+      // return <Titulo>ELIMINAR QUINIELA</Titulo>;
     }
     return <View />;
   }
@@ -238,7 +239,7 @@ class EliminarQuinielaAdministrada extends Component {
                 selectionColor={color.$selectionColor}
                 keyboardType="email-address"
                 autoCapitalize="none"
-                onSubmitEditing={() => this.eliminarTest1(goBack)}
+                // onSubmitEditing={() => this.eliminarTest1(goBack)}
                 onChangeText={t => this.updateInputValue(t)}
                 value={this.state.inputfield}
               />
@@ -254,7 +255,7 @@ class EliminarQuinielaAdministrada extends Component {
             <View>
               {/* <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal> */}
               <BotonPrincipal onPress={() => this.eliminarTest1(goBack)}>
-                Eliminar quiniela...
+                Eliminar Quiniela
               </BotonPrincipal>
               <BotonPrincipal onPress={() => this.cancelar()}>
                 Cancelar

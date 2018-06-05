@@ -98,45 +98,42 @@ const styles = {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-
-    width: 250
+    width: 250,
   },
   input: {
     backgroundColor: color.$fondoBotonInput,
-
     fontSize: 16,
-    color: color.$formInputBoxColor
+    color: color.$formInputBoxColor,
   },
   headerContentStyleL: {
     flexDirection: "row",
     justifyContent: "center",
-
-    width: 60
+    width: 60,
   },
   headerTextStyle: {
     fontSize: 18,
-    color: color.$qxaHeaderTextStyle
+    color: color.$qxaHeaderTextStyle,
   },
   switchStyle: {
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 10,
-    marginRight: 10
+    marginRight: 10,
   },
   headerTextStyle2: {
     fontSize: 12,
-    color: color.$qxaHeaderTextStyle2
+    color: color.$qxaHeaderTextStyle2,
   },
   thumbnailStyle: {
     height: 25,
-    width: 25
+    width: 25,
   },
   thumbnailContainerStyle: {
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 5,
-    marginRight: 5
-  }
+    marginRight: 5,
+  },
 };
 
 const mapStateToProps = state => {

@@ -18,6 +18,7 @@ import { Titulo } from "../components/Titulo";
 import { InputLetra } from "../components/InputLetra";
 import { BotonPrincipal } from "../components/BotonPrincipal";
 import { Spinner } from "../components/Spinner";
+import { HeaderText } from '../components/HeaderText';
 import color from "../comun/colors";
 
 import {
@@ -31,7 +32,7 @@ import {
 
 class UnirseAQuiniela extends Component {
   static navigationOptions = {
-    header: null
+    headerTitle: <HeaderText texto="Unirse a Quiniela"/>,
   };
 
   constructor(props) {
@@ -291,13 +292,9 @@ class UnirseAQuiniela extends Component {
           backgroundColor={color.$statusBarBackgroundColor}
         />
 
-        <View style={styles.titulo}>
-          <Titulo>UNIRSE A QUINIELA</Titulo>
-        </View>
-
         <View>
           <Text style={styles.texto}>
-            Introduzca el{"\n"}Código de Activación:
+            Introduzca{"\n"}Código de Activación:
           </Text>
         </View>
 
@@ -377,9 +374,9 @@ class UnirseAQuiniela extends Component {
               autoCapitalize="characters"
               placeholder="X"
               maxLength={1}
-              onSubmitEditing={() => {
-                this.buscarCodigo(uid1);
-              }}
+              // onSubmitEditing={() => {
+              //   this.buscarCodigo(uid1);
+              // }}
             />
           </View>
         </View>
@@ -412,7 +409,7 @@ const styles = EStyleSheet.create({
     margin: 10,
     width: "15%",
     borderColor: color.$inputContainerBorderColor,
-    borderBottomWidth: 3
+    borderBottomWidth: 3,
   },
   input: {
     paddingRight: 5,
@@ -420,42 +417,42 @@ const styles = EStyleSheet.create({
     color: color.$inputColor,
     fontSize: 25,
     fontWeight: "700",
-    width: "100%"
+    width: "100%",
   },
   titulo: {
-    padding: 20
+    padding: 20,
   },
   button: {
     flex: 8,
     backgroundColor: color.$fondoBotonPrincipal,
     borderRadius: 25,
     marginVertical: 10,
-    paddingVertical: 13
+    paddingVertical: 13,
   },
   conta: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   vire: {
-    flex: 1
+    flex: 1,
   },
   texto: {
     fontSize: 20,
     color: color.$tituloTextColor,
     fontWeight: "300",
-    textAlign: "center"
+    textAlign: "center",
   },
   view1: {
     flexDirection: "row",
     justifyContent: "center",
-    padding: 20
+    padding: 20,
   },
   buttonText: {
     fontSize: 16,
     fontWeight: "500",
     color: color.$formButtonTextColor,
-    textAlign: "center"
+    textAlign: "center",
   }
 });
 

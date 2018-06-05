@@ -10,8 +10,6 @@ const CardT = props => (
 const styles = {
   containerStyle: {
     elevation: 1,
-    marginLeft: 5,
-    marginRight: 5,
     marginTop: 10
   }
 };

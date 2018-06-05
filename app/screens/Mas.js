@@ -101,9 +101,9 @@ class Mas extends Component {
 
   render() {
     let menu = [
-      { imagen: "admin", titulo: "Datos del administrador" },
-      { imagen: "basura", titulo: "Eliminar quiniela" },
-      { imagen: "salir", titulo: "Salir del sistema" }
+      { imagen: "admin", titulo: "Datos del Administrador" },
+      { imagen: "basura", titulo: "Eliminar Quiniela" },
+      // { imagen: "salir", titulo: "Salir del Sistema" }
     ];
 
     return (
@@ -133,16 +133,17 @@ class Mas extends Component {
 const styles = EStyleSheet.create({
   form: {
     flex: 1,
-
     justifyContent: "space-between",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   titulo: {
-    padding: 20
+    padding: 20,
   },
-  cuerpo: { flex: 1 },
+  cuerpo: {
+    flex: 1,
+  },
   bottom: {
-    padding: 20
+    padding: 20,
   },
   inputBox: {
     flex: 8,
@@ -151,41 +152,41 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     color: color.$formInputBoxColor,
-    marginVertical: 10
+    marginVertical: 10,
   },
   button: {
     flex: 8,
     backgroundColor: color.$fondoBotonPrincipal,
     borderRadius: 25,
     marginVertical: 0,
-    paddingVertical: 11
+    paddingVertical: 11,
   },
 
   conta: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   vire: {
-    flex: 1
+    flex: 1,
   },
   signupText: {
     color: color.$signupTextColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   signupButton: {
     color: color.$signupButtonColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   buttonText: {
     fontSize: 16,
     fontWeight: "500",
     color: color.$formButtonTextColor,
-    textAlign: "center"
+    textAlign: "center",
   }
 });
 
@@ -194,10 +195,7 @@ const mapStateToProps = state => {
   const quiniela = state.quini;
   const hora = state.hora;
 
-  return {
-    quiniela,
-    jugadores
-  };
+  return { quiniela, jugadores };
 };
 
 export default connect(mapStateToProps, {

@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component } from "react";
 import {
   KeyboardAvoidingView,
   StatusBar,
@@ -11,10 +11,10 @@ import {
   Text,
   BackHandler
 } from "react-native"
-import EStyleSheet from "react-native-extended-stylesheet"
-import _ from "lodash"
-import firebase from "firebase"
-import { connect } from "react-redux"
+import EStyleSheet from "react-native-extended-stylesheet";
+import _ from "lodash";
+import firebase from "firebase";
+import { connect } from "react-redux";
 
 import {
   buscarJugadoresAdministradas,
@@ -30,12 +30,12 @@ import {
   buscarQuinielas,
   reducirPorActivar,
   aumentarDisponibles
-} from "../actions"
-import { Container } from "../components/Container"
-import { BotonPrincipal } from "../components/BotonPrincipal"
-import { Titulo } from "../components/Titulo"
-import { QuinielaAdminItem } from "../components/QuinielaAdminItem"
-import color from "../comun/colors"
+} from "../actions";
+import { Container } from "../components/Container";
+import { BotonPrincipal } from "../components/BotonPrincipal";
+import { Titulo } from "../components/Titulo";
+import { QuinielaAdminItem } from "../components/QuinielaAdminItem";
+import color from "../comun/colors";
 
 class EliminarQuiniela extends Component {
   static navigationOptions = {
@@ -230,7 +230,7 @@ class EliminarQuiniela extends Component {
                 selectionColor={color.$selectionColor}
                 keyboardType="email-address"
                 autoCapitalize="none"
-                onSubmitEditing={() => this.eliminarTest1(goBack)}
+                // onSubmitEditing={() => this.eliminarTest1(goBack)}
                 onChangeText={t => this.updateInputValue(t)}
                 value={this.state.inputfield}
               />
@@ -247,7 +247,7 @@ class EliminarQuiniela extends Component {
 
           <KeyboardAvoidingView behavior="padding">
             <BotonPrincipal onPress={() => this.eliminarTest1(goBack)}>
-              Eliminar apuesta...
+              Eliminar Quiniela
             </BotonPrincipal>
             <BotonPrincipal onPress={() => this.cancelar()}>
               Cancelar
@@ -262,39 +262,40 @@ class EliminarQuiniela extends Component {
 const styles = EStyleSheet.create({
   form: {
     flex: 1,
-
     justifyContent: "space-between",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   bold: {
     fontWeight: "bold",
-    fontSize: 20
+    fontSize: 20,
   },
   warning: {
     fontWeight: "bold",
     fontSize: 20,
-    color: "red"
+    color: color.$textIndicationLabelColor,
   },
   subtitulo: {
     fontSize: 15,
     fontWeight: "400",
     color: color.$tituloTextColor,
-    textAlign: "center"
+    textAlign: "center",
   },
   subtitulo1: {
     padding: 10,
     fontSize: 15,
     fontWeight: "400",
     color: color.$tituloTextColor,
-    textAlign: "center"
+    textAlign: "center",
   },
   titulo: {
     padding: 20,
-    marginVertical: 0
+    marginVertical: 0,
   },
-  cuerpo: { flex: 1 },
+  cuerpo: {
+    flex: 1,
+  },
   bottom: {
-    padding: 20
+    padding: 20,
   },
   inputBox: {
     flex: 8,
@@ -303,7 +304,7 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     color: color.$formInputBoxColor,
-    marginVertical: 10
+    marginVertical: 10,
   }
 })
 
@@ -311,24 +312,25 @@ const styles2 = EStyleSheet.create({
   conta: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   vire: {
-    flex: 1
+    flex: 1,
   },
   signupText: {
     color: color.$signupTextColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   signupButton: {
     color: color.$signupButtonColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   }
-})
+});
+
 const mapStateToProps = state => {
   const tt = _.map(state.jugadoresadmin, (val, uid) => ({ ...val, uid }))
 
@@ -342,7 +344,7 @@ const mapStateToProps = state => {
     mostrarMenus: state.jugadorlast.mostrarMenu,
     buscarTexto: state.jugadorlast.buscar
   }
-}
+};
 
 export default connect(mapStateToProps, {
   eliminarJugador,
@@ -352,4 +354,4 @@ export default connect(mapStateToProps, {
   irTusQuinielas,
   buscarQuinielas,
   aumentarDisponibles
-})(EliminarQuiniela)
+})(EliminarQuiniela);

@@ -114,7 +114,7 @@ class Form extends Component {
             placeholderTextColor={color.$placeholderTextColor}
             selectionColor={color.$selectionColor}
             autoCapitalize="none"
-            onSubmitEditing={() => this.registrar()}
+            // onSubmitEditing={() => this.registrar()}
             ref={input => (this.password = input)}
             onChangeText={password => this.registrarPassword(password)}
             value={this.props.password}

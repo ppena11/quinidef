@@ -6,15 +6,15 @@ import {
   TextInput,
   TouchableOpacity,
   Picker
-} from "react-native"
-import { connect } from "react-redux"
-import { withNavigation } from "react-navigation"
-import moment from "moment"
-import { Card } from "../Card"
-import banderas from "../../components/Logo/images/banderas"
-import { pais3letras } from "../../comun/pais"
-import styles from "./styles"
-import color from "../../comun/colors"
+} from "react-native";
+import { connect } from "react-redux";
+import { withNavigation } from "react-navigation";
+import moment from "moment";
+import { Card } from "../Card";
+import { banderas } from "../../comun/imagenes";
+import { pais3letras } from "../../comun/pais";
+import styles from "./styles";
+import color from "../../comun/colors";
 
 import { modificarApuestas, bloquearPartido } from "../../actions"
 

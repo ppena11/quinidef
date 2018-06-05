@@ -1,13 +1,13 @@
-import React, { Component } from "react"
-import { Text, View, Image, TouchableOpacity } from "react-native"
-import { withNavigation } from "react-navigation"
-import { connect } from "react-redux"
-import { Card } from "../Card"
-import { CardSection } from "../CardSection"
-import { NavigationActions } from "react-navigation"
+import React, { Component } from "react";
+import { Text, View, Image, TouchableOpacity } from "react-native";
+import { withNavigation } from "react-navigation";
+import { connect } from "react-redux";
+import { Card } from "../Card";
+import { CardSection } from "../CardSection";
+import { NavigationActions } from "react-navigation";
 
-import { modificarquiniela, validarUsuario } from "../../actions"
-import color from "../../comun/colors"
+import { modificarquiniela, validarUsuario } from "../../actions";
+import color from "../../comun/colors";
 
 class Qx extends Component {
   constructor(props) {
@@ -85,7 +85,7 @@ class Qx extends Component {
           >
             <Image
               style={thumbnailStyle}
-              source={require("../Logo/images/copa1.png")}
+              source={require("../../images/logosTorneos/worldcup.png")}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -94,8 +94,8 @@ class Qx extends Component {
           >
             <Text style={headerTextStyle}>{nombreapuesta}</Text>
             <Text style={headerTextStyle2}>
-              {torneo} - {quinielaNombre} -{" "}
-              {activo ? "Activado" : "No Activado"}
+              {quinielaNombre}{"\n"}{torneo}{" - "}
+              {activo ? <Text style={{color: 'green'}}>Activado</Text>: <Text style={{color: 'red'}}>No Activado</Text>}
             </Text>
           </TouchableOpacity>
         </CardSection>
@@ -109,47 +109,46 @@ const styles = {
     flex: 4,
     flexDirection: "column",
     justifyContent: "space-between",
-    alignItems: "flex-start"
+    alignItems: "flex-start",
   },
   headerContentStyle1: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
   headerTextStyle: {
     fontSize: 18,
     color: color.$qxaHeaderTextStyle,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   switchStyle: {
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 10,
-    marginRight: 10
+    marginRight: 10,
   },
   headerTextStyle2: {
     fontSize: 12,
-    color: color.$qxaHeaderTextStyle2
+    color: color.$qxaHeaderTextStyle2,
   },
   thumbnailStyle: {
     height: 50,
-    width: 50
+    width: 50,
   },
   thumbnailContainerStyle: {
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 5,
-    marginRight: 5
+    marginRight: 5,
   }
-}
+};
 
 const mapStateToProps = state => {
   const jugadores = state.jugadoresadmin
   return { jugadores }
-}
+};
 
 export default connect(mapStateToProps, { modificarquiniela, validarUsuario })(
   withNavigation(Qx)
-)
+);

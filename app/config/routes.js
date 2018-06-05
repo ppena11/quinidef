@@ -1,10 +1,11 @@
 import React from "react";
 import { StackNavigator, TabNavigator, TabBarBottom } from "react-navigation";
+import { TouchableOpacity } from "react-native";
 
 import Login from "../screens/Login";
 import ReiniciarContrasena from "../screens/ReiniciarContrasena";
 import CrearCuenta from "../screens/CrearCuenta";
-import ConfirmacionCorreo from "../screens/ConfirmacionCorreo";
+// import ConfirmacionCorreo from "../screens/ConfirmacionCorreo";
 import Home from "../screens/Home";
 import TusQuinielas from "../screens/TusQuinielas";
 import QuinielasAdministradas from "../screens/QuinielasAdministradas";
@@ -26,24 +27,23 @@ import ModalScreen from "../screens/ModalScreen";
 import DatosAdmin from "../screens/DatosAdmin";
 
 import CargandoHome from "../screens/CargandoHome";
+import { HeaderText } from "../components/HeaderText";
+import color from "../comun/colors";
 
 const stackRouterConfig = {
   navigationOptions: ({ navigation }) => {
     const { params } = navigation.state;
 
+    let titulo = params ? `${params.quiniela.quinielaNombre}\n${params.quiniela.nombreapuesta} - ${params.quiniela.puntos} pts` : 'Error Header routes';
+
     return {
-      title: params
-        ? `${params.quiniela.nombreapuesta} - ${
-            params.quiniela.quinielaNombre
-          } - ${params.quiniela.puntos} PTS`
-        : "A Nested Details Screen",
+      headerTitle: <HeaderText texto={titulo}/>,
+      headerTintColor: color.$headerImageTintColor,
       headerStyle: {
-        backgroundColor: "#084B7C"
+        backgroundColor: color.$headerBackgroundColor,
       },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        fontWeight: "bold"
-      }
+      headerRight: (<TouchableOpacity/>),
+      backTitle: null,
     };
   },
   initialRouteName: "CargandoHome"
@@ -112,10 +112,10 @@ const RootNavigatort = TabNavigator(
     }),
 
     tabBarOptions: {
-      activeTintColor: "white",
-      inactiveTintColor: "gray",
-      activeBackgroundColor: "#084B7C",
-      inactiveBackgroundColor: "#084B7C"
+      activeTintColor: color.$tabActiveTintColor,
+      inactiveTintColor: color.$tabInactiveTintColor,
+      activeBackgroundColor: color.$tabActiveBackgroundColor,
+      inactiveBackgroundColor: color.$tabInactiveBackgroundColor,
     },
 
     tabBarComponent: TabBarBottom,

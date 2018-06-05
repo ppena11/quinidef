@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component } from "react";
 import {
   KeyboardAvoidingView,
   StatusBar,
@@ -11,11 +11,11 @@ import {
   BackHandler,
   TouchableOpacity,
   Text
-} from "react-native"
-import EStyleSheet from "react-native-extended-stylesheet"
-import _ from "lodash"
-import { connect } from "react-redux"
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+} from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
+import _ from "lodash";
+import { connect } from "react-redux";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import {
   buscarJugadoresAdministradas,
@@ -27,59 +27,60 @@ import {
   buscarReglasAdmin,
   modifarReglasBD,
   reinicarReglas
-} from "../actions"
-import { Container } from "../components/Container"
-import { BotonPrincipal } from "../components/BotonPrincipal"
-import { Titulo } from "../components/Titulo"
-import { QuinielaReglaItem } from "../components/QuinielaReglaItem"
-import color from "../comun/colors"
-import { Spinner } from "../components/Spinner"
+} from "../actions";
+import { Container } from "../components/Container";
+import { BotonPrincipal } from "../components/BotonPrincipal";
+import { Titulo } from "../components/Titulo";
+import { QuinielaReglaItem } from "../components/QuinielaReglaItem";
+import { Spinner } from "../components/Spinner";
+import { HeaderText } from '../components/HeaderText';
+import color from "../comun/colors";
 
 class ReglasAdmin extends Component {
   static navigationOptions = {
-    header: null
-  }
+    headerTitle: <HeaderText texto="Modificar Reglas"/>,
+  };
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       menu: "yes",
       validando: false,
       regla: {}
-    }
-    this.run = this.run.bind(this)
-    this.run2 = this.run2.bind(this)
-    this.handleBackButton = this.handleBackButton.bind(this)
+    };
+    this.run = this.run.bind(this);
+    this.run2 = this.run2.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
   }
 
   componentDidMount() {
-    this.run()
+    this.run();
 
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
       this.keyboardWillShow
-    )
+    );
     this.keyboardWillHideListener = Keyboard.addListener(
       "keyboardDidHide",
       this.keyboardWillHide
-    )
+    );
 
-    console.log("(ReglasAdmin) componentDidMount")
-    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton)
+    console.log("(ReglasAdmin) componentDidMount");
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   componentWillUnmount() {
-    this.setState({ validando: false })
-    this.keyboardWillShowListener.remove()
-    this.keyboardWillHideListener.remove()
+    this.setState({ validando: false });
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
 
-    console.log("(ReglasAdmin) componentWillUnmount")
-    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton)
+    console.log("(ReglasAdmin) componentWillUnmount");
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   handleBackButton() {
-    this.props.navigation.goBack()
-    return true
+    this.props.navigation.goBack();
+    return true;
   }
 
   run = async () => {
@@ -87,40 +88,40 @@ class ReglasAdmin extends Component {
       //   console.log(this.props.navigation.state.params.quiniela.uid);
       const regla = await this.props.buscarReglasAdmin(
         this.props.navigation.state.params.quiniela.uid
-      )
-      const r1 = regla.toJSON()
-      this.setState({ regla: r1 })
+      );
+      const r1 = regla.toJSON();
+      this.setState({ regla: r1 });
       //   console.log(r1);
     } catch (e) {
       //    console.log(e);
     }
-  }
+  };
 
   run2 = async () => {
     try {
-      this.setState({ validando: true })
+      this.setState({ validando: true });
       const test = await this.props.modifarReglasBD(
         this.props.navigation.state.params.quiniela.uid,
         this.props.reglast
       )
       //   console.log(test);
-      this.run()
-      this.setState({ validando: false })
-      this.props.navigation.goBack()
+      this.run();
+      this.setState({ validando: false });
+      this.props.navigation.goBack();
     } catch (e) {
       //   console.log(e);
       this.setState({ validando: false })
 
-      this.props.navigation.goBack()
+      this.props.navigation.goBack();
     }
-  }
+  };
 
   keyboardWillShow = () => {
-    this.setState({ menu: "no" })
+    this.setState({ menu: "no" });
   }
 
   keyboardWillHide = () => {
-    this.setState({ menu: "yes" })
+    this.setState({ menu: "yes" });
   }
 
   createDataSource({ quinielas }) {
@@ -131,15 +132,15 @@ class ReglasAdmin extends Component {
   }
 
   crear() {
-    this.run2()
+    this.run2();
     // console.log('TEST');
     // navigate('EliminarApuesta');
   }
 
-  cancelar() {
-    this.run()
-    this.props.navigation.goBack()
-  }
+  // cancelar() {
+  //   // this.run();
+  //   this.props.navigation.goBack();
+  // }
 
   renderRow(regla) {
     return (
@@ -149,11 +150,11 @@ class ReglasAdmin extends Component {
         quinielan={this.props.navigation.state.params.quiniela.quinielaNombre}
         codigo={this.props.navigation.state.params.quiniela.codigoq}
       />
-    )
+    );
   }
 
   pressed(e) {
-    Keyboard.dismiss()
+    Keyboard.dismiss();
   }
 
   menustatus() {
@@ -170,25 +171,24 @@ class ReglasAdmin extends Component {
             </TouchableOpacity>
             <View style={styles.vire} />
           </View>
-
-          <BotonPrincipal onPress={() => this.cancelar()}>
+          {/* <BotonPrincipal onPress={() => this.cancelar()}>
             Cancelar
-          </BotonPrincipal>
+          </BotonPrincipal> */}
         </View>
-      )
+      );
     }
-    return <View />
+    return <View />;
   }
 
   status() {
     if (this.state.validando) {
-      return <Spinner style={styles.buttonText} size="small" />
+      return <Spinner style={styles.buttonText} size="small" />;
     }
-    return <Text style={styles.buttonText}>Guargar cambios..</Text>
+    return <Text style={styles.buttonText}>Guardar Cambios</Text>;
   }
 
   render() {
-    const reglas = _.map(this.state.regla, (val, uid) => ({ ...val, uid }))
+    const reglas = _.map(this.state.regla, (val, uid) => ({ ...val, uid }));
 
     //const reglas = Object.keys(this.state.regla).map(key => ({
     // key,
@@ -204,7 +204,6 @@ class ReglasAdmin extends Component {
         <View style={styles.form}>
           <View style={styles.titulo}>
             <Titulo>
-              MODIFICAR REGLAS {"\n"}
               {this.props.navigation.state.params.quiniela.quinielaNombre}
             </Titulo>
           </View>
@@ -223,23 +222,24 @@ class ReglasAdmin extends Component {
           <View>{this.menustatus()}</View>
         </View>
       </Container>
-    )
+    );
   }
 }
 
 const styles = EStyleSheet.create({
   form: {
     flex: 1,
-
     justifyContent: "space-between",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   titulo: {
-    padding: 20
+    padding: 20,
   },
-  cuerpo: { flex: 1 },
+  cuerpo: {
+    flex: 1,
+  },
   bottom: {
-    padding: 20
+    padding: 20,
   },
   inputBox: {
     flex: 8,
@@ -248,43 +248,44 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     color: color.$formInputBoxColor,
-    marginVertical: 10
+    marginVertical: 10,
   },
   button: {
     flex: 8,
     backgroundColor: color.$fondoBotonPrincipal,
     borderRadius: 25,
     marginVertical: 0,
-    paddingVertical: 11
+    paddingVertical: 11,
   },
 
   conta: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   vire: {
-    flex: 1
+    flex: 1,
   },
   signupText: {
     color: color.$signupTextColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   signupButton: {
     color: color.$signupButtonColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   buttonText: {
     fontSize: 16,
     fontWeight: "500",
     color: color.$formButtonTextColor,
-    textAlign: "center"
-  }
-})
+    textAlign: "center",
+  },
+});
+
 const mapStateToProps = state => {
   const reglast = state.creacionquinielas.reglas
   const reglas = _.map(state.creacionquinielas.reglas, (val, uid) => ({
@@ -303,7 +304,7 @@ const mapStateToProps = state => {
     mostrarMenus: state.jugadorlast.mostrarMenu,
     buscarTexto: state.jugadorlast.buscar
   }
-}
+};
 
 export default connect(mapStateToProps, {
   buscarJugadoresAdministradas,
@@ -315,4 +316,4 @@ export default connect(mapStateToProps, {
   buscarReglasAdmin,
   modifarReglasBD,
   reinicarReglas
-})(ReglasAdmin)
+})(ReglasAdmin);

@@ -15,11 +15,12 @@ import { Logo } from '../components/Logo';
 import { Form } from '../components/Form';
 import { TextIndication } from '../components/TextIndication';
 import { gotohome } from '../actions';
+import { HeaderText } from '../components/HeaderText';
 import color from '../comun/colors';
 
 class CrearCuenta extends Component {
   static navigationOptions = {
-    header: null,
+    headerTitle: <HeaderText texto="Crear Cuenta"/>,
   };
 
   constructor() {
@@ -61,11 +62,11 @@ class CrearCuenta extends Component {
 
           <TextIndication description={this.props.error} />
 
-          <View style={styles.signupTextCont}>
+          {/* <View style={styles.signupTextCont}>
             <TouchableOpacity onPress={() => this.confirmar(navigate)}>
               <Text style={styles.signupButton}>Entrar</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
       </Container>
     );

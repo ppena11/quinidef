@@ -114,13 +114,13 @@ class Posiciones extends Component {
         <View>{this.activa()}</View>
         <View style={styles.headerContentStyle}>
           <View style={styles.headerContentStyle1}>
-            <Text style={styles.headerTextStyle}>POSICION</Text>
+            <Text style={styles.headerTextStyle}>Posición</Text>
+          </View>
+          <View style={styles.headerContentStyle2}>
+            <Text style={styles.headerTextStyle}>Jugador</Text>
           </View>
           <View style={styles.headerContentStyle1}>
-            <Text style={styles.headerTextStyle}>JUGADOR</Text>
-          </View>
-          <View style={styles.headerContentStyle1}>
-            <Text style={styles.headerTextStyle}>PUNTOS</Text>
+            <Text style={styles.headerTextStyle}>Puntos</Text>
           </View>
         </View>
         <View style={styles.form}>
@@ -147,55 +147,59 @@ class Posiciones extends Component {
 const styles = EStyleSheet.create({
   form: {
     flex: 1,
-
     justifyContent: "space-between",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   titulo: {
-    padding: 20
+    padding: 20,
   },
   cuerpo: {
-    flex: 1
+    flex: 1,
   },
   bottom: {
-    padding: 20
+    padding: 20,
   },
   viewImgStyle: {
     flex: 3,
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   imgStyle: {
     height: 200,
-    width: 200
+    width: 200,
   },
   viewStyle: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   headerContentStyle: {
     flexDirection: "row",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   headerContentStyle1: {
     flex: 1,
-    justifyContent: "center"
+    justifyContent: 'center',
+  },
+  headerContentStyle2: {
+    flex: 2,
+    justifyContent: 'center',
   },
   buttonText: {
     fontSize: 14,
-    fontWeight: "500",
+    fontWeight: '500',
     color: color.$formButtonTextColor,
-    textAlign: "center"
+    textAlign: 'center',
   },
   headerTextStyle: {
     fontSize: 15,
     color: color.$qxaHeaderTextStyle,
     padding: 10,
-    textAlign: "center"
-  }
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
 });
 
 const mapStateToProps = state => {

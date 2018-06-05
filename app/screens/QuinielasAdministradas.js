@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component } from "react";
 import {
   StatusBar,
   ListView,
@@ -7,14 +7,16 @@ import {
   ScrollView,
   FlatList,
   TextInput,
-  BackHandler
-} from "react-native"
-import firebase from "firebase"
-import EStyleSheet from "react-native-extended-stylesheet"
-import _ from "lodash"
-import { connect } from "react-redux"
-import { NavigationActions } from "react-navigation"
-import { Spinner } from "../components/Spinner"
+  BackHandler,
+  TouchableOpacity,
+  Text,
+} from "react-native";
+import firebase from "firebase";
+import EStyleSheet from "react-native-extended-stylesheet";
+import _ from "lodash";
+import { connect } from "react-redux";
+import { NavigationActions, HeaderBackButton } from "react-navigation";
+import { Spinner } from "../components/Spinner";
 import {
   buscarQuinielasAdministradas,
   buscarQuinielasAdministradasMax,
@@ -29,20 +31,18 @@ import {
   mostrarMenu,
   esconderMenu,
   BuscarQuinielaTexto,
-  irTusQuinielas
-} from "../actions"
+  irTusQuinielas,
+} from "../actions";
 
-import { Container } from "../components/Container"
-import { BotonPrincipal } from "../components/BotonPrincipal"
-import { Titulo } from "../components/Titulo"
-import { Qxa } from "../components/Qxa"
-import color from "../comun/colors"
+import { Container } from "../components/Container";
+import { BotonPrincipal } from "../components/BotonPrincipal";
+import { Titulo } from "../components/Titulo";
+import { Qxa } from "../components/Qxa";
+import { HeaderText } from "../components/HeaderText";
+import color from "../comun/colors";
 
 class QuinielasAdministradas extends Component {
-  static navigationOptions = {
-    header: null
-  }
-
+  static this2 = null;
   constructor(props) {
     super(props)
 
@@ -54,9 +54,21 @@ class QuinielasAdministradas extends Component {
         .ref(`/users/${firebase.auth().uid}/quinielasadministradas/`)
     }
 
-    this.handleBackButton = this.handleBackButton.bind(this)
-    this.run = this.run.bind(this)
+    this.run = this.run.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
+    // this.tusquinielas = this.tusquinielas.bind(this);
+    this2 = this;
   }
+
+  static navigationOptions = {
+    headerTitle: <HeaderText texto="Quinielas Administradas"/>,
+    headerLeft: (
+      <HeaderBackButton
+        onPress = {() => this2.tusquinielas()}
+        tintColor = {color.$headerImageTintColor}
+      />
+    )
+  };
 
   componentDidMount() {
     this.run()
@@ -102,33 +114,29 @@ class QuinielasAdministradas extends Component {
   run = async () => {
     try {
       this.setState({ validando: true })
-      const { currentUser } = firebase.auth()
+      const { currentUser } = firebase.auth();
       const test = await this.props.buscarQuinielasAdministradas(
         currentUser.uid
-      )
+      );
 
-      this.setState({ validando: false })
+      this.setState({ validando: false });
     } catch (e) {
       //console.log(e);
-      this.setState({ validando: false })
+      this.setState({ validando: false });
     }
   }
 
   componentWillUnmount() {
-    this.keyboardWillShowListener.remove()
-    this.keyboardWillHideListener.remove()
-    this.state.refdb.off()
-    console.log("(QuinielasAdministradas) componentWillUnmount")
-    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton)
+    this.keyboardWillShowListener.remove();
+    this.keyboardWillHideListener.remove();
+    this.state.refdb.off();
+    console.log("(QuinielasAdministradas) componentWillUnmount");
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
   }
 
   handleBackButton() {
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: "TusQuinielas" })]
-    })
-    this.props.navigation.dispatch(resetAction)
-    return true
+    this.tusquinielas();
+    return true;
   }
 
   crear() {
@@ -137,48 +145,47 @@ class QuinielasAdministradas extends Component {
   }
 
   keyboardWillShow = () => {
-    this.props.esconderMenu()
+    this.props.esconderMenu();
   }
 
   keyboardWillHide = () => {
-    this.props.mostrarMenu()
+    this.props.mostrarMenu();
   }
 
   pressed(e) {
-    Keyboard.dismiss()
+    Keyboard.dismiss();
   }
 
   filtrarQuinielas(qi) {
-    this.props.BuscarQuinielaTexto(qi)
-    const text = this.props.buscarTexto
+    this.props.BuscarQuinielaTexto(qi);
+    const text = this.props.buscarTexto;
 
     if (qi.length > 0) {
-      this.props.buscarQuinielasAdministradasT(qi)
+      this.props.buscarQuinielasAdministradasT(qi);
     }
     if (qi.length == 0) {
-      this.props.buscarQuinielasAdministradas()
+      this.props.buscarQuinielasAdministradas();
     }
   }
 
   filterList() {
-    let users = this.state.users
-    const q = this.state.q
+    let users = this.state.users;
+    const q = this.state.q;
 
-    users = users.filter(user => user.Name.toLowerCase().indexOf(q) != -1)
-    this.setState({ filteredUsers: users })
+    users = users.filter(user => user.Name.toLowerCase().indexOf(q) != -1);
+    this.setState({ filteredUsers: users });
   }
 
   tusquinielas() {
-    //this.props.navigation.goBack();
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({ routeName: "TusQuinielas" })]
-    })
-    this.props.navigation.dispatch(resetAction)
+    });
+    this.props.navigation.dispatch(resetAction);
   }
 
   renderRow(quiniela) {
-    return <Qxa quiniela={quiniela} />
+    return <Qxa quiniela={quiniela} />;
   }
 
   handleLoadMore = () => {
@@ -192,7 +199,7 @@ class QuinielasAdministradas extends Component {
       if (this.props.llegoalfinal != "yes") {
         // console.log(this.props.quinielas);
         if (this.props.buscarTexto.length == 0) {
-          this.props.buscarQuinielasAdministradasMax(this.props.ultima)
+          this.props.buscarQuinielasAdministradasMax(this.props.ultima);
         } else {
           // console.log(`BUSCANDO MAS --- APUNTADOR ${this.props.ultima} ---- TEXTO --- ${
           //  this.props.buscarTexto
@@ -200,7 +207,7 @@ class QuinielasAdministradas extends Component {
           this.props.buscarQuinielasAdministradasMaxT(
             this.props.ultima,
             this.props.buscarTexto
-          )
+          );
         }
       }
     }
@@ -213,15 +220,15 @@ class QuinielasAdministradas extends Component {
       return (
         <View>
           <BotonPrincipal onPress={() => this.crear()}>
-            Organizar Quiniela
+            Crear Nueva Quiniela
           </BotonPrincipal>
-          <BotonPrincipal onPress={() => this.tusquinielas()}>
+          {/* <BotonPrincipal onPress={() => this.tusquinielas()}>
             Tus Quinielas
-          </BotonPrincipal>
+          </BotonPrincipal> */}
         </View>
       )
     }
-    return <View />
+    return <View />;
   }
 
   // console.log('PORQUE ENTRA AQUI QUINIELAS ADMINISTRADAS???');
@@ -246,9 +253,9 @@ class QuinielasAdministradas extends Component {
           barStyle="light-content"
           backgroundColor={color.$statusBarBackgroundColor}
         />
-        <View style={styles.titulo}>
+        {/* <View style={styles.titulo}>
           <Titulo>QUINIELAS ADMINISTRADAS</Titulo>
-        </View>
+        </View> */}
         <View style={styles.form}>
           <View style={styles.cuerpo}>
             <FlatList
@@ -270,25 +277,24 @@ class QuinielasAdministradas extends Component {
   }
 
   render() {
-    return this.loading()
+    return this.loading();
   }
 }
 
 const styles = EStyleSheet.create({
   form: {
     flex: 1,
-
     justifyContent: "space-between",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   titulo: {
-    padding: 20
+    padding: 5,
   },
   cuerpo: {
-    flex: 1
+    flex: 1,
   },
   bottom: {
-    padding: 20
+    padding: 10,
   },
   inputBox: {
     flex: 8,
@@ -297,32 +303,32 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     color: color.$formInputBoxColor,
-    marginVertical: 10
-  }
-})
+    marginVertical: 10,
+  },
+});
 
 const styles2 = EStyleSheet.create({
   conta: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   vire: {
-    flex: 1
+    flex: 1,
   },
   signupText: {
     color: color.$signupTextColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   signupButton: {
     color: color.$signupButtonColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20
-  }
-})
+    paddingHorizontal: 20,
+  },
+});
 
 const mapStateToProps = state => {
   const tt = _.map(state.quinielasadmin, (val, uid) => ({ ...val, uid }))
@@ -331,7 +337,7 @@ const mapStateToProps = state => {
 
   // const quinielas = tt;
 
-  const quinielas = _.orderBy(tt, ["quinielaNombre"], ["asc"])
+  const quinielas = _.orderBy(tt, ["quinielaNombre"], ["asc"]);
 
   // const quinielas = tt;
 
@@ -343,8 +349,8 @@ const mapStateToProps = state => {
     reload: state.quinielalast.reload,
     mostrarMenus: state.quinielalast.mostrarMenu,
     buscarTexto: state.quinielalast.buscar
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, {
   buscarQuinielasAdministradas,
@@ -361,4 +367,4 @@ export default connect(mapStateToProps, {
   BuscarQuinielaTexto,
   reloadingQuinielas,
   irTusQuinielas
-})(QuinielasAdministradas)
+})(QuinielasAdministradas);

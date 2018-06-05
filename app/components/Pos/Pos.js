@@ -6,6 +6,8 @@ import { Card } from "../Card";
 import { CardT } from "../CardT";
 import { CardSection } from "../CardSection";
 import styles from "./styles";
+import { iconos } from "../../comun/imagenes";
+
 import { modificarquiniela, buscarHora, escribirHora } from "../../actions";
 
 class Pos extends Component {
@@ -51,7 +53,6 @@ class Pos extends Component {
     const {
       headerContentStyle,
       headerTextStyle,
-      headerTextStyle2,
       thumbnailStyle,
       thumbnailContainerStyle,
       headerTextStyleUser,
@@ -67,20 +68,19 @@ class Pos extends Component {
       <TouchableOpacity onPress={() => this.detalleQuiniela()}>
         <CardT>
           <View style={headerContentStyle}>
-            <View style={headerContentStyle2}>
+            <View style={headerContentStyle1}>
               <View style={thumbnailContainerStyle}>
                 <Image
                   style={thumbnailStyle}
-                  source={require("../../comun/images/banderas1/lupa.png")}
+                  source={iconos['$lupa']}
                 />
-                <Text style={styleUser}>{`  ${index}`}</Text>
+                <Text style={styleUser}>{`${index}`}</Text>
               </View>
             </View>
-
-            <View style={headerContentStyle1}>
+            <View style={headerContentStyle2}>
               <Text style={styleUser}>{nombreapuesta}</Text>
             </View>
-            <View style={styles.headerContentStyle1}>
+            <View style={headerContentStyle1}>
               <Text style={styleUser}>{puntos}</Text>
             </View>
           </View>

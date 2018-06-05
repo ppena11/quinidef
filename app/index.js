@@ -1,22 +1,15 @@
-import React, { Component } from "react"
-import EStyleSheet from "react-native-extended-stylesheet"
-import { Provider, connect } from "react-redux"
-import firebase from "firebase"
-import { addNavigationHelpers, NavigationActions } from "react-navigation"
-import { NetInfo } from "react-native"
-import _ from "lodash"
+import React, { Component } from "react";
+import EStyleSheet from "react-native-extended-stylesheet";
+import { Provider, connect } from "react-redux";
+import firebase from "firebase";
+import { addNavigationHelpers, NavigationActions } from "react-navigation";
+import { NetInfo } from "react-native";
+import _ from "lodash";
 
-import store from "./config/store"
-import RootNavigator from "./config/routes"
+import store from "./config/store";
+import RootNavigator from "./config/routes";
 
-EStyleSheet.build({
-  /*
-  $primaryBackground: '#084b7c',
-  $white: '#ffffff',
-  $fondoBotonPrincipal: '#00244f',
-  $fondoBotonInput: 'rgba(255, 255,255,0.2)'
-*/
-})
+EStyleSheet.build({});
 
 const App = ({ dispatch, nav }) => <RootNavigator />
 
@@ -49,11 +42,10 @@ export default class extends Component {
       firebase.initializeApp(firebaseConfig)
     }
     console.ignoredYellowBox = [
-      "Setting a timer",
-      "Warning: isMounted",
-      "VirtualizedList",
-      "Remote debugger"
-    ]
+      'Setting a timer',
+      'Warning: isMounted',
+      'Remote debugger'
+    ];
   }
 
   render() {
@@ -61,6 +53,6 @@ export default class extends Component {
       <Provider store={store}>
         <AppWithNavigation />
       </Provider>
-    )
+    );
   }
-}
+};

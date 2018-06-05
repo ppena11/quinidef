@@ -8,6 +8,7 @@ import { CardSection } from "../CardSection";
 import { CardSectionText } from "../CardSectionText";
 import { Buttonb } from "../Buttonb";
 import color from "../../comun/colors";
+import { iconos } from "../../comun/imagenes";
 
 import { buscarDisponiblesq } from "../../actions";
 
@@ -101,14 +102,15 @@ class Qxa extends Component {
           >
             <Image
               style={thumbnailStyle}
-              source={require("../Logo/images/borrar1.png")}
+              source={iconos['$basura']}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={headerContentStyle}>
-            <Text style={headerTextStyle}>
-              {quinielaNombre} - Código: {codigoq}
-            </Text>
-            <Text style={headerTextStyle2}>{torneo}</Text>
+          <TouchableOpacity
+            style={headerContentStyle}
+            onPress={() => this.onRowPress()}
+          >
+            <Text style={headerTextStyle}>{quinielaNombre}</Text>
+            <Text style={headerTextStyle2}>{torneo} - Código: {codigoq}</Text>
           </TouchableOpacity>
         </CardSection>
         <CardSectionText>
@@ -137,38 +139,39 @@ class Qxa extends Component {
 const styles = {
   headerContentStyle: {
     flexDirection: "column",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
   headerContentStyle1: {
     flexDirection: "column",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
   cardSectionStyle: {
     flexDirection: "row",
     justifyContent: "space-around",
-    position: "relative"
+    position: "relative",
   },
   headerTextStyle: {
     fontSize: 18,
-    color: color.$qxaHeaderTextStyle
+    color: color.$qxaHeaderTextStyle,
   },
   headerTextStyle1: {
     fontSize: 18,
-    color: color.$qxaHeaderTextStyle
+    color: color.$qxaHeaderTextStyle,
   },
   headerTextStyle2: {
-    fontSize: 12,
-    color: color.$qxaHeaderTextStyle2
+    fontSize: 13,
+    color: color.$qxaHeaderTextStyle2,
   },
   thumbnailStyle: {
-    height: 50,
-    width: 50
+    height: 30,
+    width: 30,
+    tintColor: color.$iconDangerColor,
   },
   thumbnailContainerStyle: {
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 10,
-    marginRight: 10
+    marginLeft: 5,
+    marginRight: 10,
   }
 };
 

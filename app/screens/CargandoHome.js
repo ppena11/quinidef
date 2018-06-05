@@ -36,7 +36,7 @@ class CargandoHome extends Component {
     return (
       <Container>
         <View style={styles.viewImgStyle}>
-          <Image style={styles.imgStyle} source={require('../components/Logo/images/copa1.png')} />
+          <Image style={styles.imgStyle} source={require('../images/logoapp.png')} />
         </View>
         <View style={styles.viewStyle}>
           <Spinner size="large" />

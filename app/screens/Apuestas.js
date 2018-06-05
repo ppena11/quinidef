@@ -1,7 +1,7 @@
-import React, { Component } from "react"
-import firebase from "firebase"
-import _ from "lodash"
-import moment from "moment"
+import React, { Component } from "react";
+import firebase from "firebase";
+import _ from "lodash";
+import moment from "moment";
 import {
   KeyboardAvoidingView,
   StatusBar,
@@ -13,10 +13,10 @@ import {
   FlatList,
   TouchableOpacity,
   NetInfo
-} from "react-native"
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
-import EStyleSheet from "react-native-extended-stylesheet"
-import { connect } from "react-redux"
+} from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import EStyleSheet from "react-native-extended-stylesheet";
+import { connect } from "react-redux";
 
 import {
   buscarPartidos,
@@ -27,15 +27,16 @@ import {
   bloquearPartido,
   ReinicarCargaApuesta,
   buscarAdministrador
-} from "../actions"
-import { Container } from "../components/Container"
-import { Titulo } from "../components/Titulo"
-import { Pronostico } from "../components/Pronostico"
-import { PuntajeJugador } from "../comun/puntaje"
-import { BotonPrincipal } from "../components/BotonPrincipal"
-import { Spinner } from "../components/Spinner"
+} from "../actions";
+import { Container } from "../components/Container";
+import { Titulo } from "../components/Titulo";
+import { Pronostico } from "../components/Pronostico";
+import { PuntajeJugador } from "../comun/puntaje";
+import { BotonPrincipal } from "../components/BotonPrincipal";
+import { Spinner } from "../components/Spinner";
+import { iconos } from "../comun/imagenes";
 
-import color from "../comun/colors"
+import color from "../comun/colors";
 
 class Apuestas extends Component {
   static navigationOptions = {
@@ -257,9 +258,10 @@ class Apuestas extends Component {
     return (
       <Image
         style={styles.thumbnailStyle}
-        source={require(`../components/Logo/images/save.png`)}
+        source={iconos['$save']}
       />
     )
+    // return <Text style={styles.buttonText}>Guardar Cambios</Text>;
   }
 
   activa() {
@@ -373,8 +375,7 @@ class Apuestas extends Component {
           <View style={styles.linecont}>
             <View style={styles.textcont}>
               <Text style={styles.buttonText}>
-                Puedes modificar tus apuestas hasta 30 min antes que empiece
-                cada juego
+                Puedes modificar tus apuestas hasta 30 min antes que empiece cada juego
               </Text>
             </View>
 
@@ -396,33 +397,33 @@ class Apuestas extends Component {
 
 const styles = EStyleSheet.create({
   form: {
-    flexDirection: "column"
+    flexDirection: "column",
   },
   linecont: {
     justifyContent: "space-between",
     flexDirection: "row",
-    padding: 10
+    padding: 10,
   },
   container: {
     flex: 1,
-    // padding: 20,
     backgroundColor: color.$primaryBackground,
-    flexDirection: "column"
+    flexDirection: "column",
   },
   titulo: {
-    padding: 20
+    padding: 20,
   },
   imgcont: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   textcont: {
-    flex: 5
+    flex: 5,
   },
-  cuerpo: {},
+  cuerpo: {
+  },
   bottom: {
-    padding: 20
+    padding: 20,
   },
   inputBox: {
     flex: 8,
@@ -431,67 +432,68 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     color: color.$formInputBoxColor,
-    marginVertical: 10
+    marginVertical: 10,
   },
   button: {
     flex: 8,
     backgroundColor: color.$fondoBotonPrincipal,
     borderRadius: 25,
     marginVertical: 0,
-    paddingVertical: 11
+    paddingVertical: 11,
   },
 
   conta: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   vire: {
-    flex: 1
+    flex: 1,
   },
   signupText: {
     color: color.$signupTextColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   signupButton: {
     color: color.$signupButtonColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   buttonText: {
     fontSize: 16,
     fontWeight: "500",
     color: color.$formButtonTextColor,
-    textAlign: "center"
+    textAlign: "center",
   },
   thumbnailStyle: {
     height: 45,
-    width: 45
+    width: 45,
+    tintColor: color.$disquete,
   },
 
   viewStyle: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center"
-  }
-})
+    alignItems: "center",
+  },
+});
 
 const mapStateToProps = state => {
-  const partidost = state.partidos
-  const apuestast = state.apuestas
-  const quiniela = state.quini
-  const hora = state.hora
+  const partidost = state.partidos;
+  const apuestast = state.apuestas;
+  const quiniela = state.quini;
+  const hora = state.hora;
 
   return {
     partidost,
     apuestast,
     quiniela,
     hora
-  }
+  };
 }
 
 export default connect(mapStateToProps, {
@@ -503,4 +505,4 @@ export default connect(mapStateToProps, {
   bloquearPartido,
   ReinicarCargaApuesta,
   buscarAdministrador
-})(Apuestas)
+})(Apuestas);
