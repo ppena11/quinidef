@@ -137,7 +137,7 @@ class ReglasAdmin extends Component {
   }
 
   cancelar() {
-    this.run();
+    // this.run();
     this.props.navigation.goBack();
   }
 
@@ -184,7 +184,7 @@ class ReglasAdmin extends Component {
     if (this.state.validando) {
       return <Spinner style={styles.buttonText} size="small" />;
     }
-    return <Text style={styles.buttonText}>Guargar cambios..</Text>;
+    return <Text style={styles.buttonText}>Guardar Cambios</Text>;
   }
 
   render() {

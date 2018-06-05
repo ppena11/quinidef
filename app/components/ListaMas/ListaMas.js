@@ -48,6 +48,7 @@ const styles = {
   thumbnailStyle: {
     height: 30,
     width: 30,
+    tintColor: color.$iconDangerColor,
   },
   thumbnailContainerStyle: {
     justifyContent: "center",

@@ -41,6 +41,7 @@ const stackRouterConfig = {
         backgroundColor: color.$headerBackgroundColor,
       },
       headerRight: (<TouchableOpacity/>),
+      backTitle: null,
     };
   },
   initialRouteName: "CargandoHome"

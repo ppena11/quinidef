@@ -44,7 +44,7 @@ class TusQuinielas extends Component {
     this.loading = this.loading.bind(this);
     this.run = this.run.bind(this);
     this.handleBackButtonTusQuinielas = this.handleBackButtonTusQuinielas.bind(this);
-    this.alertLogout = this.alertLogout.bind(this);
+    // this.alertLogout = this.alertLogout.bind(this);
     this2 = this;
   }
 
@@ -173,10 +173,12 @@ class TusQuinielas extends Component {
 
           <View style={styles.bottom}>
             <BotonPrincipal onPress={() => this.unirseAQuiniela()}>
-              Unirse a una Quiniela
+              {/* Unirse a una Quiniela */}
+              Unirse a Quiniela Existente
             </BotonPrincipal>
             <BotonPrincipal onPress={() => this.crear()}>
-              Organiza una Quiniela
+              {/* Organiza una Quiniela */}
+              Quinielas Administradas
             </BotonPrincipal>
           </View>
         </View>

@@ -242,7 +242,7 @@ class EliminarApuesta extends Component {
                 selectionColor={color.$selectionColor}
                 keyboardType="email-address"
                 autoCapitalize="none"
-                onSubmitEditing={() => this.eliminarTest1(goBack)}
+                // onSubmitEditing={() => this.eliminarTest1(goBack)}
                 onChangeText={t => this.updateInputValue(t)}
                 value={this.state.inputfield}
               />
@@ -258,7 +258,7 @@ class EliminarApuesta extends Component {
             <View>
               {/* <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal> */}
               <BotonPrincipal onPress={() => this.eliminarTest1(goBack)}>
-                Eliminar jugador...
+                Eliminar Jugador
               </BotonPrincipal>
               <BotonPrincipal onPress={() => this.cancelar()}>
                 Cancelar

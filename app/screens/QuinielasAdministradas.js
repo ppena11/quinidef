@@ -56,6 +56,7 @@ class QuinielasAdministradas extends Component {
 
     this.run = this.run.bind(this);
     this.handleBackButton = this.handleBackButton.bind(this);
+    // this.tusquinielas = this.tusquinielas.bind(this);
     this2 = this;
   }
 
@@ -63,7 +64,7 @@ class QuinielasAdministradas extends Component {
     headerTitle: <HeaderText texto="Quinielas Administradas"/>,
     headerLeft: (
       <HeaderBackButton
-        onPress = {() => this2.handleBackButton()}
+        onPress = {() => this2.tusquinielas()}
         tintColor = {color.$headerImageTintColor}
       />
     )
@@ -134,11 +135,7 @@ class QuinielasAdministradas extends Component {
   }
 
   handleBackButton() {
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: "TusQuinielas" })]
-    });
-    this.props.navigation.dispatch(resetAction);
+    this.tusquinielas();
     return true;
   }
 
@@ -180,7 +177,6 @@ class QuinielasAdministradas extends Component {
   }
 
   tusquinielas() {
-    //this.props.navigation.goBack();
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({ routeName: "TusQuinielas" })]
@@ -224,11 +220,11 @@ class QuinielasAdministradas extends Component {
       return (
         <View>
           <BotonPrincipal onPress={() => this.crear()}>
-            Organizar Quiniela
+            Crear Nueva Quiniela
           </BotonPrincipal>
-          <BotonPrincipal onPress={() => this.tusquinielas()}>
+          {/* <BotonPrincipal onPress={() => this.tusquinielas()}>
             Tus Quinielas
-          </BotonPrincipal>
+          </BotonPrincipal> */}
         </View>
       );
     }

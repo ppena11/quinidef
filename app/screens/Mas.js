@@ -92,8 +92,8 @@ class Mas extends Component {
 
   render() {
     let menu = [
-      { imagen: "basura", titulo: "Eliminar quiniela" },
-      { imagen: "salir", titulo: "Salir del sistema" }
+      { imagen: "basura", titulo: "Eliminar Quiniela" },
+      { imagen: "salir", titulo: "Salir del Sistema" }
     ];
 
     return (

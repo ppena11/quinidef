@@ -250,7 +250,7 @@ class Apuestas extends Component {
     if (this.state.validando) {
       return <Spinner style={styles.buttonText} size="small" />;
     }
-    return <Text style={styles.buttonText}>Guardar cambios</Text>;
+    return <Text style={styles.buttonText}>Guardar Cambios</Text>;
   }
 
   activa() {

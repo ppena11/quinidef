@@ -68,7 +68,7 @@ class DetalleQuinielaAdministrada extends Component {
     headerTitle: <HeaderText texto="Administración Quiniela"/>,
     headerLeft: (
       <HeaderBackButton
-        onPress = {() => this2.handleBackButton()}
+        onPress = {() => this2.cancelar()}
         tintColor = {color.$headerImageTintColor}
       />
     )
@@ -119,14 +119,8 @@ class DetalleQuinielaAdministrada extends Component {
   }
 
   handleBackButton() {
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: "QuinielasAdministradas" })
-      ]
-    });
-    this.props.navigation.dispatch(resetAction);
-    return true;    
+    this.cancelar();
+    return true;
   }
 
   run1 = async () => {
@@ -310,7 +304,7 @@ class DetalleQuinielaAdministrada extends Component {
         <View>
           {/* <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal> */}
           <BotonPrincipal onPress={() => this.comprar()}>
-            Comprar...
+            Comprar Activaciones
           </BotonPrincipal>
           {/* <BotonPrincipal onPress={() => this.cancelar()}>
             Regresar

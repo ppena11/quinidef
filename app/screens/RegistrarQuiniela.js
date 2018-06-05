@@ -216,7 +216,7 @@ class RegistrarQuiniela extends Component {
             selectionColor={color.$selectionColor}
             keyboardType="email-address"
             autoCapitalize="none"
-            onSubmitEditing={() => this.pressed()}
+            // onSubmitEditing={() => this.pressed()}
             onChangeText={q => this.updateInputValue(q)}
           />
           <View style={styles.vire} />

@@ -239,7 +239,7 @@ class EliminarQuinielaAdministrada extends Component {
                 selectionColor={color.$selectionColor}
                 keyboardType="email-address"
                 autoCapitalize="none"
-                onSubmitEditing={() => this.eliminarTest1(goBack)}
+                // onSubmitEditing={() => this.eliminarTest1(goBack)}
                 onChangeText={t => this.updateInputValue(t)}
                 value={this.state.inputfield}
               />
@@ -255,7 +255,7 @@ class EliminarQuinielaAdministrada extends Component {
             <View>
               {/* <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal> */}
               <BotonPrincipal onPress={() => this.eliminarTest1(goBack)}>
-                Eliminar quiniela...
+                Eliminar Quiniela
               </BotonPrincipal>
               <BotonPrincipal onPress={() => this.cancelar()}>
                 Cancelar

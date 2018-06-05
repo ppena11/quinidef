@@ -33,7 +33,6 @@ import {
 class UnirseAQuiniela extends Component {
   static navigationOptions = {
     headerTitle: <HeaderText texto="Unirse a Quiniela"/>,
-    backTitle: null,
   };
 
   constructor(props) {
@@ -326,9 +325,9 @@ class UnirseAQuiniela extends Component {
               autoCapitalize="characters"
               placeholder="X"
               maxLength={1}
-              onSubmitEditing={() => {
-                this.buscarCodigo(uid1);
-              }}
+              // onSubmitEditing={() => {
+              //   this.buscarCodigo(uid1);
+              // }}
             />
           </View>
         </View>

@@ -4,10 +4,9 @@ import color from '../../comun/colors';
 export default EStyleSheet.create({
   container: {
     flexGrow: 1,
-    marginTop: 10,
     width: '100%',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     flexDirection: 'row',
   },
   label: {
