@@ -1,4 +1,4 @@
-package com.quiniela2;
+package com.futbolyquinielas;
 
 import android.app.Application;
 

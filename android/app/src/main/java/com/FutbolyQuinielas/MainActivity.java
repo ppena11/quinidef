@@ -1,4 +1,4 @@
-package com.quiniela2;
+package com.futbolyquinielas;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "Quiniela2";
+        return "futbolyquinielas";
     }
 }
