@@ -25,19 +25,20 @@ import {
   eliminarJugador,
   reducirDisponibles,
   cambiarEstatusQuinielaA,
-  irTusQuinielas
-} from "../actions";
-import { Container } from "../components/Container";
-import { BotonPrincipal } from "../components/BotonPrincipal";
-import { Titulo } from "../components/Titulo";
-import { QuinielaAdminItem } from "../components/QuinielaAdminItem";
-import { HeaderText } from "../components/HeaderText";
-import color from "../comun/colors";
+  irTusQuinielas,
+  validarUsuario
+} from "../actions"
+import { Container } from "../components/Container"
+import { BotonPrincipal } from "../components/BotonPrincipal"
+import { Titulo } from "../components/Titulo"
+import { QuinielaAdminItem } from "../components/QuinielaAdminItem"
+import { HeaderText } from "../components/HeaderText"
+import color from "../comun/colors"
 
 class EliminarApuesta extends Component {
   static navigationOptions = {
-    headerTitle: <HeaderText texto="Eliminar Quiniela"/>,
-  };
+    headerTitle: <HeaderText texto="Eliminar Quiniela" />
+  }
   constructor(props) {
     super(props)
 
@@ -117,7 +118,7 @@ class EliminarApuesta extends Component {
     goBack()
   }
 
-  eliminarTest1(goBack) {
+  eliminarTest1 = async goBack => {
     const {
       jugador,
       quiniela,
@@ -125,15 +126,25 @@ class EliminarApuesta extends Component {
       jugadores,
       codigo
     } = this.props.navigation.state.params
-    // console.log('TEST');
-    // navigate('CreaciondeQuiniela');
+    console.log(quiniela)
+    console.log(jugador)
 
-    if (codigo == this.state.inputfield) {
-      this.props.eliminarJugador(jugador, quiniela, quinielan, jugadores)
-      this.run(quiniela, jugador, goBack)
-      //
+    const validarusuario1 = await this.props.validarUsuario(quiniela, jugador)
+    const r1 = validarusuario1.toJSON()
+    console.log(`ELIMINAR USUARIOS EXISTENNSTESSSS ${r1}`)
+    if (r1 !== null) {
+      // console.log('TEST');
+      // navigate('CreaciondeQuiniela');
+
+      if (codigo == this.state.inputfield) {
+        this.props.eliminarJugador(jugador, quiniela, quinielan, jugadores)
+        this.run(quiniela, jugador, goBack)
+        //
+      } else {
+        this.setState({ warning: "yes" })
+      }
     } else {
-      this.setState({ warning: "yes" })
+      goBack()
     }
   }
 
@@ -275,39 +286,39 @@ const styles = EStyleSheet.create({
   form: {
     flex: 1,
     justifyContent: "space-between",
-    flexDirection: "column",
+    flexDirection: "column"
   },
   bold: {
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 20
   },
   warning: {
     fontWeight: "bold",
     fontSize: 20,
-    color: color.$textIndicationLabelColor,
+    color: color.$textIndicationLabelColor
   },
   subtitulo: {
     fontSize: 15,
     fontWeight: "400",
     color: color.$tituloTextColor,
-    textAlign: "center",
+    textAlign: "center"
   },
   subtitulo1: {
     padding: 10,
     fontSize: 15,
     fontWeight: "400",
     color: color.$tituloTextColor,
-    textAlign: "center",
+    textAlign: "center"
   },
   titulo: {
     padding: 20,
-    marginVertical: 0,
+    marginVertical: 0
   },
   cuerpo: {
-    flex: 1,
+    flex: 1
   },
   bottom: {
-    padding: 20,
+    padding: 20
   },
   inputBox: {
     flex: 8,
@@ -316,36 +327,36 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     color: color.$formInputBoxColor,
-    marginVertical: 10,
+    marginVertical: 10
   }
-});
+})
 
 const styles2 = EStyleSheet.create({
   conta: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   vire: {
-    flex: 1,
+    flex: 1
   },
   signupText: {
     color: color.$signupTextColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20,
+    paddingHorizontal: 20
   },
   signupButton: {
     color: color.$signupButtonColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20,
+    paddingHorizontal: 20
   }
-});
+})
 
 const mapStateToProps = state => {
-  const tt = _.map(state.jugadoresadmin, (val, uid) => ({ ...val, uid }));
-  const jugadores = _.orderBy(tt, ["nombre"], ["asc"]);
+  const tt = _.map(state.jugadoresadmin, (val, uid) => ({ ...val, uid }))
+  const jugadores = _.orderBy(tt, ["nombre"], ["asc"])
 
   return {
     jugadores,
@@ -357,9 +368,13 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, {
-  eliminarJugador,
-  reducirDisponibles,
-  cambiarEstatusQuinielaA,
-  irTusQuinielas
-})(EliminarApuesta);
+export default connect(
+  mapStateToProps,
+  {
+    eliminarJugador,
+    reducirDisponibles,
+    cambiarEstatusQuinielaA,
+    irTusQuinielas,
+    validarUsuario
+  }
+)(EliminarApuesta)

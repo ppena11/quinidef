@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import firebase from "firebase";
-import _ from "lodash";
-import moment from "moment";
+import React, { Component } from "react"
+import firebase from "firebase"
+import _ from "lodash"
+import moment from "moment"
 import {
   KeyboardAvoidingView,
   StatusBar,
@@ -13,10 +13,10 @@ import {
   FlatList,
   TouchableOpacity,
   NetInfo
-} from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import EStyleSheet from "react-native-extended-stylesheet";
-import { connect } from "react-redux";
+} from "react-native"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import EStyleSheet from "react-native-extended-stylesheet"
+import { connect } from "react-redux"
 
 import {
   buscarPartidos,
@@ -26,17 +26,18 @@ import {
   escribirHora,
   bloquearPartido,
   ReinicarCargaApuesta,
-  buscarAdministrador
-} from "../actions";
-import { Container } from "../components/Container";
-import { Titulo } from "../components/Titulo";
-import { Pronostico } from "../components/Pronostico";
-import { PuntajeJugador } from "../comun/puntaje";
-import { BotonPrincipal } from "../components/BotonPrincipal";
-import { Spinner } from "../components/Spinner";
-import { iconos } from "../comun/imagenes";
+  buscarAdministrador,
+  validarUsuario
+} from "../actions"
+import { Container } from "../components/Container"
+import { Titulo } from "../components/Titulo"
+import { Pronostico } from "../components/Pronostico"
+import { PuntajeJugador } from "../comun/puntaje"
+import { BotonPrincipal } from "../components/BotonPrincipal"
+import { Spinner } from "../components/Spinner"
+import { iconos } from "../comun/imagenes"
 
-import color from "../comun/colors";
+import color from "../comun/colors"
 
 class Apuestas extends Component {
   static navigationOptions = {
@@ -130,54 +131,64 @@ class Apuestas extends Component {
 
   run2 = async () => {
     try {
-      this.setState({ validando: true })
-      // const test = await this.props.modifarReglasBD(
-      const escribirHora = await this.props.escribirHora()
-      const Hora = await this.props.buscarHora()
-
-      var hor = Hora.toJSON()
-      let kk = Object.assign({}, this.props.apuestast)
-      delete kk.cargando
-      const tt = _.map(kk, (val, uid) => ({ ...val, uid }))
-      //console.log(hor);
-      var yy = _.remove(tt, function(n) {
-        const k = moment.utc(n.inicioGMT0)
-        const y = moment(hor.time)
-
-        k.subtract(1800, "seconds")
-        if (moment(y).isAfter(k)) {
-          if (!n.bloqueado) {
-            this.props.bloquearPartido(this.props.quiniela.torneoid)
-          }
-        }
-        return !moment(y).isAfter(k)
-      })
-
-      //console.log(yy);
-
-      const arrayToObject = (array, keyField) =>
-        array.reduce((obj, item) => {
-          obj[item[keyField]] = item
-          return obj
-        }, {})
-
-      const ap = arrayToObject(yy, "uid")
-
-      console.log(ap)
-
-      //console.log(this.props.apuestast);
-      const test = await this.props.modificarApuestasBD(
+      const validarusuario1 = await this.props.validarUsuario(
         this.props.quiniela.quiniela,
-        this.props.quiniela.nombreapuesta,
-        ap
+        this.props.quiniela
       )
-      //console.log(this.props.quiniela.uid);
-      //console.log(this.props.quiniela.quiniela);
-      //
-      //   console.log(test);
-      // this.run();
-      this.setState({ validando: false })
-      // this.props.navigation.goBack();
+      const r1 = validarusuario1.toJSON()
+      console.log(`USUARIO EXISTE ${r1}`)
+      if (r1 !== null) {
+        this.setState({ validando: true })
+        // const test = await this.props.modifarReglasBD(
+        const escribirHora = await this.props.escribirHora()
+        const Hora = await this.props.buscarHora()
+
+        var hor = Hora.toJSON()
+        let kk = Object.assign({}, this.props.apuestast)
+        delete kk.cargando
+        const tt = _.map(kk, (val, uid) => ({ ...val, uid }))
+        //console.log(hor);
+        var yy = _.remove(tt, function(n) {
+          const k = moment.utc(n.inicioGMT0)
+          const y = moment(hor.time)
+
+          k.subtract(1800, "seconds")
+          if (moment(y).isAfter(k)) {
+            if (!n.bloqueado) {
+              this.props.bloquearPartido(this.props.quiniela.torneoid)
+            }
+          }
+          return !moment(y).isAfter(k)
+        })
+
+        //console.log(yy);
+
+        const arrayToObject = (array, keyField) =>
+          array.reduce((obj, item) => {
+            obj[item[keyField]] = item
+            return obj
+          }, {})
+
+        const ap = arrayToObject(yy, "uid")
+
+        console.log(ap)
+
+        //console.log(this.props.apuestast);
+        const test = await this.props.modificarApuestasBD(
+          this.props.quiniela.quiniela,
+          this.props.quiniela.nombreapuesta,
+          ap
+        )
+        //console.log(this.props.quiniela.uid);
+        //console.log(this.props.quiniela.quiniela);
+        //
+        //   console.log(test);
+        // this.run();
+        this.setState({ validando: false })
+        // this.props.navigation.goBack();
+      } else {
+        this.props.screenProps.rootNavigation.goBack()
+      }
     } catch (e) {
       //   console.log(e);
       this.setState({ validando: false })
@@ -255,12 +266,7 @@ class Apuestas extends Component {
     if (this.state.validando) {
       return <Spinner style={styles.buttonText} size="small" />
     }
-    return (
-      <Image
-        style={styles.thumbnailStyle}
-        source={iconos['$save']}
-      />
-    )
+    return <Image style={styles.thumbnailStyle} source={iconos["$save"]} />
     // return <Text style={styles.buttonText}>Guardar Cambios</Text>;
   }
 
@@ -375,7 +381,8 @@ class Apuestas extends Component {
           <View style={styles.linecont}>
             <View style={styles.textcont}>
               <Text style={styles.buttonText}>
-                Puedes modificar tus apuestas hasta 30 min antes que empiece cada juego
+                Puedes modificar tus apuestas hasta 30 min antes que empiece
+                cada juego
               </Text>
             </View>
 
@@ -397,33 +404,32 @@ class Apuestas extends Component {
 
 const styles = EStyleSheet.create({
   form: {
-    flexDirection: "column",
+    flexDirection: "column"
   },
   linecont: {
     justifyContent: "space-between",
     flexDirection: "row",
-    padding: 10,
+    padding: 10
   },
   container: {
     flex: 1,
     backgroundColor: color.$primaryBackground,
-    flexDirection: "column",
+    flexDirection: "column"
   },
   titulo: {
-    padding: 20,
+    padding: 20
   },
   imgcont: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   textcont: {
-    flex: 5,
+    flex: 5
   },
-  cuerpo: {
-  },
+  cuerpo: {},
   bottom: {
-    padding: 20,
+    padding: 20
   },
   inputBox: {
     flex: 8,
@@ -432,77 +438,81 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     color: color.$formInputBoxColor,
-    marginVertical: 10,
+    marginVertical: 10
   },
   button: {
     flex: 8,
     backgroundColor: color.$fondoBotonPrincipal,
     borderRadius: 25,
     marginVertical: 0,
-    paddingVertical: 11,
+    paddingVertical: 11
   },
 
   conta: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   vire: {
-    flex: 1,
+    flex: 1
   },
   signupText: {
     color: color.$signupTextColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20,
+    paddingHorizontal: 20
   },
   signupButton: {
     color: color.$signupButtonColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20,
+    paddingHorizontal: 20
   },
   buttonText: {
     fontSize: 16,
     fontWeight: "500",
     color: color.$formButtonTextColor,
-    textAlign: "center",
+    textAlign: "center"
   },
   thumbnailStyle: {
     height: 45,
     width: 45,
-    tintColor: color.$disquete,
+    tintColor: color.$disquete
   },
 
   viewStyle: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center",
-  },
-});
+    alignItems: "center"
+  }
+})
 
 const mapStateToProps = state => {
-  const partidost = state.partidos;
-  const apuestast = state.apuestas;
-  const quiniela = state.quini;
-  const hora = state.hora;
+  const partidost = state.partidos
+  const apuestast = state.apuestas
+  const quiniela = state.quini
+  const hora = state.hora
 
   return {
     partidost,
     apuestast,
     quiniela,
     hora
-  };
+  }
 }
 
-export default connect(mapStateToProps, {
-  buscarApuestas,
-  buscarPartidos,
-  buscarHora,
-  modificarApuestasBD,
-  escribirHora,
-  bloquearPartido,
-  ReinicarCargaApuesta,
-  buscarAdministrador
-})(Apuestas);
+export default connect(
+  mapStateToProps,
+  {
+    buscarApuestas,
+    buscarPartidos,
+    buscarHora,
+    modificarApuestasBD,
+    escribirHora,
+    bloquearPartido,
+    ReinicarCargaApuesta,
+    buscarAdministrador,
+    validarUsuario
+  }
+)(Apuestas)

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 import {
   KeyboardAvoidingView,
   StatusBar,
@@ -11,10 +11,10 @@ import {
   Text,
   BackHandler
 } from "react-native"
-import EStyleSheet from "react-native-extended-stylesheet";
-import _ from "lodash";
-import firebase from "firebase";
-import { connect } from "react-redux";
+import EStyleSheet from "react-native-extended-stylesheet"
+import _ from "lodash"
+import firebase from "firebase"
+import { connect } from "react-redux"
 
 import {
   buscarJugadoresAdministradas,
@@ -29,13 +29,14 @@ import {
   irTusQuinielas,
   buscarQuinielas,
   reducirPorActivar,
-  aumentarDisponibles
-} from "../actions";
-import { Container } from "../components/Container";
-import { BotonPrincipal } from "../components/BotonPrincipal";
-import { Titulo } from "../components/Titulo";
-import { QuinielaAdminItem } from "../components/QuinielaAdminItem";
-import color from "../comun/colors";
+  aumentarDisponibles,
+  validarUsuario
+} from "../actions"
+import { Container } from "../components/Container"
+import { BotonPrincipal } from "../components/BotonPrincipal"
+import { Titulo } from "../components/Titulo"
+import { QuinielaAdminItem } from "../components/QuinielaAdminItem"
+import color from "../comun/colors"
 
 class EliminarQuiniela extends Component {
   static navigationOptions = {
@@ -104,24 +105,33 @@ class EliminarQuiniela extends Component {
     goBack()
   }
 
-  eliminarTest1(goBack) {
+  eliminarTest1 = async goBack => {
     if (this.state.bloqueado != true) {
       const { quiniela, jugadores, nav } = this.props.navigation.state.params
       // console.log('TEST');
       // navigate('CreaciondeQuiniela');
       //console.log(nav);
-      if (quiniela.codigoq == this.state.inputfield) {
-        this.props.eliminarJugador(
-          quiniela,
-          quiniela.quiniela,
-          quiniela.nombreapuesta,
-          jugadores
-        )
-        this.setState({ bloqueado: true })
-        this.run(quiniela.quiniela, quiniela, goBack, nav)
-        //
+      const validarusuario1 = await this.props.validarUsuario(
+        this.props.quiniela.quiniela,
+        this.props.quiniela
+      )
+      const r1 = validarusuario1.toJSON()
+      if (r1 !== null) {
+        if (quiniela.codigoq == this.state.inputfield) {
+          this.props.eliminarJugador(
+            quiniela,
+            quiniela.quiniela,
+            quiniela.nombreapuesta,
+            jugadores
+          )
+          this.setState({ bloqueado: true })
+          this.run(quiniela.quiniela, quiniela, goBack, nav)
+          //
+        } else {
+          this.setState({ warning: "yes" })
+        }
       } else {
-        this.setState({ warning: "yes" })
+        this.props.screenProps.rootNavigation.goBack()
       }
     }
   }
@@ -263,39 +273,39 @@ const styles = EStyleSheet.create({
   form: {
     flex: 1,
     justifyContent: "space-between",
-    flexDirection: "column",
+    flexDirection: "column"
   },
   bold: {
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 20
   },
   warning: {
     fontWeight: "bold",
     fontSize: 20,
-    color: color.$textIndicationLabelColor,
+    color: color.$textIndicationLabelColor
   },
   subtitulo: {
     fontSize: 15,
     fontWeight: "400",
     color: color.$tituloTextColor,
-    textAlign: "center",
+    textAlign: "center"
   },
   subtitulo1: {
     padding: 10,
     fontSize: 15,
     fontWeight: "400",
     color: color.$tituloTextColor,
-    textAlign: "center",
+    textAlign: "center"
   },
   titulo: {
     padding: 20,
-    marginVertical: 0,
+    marginVertical: 0
   },
   cuerpo: {
-    flex: 1,
+    flex: 1
   },
   bottom: {
-    padding: 20,
+    padding: 20
   },
   inputBox: {
     flex: 8,
@@ -304,7 +314,7 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     color: color.$formInputBoxColor,
-    marginVertical: 10,
+    marginVertical: 10
   }
 })
 
@@ -312,24 +322,24 @@ const styles2 = EStyleSheet.create({
   conta: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   vire: {
-    flex: 1,
+    flex: 1
   },
   signupText: {
     color: color.$signupTextColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20,
+    paddingHorizontal: 20
   },
   signupButton: {
     color: color.$signupButtonColor,
     fontSize: 16,
     fontWeight: "500",
-    paddingHorizontal: 20,
+    paddingHorizontal: 20
   }
-});
+})
 
 const mapStateToProps = state => {
   const tt = _.map(state.jugadoresadmin, (val, uid) => ({ ...val, uid }))
@@ -344,14 +354,18 @@ const mapStateToProps = state => {
     mostrarMenus: state.jugadorlast.mostrarMenu,
     buscarTexto: state.jugadorlast.buscar
   }
-};
+}
 
-export default connect(mapStateToProps, {
-  eliminarJugador,
-  reducirDisponibles,
-  reducirPorActivar,
-  cambiarEstatusQuinielaA,
-  irTusQuinielas,
-  buscarQuinielas,
-  aumentarDisponibles
-})(EliminarQuiniela);
+export default connect(
+  mapStateToProps,
+  {
+    eliminarJugador,
+    reducirDisponibles,
+    reducirPorActivar,
+    cambiarEstatusQuinielaA,
+    irTusQuinielas,
+    buscarQuinielas,
+    aumentarDisponibles,
+    validarUsuario
+  }
+)(EliminarQuiniela)
