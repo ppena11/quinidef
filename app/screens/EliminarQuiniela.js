@@ -131,7 +131,7 @@ class EliminarQuiniela extends Component {
           this.setState({ warning: "yes" })
         }
       } else {
-        this.props.screenProps.rootNavigation.goBack()
+        this.props.screenProps.rootNavigation.goBack(null)
       }
     }
   }
@@ -352,7 +352,8 @@ const mapStateToProps = state => {
     llegoalfinal: state.jugadorlast.ultima,
     reload: state.jugadorlast.reload,
     mostrarMenus: state.jugadorlast.mostrarMenu,
-    buscarTexto: state.jugadorlast.buscar
+    buscarTexto: state.jugadorlast.buscar,
+    quiniela: state.quini
   }
 }
 
