@@ -1,6 +1,6 @@
 export const defaultplaceholder = "Correo electrónico..."
 export const defaultplaceholderc = "Contraseña..."
-export const defaultplaceholdern = "Nombre..."
+export const defaultplaceholdern = "Nombre usuario..."
 
 export function manejarError(errorCode) {
   switch (errorCode) {
@@ -28,7 +28,7 @@ export function manejarError(errorCode) {
       return {
         placeholdern: defaultplaceholdern,
         authenticating: false,
-        error: "Nombre inválido, debe ser menor de 20 caracteres"
+        error: "Nombre de usuario inválido, debe ser menor de 20 caracteres"
       }
       break
     case "auth/user-not-found":

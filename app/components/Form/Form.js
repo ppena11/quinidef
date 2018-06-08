@@ -45,7 +45,7 @@ class Form extends Component {
     }
 
     if (this.props.type === "Registrarse") {
-      if (nombre.length > 0 && nombre.length < 16) {
+      if (nombre.length > 0 && nombre.length < 21) {
         this.props.createUser({ email, password, nombre })
       } else {
         this.props.createUserFaileded()

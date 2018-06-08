@@ -201,9 +201,8 @@ class DatosAdmin extends Component {
     }
     return (
       <View>
-        <Text style={styles.subText}>
-          Nombre del administrador: {this.state.admin.nombre}
-        </Text>
+        <Text style={styles.subText}>Nombre de usuario del administrador:</Text>
+        <Text style={styles.subText}>{this.state.admin.nombre}</Text>
         <Text style={styles.subText}>
           Nombre de la quiniela: {this.props.quiniela.quinielaNombre}
         </Text>
