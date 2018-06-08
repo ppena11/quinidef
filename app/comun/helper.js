@@ -1,6 +1,6 @@
-export const defaultplaceholder = "Correo electrónico...";
-export const defaultplaceholderc = "Contraseña...";
-export const defaultplaceholdern = "Nombre...";
+export const defaultplaceholder = "Correo electrónico..."
+export const defaultplaceholderc = "Contraseña..."
+export const defaultplaceholdern = "Nombre usuario..."
 
 export function manejarError(errorCode) {
   switch (errorCode) {
@@ -12,8 +12,8 @@ export function manejarError(errorCode) {
         authenticating: false,
         placeholder: defaultplaceholder,
         error: "Correo electrónico deshabilitado"
-      };
-      break;
+      }
+      break
     case "auth/invalid-email":
       return {
         placeholderc: defaultplaceholderc,
@@ -22,15 +22,15 @@ export function manejarError(errorCode) {
         authenticating: false,
         placeholder: defaultplaceholder,
         error: "Correo electrónico inválido"
-      };
-      break;
+      }
+      break
     case "auth/invalid-name":
       return {
         placeholdern: defaultplaceholdern,
         authenticating: false,
-        error: "Nombre inválido"
-      };
-      break;
+        error: "Nombre de usuario inválido, debe ser menor de 20 caracteres"
+      }
+      break
     case "auth/user-not-found":
       return {
         placeholderc: defaultplaceholderc,
@@ -39,8 +39,8 @@ export function manejarError(errorCode) {
         authenticating: false,
         placeholder: defaultplaceholder,
         error: "Correo electrónico no registrado"
-      };
-      break;
+      }
+      break
     case "auth/wrong-password":
       // this.inputCorreo.placeholder = emailAddress;
       return {
@@ -49,8 +49,8 @@ export function manejarError(errorCode) {
         authenticating: false,
         // placeholder: emailAddress,
         error: "Contraseña incorrecta"
-      };
-      break;
+      }
+      break
 
     case "auth/network-request-failed":
       // this.inputCorreo.placeholder = emailAddress;
@@ -60,8 +60,8 @@ export function manejarError(errorCode) {
         authenticating: false,
         // placeholder: emailAddress,
         error: "Problema de conexión a internet"
-      };
-      break;
+      }
+      break
 
     case "auth/too-many-requests":
       // this.inputCorreo.placeholder = emailAddress;
@@ -73,8 +73,8 @@ export function manejarError(errorCode) {
         authenticating: false,
         placeholder: defaultplaceholder,
         error: "Muchos intentos fallidos, intente luego"
-      };
-      break;
+      }
+      break
 
     case "auth/email-already-in-use":
       return {
@@ -84,8 +84,8 @@ export function manejarError(errorCode) {
         authenticating: false,
         placeholder: defaultplaceholder,
         error: "Correo electrónico ya registrado"
-      };
-      break;
+      }
+      break
 
     case "auth/weak-password":
       return {
@@ -94,14 +94,14 @@ export function manejarError(errorCode) {
         authenticating: false,
         placeholder: defaultplaceholder,
         error: "El password debe tener al menos 6 caracteres"
-      };
-      break;
+      }
+      break
 
     default:
       return {
         authenticating: false,
         error: errorCode
-      };
+      }
     // etc
   }
 }
@@ -144,18 +144,18 @@ export function generarCodigo() {
     "7",
     "8",
     "9"
-  ]; // Combinaciones posibles: 1.679.616
+  ] // Combinaciones posibles: 1.679.616
 
-  let codigo = "";
-  for (i=0; i<4; i++) {
-    codigo += elementoAleatorio(caracteresPosibles);
-  }  
-  console.log('Código generado: ', codigo);
-  return codigo;
+  let codigo = ""
+  for (i = 0; i < 4; i++) {
+    codigo += elementoAleatorio(caracteresPosibles)
+  }
+  console.log("Código generado: ", codigo)
+  return codigo
 }
 
 function elementoAleatorio(array) {
-  const max = array.length;
-  const valorAleatorio = Math.floor(Math.random() * max);
-  return array[valorAleatorio];
+  const max = array.length
+  const valorAleatorio = Math.floor(Math.random() * max)
+  return array[valorAleatorio]
 }
