@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 import {
   KeyboardAvoidingView,
   StatusBar,
@@ -11,10 +11,10 @@ import {
   BackHandler,
   TouchableOpacity,
   Text
-} from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import _ from "lodash";
-import { connect } from "react-redux";
+} from "react-native"
+import EStyleSheet from "react-native-extended-stylesheet"
+import _ from "lodash"
+import { connect } from "react-redux"
 
 import {
   buscarJugadoresAdministradas,
@@ -26,109 +26,109 @@ import {
   buscarDetalleAdmin,
   modifarReglasBD,
   reinicarReglas
-} from "../actions";
-import { Container } from "../components/Container";
-import { BotonPrincipal } from "../components/BotonPrincipal";
-import { Titulo } from "../components/Titulo";
-import { QuinielaReglau } from "../components/QuinielaReglau";
-import color from "../comun/colors";
-import { Spinner } from "../components/Spinner";
+} from "../actions"
+import { Container } from "../components/Container"
+import { BotonPrincipal } from "../components/BotonPrincipal"
+import { Titulo } from "../components/Titulo"
+import { QuinielaReglau } from "../components/QuinielaReglau"
+import color from "../comun/colors"
+import { Spinner } from "../components/Spinner"
 
 class DatosAdmin extends Component {
   static navigationOptions = {
     header: null
-  };
+  }
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       menu: "yes",
       validando: false,
       admin: {}
-    };
-    this.run = this.run.bind(this);
-    this.run2 = this.run2.bind(this);
-    this.handleBackButton = this.handleBackButton.bind(this);
+    }
+    this.run = this.run.bind(this)
+    this.run2 = this.run2.bind(this)
+    this.handleBackButton = this.handleBackButton.bind(this)
   }
 
   componentDidMount() {
-    this.run();
+    this.run()
 
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
       this.keyboardWillShow
-    );
+    )
     this.keyboardWillHideListener = Keyboard.addListener(
       "keyboardDidHide",
       this.keyboardWillHide
-    );
+    )
 
-    console.log("(DatosAmin) componentDidMount");
-    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
+    console.log("(DatosAmin) componentDidMount")
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton)
   }
 
   componentWillUnmount() {
-    this.setState({ validando: false });
-    this.keyboardWillShowListener.remove();
-    this.keyboardWillHideListener.remove();
+    this.setState({ validando: false })
+    this.keyboardWillShowListener.remove()
+    this.keyboardWillHideListener.remove()
 
-    console.log("(DatosAmin) componentWillUnmount");
-    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
+    console.log("(DatosAmin) componentWillUnmount")
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton)
   }
 
   handleBackButton() {
-    console.log("(DatosAmin) handleBackButton");
-    console.log("(DatosAmin) this.props ", this.props);
-    this.props.screenProps.rootNavigation.goBack();
+    console.log("(DatosAmin) handleBackButton")
+    console.log("(DatosAmin) this.props ", this.props)
+    this.props.screenProps.rootNavigation.goBack()
     // this.props.navigation.goBack();
-    return true;
+    return true
   }
 
   cancelar() {
-    this.props.navigation.goBack();
+    this.props.navigation.goBack()
   }
 
   run = async () => {
     try {
       //   console.log(this.props.navigation.state.params.quiniela.uid);
-      this.setState({ validando: true });
-      const admin1 = await this.props.buscarDetalleAdmin(this.props.admin);
-      const r1 = admin1.toJSON();
-      this.setState({ admin: r1 });
-      this.setState({ validando: false });
+      this.setState({ validando: true })
+      const admin1 = await this.props.buscarDetalleAdmin(this.props.admin)
+      const r1 = admin1.toJSON()
+      this.setState({ admin: r1 })
+      this.setState({ validando: false })
       // console.log(r1);
     } catch (e) {
       //    console.log(e);
-      this.setState({ validando: false });
+      this.setState({ validando: false })
     }
-  };
+  }
 
   run2 = async () => {
     try {
-      this.setState({ validando: true });
+      this.setState({ validando: true })
       const test = await this.props.modifarReglasBD(
         this.props.quiniela.uid,
         this.props.reglast
-      );
+      )
       //   console.log(test);
-      this.run();
-      this.setState({ validando: false });
-      this.props.navigation.goBack();
+      this.run()
+      this.setState({ validando: false })
+      this.props.navigation.goBack()
     } catch (e) {
       //   console.log(e);
-      this.setState({ validando: false });
+      this.setState({ validando: false })
 
-      this.props.navigation.goBack();
+      this.props.navigation.goBack()
     }
-  };
+  }
 
   keyboardWillShow = () => {
-    this.setState({ menu: "no" });
-  };
+    this.setState({ menu: "no" })
+  }
 
   keyboardWillHide = () => {
-    this.setState({ menu: "yes" });
-  };
+    this.setState({ menu: "yes" })
+  }
 
   // createDataSource({ quinielas }) {
   //   const ds = new ListView.DataSource({
@@ -138,15 +138,15 @@ class DatosAdmin extends Component {
   // }
 
   crear() {
-    this.run2();
+    this.run2()
     // console.log('TEST');
     // navigate('EliminarApuesta');
   }
 
   tusquinielas() {
     // console.log('TEST2');
-    this.run();
-    this.props.navigation.goBack();
+    this.run()
+    this.props.navigation.goBack()
   }
 
   renderRow(regla) {
@@ -157,11 +157,11 @@ class DatosAdmin extends Component {
         quinielan={this.props.quiniela.quinielaNombre}
         codigo={this.props.quiniela.codigoq}
       />
-    );
+    )
   }
 
   pressed(e) {
-    Keyboard.dismiss();
+    Keyboard.dismiss()
   }
 
   // menustatus() {
@@ -197,13 +197,10 @@ class DatosAdmin extends Component {
 
   loading(reglas) {
     if (this.state.validando) {
-      return <Spinner size="large" />;
+      return <Spinner size="large" />
     }
     return (
       <View>
-        <Text style={styles.subText}>
-          Email del administrador: {this.state.admin.email}
-        </Text>
         <Text style={styles.subText}>
           Nombre del administrador: {this.state.admin.nombre}
         </Text>
@@ -215,7 +212,7 @@ class DatosAdmin extends Component {
           Código de activación: {this.props.quiniela.codigoq}
         </Text>
       </View>
-    );
+    )
   }
 
   render() {
@@ -243,7 +240,7 @@ class DatosAdmin extends Component {
           </BotonPrincipal>
         </KeyboardAvoidingView>
       </Container>
-    );
+    )
   }
 }
 
@@ -310,20 +307,23 @@ const styles = EStyleSheet.create({
     color: color.$formButtonTextColor,
     textAlign: "center"
   }
-});
+})
 const mapStateToProps = state => {
-  const reglast = state.creacionquinielas.reglas;
+  const reglast = state.creacionquinielas.reglas
   const reglas = Object.keys(reglast).map(key => ({
     key,
     value: reglast[key]
-  }));
+  }))
 
   return {
     quiniela: state.quini,
     admin: state.admin.admin
-  };
-};
+  }
+}
 
-export default connect(mapStateToProps, {
-  buscarDetalleAdmin
-})(DatosAdmin);
+export default connect(
+  mapStateToProps,
+  {
+    buscarDetalleAdmin
+  }
+)(DatosAdmin)

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Text, View, TextInput, TouchableOpacity, Keyboard } from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import PropTypes from 'prop-types';
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { Text, View, TextInput, TouchableOpacity, Keyboard } from "react-native"
+import EStyleSheet from "react-native-extended-stylesheet"
+import PropTypes from "prop-types"
 
 import {
   emailChanged,
@@ -10,57 +10,57 @@ import {
   loginUser,
   createUser,
   nombreChanged,
-  createUserFaileded,
-} from '../../actions';
-import styles from './styles';
-import { Spinner } from '../Spinner';
-import color from '../../comun/colors';
+  createUserFaileded
+} from "../../actions"
+import styles from "./styles"
+import { Spinner } from "../Spinner"
+import color from "../../comun/colors"
 
 // class Form extends Component<{}> {
 class Form extends Component {
   constructor() {
-    super();
-    this.registrar = this.registrar.bind(this);
+    super()
+    this.registrar = this.registrar.bind(this)
   }
 
   registrarEmail(email) {
-    this.props.emailChanged(email);
+    this.props.emailChanged(email)
   }
 
   registrarNombre(nombre) {
-    this.props.nombreChanged(nombre);
+    this.props.nombreChanged(nombre)
   }
 
   registrarPassword(password) {
-    this.props.passwordChanged(password);
+    this.props.passwordChanged(password)
   }
 
   registrar() {
-    Keyboard.dismiss();
-    const { email, password, nombre } = this.props;
+    Keyboard.dismiss()
+    const { email, password, nombre } = this.props
 
-    if (this.props.type === 'Entrar') {
+    if (this.props.type === "Entrar") {
       //  console.log('AJAXSX');
-      this.props.loginUser({ email, password });
+      this.props.loginUser({ email, password })
     }
 
-    if (this.props.type === 'Registrarse') {
-      if (nombre.length > 0) {
-        this.props.createUser({ email, password, nombre });
+    if (this.props.type === "Registrarse") {
+      if (nombre.length > 0 && nombre.length < 11) {
+        this.props.createUser({ email, password, nombre })
       } else {
-        this.props.createUserFaileded();
+        this.props.createUserFaileded()
       }
     }
   }
 
   status() {
     if (this.props.authenticating) {
-      return <Spinner style={styles.buttonText} size="small" />;
+      return <Spinner style={styles.buttonText} size="small" />
     }
-    return <Text style={styles.buttonText}>{this.props.type}</Text>;
+    return <Text style={styles.buttonText}>{this.props.type}</Text>
   }
   nombre() {
-    if (this.props.type === 'Registrarse') {
+    if (this.props.type === "Registrarse") {
       return (
         <View style={styles2.conta}>
           <View style={styles2.vire} />
@@ -78,9 +78,9 @@ class Form extends Component {
           />
           <View style={styles2.vire} />
         </View>
-      );
+      )
     }
-    return <View />;
+    return <View />
   }
 
   render() {
@@ -123,13 +123,16 @@ class Form extends Component {
         </View>
         <View style={styles2.conta}>
           <View style={styles2.vire} />
-          <TouchableOpacity style={styles.button} onPress={() => this.registrar()}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.registrar()}
+          >
             {this.status()}
           </TouchableOpacity>
           <View style={styles2.vire} />
         </View>
       </View>
-    );
+    )
   }
 }
 
@@ -141,37 +144,40 @@ const mapStateToProps = state => ({
   placeholderc: state.auth.placeholderc,
   placeholdern: state.auth.placeholdern,
   error: state.auth.error,
-  authenticating: state.auth.authenticating,
-});
+  authenticating: state.auth.authenticating
+})
 
-export default connect(mapStateToProps, {
-  emailChanged,
-  passwordChanged,
-  loginUser,
-  createUser,
-  nombreChanged,
-  createUserFaileded,
-})(Form);
+export default connect(
+  mapStateToProps,
+  {
+    emailChanged,
+    passwordChanged,
+    loginUser,
+    createUser,
+    nombreChanged,
+    createUserFaileded
+  }
+)(Form)
 
 const styles2 = EStyleSheet.create({
   conta: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
   },
   vire: {
-    flex: 1,
+    flex: 1
   },
   signupText: {
     color: color.$signupTextColor,
     fontSize: 16,
-    fontWeight: '500',
-    paddingHorizontal: 20,
+    fontWeight: "500",
+    paddingHorizontal: 20
   },
   signupButton: {
     color: color.$signupButtonColor,
     fontSize: 16,
-    fontWeight: '500',
-    paddingHorizontal: 20,
-  },
-});
+    fontWeight: "500",
+    paddingHorizontal: 20
+  }
+})
