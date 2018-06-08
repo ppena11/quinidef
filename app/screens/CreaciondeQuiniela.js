@@ -241,10 +241,10 @@ class TusQuinielas extends Component {
 
     //  console.log(`quinielaNombre.length ${quinielaNombre.length}`);
     //  console.log(`quinielaNombre ${quinielaNombre}`);
-    if (quinielaNombre != "" && quinielaNombre.length < 11) {
+    if (quinielaNombre != "" && quinielaNombre.length < 21) {
       this.run(goBack, quinielaNombre.toUpperCase(), torneo, torneoid, uid1)
     } else {
-      alert("Introduce un nombre de máximo 10 caracteres")
+      alert("Introduce un nombre de máximo 20 caracteres")
     }
   }
 

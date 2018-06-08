@@ -28,7 +28,7 @@ export function manejarError(errorCode) {
       return {
         placeholdern: defaultplaceholdern,
         authenticating: false,
-        error: "Nombre inválido, debe ser menor de 10 caracteres"
+        error: "Nombre inválido, debe ser menor de 20 caracteres"
       }
       break
     case "auth/user-not-found":

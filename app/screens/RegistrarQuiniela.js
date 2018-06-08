@@ -143,11 +143,11 @@ class RegistrarQuiniela extends Component {
       Keyboard.dismiss()
       if (
         this.state.inputfield.length > 0 &&
-        this.state.inputfield.length < 11
+        this.state.inputfield.length < 21
       ) {
         this.run(navigate)
       } else {
-        alert("Por favor introduce un nombre válido menor de 10 caracteres")
+        alert("Por favor introduce un nombre válido menor de 20 caracteres")
         this.setState({ validando: false })
       }
     }

@@ -1,53 +1,55 @@
-import React from "react";
-import { StackNavigator, TabNavigator, TabBarBottom } from "react-navigation";
-import { TouchableOpacity } from "react-native";
+import React from "react"
+import { StackNavigator, TabNavigator, TabBarBottom } from "react-navigation"
+import { TouchableOpacity } from "react-native"
 
-import Login from "../screens/Login";
-import ReiniciarContrasena from "../screens/ReiniciarContrasena";
-import CrearCuenta from "../screens/CrearCuenta";
+import Login from "../screens/Login"
+import ReiniciarContrasena from "../screens/ReiniciarContrasena"
+import CrearCuenta from "../screens/CrearCuenta"
 // import ConfirmacionCorreo from "../screens/ConfirmacionCorreo";
-import Home from "../screens/Home";
-import TusQuinielas from "../screens/TusQuinielas";
-import QuinielasAdministradas from "../screens/QuinielasAdministradas";
-import CreaciondeQuiniela from "../screens/CreaciondeQuiniela";
-import DetalleQuinielaAdministrada from "../screens/DetalleQuinielaAdministrada";
-import UnirseAQuiniela from "../screens/UnirseAQuiniela";
-import RegistrarQuiniela from "../screens/RegistrarQuiniela";
-import ReglasAdmin from "../screens/ReglasAdmin";
-import Apuestas from "../screens/Apuestas";
-import Posiciones from "../screens/Posiciones";
-import Reglas from "../screens/Reglas";
-import DetallesApuestas from "../screens/DetallesApuestas";
-import EliminarQuiniela from "../screens/EliminarQuiniela";
-import Mas from "../screens/Mas";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import EliminarApuesta from "../screens/EliminarApuesta";
-import EliminarQuinielaAdministrada from "../screens/EliminarQuinielaAdministrada";
-import ModalScreen from "../screens/ModalScreen";
-import DatosAdmin from "../screens/DatosAdmin";
+import Home from "../screens/Home"
+import TusQuinielas from "../screens/TusQuinielas"
+import QuinielasAdministradas from "../screens/QuinielasAdministradas"
+import CreaciondeQuiniela from "../screens/CreaciondeQuiniela"
+import DetalleQuinielaAdministrada from "../screens/DetalleQuinielaAdministrada"
+import UnirseAQuiniela from "../screens/UnirseAQuiniela"
+import RegistrarQuiniela from "../screens/RegistrarQuiniela"
+import ReglasAdmin from "../screens/ReglasAdmin"
+import Apuestas from "../screens/Apuestas"
+import Posiciones from "../screens/Posiciones"
+import Reglas from "../screens/Reglas"
+import DetallesApuestas from "../screens/DetallesApuestas"
+import EliminarQuiniela from "../screens/EliminarQuiniela"
+import Mas from "../screens/Mas"
+import Ionicons from "react-native-vector-icons/Ionicons"
+import EliminarApuesta from "../screens/EliminarApuesta"
+import EliminarQuinielaAdministrada from "../screens/EliminarQuinielaAdministrada"
+import ModalScreen from "../screens/ModalScreen"
+import DatosAdmin from "../screens/DatosAdmin"
 
-import CargandoHome from "../screens/CargandoHome";
-import { HeaderText } from "../components/HeaderText";
-import color from "../comun/colors";
+import CargandoHome from "../screens/CargandoHome"
+import { HeaderText } from "../components/HeaderText"
+import color from "../comun/colors"
 
 const stackRouterConfig = {
   navigationOptions: ({ navigation }) => {
-    const { params } = navigation.state;
+    const { params } = navigation.state
 
-    let titulo = params ? `${params.quiniela.quinielaNombre}\n${params.quiniela.nombreapuesta} - ${params.quiniela.puntos} pts` : 'Error Header routes';
+    let titulo = params
+      ? `${params.quiniela.quinielaNombre}\n${params.quiniela.nombreapuesta} `
+      : "Error Header routes"
 
     return {
-      headerTitle: <HeaderText texto={titulo}/>,
+      headerTitle: <HeaderText texto={titulo} />,
       headerTintColor: color.$headerImageTintColor,
       headerStyle: {
-        backgroundColor: color.$headerBackgroundColor,
+        backgroundColor: color.$headerBackgroundColor
       },
-      headerRight: (<TouchableOpacity/>),
-      backTitle: null,
-    };
+      headerRight: <TouchableOpacity />,
+      backTitle: null
+    }
   },
   initialRouteName: "CargandoHome"
-};
+}
 
 const PosicionesStack = StackNavigator({
   HomePosiciones: {
@@ -56,7 +58,7 @@ const PosicionesStack = StackNavigator({
   DetallesPosiciones: {
     screen: DetallesApuestas
   }
-});
+})
 
 const MasStack = StackNavigator({
   Mas: {
@@ -68,7 +70,7 @@ const MasStack = StackNavigator({
   DatosAdmin: {
     screen: DatosAdmin
   }
-});
+})
 
 const RootNavigatort = TabNavigator(
   {
@@ -88,21 +90,21 @@ const RootNavigatort = TabNavigator(
   {
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
+        const { routeName } = navigation.state
+        let iconName
         if (routeName === "Apuestas") {
-          iconName = `md-football${focused ? "" : ""}`;
+          iconName = `md-football${focused ? "" : ""}`
         } else if (routeName === "Posiciones") {
-          iconName = `md-analytics${focused ? "" : ""}`;
+          iconName = `md-analytics${focused ? "" : ""}`
         } else if (routeName === "Reglas") {
-          iconName = `md-flag${focused ? "" : ""}`;
+          iconName = `md-flag${focused ? "" : ""}`
         } else if (routeName === "Mas") {
-          iconName = `md-options${focused ? "" : ""}`;
+          iconName = `md-options${focused ? "" : ""}`
         }
 
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
-        return <Ionicons name={iconName} size={25} color={tintColor} />;
+        return <Ionicons name={iconName} size={25} color={tintColor} />
       }
       // tabBarOnPress: ({ previousScene, scene, jumpToIndex }) => {
       //   console.log('previousScene:', previousScene);
@@ -115,7 +117,7 @@ const RootNavigatort = TabNavigator(
       activeTintColor: color.$tabActiveTintColor,
       inactiveTintColor: color.$tabInactiveTintColor,
       activeBackgroundColor: color.$tabActiveBackgroundColor,
-      inactiveBackgroundColor: color.$tabInactiveBackgroundColor,
+      inactiveBackgroundColor: color.$tabInactiveBackgroundColor
     },
 
     tabBarComponent: TabBarBottom,
@@ -126,7 +128,7 @@ const RootNavigatort = TabNavigator(
     // lazy: false,
     // backBehavior : 'initialRoute',
   }
-);
+)
 
 const RootNavigator = StackNavigator(
   {
@@ -198,6 +200,6 @@ const RootNavigator = StackNavigator(
     }
   },
   stackRouterConfig
-);
+)
 
-export default RootNavigator;
+export default RootNavigator
