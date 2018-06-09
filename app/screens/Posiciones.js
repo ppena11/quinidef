@@ -119,7 +119,7 @@ class Posiciones extends Component {
           <View style={styles.headerContentStyle2}>
             <Text style={styles.headerTextStyle}>Jugador</Text>
           </View>
-          <View style={styles.headerContentStyle1}>
+          <View style={styles.headerContentStyle3}>
             <Text style={styles.headerTextStyle}>Puntos</Text>
           </View>
         </View>
@@ -182,10 +182,17 @@ const styles = EStyleSheet.create({
   headerContentStyle1: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'flex-start',
   },
   headerContentStyle2: {
-    flex: 2,
+    flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerContentStyle3: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
   },
   buttonText: {
     fontSize: 14,
