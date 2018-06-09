@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import firebase from "firebase";
+import React, { Component } from "react"
+import firebase from "firebase"
 import {
   KeyboardAvoidingView,
   StatusBar,
@@ -13,12 +13,12 @@ import {
   Text,
   BackHandler,
   Switch
-} from "react-native";
-import { Spinner } from "../components/Spinner";
-import EStyleSheet from "react-native-extended-stylesheet";
-import _ from "lodash";
-import { connect } from "react-redux";
-import { NavigationActions, HeaderBackButton } from "react-navigation";
+} from "react-native"
+import { Spinner } from "../components/Spinner"
+import EStyleSheet from "react-native-extended-stylesheet"
+import _ from "lodash"
+import { connect } from "react-redux"
+import { NavigationActions, HeaderBackButton } from "react-navigation"
 import {
   buscarJugadoresAdministradas,
   buscarJugadoresAdministradasT,
@@ -31,19 +31,19 @@ import {
   buscarPorActivar,
   buscarActivos,
   buscarCodigos,
-  manejarActivacion,
-} from "../actions";
-import { Container } from "../components/Container";
-import { BotonPrincipal } from "../components/BotonPrincipal";
-import { Card } from "../components/Card";
-import { CardSectionT } from "../components/CardSectionT";
-import { Titulo } from "../components/Titulo";
-import { QuinielaAdminItem } from "../components/QuinielaAdminItem";
-import { HeaderText } from "../components/HeaderText";
-import color from "../comun/colors";
+  manejarActivacion
+} from "../actions"
+import { Container } from "../components/Container"
+import { BotonPrincipal } from "../components/BotonPrincipal"
+import { Card } from "../components/Card"
+import { CardSectionT } from "../components/CardSectionT"
+import { Titulo } from "../components/Titulo"
+import { QuinielaAdminItem } from "../components/QuinielaAdminItem"
+import { HeaderText } from "../components/HeaderText"
+import color from "../comun/colors"
 
 class DetalleQuinielaAdministrada extends Component {
-  static this2 = null;
+  static this2 = null
   constructor(props) {
     super(props)
     this.state = {
@@ -53,26 +53,32 @@ class DetalleQuinielaAdministrada extends Component {
       menu: "yes",
       refdb: firebase
         .database()
-        .ref(`/quinielas/${this.props.navigation.state.params.quiniela.uid}/info/`),
+        .ref(
+          `/quinielas/${this.props.navigation.state.params.quiniela.uid}/info/`
+        ),
       refdbj: firebase
         .database()
-        .ref(`/quinielas/${this.props.navigation.state.params.quiniela.uid}/clasificacion/`)
+        .ref(
+          `/quinielas/${
+            this.props.navigation.state.params.quiniela.uid
+          }/clasificacion/`
+        )
     }
 
-    this.run1 = this.run1.bind(this);
-    this.handleBackButton = this.handleBackButton.bind(this);
-    this2 = this;
+    this.run1 = this.run1.bind(this)
+    this.handleBackButton = this.handleBackButton.bind(this)
+    this2 = this
   }
 
   static navigationOptions = {
-    headerTitle: <HeaderText texto="Administración Quiniela"/>,
+    headerTitle: <HeaderText texto="Administración Quiniela" />,
     headerLeft: (
       <HeaderBackButton
-        onPress = {() => this2.cancelar()}
-        tintColor = {color.$headerImageTintColor}
+        onPress={() => this2.cancelar()}
+        tintColor={color.$headerImageTintColor}
       />
     )
-  };
+  }
 
   componentDidMount() {
     // Buscar los jugaroes de la quiniela y su estado
@@ -119,8 +125,8 @@ class DetalleQuinielaAdministrada extends Component {
   }
 
   handleBackButton() {
-    this.cancelar();
-    return true;
+    this.cancelar()
+    return true
   }
 
   run1 = async () => {
@@ -383,20 +389,16 @@ class DetalleQuinielaAdministrada extends Component {
             <View style={styles2.vire} />
           </View> */}
 
-          <View>
-            <View>
-              <FlatList
-                data={this.props.jugadores}
-                keyExtractor={item => item.uid}
-                renderItem={({ item }) => this.renderRow(item)}
-                //onEndReached={this.handleLoadMore}
-                onEndReachedThershold={0}
-                ref={ref => {
-                  this.listRef = ref
-                }}
-              />
-            </View>
-          </View>
+          <FlatList
+            data={this.props.jugadores}
+            keyExtractor={item => item.uid}
+            renderItem={({ item }) => this.renderRow(item)}
+            //onEndReached={this.handleLoadMore}
+            onEndReachedThershold={0}
+            ref={ref => {
+              this.listRef = ref
+            }}
+          />
         </View>
       )
     } else {
@@ -431,7 +433,8 @@ class DetalleQuinielaAdministrada extends Component {
           <View style={styles.titulo}>
             <Titulo>
               {this.props.navigation.state.params.quiniela.quinielaNombre}
-              {"\n"}Código:{" "}{this.props.navigation.state.params.quiniela.codigoq}
+              {"\n"}Código:{" "}
+              {this.props.navigation.state.params.quiniela.codigoq}
             </Titulo>
           </View>
           {this.activa()}
@@ -440,9 +443,6 @@ class DetalleQuinielaAdministrada extends Component {
               Codigo: {this.props.navigation.state.params.quiniela.codigoq}
             </Text>
           </View> */}
-          <View style={styles.bottom}>
-            {/* {this.menustatus()} */}
-          </View>
         </View>
       </Container>
     )
@@ -454,60 +454,60 @@ const styles = EStyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     position: "relative",
-    alignItems: "center",
+    alignItems: "center"
   },
   headerContentStyle1: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "center"
   },
   headerTextStyle11: {
     fontSize: 18,
     color: color.$qxaHeaderTextStyle,
     padding: 5,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   switchStyle: {
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 10,
-    marginRight: 10,
+    marginRight: 10
   },
 
   containerStyle: {
     justifyContent: "space-around",
-    flexDirection: "row",
+    flexDirection: "row"
   },
   headerTextStyle: {
     fontSize: 16,
     color: color.$qxaHeaderTextStyle,
-    alignContent: "center",
+    alignContent: "center"
   },
 
   headerTextStyle1: {
     fontSize: 12,
     color: color.$qxaHeaderTextStyle,
     alignContent: "center",
-    fontWeight: "500",
+    fontWeight: "500"
   },
   form: {
     flex: 1,
     justifyContent: "space-between",
-    flexDirection: "column",
+    flexDirection: "column"
   },
   titulo: {
     padding: 1,
-    marginTop: 5,
+    marginTop: 5
   },
   cuerpo: {
-    flex: 8,
+    flex: 14
   },
   bottom: {
     flex: 2,
     padding: 10,
-    justifyContent: "flex-end",
+    justifyContent: "flex-end"
   },
   inputBox: {
     flex: 8,
@@ -516,7 +516,7 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     color: color.$formInputBoxColor,
-    marginVertical: 10,
+    marginVertical: 10
   }
 })
 
@@ -561,17 +561,20 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, {
-  buscarJugadoresAdministradas,
-  buscarJugadoresAdministradasT,
-  buscarJugadoresAdministradasMaxT,
-  buscarJugadoresAdministradasMax,
-  BuscarJugadorTexto,
-  reloadingJugadores,
-  buscarDisponibles,
-  irAdministradas,
-  buscarPorActivar,
-  buscarActivos,
-  buscarCodigos,
-  manejarActivacion
-})(DetalleQuinielaAdministrada);
+export default connect(
+  mapStateToProps,
+  {
+    buscarJugadoresAdministradas,
+    buscarJugadoresAdministradasT,
+    buscarJugadoresAdministradasMaxT,
+    buscarJugadoresAdministradasMax,
+    BuscarJugadorTexto,
+    reloadingJugadores,
+    buscarDisponibles,
+    irAdministradas,
+    buscarPorActivar,
+    buscarActivos,
+    buscarCodigos,
+    manejarActivacion
+  }
+)(DetalleQuinielaAdministrada)
