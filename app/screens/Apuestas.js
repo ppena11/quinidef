@@ -145,11 +145,11 @@ class Apuestas extends Component {
         const y = moment(hor.time)
 
         k.subtract(1800, "seconds")
-        if (moment(y).isAfter(k)) {
-          if (!n.bloqueado) {
-            this.props.bloquearPartido(this.props.quiniela.torneoid)
-          }
-        }
+        // if (moment(y).isAfter(k)) {
+        //   if (!n.bloqueado) {
+        //     this.props.bloquearPartido(this.props.quiniela.torneoid)
+        //   }
+        // }
         return !moment(y).isAfter(k)
       })
 
@@ -231,25 +231,25 @@ class Apuestas extends Component {
     )
   }
 
-  menustatus() {
-    if (this.state.menu === "yes") {
-      return (
-        <View style={styles.bottom}>
-          <View style={styles.conta}>
-            <View style={styles.vire} />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.crear()}
-            >
-              {this.status()}
-            </TouchableOpacity>
-            <View style={styles.vire} />
-          </View>
-        </View>
-      )
-    }
-    return <View />
-  }
+  // menustatus() {
+  //   if (this.state.menu === "yes") {
+  //     return (
+  //       <View style={styles.bottom}>
+  //         <View style={styles.conta}>
+  //           <View style={styles.vire} />
+  //           <TouchableOpacity
+  //             style={styles.button}
+  //             onPress={() => this.crear()}
+  //           >
+  //             {this.status()}
+  //           </TouchableOpacity>
+  //           <View style={styles.vire} />
+  //         </View>
+  //       </View>
+  //     )
+  //   }
+  //   return <View />
+  // }
 
   status() {
     if (this.state.validando) {

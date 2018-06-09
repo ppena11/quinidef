@@ -430,10 +430,8 @@ class DetalleQuinielaAdministrada extends Component {
         <View style={styles.form}>
           <View style={styles.titulo}>
             <Titulo>
-              {/* Quiniela:{" "} */}
               {this.props.navigation.state.params.quiniela.quinielaNombre}
-              {"\n"}Código:{" "}
-              {this.props.navigation.state.params.quiniela.codigoq}
+              {"\n"}Código:{" "}{this.props.navigation.state.params.quiniela.codigoq}
             </Titulo>
           </View>
           {this.activa()}
@@ -443,7 +441,7 @@ class DetalleQuinielaAdministrada extends Component {
             </Text>
           </View> */}
           <View style={styles.bottom}>
-            {this.menustatus()}
+            {/* {this.menustatus()} */}
           </View>
         </View>
       </Container>
@@ -507,7 +505,7 @@ const styles = EStyleSheet.create({
     flex: 8,
   },
   bottom: {
-    flex: 5,
+    flex: 2,
     padding: 10,
     justifyContent: "flex-end",
   },
