@@ -49,6 +49,7 @@ class QuinielasAdministradas extends Component {
     this.state = {
       menu: "yes",
       validando: false,
+      botonesDeshabilitados: false,
       refdb: firebase
         .database()
         .ref(`/users/${firebase.auth().uid}/quinielasadministradas/`)
@@ -56,7 +57,6 @@ class QuinielasAdministradas extends Component {
 
     this.run = this.run.bind(this);
     this.handleBackButton = this.handleBackButton.bind(this);
-    // this.tusquinielas = this.tusquinielas.bind(this);
     this2 = this;
   }
 
@@ -69,6 +69,14 @@ class QuinielasAdministradas extends Component {
       />
     )
   };
+
+  evitaMultiTouches = (funcion) => {
+    this.setState({botonesDeshabilitados: true});
+    setTimeout(() => {
+      this.setState({botonesDeshabilitados: false});
+    }, 5000);
+    funcion();
+  }
 
   componentDidMount() {
     this.run()
@@ -219,7 +227,10 @@ class QuinielasAdministradas extends Component {
     if (this.props.mostrarMenus === "yes") {
       return (
         <View>
-          <BotonPrincipal onPress={() => this.crear()}>
+          <BotonPrincipal
+            botonDeshabilitado={this.state.botonesDeshabilitados}
+            onPress={() => this.evitaMultiTouches(() => this.crear())}
+          >
             Crear Nueva Quiniela
           </BotonPrincipal>
           {/* <BotonPrincipal onPress={() => this.tusquinielas()}>

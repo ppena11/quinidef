@@ -20,10 +20,22 @@ import {
 
 class QuinielaAdminItem extends Component {
   constructor(props) {
-    super(props)
-    this.state = { toggled: false, actualizando: false }
+    super(props)    
+    this.state = {
+      toggled: false,
+      actualizando: false,
+      botonesDeshabilitados: false
+    }
     this.run = this.run.bind(this)
     this.onRowPress = this.onRowPress.bind(this)
+  }
+
+  evitaMultiTouches = (funcion) => {
+    this.setState({botonesDeshabilitados: true});
+    setTimeout(() => {
+      this.setState({botonesDeshabilitados: false});
+    }, 5000);
+    funcion();
   }
 
   detalleQuiniela(qu) {
@@ -58,13 +70,13 @@ class QuinielaAdminItem extends Component {
 
   componentDidMount() {
     const { activo, puntos, nombre, uid } = this.props.jugador
-    console.log(this.props.jugador)
+    // console.log(this.props.jugador)
     this.setState({ toggled: this.props.jugadores[uid].activo })
   }
 
   pressed(e) {
-    console.log(this.props.disponibles["quinielasDisponibles"]);
-    console.log(this.props.disponibles);
+    // console.log(this.props.disponibles["quinielasDisponibles"]);
+    // console.log(this.props.disponibles);
     // if (this.props.info.quinielasDisponibles == 0 && e) {
       if (this.props.disponibles["quinielasDisponibles"] <= 0 && e) {
       alert("Debes adquirir más quinielas");
@@ -89,12 +101,12 @@ class QuinielaAdminItem extends Component {
       // const test = await this.props.cambiarEstatusQuiniela(jug, qu, e1);
       // this.setState({ toggled: this.props.jugadores[uid].activo });
       // console.log(test);
-      console.log(qu)
-      console.log(jug.nombreapuesta)
+      // console.log(qu)
+      // console.log(jug.nombreapuesta)
 
       const validarusuario1 = await this.props.validarUsuario(qu, jug)
       const r1 = validarusuario1.toJSON()
-      console.log(r1)
+      // console.log(r1)
       if (r1 !== null) {
         const test1 = await this.props.manejarDisponibles(qu, e1)
         // console.log(test1);
@@ -115,7 +127,7 @@ class QuinielaAdminItem extends Component {
 
       // this.setState({ validando: false });
     } catch (e) {
-      console.log(e)
+      // console.log(e)
       // this.setState({ validando: false });
     }
   }
@@ -149,7 +161,8 @@ class QuinielaAdminItem extends Component {
         <CardSection>
           <TouchableOpacity
             style={thumbnailContainerStyle}
-            onPress={() => this.onRowPress()}
+            disabled={this.state.botonesDeshabilitados}
+            onPress={() => this.evitaMultiTouches(() => this.onRowPress())}
           >
             {this.iconstatus(uid)}
           </TouchableOpacity>

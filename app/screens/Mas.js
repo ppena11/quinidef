@@ -43,12 +43,21 @@ class Mas extends Component {
       partidos: {},
       apuestas: {},
       validando: false,
-      menu: "yes"
+      menu: "yes",
+      botonesDeshabilitados: false
     };
 
     this.renderRow = this.renderRow.bind(this);
     this.preseed = this.preseed.bind(this);
     this.handleBackButton = this.handleBackButton.bind(this);
+  }
+
+  evitaMultiTouches = (funcion) => {
+    this.setState({botonesDeshabilitados: true});
+    setTimeout(() => {
+      this.setState({botonesDeshabilitados: false});
+    }, 5000);
+    funcion();
   }
 
   componentDidMount() {
@@ -94,7 +103,8 @@ class Mas extends Component {
         nav={this.props.navigation}
         quiniela={this.props.quiniela}
         menu={partidos}
-        onPress={() => this.preseed(partidos)}
+        botonDeshabilitado={this.state.botonesDeshabilitados}
+        onPress={() => this.evitaMultiTouches(() => this.preseed(partidos))}
       />
     );
   }

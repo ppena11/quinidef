@@ -40,7 +40,8 @@ class UnirseAQuiniela extends Component {
 
     this.state = {
       inputfield: [],
-      validando: false
+      validando: false,
+      botonesDeshabilitados: false
     };
 
     this.updateInputValue1 = this.updateInputValue1.bind(this);
@@ -52,6 +53,14 @@ class UnirseAQuiniela extends Component {
     this.inputs = {};
 
     this.handleBackButton = this.handleBackButton.bind(this);
+  }
+
+  evitaMultiTouches = (funcion) => {
+    this.setState({botonesDeshabilitados: true});
+    setTimeout(() => {
+      this.setState({botonesDeshabilitados: false});
+    }, 5000);
+    funcion();
   }
 
   componentDidMount() {
@@ -386,7 +395,8 @@ class UnirseAQuiniela extends Component {
             <View style={styles.vire} />
             <TouchableOpacity
               style={styles.button}
-              onPress={() => this.buscarCodigo(uid1)}
+              disabled={this.state.botonesDeshabilitados}
+              onPress={() => this.evitaMultiTouches(() => this.buscarCodigo(uid1))}
             >
               {this.status()}
             </TouchableOpacity>
@@ -394,7 +404,10 @@ class UnirseAQuiniela extends Component {
           </View>
 
           <View>
-            <BotonPrincipal onPress={() => this.cancelar()}>
+            <BotonPrincipal
+              botonDeshabilitado={this.state.botonesDeshabilitados}
+              onPress={() => this.evitaMultiTouches(() => this.cancelar())}
+            >
               Cancelar
             </BotonPrincipal>
           </View>

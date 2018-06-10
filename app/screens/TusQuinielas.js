@@ -37,7 +37,8 @@ class TusQuinielas extends Component {
     super(props);
     this.state = {
       validando: false,
-      qu: {}
+      qu: {},
+      botonesDeshabilitados: false
     };
 
     this.loading = this.loading.bind(this);
@@ -50,7 +51,7 @@ class TusQuinielas extends Component {
   static navigationOptions = {
     headerTitle: <HeaderText texto="Tus Quinielas"/>,
     headerLeft: (
-      <TouchableOpacity onPress={ () => this2.alertLogout() }>
+      <TouchableOpacity onPress={() => this2.alertLogout()}>
         <Image
           style={{
             height: 30,
@@ -65,6 +66,14 @@ class TusQuinielas extends Component {
     ),
     headerRight: (<TouchableOpacity/>),
   };
+
+  evitaMultiTouches = (funcion) => {
+    this.setState({botonesDeshabilitados: true});
+    setTimeout(() => {
+      this.setState({botonesDeshabilitados: false});
+    }, 5000);
+    funcion();
+  }
 
   componentDidMount() {
     this.run();
@@ -168,11 +177,17 @@ class TusQuinielas extends Component {
           />
 
           <View style={styles.bottom}>
-            <BotonPrincipal onPress={() => this.unirseAQuiniela()}>
+            <BotonPrincipal
+              botonDeshabilitado={this.state.botonesDeshabilitados}
+              onPress={() => this.evitaMultiTouches(() => this.unirseAQuiniela())}
+            >
               {/* Unirse a una Quiniela */}
               Unirse a Quiniela Existente
             </BotonPrincipal>
-            <BotonPrincipal onPress={() => this.crear()}>
+            <BotonPrincipal
+              botonDeshabilitado={this.state.botonesDeshabilitados}
+              onPress={() => this.evitaMultiTouches(() => this.crear())}
+            >
               {/* Organiza una Quiniela */}
               Quinielas Administradas
             </BotonPrincipal>

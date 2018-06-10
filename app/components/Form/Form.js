@@ -16,11 +16,21 @@ import styles from "./styles"
 import { Spinner } from "../Spinner"
 import color from "../../comun/colors"
 
-// class Form extends Component<{}> {
 class Form extends Component {
-  constructor() {
+  constructor(props) {
     super()
     this.registrar = this.registrar.bind(this)
+    this.state = {
+      botonDeshabilitado: props.botonDeshabilitado
+    }
+  }
+
+  evitaMultiTouches = (funcion) => {
+    this.setState({botonDeshabilitado: true});
+    setTimeout(() => {
+      this.setState({botonDeshabilitado: false});
+    }, 5000);
+    funcion();
   }
 
   registrarEmail(email) {
@@ -54,6 +64,7 @@ class Form extends Component {
   }
 
   status() {
+    // console.log('(Form: ', this.props.type, ') this.state.botonesDeshabilitados: ', this.state.botonesDeshabilitados);
     if (this.props.authenticating) {
       return <Spinner style={styles.buttonText} size="small" />
     }
@@ -125,7 +136,8 @@ class Form extends Component {
           <View style={styles2.vire} />
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.registrar()}
+            disabled={this.state.botonDeshabilitado}
+            onPress={() => this.evitaMultiTouches(() => this.registrar())}
           >
             {this.status()}
           </TouchableOpacity>

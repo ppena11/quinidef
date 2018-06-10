@@ -9,20 +9,28 @@ import { iconos } from "../../comun/imagenes";
 import { modificarquiniela } from "../../actions";
 import color from "../../comun/colors";
 
-const ListaMas = ({ onPress, children, menu }) => (
-  <TouchableOpacity onPress={onPress}>
+const ListaMas = ({ onPress, children, menu, botonDeshabilitado }) => (
+  <TouchableOpacity
+    disabled={botonDeshabilitado}
+    onPress={onPress}
+  >
     <Card onPress={onPress}>
       <CardSection onPress={onPress}>
         <TouchableOpacity
-          onPress={onPress}
           style={styles.thumbnailContainerStyle}
+          disabled={botonDeshabilitado}
+          onPress={onPress}
         >
           <Image
             style={menu.imagen == 'basura' ? styles.dangerThumbnailStyle : styles.thumbnailStyle}
             source={iconos[`$${menu.imagen}`]}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={onPress} style={styles.headerContentStyle}>
+        <TouchableOpacity
+          style={styles.headerContentStyle}
+          disabled={true}
+          onPress={botonDeshabilitado}
+        >
           <Text style={styles.headerTextStyle}>{menu.titulo}</Text>
         </TouchableOpacity>
       </CardSection>

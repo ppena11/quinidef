@@ -47,11 +47,20 @@ class ReglasAdmin extends Component {
     this.state = {
       menu: "yes",
       validando: false,
+      botonesDeshabilitados: false,
       regla: {}
     }
     this.run = this.run.bind(this)
     this.run2 = this.run2.bind(this)
     this.handleBackButton = this.handleBackButton.bind(this)
+  }
+
+  evitaMultiTouches = (funcion) => {
+    this.setState({botonesDeshabilitados: true});
+    setTimeout(() => {
+      this.setState({botonesDeshabilitados: false});
+    }, 5000);
+    funcion();
   }
 
   componentDidMount() {
@@ -169,7 +178,8 @@ class ReglasAdmin extends Component {
             <View style={styles.vire} />
             <TouchableOpacity
               style={styles.button}
-              onPress={() => this.crear()}
+              disabled={this.state.botonesDeshabilitados}
+              onPress={() => this.evitaMultiTouches(() => this.crear())}
             >
               {this.status()}
             </TouchableOpacity>

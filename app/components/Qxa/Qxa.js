@@ -17,9 +17,18 @@ class Qxa extends Component {
     super(props);
 
     this.state = {
-      disponibles: ""
+      disponibles: "",
+      botonesDeshabilitados: false
     };
     this.run = this.run.bind(this);
+  }
+
+  evitaMultiTouches = (funcion) => {
+    this.setState({botonesDeshabilitados: true});
+    setTimeout(() => {
+      this.setState({botonesDeshabilitados: false});
+    }, 5000);
+    funcion();
   }
 
   onRowPress() {
@@ -98,7 +107,8 @@ class Qxa extends Component {
         <CardSection>
           <TouchableOpacity
             style={thumbnailContainerStyle}
-            onPress={() => this.borrar()}
+            disabled={this.state.botonesDeshabilitados}
+            onPress={() => this.evitaMultiTouches(() => this.borrar())}
           >
             <Image
               style={thumbnailStyle}
@@ -107,7 +117,8 @@ class Qxa extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={headerContentStyle}
-            onPress={() => this.onRowPress()}
+            disabled={this.state.botonesDeshabilitados}
+            onPress={() => this.evitaMultiTouches(() => this.onRowPress())}
           >
             <Text style={headerTextStyle}>{quinielaNombre}</Text>
             <Text style={headerTextStyle2}>{torneo} - Código: {codigoq}</Text>
@@ -115,16 +126,18 @@ class Qxa extends Component {
         </CardSection>
         <CardSectionText>
           <TouchableOpacity
-            onPress={() => this.onRowPress()}
             style={headerContentStyle}
+            disabled={this.state.botonesDeshabilitados}
+            onPress={() => this.evitaMultiTouches(() => this.onRowPress())}
           >
             <Text style={headerTextStyle}>
               Por activar: {quinielasPorActivar}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.onReglasPress()}
             style={headerContentStyle}
+            disabled={this.state.botonesDeshabilitados}
+            onPress={() => this.evitaMultiTouches(() => this.onReglasPress())}
           >
             <Text style={headerTextStyle}>
               Modificar reglas

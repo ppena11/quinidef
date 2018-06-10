@@ -13,13 +13,19 @@ import { modificarquiniela, buscarHora, escribirHora } from "../../actions";
 class Pos extends Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      botonesDeshabilitados: false
+    };
     this.runh = this.runh.bind(this);
   }
-  /*   touch(text) {
-    alert(text);
+
+  evitaMultiTouches = (funcion) => {
+    this.setState({botonesDeshabilitados: true});
+    setTimeout(() => {
+      this.setState({botonesDeshabilitados: false});
+    }, 5000);
+    funcion();
   }
- */
 
   runh = async () => {
     try {
@@ -65,7 +71,10 @@ class Pos extends Component {
       styleUser = headerTextStyle;
     }
     return (
-      <TouchableOpacity onPress={() => this.detalleQuiniela()}>
+      <TouchableOpacity
+        disabled={this.state.botonesDeshabilitados}
+        onPress={() => this.evitaMultiTouches(() => this.detalleQuiniela())}
+      >
         <CardT>
           <View style={headerContentStyle}>
             <View style={headerContentStyle1}>

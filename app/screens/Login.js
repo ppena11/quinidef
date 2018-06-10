@@ -20,19 +20,38 @@ import { limpiarFormularioLogin, usuarioRegistrado, loginUser1, logeddUser1 } fr
 import { HeaderText } from '../components/HeaderText';
 import color from '../comun/colors';
 
+// let clickeado = false;
+
 class Login extends Component {
+  constructor(){
+    super();
+    this.state = {
+      botonesDeshabilitados: false
+    }
+  }
+
   static navigationOptions = {
     headerTitle: <HeaderText texto="Login"/>,
     headerLeft: (<TouchableOpacity/>),
   };
 
+  evitaMultiTouches = (funcion) => {
+    this.setState({botonesDeshabilitados: true});
+    // console.log('(Login) Touch procesado, botonesDesabilitados: true');
+    setTimeout(() => {
+      this.setState({botonesDeshabilitados: false});
+      // console.log('(Login) Timeout -> botonesDesabilitados: false');
+    }, 5000);
+    funcion();
+  }
+
   componentDidMount() {
-    console.log("(Login) componentDidMount")
+    console.log("(Login) componentDidMount");
     BackHandler.addEventListener('hardwareBackPress', () => BackHandler.exitApp());
   }
 
   componentWillUnmount() {
-    console.log("(Login) componentWillUnmount")
+    console.log("(Login) componentWillUnmount");
     BackHandler.removeEventListener('hardwareBackPress', () => BackHandler.exitApp());
   }
 
@@ -51,11 +70,9 @@ class Login extends Component {
   }
 
   crear(navigate) {
-    // this.props.limpiarFormularioLogin();
     navigate('CrearCuenta');
   }
 
-  //  renderSpinner(navigate) {
   render() {
     const { navigate } = this.props.navigation;
 
@@ -73,12 +90,16 @@ class Login extends Component {
           <TextIndication description={this.props.error} />
 
           <KeyboardAvoidingView behavior="padding" style={styles.form}>
-            <Form type="Entrar" />
+            <Form type="Entrar" botonDeshabilitado={this.state.botonesDeshabilitados}/>
           </KeyboardAvoidingView>
 
           <View style={styles.conta}>
             <View style={styles.vire} />
-            <TouchableOpacity style={styles.button} onPress={() => this.crear(navigate)}>
+            <TouchableOpacity
+              style={styles.button}
+              disabled={this.state.botonesDeshabilitados}
+              onPress={() => this.evitaMultiTouches(() => this.crear(navigate))}
+            >
               <Text style={styles.buttonText}> Registrarse</Text>
             </TouchableOpacity>
             <View style={styles.vire} />
@@ -86,7 +107,11 @@ class Login extends Component {
 
           <View style={styles.conta}>
             <View style={styles.vire} />
-            <TouchableOpacity style={styles.button} onPress={() => this.reiniciar(navigate)}>
+            <TouchableOpacity
+              style={styles.button}
+              disabled={this.state.botonesDeshabilitados}
+              onPress={() => this.evitaMultiTouches(() => this.reiniciar(navigate))}
+            >
               <Text style={styles.buttonText}>Recuperar Contraseña</Text>
             </TouchableOpacity>
             <View style={styles.vire} />
