@@ -14,9 +14,19 @@ class Qx extends Component {
     super(props)
     this.detalleQuiniela = this.detalleQuiniela.bind(this)
     this.state = {
-      validando: false
+      validando: false,
+      botonesDeshabilitados: false
     }
   }
+
+  evitaMultiTouches = (funcion) => {
+    this.setState({botonesDeshabilitados: true});
+    setTimeout(() => {
+      this.setState({botonesDeshabilitados: false});
+    }, 5000);
+    funcion();
+  }
+
   detalleQuiniela = async () => {
     this.setState({ validando: true })
     console.log(this.props.quiniela.quiniela)
@@ -81,7 +91,8 @@ class Qx extends Component {
         <CardSection>
           <TouchableOpacity
             style={thumbnailContainerStyle}
-            onPress={() => this.detalleQuiniela()}
+            disabled={this.state.botonesDeshabilitados}
+            onPress={() => this.evitaMultiTouches(() => this.detalleQuiniela())}
           >
             <Image
               style={thumbnailStyle}
@@ -90,7 +101,8 @@ class Qx extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={headerContentStyle}
-            onPress={() => this.detalleQuiniela()}
+            disabled={this.state.botonesDeshabilitados}
+            onPress={() => this.evitaMultiTouches(() => this.detalleQuiniela())}
           >
             <Text style={headerTextStyle}>{nombreapuesta}</Text>
             <Text style={headerTextStyle2}>
