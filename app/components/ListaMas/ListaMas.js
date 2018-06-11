@@ -28,8 +28,8 @@ const ListaMas = ({ onPress, children, menu, botonDeshabilitado }) => (
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.headerContentStyle}
-          disabled={true}
-          onPress={botonDeshabilitado}
+          disabled={botonDeshabilitado}
+          onPress={onPress}
         >
           <Text style={styles.headerTextStyle}>{menu.titulo}</Text>
         </TouchableOpacity>
