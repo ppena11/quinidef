@@ -74,7 +74,7 @@ class QuinielasAdministradas extends Component {
     this.setState({botonesDeshabilitados: true});
     setTimeout(() => {
       this.setState({botonesDeshabilitados: false});
-    }, 5000);
+    }, 3999);
     funcion();
   }
 

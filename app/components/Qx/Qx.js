@@ -86,7 +86,7 @@ class Qx extends Component {
             disabled={Qx.deshabilitado}
             onPress={() => {
               Qx.deshabilitado = true;
-              setTimeout(() => {Qx.deshabilitado = false}, 5000);
+              setTimeout(() => {Qx.deshabilitado = false}, 2999);
               this.detalleQuiniela();
             }}
           >
@@ -100,7 +100,7 @@ class Qx extends Component {
             disabled={Qx.deshabilitado}
             onPress={() => {
               Qx.deshabilitado = true;
-              setTimeout(() => {Qx.deshabilitado = false}, 5000);
+              setTimeout(() => {Qx.deshabilitado = false}, 2999);
               this.detalleQuiniela();
             }}
           >

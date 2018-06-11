@@ -76,7 +76,7 @@ class EliminarQuinielaAdministrada extends Component {
     this.setState({botonesDeshabilitados: true});
     setTimeout(() => {
       this.setState({botonesDeshabilitados: false});
-    }, 5000);
+    }, 4999);
     funcion();
   }
 

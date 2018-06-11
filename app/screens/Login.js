@@ -39,7 +39,7 @@ class Login extends Component {
     setTimeout(() => {
       this.setState({botonesDeshabilitados: false});
       // console.log('(Login) Timeout -> botonesDesabilitados: false');
-    }, 5000);
+    }, 1999);
     funcion();
   }
 

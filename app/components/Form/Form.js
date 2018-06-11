@@ -29,7 +29,7 @@ class Form extends Component {
     this.setState({botonDeshabilitado: true});
     setTimeout(() => {
       this.setState({botonDeshabilitado: false});
-    }, 5000);
+    }, 1999);
     funcion();
   }
 
