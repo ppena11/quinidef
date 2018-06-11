@@ -8,7 +8,7 @@ import {
   BackHandler,
   Image,
   Alert,
-  NetInfo,
+  // NetInfo,
   TouchableOpacity,
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";

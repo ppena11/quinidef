@@ -20,8 +20,6 @@ import { limpiarFormularioLogin, usuarioRegistrado, loginUser1, logeddUser1 } fr
 import { HeaderText } from '../components/HeaderText';
 import color from '../comun/colors';
 
-// let clickeado = false;
-
 class Login extends Component {
   constructor(){
     super();
@@ -100,7 +98,7 @@ class Login extends Component {
               disabled={this.state.botonesDeshabilitados}
               onPress={() => this.evitaMultiTouches(() => this.crear(navigate))}
             >
-              <Text style={styles.buttonText}> Registrarse</Text>
+              <Text style={styles.buttonText}>Registrarse</Text>
             </TouchableOpacity>
             <View style={styles.vire} />
           </View>
