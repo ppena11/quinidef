@@ -10,21 +10,13 @@ import { modificarquiniela, validarUsuario } from "../../actions";
 import color from "../../comun/colors";
 
 class Qx extends Component {
+  static deshabilitado = false;
   constructor(props) {
-    super(props)
-    this.detalleQuiniela = this.detalleQuiniela.bind(this)
+    super(props);
     this.state = {
       validando: false,
-      botonesDeshabilitados: false
     }
-  }
-
-  evitaMultiTouches = (funcion) => {
-    this.setState({botonesDeshabilitados: true});
-    setTimeout(() => {
-      this.setState({botonesDeshabilitados: false});
-    }, 5000);
-    funcion();
+    this.detalleQuiniela = this.detalleQuiniela.bind(this);
   }
 
   detalleQuiniela = async () => {
@@ -91,8 +83,12 @@ class Qx extends Component {
         <CardSection>
           <TouchableOpacity
             style={thumbnailContainerStyle}
-            disabled={this.state.botonesDeshabilitados}
-            onPress={() => this.evitaMultiTouches(() => this.detalleQuiniela())}
+            disabled={Qx.deshabilitado}
+            onPress={() => {
+              Qx.deshabilitado = true;
+              setTimeout(() => {Qx.deshabilitado = false}, 5000);
+              this.detalleQuiniela();
+            }}
           >
             <Image
               style={thumbnailStyle}
@@ -101,8 +97,12 @@ class Qx extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={headerContentStyle}
-            disabled={this.state.botonesDeshabilitados}
-            onPress={() => this.evitaMultiTouches(() => this.detalleQuiniela())}
+            disabled={Qx.deshabilitado}
+            onPress={() => {
+              Qx.deshabilitado = true;
+              setTimeout(() => {Qx.deshabilitado = false}, 5000);
+              this.detalleQuiniela();
+            }}
           >
             <Text style={headerTextStyle}>{nombreapuesta}</Text>
             <Text style={headerTextStyle2}>

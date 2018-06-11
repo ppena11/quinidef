@@ -151,7 +151,7 @@ class TusQuinielas extends Component {
     this.props.navigation.navigate("QuinielasAdministradas");
   }
 
-  _renderItem = ({ item }) => <Qx quiniela={item} />;
+  _renderItem = ({ item }) => <Qx quiniela={item}/>;
   _keyExtractor = item => item.uid + item.nombreapuesta;
 
   loading(tt) {
