@@ -62,13 +62,22 @@ class EliminarQuinielaAdministrada extends Component {
       q: "",
       menu: "yes",
       inputfield: "",
-      warning: "no"
+      warning: "no",
+      botonesDeshabilitados: false
     };
 
     this.updateInputValue = this.updateInputValue.bind(this);
     this.eliminarTest1 = this.eliminarTest1.bind(this);
     this.run = this.run.bind(this);
     this.handleBackButton = this.handleBackButton.bind(this);
+  }
+
+  evitaMultiTouches = (funcion) => {
+    this.setState({botonesDeshabilitados: true});
+    setTimeout(() => {
+      this.setState({botonesDeshabilitados: false});
+    }, 4999);
+    funcion();
   }
 
   componentDidMount() {
@@ -254,10 +263,16 @@ class EliminarQuinielaAdministrada extends Component {
           <View style={styles.bottom}>
             <View>
               {/* <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal> */}
-              <BotonPrincipal onPress={() => this.eliminarTest1(goBack)}>
+              <BotonPrincipal
+                botonDeshabilitado={this.state.botonesDeshabilitados}
+                onPress={() => this.evitaMultiTouches(() => this.eliminarTest1(goBack))}
+              >
                 Eliminar Quiniela
               </BotonPrincipal>
-              <BotonPrincipal onPress={() => this.cancelar()}>
+              <BotonPrincipal
+                botonDeshabilitado={this.state.botonesDeshabilitados}
+                onPress={() => this.evitaMultiTouches(() => this.cancelar())}
+              >
                 Cancelar
               </BotonPrincipal>
             </View>

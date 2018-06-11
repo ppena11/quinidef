@@ -3,7 +3,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { Provider, connect } from "react-redux";
 import firebase from "firebase";
 import { addNavigationHelpers, NavigationActions } from "react-navigation";
-import { NetInfo } from "react-native";
+// import { NetInfo } from "react-native";
 import _ from "lodash";
 
 import store from "./config/store";
@@ -44,7 +44,8 @@ export default class extends Component {
     console.ignoredYellowBox = [
       'Setting a timer',
       'Warning: isMounted',
-      'Remote debugger'
+      'Remote debugger',
+      'VirtualizedList'
     ];
   }
 

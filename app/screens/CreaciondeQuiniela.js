@@ -49,10 +49,19 @@ class TusQuinielas extends Component {
     super(props)
     this.state = {
       validando: false,
-      menu: "yes"
+      menu: "yes",
+      botonesDeshabilitados: false
     }
     this.run = this.run.bind(this)
     this.handleBackButton = this.handleBackButton.bind(this)
+  }
+
+  evitaMultiTouches = (funcion) => {
+    this.setState({botonesDeshabilitados: true});
+    setTimeout(() => {
+      this.setState({botonesDeshabilitados: false});
+    }, 4999);
+    funcion();
   }
 
   componentDidMount() {
@@ -281,7 +290,7 @@ class TusQuinielas extends Component {
     if (this.state.validando) {
       return <Spinner style={styles.buttonText} size="small" />
     }
-    return <Text style={styles.buttonText}>Crear</Text>
+    return <Text style={styles.buttonText}>Crear Quiniela</Text>
   }
 
   picker(torneo, torneos) {
@@ -376,7 +385,8 @@ class TusQuinielas extends Component {
                 <View style={styles.vire} />
                 <TouchableOpacity
                   style={styles.button}
-                  onPress={() => this.crear(goBack, uid1)}
+                  disabled={this.state.botonesDeshabilitados}
+                  onPress={() => this.evitaMultiTouches(() => this.crear(goBack, uid1))}
                 >
                   {this.status()}
                 </TouchableOpacity>

@@ -40,12 +40,21 @@ class RegistrarQuiniela extends Component {
     this.state = {
       inputfield: "",
       validando: false,
-      teclado: false
+      teclado: false,
+      botonesDeshabilitados: false
     }
 
     this.updateInputValue = this.updateInputValue.bind(this)
     this.run = this.run.bind(this)
     this.handleBackButton = this.handleBackButton.bind(this)
+  }
+
+  evitaMultiTouches = (funcion) => {
+    this.setState({botonesDeshabilitados: true});
+    setTimeout(() => {
+      this.setState({botonesDeshabilitados: false});
+    }, 4999);
+    funcion();
   }
 
   componentDidMount() {
@@ -230,7 +239,8 @@ class RegistrarQuiniela extends Component {
             <View style={styles.vire} />
             <TouchableOpacity
               style={styles.button}
-              onPress={() => this.pressed(navigate)}
+              disabled={this.state.botonesDeshabilitados}
+              onPress={() => this.evitaMultiTouches(() => this.pressed(navigate))}
             >
               {this.status()}
             </TouchableOpacity>

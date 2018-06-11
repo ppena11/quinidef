@@ -10,13 +10,15 @@ import { modificarquiniela, validarUsuario } from "../../actions";
 import color from "../../comun/colors";
 
 class Qx extends Component {
+  static deshabilitado = false;
   constructor(props) {
-    super(props)
-    this.detalleQuiniela = this.detalleQuiniela.bind(this)
+    super(props);
     this.state = {
-      validando: false
+      validando: false,
     }
+    this.detalleQuiniela = this.detalleQuiniela.bind(this);
   }
+
   detalleQuiniela = async () => {
     this.setState({ validando: true })
     console.log(this.props.quiniela.quiniela)
@@ -81,7 +83,12 @@ class Qx extends Component {
         <CardSection>
           <TouchableOpacity
             style={thumbnailContainerStyle}
-            onPress={() => this.detalleQuiniela()}
+            disabled={Qx.deshabilitado}
+            onPress={() => {
+              Qx.deshabilitado = true;
+              setTimeout(() => {Qx.deshabilitado = false}, 2999);
+              this.detalleQuiniela();
+            }}
           >
             <Image
               style={thumbnailStyle}
@@ -90,7 +97,12 @@ class Qx extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={headerContentStyle}
-            onPress={() => this.detalleQuiniela()}
+            disabled={Qx.deshabilitado}
+            onPress={() => {
+              Qx.deshabilitado = true;
+              setTimeout(() => {Qx.deshabilitado = false}, 2999);
+              this.detalleQuiniela();
+            }}
           >
             <Text style={headerTextStyle}>{nombreapuesta}</Text>
             <Text style={headerTextStyle2}>

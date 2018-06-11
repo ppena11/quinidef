@@ -272,13 +272,13 @@ class DetalleQuinielaAdministrada extends Component {
       // const test = await this.props.cambiarEstatusQuiniela(jug, qu, e1);
       // this.setState({ toggled: this.props.jugadores[uid].activo });
       // console.log(test);
-      console.log(this.props.navigation.state.params.quiniela.codigoq)
-      console.log(e)
+      // console.log(this.props.navigation.state.params.quiniela.codigoq)
+      // console.log(e)
       const test1 = await this.props.manejarActivacion(
         this.props.navigation.state.params.quiniela.codigoq,
         e
       )
-      console.log(test1)
+      // console.log(test1)
       if (test1.committed) {
         const test = await this.props.buscarCodigos(
           this.props.navigation.state.params.quiniela.codigoq
@@ -290,7 +290,7 @@ class DetalleQuinielaAdministrada extends Component {
 
       // this.setState({ validando: false });
     } catch (e) {
-      console.log(e)
+      // console.log(e)
       // this.setState({ validando: false });
     }
   }
@@ -348,7 +348,7 @@ class DetalleQuinielaAdministrada extends Component {
               </Text>
             </TouchableOpacity> */}
             <TouchableOpacity
-              onPress={() => this.onReglasPress()}
+              // onPress={() => this.onReglasPress()}
               style={styles.headerContentStyle}
             >
               <Text style={styles.headerTextStyle1}>ACTIVAS</Text>
@@ -357,7 +357,7 @@ class DetalleQuinielaAdministrada extends Component {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => this.onReglasPress()}
+              // onPress={() => this.onReglasPress()}
               style={styles.headerContentStyle}
             >
               <Text style={styles.headerTextStyle1}>POR ACTIVAR</Text>
@@ -420,7 +420,7 @@ class DetalleQuinielaAdministrada extends Component {
       containerStyle,
       switchStyle
     } = styles
-    console.log(this.state.cargo)
+    // console.log(this.state.cargo)
 
     return (
       <Container>
@@ -546,7 +546,7 @@ const mapStateToProps = state => {
   const tt = _.map(state.jugadoresadmin, (val, uid) => ({ ...val, uid }))
 
   const jugadores = _.orderBy(tt, ["nombre"], ["asc"])
-  console.log(jugadores)
+  // console.log(jugadores)
   return {
     jugadores,
     ultima: state.jugadorlast.last,

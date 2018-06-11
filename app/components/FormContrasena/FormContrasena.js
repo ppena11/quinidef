@@ -12,6 +12,17 @@ class FormContrasena extends Component {
   constructor() {
     super();
     this.registrar = this.registrar.bind(this);
+    this.state = {
+      botonesDeshabilitados: false
+    }
+  }
+
+  evitaMultiTouches = (funcion) => {
+    this.setState({botonesDeshabilitados: true});
+    setTimeout(() => {
+      this.setState({botonesDeshabilitados: false});
+    }, 1999);
+    funcion();
   }
 
   registrare(email) {
@@ -57,7 +68,11 @@ class FormContrasena extends Component {
 
         <View style={styles2.conta}>
           <View style={styles2.vire} />
-          <TouchableOpacity style={styles.button} onPress={() => this.registrar()}>
+          <TouchableOpacity
+            style={styles.button}
+            disabled={this.state.botonesDeshabilitados}
+            onPress={() => this.evitaMultiTouches(() => this.registrar())}
+          >
             {this.renderSpinner()}
           </TouchableOpacity>
           <View style={styles2.vire} />
