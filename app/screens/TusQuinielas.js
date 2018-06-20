@@ -44,7 +44,6 @@ class TusQuinielas extends Component {
     this.loading = this.loading.bind(this);
     this.run = this.run.bind(this);
     this.handleBackButtonTusQuinielas = this.handleBackButtonTusQuinielas.bind(this);
-    // this.alertLogout = this.alertLogout.bind(this);
     this2 = this;
   }
 
@@ -64,7 +63,21 @@ class TusQuinielas extends Component {
         />
       </TouchableOpacity>
     ),
-    headerRight: (<TouchableOpacity/>),
+    // headerRight: (<TouchableOpacity/>),
+    headerRight: (
+      <TouchableOpacity onPress={() => this2.alertAyuda()}>
+        <Image
+          style={{
+            height: 30,
+            aspectRatio: 1,
+            padding: 0,
+            margin: 10,
+            tintColor: color.$headerImageTintColor,
+          }}
+          source={iconos['$ayuda']}
+        />
+      </TouchableOpacity>
+    ),
   };
 
   evitaMultiTouches = (funcion) => {
@@ -107,6 +120,25 @@ class TusQuinielas extends Component {
       [
         {text: 'Sí', onPress: () => this.props.salirSistema()},
         {text: 'Cancelar', onPress: () => { return true }},
+      ],
+      { cancelable: true }
+    );
+  }
+
+  alertAyuda() {
+    Alert.alert(
+      'Ayuda...',
+      '- Puedes crear una quiniela uniéndote a un grupo de quinielas existente (necesitarás el código del mismo).\n'+
+      '- O puedes crear un nuevo grupo en "Administración de Grupos" e invitar a tus amigos a unirse.\n'+
+      '\n'+
+      'En cada una de tus quinielas puedes ver:\n'+
+      'NOMBRE\n'+
+      'GRUPO\n'+
+      'TORNEO - ESTADO\n'+
+      '\n'+
+      'El NOMBRE de la misma, el GRUPO de quinielas al que pertenece (todas pertenecen a un grupo), el TORNEO asociado y su ESTADO (Activada o No).',
+      [
+        {text: 'Ok'},
       ],
       { cancelable: true }
     );
@@ -182,14 +214,15 @@ class TusQuinielas extends Component {
               onPress={() => this.evitaMultiTouches(() => this.unirseAQuiniela())}
             >
               {/* Unirse a una Quiniela */}
-              Unirse a Quiniela Existente
+              {/* Unirse a Quiniela Existente */}
+              Unirse a Grupo Existente
             </BotonPrincipal>
             <BotonPrincipal
               botonDeshabilitado={this.state.botonesDeshabilitados}
               onPress={() => this.evitaMultiTouches(() => this.crear())}
             >
-              {/* Organiza una Quiniela */}
-              Quinielas Administradas
+              {/* Quinielas Administradas */}
+              Administración de Grupos
             </BotonPrincipal>
           </View>
         </View>

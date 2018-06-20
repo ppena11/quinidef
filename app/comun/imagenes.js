@@ -50,4 +50,5 @@ export const iconos = {
   $salir:       require("../images/iconos/logout.png"),
   $admin:       require("../images/iconos/admin.png"),
   $save:        require("../images/iconos/save.png"),
+  $ayuda:        require("../images/iconos/ayuda.png"),
 }
