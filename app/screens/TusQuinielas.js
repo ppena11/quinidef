@@ -128,15 +128,32 @@ class TusQuinielas extends Component {
   alertAyuda() {
     Alert.alert(
       'Ayuda...',
-      '- Puedes crear una quiniela uniéndote a un grupo de quinielas existente (necesitarás el código del mismo).\n'+
-      '- O puedes crear un nuevo grupo en "Administración de Grupos" e invitar a tus amigos a unirse.\n'+
+      '1. Las quinielas se organizan en grupos y cada grupo tiene un código.\n'+
       '\n'+
-      'En cada una de tus quinielas puedes ver:\n'+
+      '2. Todos los grupos son privados: necesitas conocer el código del grupo al que quieras unirte.\n'+
+      '\n'+
+      '3. Para crear una quiniela selecciona "Unirse a Grupo Existente" y suministra el código del grupo.\n'+
+      '\n'+
+      '4. Puedes crear un nuevo grupo desde la sección "Administración de Grupos".\n'+
+      '\n'+
+      '5. Al crear un grupo obtendrás su código, y con dicho código podrás unirte y/o invitar a tus amigos a unirse.\n'+
+      '\n'+
+      '6. Puedes unirte al mismo grupo varias veces, creando así varias quinielas en un mismo grupo.\n'+
+      '\n'+
+      '7. Cada grupo tiene asociado el torneo que se juega en él ("Mundial Rusia 2018", "UEFA Champions League", "Liga Española", etc).\n'+
+      '\n'+
+      '-----\n'+
+      '\n'+
+      'Información mostrada de cada quiniela:\n'+
+      '\n'+
       'NOMBRE\n'+
       'GRUPO\n'+
       'TORNEO - ESTADO\n'+
       '\n'+
-      'El NOMBRE de la misma, el GRUPO de quinielas al que pertenece (todas pertenecen a un grupo), el TORNEO asociado y su ESTADO (Activada o No).',
+      '- NOMBRE de la quiniela. \n'+
+      '- GRUPO al que pertenece la quiniela.\n'+
+      '- TORNEO que se juega en el grupo.\n'+
+      '- ESTADO de la quiniela: Activada/No Activada.\n',
       [
         {text: 'Ok'},
       ],
