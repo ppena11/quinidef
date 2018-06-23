@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 import {
   StatusBar,
   View,
@@ -6,82 +6,84 @@ import {
   BackHandler,
   Text,
   FlatList,
-  TouchableOpacity,
-} from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import { connect } from "react-redux";
-import _ from "lodash";
+  TouchableOpacity
+} from "react-native"
+import EStyleSheet from "react-native-extended-stylesheet"
+import { connect } from "react-redux"
+import _ from "lodash"
 
-import { buscarDetalleApuestas, limpiarapuesta } from "../actions";
-import { Container } from "../components/Container";
-import { Titulo } from "../components/Titulo";
-import { DetalleAp } from "../components/DetalleAp";
-import { PuntajeJugador } from "../comun/puntaje";
-import { BotonPrincipal } from "../components/BotonPrincipal";
-import { Spinner } from "../components/Spinner";
-import { HeaderText } from "../components/HeaderText";
-import color from "../comun/colors";
+import { buscarDetalleApuestas, limpiarapuesta } from "../actions"
+import { Container } from "../components/Container"
+import { Titulo } from "../components/Titulo"
+import { DetalleAp } from "../components/DetalleAp"
+import { PuntajeJugador } from "../comun/puntaje"
+import { BotonPrincipal } from "../components/BotonPrincipal"
+import { Spinner } from "../components/Spinner"
+import { HeaderText } from "../components/HeaderText"
+import color from "../comun/colors"
 
 class DetalleApuestas extends Component {
   static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state;
+    const { params } = navigation.state
 
-    let titulo = params ? `${params.posicion.nombreapuesta} - ${params.posicion.puntos} pts` : 'Error Header DetallesApuesta';
+    let titulo = params
+      ? `${params.posicion.nombreapuesta} - ${params.posicion.puntos} pts`
+      : "Error Header DetallesApuesta"
 
     return {
-      headerTitle: <HeaderText texto={titulo}/>,
+      headerTitle: <HeaderText texto={titulo} />,
       headerStyle: {
-        backgroundColor: color.$headerAnidadoBackgroundColor,
+        backgroundColor: color.$headerAnidadoBackgroundColor
       },
       headerTintColor: color.$headerAnidadoImageTintColor,
-      headerRight: (<TouchableOpacity/>),
-    };
-  };
+      headerRight: <TouchableOpacity />
+    }
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       partidos: {},
       apuestas: {},
       validando: false,
       menu: "yes"
-    };
-    this.run = this.run.bind(this);
-    this.run2 = this.run2.bind(this);
-    this.handleBackButton = this.handleBackButton.bind(this);
+    }
+    this.run = this.run.bind(this)
+    this.run2 = this.run2.bind(this)
+    this.handleBackButton = this.handleBackButton.bind(this)
   }
 
   componentDidMount() {
-    this.run();
+    this.run()
 
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardDidShow",
       this.keyboardWillShow
-    );
+    )
     this.keyboardWillHideListener = Keyboard.addListener(
       "keyboardDidHide",
       this.keyboardWillHide
-    );
+    )
 
-    console.log("(DetallesApuestas) componentDidMount");
-    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
+    console.log("(DetallesApuestas) componentDidMount")
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton)
   }
 
   componentWillUnmount() {
-    this.setState({ validando: false });
-    this.keyboardWillShowListener.remove();
-    this.keyboardWillHideListener.remove();
-    this.props.limpiarapuesta();
+    this.setState({ validando: false })
+    this.keyboardWillShowListener.remove()
+    this.keyboardWillHideListener.remove()
+    this.props.limpiarapuesta()
 
-    console.log("(DetallesApuestas) componentWillUnmount");
-    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
+    console.log("(DetallesApuestas) componentWillUnmount")
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton)
   }
 
   handleBackButton() {
-    console.log("(DetallesApuestas) handleBackButton");
-    this.props.screenProps.rootNavigation.goBack();
-    return true;
+    console.log("(DetallesApuestas) handleBackButton")
+    this.props.screenProps.rootNavigation.goBack()
+    return true
   }
 
   // tusquinielas() {
@@ -91,12 +93,12 @@ class DetalleApuestas extends Component {
   // }
 
   keyboardWillShow = () => {
-    this.setState({ menu: "no" });
-  };
+    this.setState({ menu: "no" })
+  }
 
   keyboardWillHide = () => {
-    this.setState({ menu: "yes" });
-  };
+    this.setState({ menu: "yes" })
+  }
 
   run = async () => {
     try {
@@ -106,81 +108,82 @@ class DetalleApuestas extends Component {
       this.props.buscarDetalleApuestas(
         this.props.quiniela.quiniela,
         this.props.navigation.state.params.posicion.nombreapuesta
-      );
+      )
 
-      const r2 = apuestas.toJSON();
+      // const r2 = apuestas.toJSON();
 
-      this.setState({ apuestas: r2 });
+      //this.setState({ apuestas: r2 });
       // console.log(r2);
     } catch (e) {
       //console.log(e);
     }
-  };
+  }
 
   run2 = async () => {
     try {
-      this.setState({ validando: true });
+      this.setState({ validando: true })
       // const test = await this.props.modifarReglasBD(
 
       const test = await this.props.modificarApuestasBD(
         this.props.quiniela.quiniela,
         this.props.quiniela.uid,
         this.props.apuestast
-      );
+      )
       //console.log(this.props.quiniela.uid);
       //console.log(this.props.quiniela.quiniela);
       //
       //   console.log(test);
-      this.run();
-      this.setState({ validando: false });
-      this.props.navigation.goBack();
+      this.run()
+      this.setState({ validando: false })
+      this.props.navigation.goBack()
     } catch (e) {
       //   console.log(e);
-      this.setState({ validando: false });
+      this.setState({ validando: false })
 
-      this.props.navigation.goBack();
+      this.props.navigation.goBack()
     }
-  };
+  }
 
   crear() {
-    this.run2();
+    this.run2()
     // console.log('TEST');
     // navigate('EliminarApuesta');
   }
 
   fechaHoraDispositivo(fechaHoraGMT0) {
-    fechaHoraGMT0 = fechaHoraGMT0.replace(/-/g, "/");
-    const diahora = new Date(`${fechaHoraGMT0} UTC`);
+    fechaHoraGMT0 = fechaHoraGMT0.replace(/-/g, "/")
+    const diahora = new Date(`${fechaHoraGMT0} UTC`)
     const dia =
-      diahora.getDate() < 10 ? `0${diahora.getDate()}` : diahora.getDate();
+      diahora.getDate() < 10 ? `0${diahora.getDate()}` : diahora.getDate()
     const mes =
       diahora.getMonth() + 1 < 10
         ? `0${diahora.getMonth() + 1}`
-        : diahora.getMonth() + 1;
+        : diahora.getMonth() + 1
     const hora =
-      diahora.getHours() < 10 ? `0${diahora.getHours()}` : diahora.getHours();
+      diahora.getHours() < 10 ? `0${diahora.getHours()}` : diahora.getHours()
     const minutos =
       diahora.getMinutes() < 10
         ? `0${diahora.getMinutes()}`
-        : diahora.getMinutes();
-    return `${dia}/${mes}/${diahora.getFullYear()} ${hora}:${minutos}`;
+        : diahora.getMinutes()
+    return `${dia}/${mes}/${diahora.getFullYear()} ${hora}:${minutos}`
   }
 
   grupofasetext(grupoFase) {
-    let resultado = "";
-    if (grupoFase.length == 1) resultado = `Grupo ${grupoFase}`;
-    else resultado = grupoFase;
-    return resultado;
+    let resultado = ""
+    if (grupoFase.length == 1) resultado = `Grupo ${grupoFase}`
+    else resultado = grupoFase
+    return resultado
   }
 
   renderRow(partidos) {
     return (
       <DetalleAp
-        partido={partidos}
+        apuesta={partidos}
         fecha={this.fechaHoraDispositivo(partidos.inicioGMT0)}
         grupoFase={this.grupofasetext(partidos.grupofase)}
+        partido={this.props.partidost[partidos.uid]}
       />
-    );
+    )
   }
 
   calcularPuntajeTotalJugador() {
@@ -190,11 +193,11 @@ class DetalleApuestas extends Component {
       [1, 1, 1], //  8 pts
       [2, 2, 1], //  1 pto
       [3, 2, 0] //  6 pts
-    ];
-    const resultados = [[0, 1, 0], [1, 2, 2], [2, 0, 1], [3, 2, 1]];
-    const reglas = [5, 5, 3, 1];
+    ]
+    const resultados = [[0, 1, 0], [1, 2, 2], [2, 0, 1], [3, 2, 1]]
+    const reglas = [5, 5, 3, 1]
 
-    return PuntajeJugador(apuestas, resultados, reglas);
+    return PuntajeJugador(apuestas, resultados, reglas)
   }
 
   menustatus() {
@@ -212,16 +215,16 @@ class DetalleApuestas extends Component {
             <View style={styles.vire} />
           </View>
         </View>
-      );
+      )
     }
-    return <View />;
+    return <View />
   }
 
   status() {
     if (this.state.validando) {
-      return <Spinner style={styles.buttonText} size="small" />;
+      return <Spinner style={styles.buttonText} size="small" />
     }
-    return <Text style={styles.buttonText}>Guargar cambios..</Text>;
+    return <Text style={styles.buttonText}>Guargar cambios..</Text>
   }
 
   activa() {
@@ -230,25 +233,27 @@ class DetalleApuestas extends Component {
         <Text style={styles.buttonText}>
           Contacta al administrador para activar tu quiniela{" "}
         </Text>
-      );
+      )
     }
-    return <View />;
+    return <View />
   }
 
   spinner(partidos) {
     if (this.props.apuestast.cargando) {
-      return <Spinner size="large" />;
+      return <Spinner size="large" />
     } else {
+      console.log(
+        "RENDRININDINDI LISTAjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj"
+      )
+      console.log(this.props.detalleapuestas)
       return (
         <FlatList
           data={this.props.detalleapuestas}
+          keyExtractor={item => item.uid}
           renderItem={({ item }) => this.renderRow(item)}
-          onEndReachedThershold={0}
-          ref={ref => {
-            this.listRef = ref;
-          }}
+          initialNumToRender="70"
         />
-      );
+      )
     }
   }
 
@@ -282,7 +287,7 @@ class DetalleApuestas extends Component {
  */}
         </View>
       </Container>
-    );
+    )
   }
 }
 
@@ -343,33 +348,34 @@ const styles = EStyleSheet.create({
     color: color.$formButtonTextColor,
     textAlign: "center"
   }
-});
+})
 
 const mapStateToProps = state => {
-  const partidost = state.partidos;
-  const apuestast = state.detalleapuesta;
-  let apuestas1 = Object.assign({}, state.detalleapuesta);
-  delete apuestas1.cargando;
+  const partidost = state.partidos
+  const apuestast = state.detalleapuesta
+  let apuestas1 = Object.assign({}, state.detalleapuesta)
+  delete apuestas1.cargando
   let detalleapuestas1 = _.map(apuestas1, (val, uid) => ({
     ...val,
     uid
-  }));
-  const detalleapuestas = _.orderBy(detalleapuestas1, ["inicioGMT0"], ["asc"]);
+  }))
+  const detalleapuestas = _.orderBy(detalleapuestas1, ["inicioGMT0"], ["asc"])
   //detalleapuestas.shift();
 
-  //console.log(detalleapuestas);
-
-  const quiniela = state.quini;
+  const quiniela = state.quini
 
   return {
     partidost,
     apuestast,
     quiniela,
     detalleapuestas
-  };
-};
+  }
+}
 
-export default connect(mapStateToProps, {
-  buscarDetalleApuestas,
-  limpiarapuesta
-})(DetalleApuestas);
+export default connect(
+  mapStateToProps,
+  {
+    buscarDetalleApuestas,
+    limpiarapuesta
+  }
+)(DetalleApuestas)
