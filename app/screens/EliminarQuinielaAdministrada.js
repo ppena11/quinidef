@@ -1,13 +1,9 @@
 import React, { Component } from "react";
 import {
-  KeyboardAvoidingView,
   StatusBar,
   Keyboard,
-  ListView,
   View,
   TextInput,
-  FlatList,
-  ScrollView,
   Text,
   BackHandler
 } from "react-native";
@@ -17,12 +13,6 @@ import { connect } from "react-redux";
 import { NavigationActions } from "react-navigation";
 
 import {
-  buscarJugadoresAdministradas,
-  buscarJugadoresAdministradasT,
-  buscarJugadoresAdministradasMaxT,
-  buscarJugadoresAdministradasMax,
-  BuscarJugadorTexto,
-  reloadingJugadores,
   eliminarJugador,
   reducirDisponibles,
   cambiarEstatusQuinielaA,
@@ -32,14 +22,12 @@ import {
 } from "../actions";
 import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
-import { Titulo } from "../components/Titulo";
-import { QuinielaAdminItem } from "../components/QuinielaAdminItem";
 import { HeaderText } from '../components/HeaderText';
 import color from "../comun/colors";
 
 class EliminarQuinielaAdministrada extends Component {
   static navigationOptions = {
-    headerTitle: <HeaderText texto="Eliminar Quiniela"/>,
+    headerTitle: <HeaderText texto="Eliminar Grupo"/>,
   };
   constructor(props) {
     super(props);
@@ -203,7 +191,7 @@ class EliminarQuinielaAdministrada extends Component {
 
   warning() {
     if (this.state.warning === "yes") {
-      return <Text style={styles.warning}>El código no coincide {"\n"}</Text>;
+      return <Text style={styles.warning}>El código no coincide{"\n"}</Text>;
     }
     return <Text />;
   }
@@ -232,9 +220,7 @@ class EliminarQuinielaAdministrada extends Component {
             <Text style={styles.subtitulo1}>
               {this.warning()}
               <Text>
-                Introduce el código de activación para eliminar la quiniela:{
-                  "\n"
-                }
+                Introduce el código del grupo para eliminar el grupo:{"\n"}
                 <Text style={styles.bold}>{quiniela.quinielaNombre}</Text>
               </Text>
             </Text>
@@ -255,7 +241,7 @@ class EliminarQuinielaAdministrada extends Component {
               <View style={styles2.vire} />
             </View>
             <Text style={styles.subtitulo1}>
-              Código de activación: {quiniela.codigoq}{" "}
+              Código del Grupo: {quiniela.codigoq}{" "}
             </Text>
             {this.menustatus1(quiniela.quinielaNombre)}
           </View>
@@ -267,7 +253,7 @@ class EliminarQuinielaAdministrada extends Component {
                 botonDeshabilitado={this.state.botonesDeshabilitados}
                 onPress={() => this.evitaMultiTouches(() => this.eliminarTest1(goBack))}
               >
-                Eliminar Quiniela
+                Eliminar Grupo
               </BotonPrincipal>
               <BotonPrincipal
                 botonDeshabilitado={this.state.botonesDeshabilitados}

@@ -14,8 +14,6 @@ import { connect } from "react-redux";
 import firebase from "firebase";
 
 import { Container } from "../components/Container";
-import { Titulo } from "../components/Titulo";
-import { InputLetra } from "../components/InputLetra";
 import { BotonPrincipal } from "../components/BotonPrincipal";
 import { Spinner } from "../components/Spinner";
 import { HeaderText } from '../components/HeaderText';
@@ -32,7 +30,7 @@ import {
 
 class UnirseAQuiniela extends Component {
   static navigationOptions = {
-    headerTitle: <HeaderText texto="Unirse a Quiniela"/>,
+    headerTitle: <HeaderText texto="Unirse a Grupo"/>,
   };
 
   constructor(props) {
@@ -125,14 +123,16 @@ class UnirseAQuiniela extends Component {
             this.setState({ validando: false });
           } else {
             alert(
-              "No puedes registrar nuevos usuarios en esta quiniela, debes eliminar un usuario para crear otra apuesta"
+              // "No puedes registrar nuevos usuarios en esta quiniela, debes eliminar un usuario para crear otra apuesta"
+              "No puedes crear más quinielas en este grupo, has alcanzado el máximo permitido"
             );
             this.setState({ validando: false });
           }
         }
       } else {
         this.setState({ validando: false });
-        alert("Por favor introduce un código válido de 4 caracteres");
+        // alert("Por favor introduce un código válido de 4 caracteres");
+        alert("Código inválido o no existente");
       }
     } catch (e) {
       //    console.log(e);
@@ -148,7 +148,8 @@ class UnirseAQuiniela extends Component {
         this.run(uid1);
       } else {
         this.setState({ validando: false });
-        alert("Por favor introduce un código válido de 4 caracteres");
+        // alert("Por favor introduce un código válido de 4 caracteres");
+        alert("Código inválido o no existente");
       }
     }
   }
@@ -303,7 +304,7 @@ class UnirseAQuiniela extends Component {
 
         <View>
           <Text style={styles.texto}>
-            Introduzca{"\n"}Código de Activación:
+            Introduzca{"\n"}Código de Grupo:
           </Text>
         </View>
 

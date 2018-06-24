@@ -185,12 +185,12 @@ class RegistrarQuiniela extends Component {
       return (
         <View style={styles.cuerpo}>
           <Text style={styles.texto}>
-            Nombre de la quiniela:{" "}
+            Grupo:{" "}
             {this.props.navigation.state.params.quiniela.quinielaNombre}
             {"\n"}
             Torneo: {this.props.navigation.state.params.quiniela.torneo}
             {"\n"}
-            Código de Activación:{" "}
+            Código de Grupo:{" "}
             {this.props.navigation.state.params.quiniela.codigoq}
             {"\n"}
             Administrador: {this.props.navigation.state.params.admin.nombre}
@@ -215,7 +215,7 @@ class RegistrarQuiniela extends Component {
         <View style={styles.titulo}>
           {/* <Titulo>Escribe un nombre de usuario para tu quiniela</Titulo> */}
           <Text style={styles.textoTitulo}>
-            Introduzca un nombre de usuario para su quiniela:
+            Introduzca un nombre para su quiniela:
           </Text>
         </View>
         <View style={styles.conta}>

@@ -8,7 +8,6 @@ import {
   Keyboard,
   Text,
   TouchableOpacity,
-  KeyboardAvoidingView,
   BackHandler
 } from "react-native"
 import firebase from "firebase"
@@ -33,16 +32,14 @@ import {
 } from "../actions"
 import { Container } from "../components/Container"
 import { BotonPrincipal } from "../components/BotonPrincipal"
-import { Titulo } from "../components/Titulo"
 import { TorneoItem } from "../components/TorneoItem"
-import { generarCodigo } from "../comun/helper"
 import { Spinner } from "../components/Spinner"
 import { HeaderText } from "../components/HeaderText"
 import color from "../comun/colors"
 
 class TusQuinielas extends Component {
   static navigationOptions = {
-    headerTitle: <HeaderText texto="Creación de Quiniela" />
+    headerTitle: <HeaderText texto="Creación de Grupo" />
   }
 
   constructor(props) {
@@ -229,7 +226,8 @@ class TusQuinielas extends Component {
           this.props.navigation.dispatch(resetAction)
         } else {
           alert(
-            "No puedes administrar nuevas quinielas en este torneo, debes eliminar una quiniela administrada para crear otra quiniela"
+            // "No puedes administrar nuevas quinielas en este torneo, debes eliminar una quiniela administrada para crear otra quiniela"
+            "No puedes crear más grupos en este torneo, haz alcanzado el máximo permitido"
           )
           this.setState({ validando: false })
         }
@@ -290,7 +288,7 @@ class TusQuinielas extends Component {
     if (this.state.validando) {
       return <Spinner style={styles.buttonText} size="small" />
     }
-    return <Text style={styles.buttonText}>Crear Quiniela</Text>
+    return <Text style={styles.buttonText}>Crear Grupo</Text>
   }
 
   picker(torneo, torneos) {

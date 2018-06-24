@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import {
   StatusBar,
-  ListView,
   View,
   FlatList,
-  Text,
   BackHandler,
   Image,
   Alert,
@@ -15,7 +13,6 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
 import { connect } from "react-redux";
 import firebase from "firebase";
-import { NavigationActions } from "react-navigation";
 
 import {
   buscarQuinielas,
@@ -25,7 +22,6 @@ import {
 } from "../actions";
 import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
-import { Titulo } from "../components/Titulo";
 import { Qx } from "../components/Qx";
 import { Spinner } from "../components/Spinner";
 import { HeaderText } from '../components/HeaderText';
@@ -132,7 +128,7 @@ class TusQuinielas extends Component {
       '\n'+
       '2. Todos los grupos son privados: necesitas conocer el código del grupo al que quieras unirte.\n'+
       '\n'+
-      '3. Para crear una quiniela selecciona "Unirse a Grupo Existente" y suministra el código del grupo.\n'+
+      '3. Para unirte a un grupo selecciona "Unirse a Grupo" y suministra el código del grupo (se creará tu quiniela dentro de dicho grupo).\n'+
       '\n'+
       '4. Puedes crear un nuevo grupo desde la sección "Administración de Grupos".\n'+
       '\n'+
@@ -230,15 +226,12 @@ class TusQuinielas extends Component {
               botonDeshabilitado={this.state.botonesDeshabilitados}
               onPress={() => this.evitaMultiTouches(() => this.unirseAQuiniela())}
             >
-              {/* Unirse a una Quiniela */}
-              {/* Unirse a Quiniela Existente */}
-              Unirse a Grupo Existente
+              Unirse a Grupo
             </BotonPrincipal>
             <BotonPrincipal
               botonDeshabilitado={this.state.botonesDeshabilitados}
               onPress={() => this.evitaMultiTouches(() => this.crear())}
             >
-              {/* Quinielas Administradas */}
               Administración de Grupos
             </BotonPrincipal>
           </View>

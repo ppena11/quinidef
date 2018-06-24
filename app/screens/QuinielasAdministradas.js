@@ -1,15 +1,10 @@
 import React, { Component } from "react";
 import {
   StatusBar,
-  ListView,
   Keyboard,
   View,
-  ScrollView,
   FlatList,
-  TextInput,
   BackHandler,
-  TouchableOpacity,
-  Text,
 } from "react-native";
 import firebase from "firebase";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -36,7 +31,6 @@ import {
 
 import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
-import { Titulo } from "../components/Titulo";
 import { Qxa } from "../components/Qxa";
 import { HeaderText } from "../components/HeaderText";
 import color from "../comun/colors";
@@ -61,7 +55,7 @@ class QuinielasAdministradas extends Component {
   }
 
   static navigationOptions = {
-    headerTitle: <HeaderText texto="Quinielas Administradas"/>,
+    headerTitle: <HeaderText texto="Grupos Administrados"/>,
     headerLeft: (
       <HeaderBackButton
         onPress = {() => this2.tusquinielas()}

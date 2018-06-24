@@ -1,14 +1,10 @@
 import React, { Component } from "react"
 import firebase from "firebase"
 import {
-  KeyboardAvoidingView,
   StatusBar,
   Keyboard,
-  ListView,
   View,
-  TextInput,
   FlatList,
-  ScrollView,
   TouchableOpacity,
   Text,
   BackHandler,
@@ -35,7 +31,6 @@ import {
 } from "../actions"
 import { Container } from "../components/Container"
 import { BotonPrincipal } from "../components/BotonPrincipal"
-import { Card } from "../components/Card"
 import { CardSectionT } from "../components/CardSectionT"
 import { Titulo } from "../components/Titulo"
 import { QuinielaAdminItem } from "../components/QuinielaAdminItem"
@@ -71,7 +66,7 @@ class DetalleQuinielaAdministrada extends Component {
   }
 
   static navigationOptions = {
-    headerTitle: <HeaderText texto="Administración Quiniela" />,
+    headerTitle: <HeaderText texto="Administración de Grupo" />,
     headerLeft: (
       <HeaderBackButton
         onPress={() => this2.cancelar()}
@@ -328,7 +323,7 @@ class DetalleQuinielaAdministrada extends Component {
           <CardSectionT>
             <TouchableOpacity style={styles.headerContentStyle1}>
               <Text style={styles.headerTextStyle11}>
-                {`    Permtir nuevos jugadores`}
+                {`    Permitir nuevas quinielas`}
               </Text>
               <Switch
                 style={styles.switchStyle}

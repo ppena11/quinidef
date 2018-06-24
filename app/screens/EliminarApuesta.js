@@ -1,13 +1,9 @@
 import React, { Component } from "react"
 import {
-  KeyboardAvoidingView,
   StatusBar,
   Keyboard,
-  ListView,
   View,
   TextInput,
-  FlatList,
-  ScrollView,
   Text,
   BackHandler
 } from "react-native"
@@ -16,12 +12,6 @@ import _ from "lodash"
 import { connect } from "react-redux"
 
 import {
-  buscarJugadoresAdministradas,
-  buscarJugadoresAdministradasT,
-  buscarJugadoresAdministradasMaxT,
-  buscarJugadoresAdministradasMax,
-  BuscarJugadorTexto,
-  reloadingJugadores,
   eliminarJugador,
   reducirDisponibles,
   cambiarEstatusQuinielaA,
@@ -29,8 +19,6 @@ import {
 } from "../actions";
 import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
-import { Titulo } from "../components/Titulo";
-import { QuinielaAdminItem } from "../components/QuinielaAdminItem";
 import { HeaderText } from "../components/HeaderText";
 import color from "../comun/colors";
 
@@ -228,7 +216,7 @@ class EliminarApuesta extends Component {
             <Text style={styles.subtitulo1}>
               {this.warning()}
               <Text>
-                Introduce el código de activación para eliminar a:{"\n"}
+                Introduce el código del grupo para eliminar a:{"\n"}
                 <Text style={styles.bold}>{jugador.nombreapuesta}</Text>
               </Text>
             </Text>
@@ -249,7 +237,7 @@ class EliminarApuesta extends Component {
               <View style={styles2.vire} />
             </View>
             <Text style={styles.subtitulo1}>
-              Código de activación: {this.props.navigation.state.params.codigo}{" "}
+              Código de Grupo: {this.props.navigation.state.params.codigo}{" "}
             </Text>
             {this.menustatus1(jugador.nombre)}
           </View>
@@ -258,7 +246,7 @@ class EliminarApuesta extends Component {
             <View>
               {/* <BotonPrincipal onPress={() => this.crear(navigate)}>Eliminar quiniela</BotonPrincipal> */}
               <BotonPrincipal onPress={() => this.eliminarTest1(goBack)}>
-                Eliminar Jugador
+                Eliminar Quiniela
               </BotonPrincipal>
               <BotonPrincipal onPress={() => this.cancelar()}>
                 Cancelar
