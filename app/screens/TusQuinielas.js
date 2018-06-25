@@ -6,8 +6,8 @@ import {
   BackHandler,
   Image,
   Alert,
-  // NetInfo,
   TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import _ from "lodash";
@@ -85,9 +85,50 @@ class TusQuinielas extends Component {
   }
 
   componentDidMount() {
+    AsyncStorage.setItem("mostrarAlert", null);
+
     this.run();
     console.log("(TusQuinielas) componentDidMount");
     BackHandler.addEventListener("hardwareBackPress", this.handleBackButtonTusQuinielas);
+    
+    AsyncStorage.getItem('mostrarAlert').then((value) => {
+      if(value !== "no")
+      {
+        Alert.alert(
+          "Nuevo Torneo...",
+          'Pronto estará disponible un nuevo torneo:\n'+
+          '"Fase Eliminatoria Rusia 2018".\n'+
+          '\n'+
+          'Allí podrás jugar con tus amigos empezando desde los Octavos de Final de Rusia 2018.',
+          [
+            {text: 'Entendido', onPress: () => AsyncStorage.setItem("mostrarAlert", "si")},
+            {text: 'Entendido,\nNo mostrar de nuevo', onPress: () => AsyncStorage.setItem("mostrarAlert", "no")},
+          ],
+          { cancelable: true }
+        );
+      }
+    })
+    .then(res => {
+        //do something else
+    });
+
+    // AsyncStorage.getItem("mostrarAlert").then((value) => {
+    //   if(value)
+    //   {
+    //     Alert.alert(
+    //       "Nuevo Torneo...",
+    //       'Pronto estará disponible un nuevo torneo:'+
+    //       '"Fase Eliminatoria Rusia 2018", allí podrás jugar con tus amigos empezando desde los octavos de final de Rusia 2018',
+    //       [
+    //         {text: 'Sí', onPress: () => AsyncStorage.setItem("mostrarAlert", true)},
+    //         {text: 'Sí, no mostrar de nuevo', onPress: () => AsyncStorage.setItem("mostrarAlert", false)},
+    //         {text: 'Cancelar', onPress: () => {return true}},
+    //       ],
+    //       { cancelable: false }
+    //     );  
+    //   }
+    //   else return true;
+    // }).done();
   }
 
   componentWillUnmount() {
