@@ -1,144 +1,125 @@
-import React, { Component } from "react";
-import { View, Image, Text, TextInput, TouchableOpacity } from "react-native";
-import { connect } from "react-redux";
-import { withNavigation } from "react-navigation";
-import moment from "moment";
-import _ from "lodash";
-import { Card } from "../Card";
-import { banderas } from "../../comun/imagenes";
-import { pais3letras } from "../../comun/pais";
-import styles from "./styles";
-import color from "../../comun/colors";
+import React, { Component } from "react"
+import { View, Image, Text, TextInput, TouchableOpacity } from "react-native"
+import { connect } from "react-redux"
+import { withNavigation } from "react-navigation"
+import moment from "moment"
+import _ from "lodash"
+import { Card } from "../Card"
+import { banderas } from "../../comun/imagenes"
+import { pais3letras } from "../../comun/pais"
+import styles from "./styles"
+import color from "../../comun/colors"
 
-import { modificarApuestas, buscarReglasAdmin } from "../../actions";
-import { PuntajePartido } from "../../comun/puntaje";
+//import { modificarApuestas, buscarReglasAdmin } from "../../actions"
+import { PuntajePartido } from "../../comun/puntaje"
 
 class DetalleAp extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       regla: {}
-    };
-    this.run = this.run.bind(this);
+    }
+    this.run = this.run.bind(this)
     this.calcularPuntajeTotalJugador = this.calcularPuntajeTotalJugador.bind(
       this
-    );
+    )
   }
 
   componentDidMount() {
-    this.run();
+    this.run()
   }
 
   run = async () => {
     try {
-      const regla = await this.props.buscarReglasAdmin(
-        this.props.quiniela.quiniela
-      );
-      const r1 = regla.toJSON();
-      this.setState({ regla: r1 });
+      const r1 = this.props.reglas
+      this.setState({ regla: r1 })
       // console.log(r1);
     } catch (e) {
       // console.log(e);
     }
-  };
+  }
 
   calcularPuntajeTotalJugador() {
-    const re = this.props.partidos;
+    //  const re = this.props.partidos
     //    const reglas = Object.keys(this.state.regla).map(key => ({
     //      key,
     //      value: this.state.regla[key]
     //    }));
     //const reglas = _.map(this.state.regla, (val, uid) => ({ ...val, uid }));
 
-    reglas = this.state.regla;
+    reglas = this.props.reglas
 
-    return PuntajePartido(
-      this.props.partido,
-      re[this.props.partido.uid],
-      reglas
-    );
+    return PuntajePartido(this.props.apuesta, this.props.partido, reglas)
   }
 
   apuestaA() {
-    const re = this.props.partidos;
-
-    const k = moment.utc(re[this.props.partido.uid].inicioGMT0);
-    const y = moment(this.props.hora.hora);
-
-    if (re[this.props.partido.uid].bloqueado) {
+    if (this.props.partido.bloqueado) {
       return (
         <Text style={styles.text2}>
-          {this.props.partido.golesA.toString() == "null"
+          {this.props.apuesta.golesA.toString() == "null"
             ? " - "
-            : this.props.partido.golesA.toString()}
+            : this.props.apuesta.golesA.toString()}
         </Text>
-      );
+      )
     } else {
-      return <Text style={styles.text2}> X </Text>;
+      return <Text style={styles.text2}> X </Text>
     }
   }
 
   apuestaB() {
-    const re = this.props.partidos;
-    const k = moment.utc(re[this.props.partido.uid].inicioGMT0);
-    const y = moment(this.props.hora.hora);
-
-    if (re[this.props.partido.uid].bloqueado) {
+    if (this.props.partido.bloqueado) {
       return (
         <Text style={styles.text2}>
-          {this.props.partido.golesB.toString() == "null"
+          {this.props.apuesta.golesB.toString() == "null"
             ? " - "
-            : this.props.partido.golesB.toString()}
+            : this.props.apuesta.golesB.toString()}
         </Text>
-      );
+      )
     } else {
-      return <Text style={styles.text2}> X </Text>;
+      return <Text style={styles.text2}> X </Text>
     }
   }
 
   block1() {
-    const re = this.props.partidos;
-    if (re[this.props.partido.uid].bloqueado) {
+    if (this.props.partido.bloqueado) {
       return (
         <Text style={styles.fecha2}>
           {`PUNTOS OBTENIDOS EN ESTE PARTIDO: ${
-            re[this.props.partido.uid].golesA.toString() == "null"
+            this.props.partido.golesA.toString() == "null"
               ? " - "
               : this.calcularPuntajeTotalJugador()
           }`}
         </Text>
-      );
+      )
     } else {
-      return <View />;
+      return <View />
     }
   }
 
   block2() {
-    const re = this.props.partidos;
-    if (re[this.props.partido.uid].bloqueado) {
-      return <Text style={styles.fecha1}>Resultado</Text>;
+    if (this.props.partido.bloqueado) {
+      return <Text style={styles.fecha1}>Resultado</Text>
     } else {
-      return <View />;
+      return <View />
     }
   }
 
   block3() {
-    const re = this.props.partidos;
-    if (re[this.props.partido.uid].bloqueado) {
+    if (this.props.partido.bloqueado) {
       return (
         <Text style={styles.text}>
-          {re[this.props.partido.uid].golesA.toString() == "null"
+          {this.props.partido.golesA.toString() == "null"
             ? " - "
-            : re[this.props.partido.uid].golesA.toString()}{" "}
+            : this.props.partido.golesA.toString()}{" "}
           -{" "}
-          {re[this.props.partido.uid].golesB.toString() == "null"
+          {this.props.partido.golesB.toString() == "null"
             ? " - "
-            : re[this.props.partido.uid].golesB.toString()}
+            : this.props.partido.golesB.toString()}
         </Text>
-      );
+      )
     } else {
-      return <View />;
+      return <View />
     }
   }
 
@@ -187,20 +168,17 @@ class DetalleAp extends Component {
         </View>
         <View style={styles.containerFecha}>{this.block1()}</View>
       </TouchableOpacity>
-    );
+    )
   }
 }
 
 const mapStateToProps = state => {
-  const quiniela = state.quini;
-  const partidos = state.partidos;
-  const hora = state.hora;
-  const apuestast = state.apuestas;
+  const reglas = state.creacionquinielas.reglas
 
-  return { partidos, hora, quiniela };
-};
+  return { reglas }
+}
 
-export default connect(mapStateToProps, {
-  modificarApuestas,
-  buscarReglasAdmin
-})(withNavigation(DetalleAp));
+export default connect(
+  mapStateToProps,
+  {}
+)(withNavigation(DetalleAp))
