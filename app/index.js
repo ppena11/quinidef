@@ -19,10 +19,12 @@ const mapStateToProps = state => ({
 
 const AppWithNavigation = connect(mapStateToProps)(App)
 
+const entornoProductivoFirebase = true; // cambiar a false para apuntar a proyecto de pruebas
+
 export default class extends Component {
   componentWillMount() {
     let firebaseConfig
-    if (true) {
+    if (entornoProductivoFirebase) {
       firebaseConfig = {
         // Entorno Productivo
         apiKey: "AIzaSyAjBk7uGmz4TzmBlEzi8VuHPC0GjVmXDuw",
