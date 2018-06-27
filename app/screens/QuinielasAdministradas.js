@@ -225,7 +225,7 @@ class QuinielasAdministradas extends Component {
             botonDeshabilitado={this.state.botonesDeshabilitados}
             onPress={() => this.evitaMultiTouches(() => this.crear())}
           >
-            Crear Nueva Quiniela
+            Crear Nuevo Grupo
           </BotonPrincipal>
           {/* <BotonPrincipal onPress={() => this.tusquinielas()}>
             Tus Quinielas

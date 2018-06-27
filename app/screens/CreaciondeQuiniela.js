@@ -363,7 +363,7 @@ class TusQuinielas extends Component {
                 <TextInput
                   style={styles.inputBox}
                   underlineColorAndroid={color.$underlineColorAndroid}
-                  placeholder="Nombre de la quiniela..."
+                  placeholder="Nombre del grupo..."
                   placeholderTextColor={color.$placeholderTextColor}
                   selectionColor={color.$selectionColor}
                   keyboardType="email-address"

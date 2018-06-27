@@ -3,11 +3,8 @@ import {
   KeyboardAvoidingView,
   StatusBar,
   Keyboard,
-  ListView,
   View,
   TextInput,
-  FlatList,
-  ScrollView,
   Text,
   BackHandler
 } from "react-native"
@@ -17,12 +14,6 @@ import firebase from "firebase";
 import { connect } from "react-redux";
 
 import {
-  buscarJugadoresAdministradas,
-  buscarJugadoresAdministradasT,
-  buscarJugadoresAdministradasMaxT,
-  buscarJugadoresAdministradasMax,
-  BuscarJugadorTexto,
-  reloadingJugadores,
   eliminarJugador,
   reducirDisponibles,
   cambiarEstatusQuinielaA,
@@ -34,7 +25,6 @@ import {
 import { Container } from "../components/Container";
 import { BotonPrincipal } from "../components/BotonPrincipal";
 import { Titulo } from "../components/Titulo";
-import { QuinielaAdminItem } from "../components/QuinielaAdminItem";
 import color from "../comun/colors";
 
 class EliminarQuiniela extends Component {
@@ -223,7 +213,7 @@ class EliminarQuiniela extends Component {
             <Text style={styles.subtitulo1}>
               {this.warning()}
               <Text>
-                Introduce el código de activación para eliminar tu apuesta:{
+                Introduce el código del grupo para eliminar tu quiniela:{
                   "\n"
                 }
                 <Text style={styles.bold}>{quiniela.nombreapuesta}</Text>
@@ -246,7 +236,7 @@ class EliminarQuiniela extends Component {
               <View style={styles2.vire} />
             </View>
             <Text style={styles.subtitulo1}>
-              Código de activación:{" "}
+              Código de grupo:{" "}
               {this.props.navigation.state.params.quiniela.codigoq}{" "}
             </Text>
             {this.menustatus1(quiniela.nombreapuesta)}

@@ -3,29 +3,15 @@ import {
   KeyboardAvoidingView,
   StatusBar,
   Keyboard,
-  ListView,
   View,
-  TextInput,
-  FlatList,
-  ScrollView,
   BackHandler,
-  TouchableOpacity,
   Text
 } from "react-native"
 import EStyleSheet from "react-native-extended-stylesheet"
-import _ from "lodash"
 import { connect } from "react-redux"
 
 import {
-  buscarJugadoresAdministradas,
-  buscarJugadoresAdministradasT,
-  buscarJugadoresAdministradasMaxT,
-  buscarJugadoresAdministradasMax,
-  BuscarJugadorTexto,
-  reloadingJugadores,
   buscarDetalleAdmin,
-  modifarReglasBD,
-  reinicarReglas
 } from "../actions"
 import { Container } from "../components/Container"
 import { BotonPrincipal } from "../components/BotonPrincipal"
@@ -204,11 +190,11 @@ class DatosAdmin extends Component {
         <Text style={styles.subText}>Nombre de usuario del administrador:</Text>
         <Text style={styles.subText}>{this.state.admin.nombre}</Text>
         <Text style={styles.subText}>
-          Nombre de la quiniela: {this.props.quiniela.quinielaNombre}
+          Nombre del grupo: {this.props.quiniela.quinielaNombre}
         </Text>
         <Text style={styles.subText}>Torneo: {this.props.quiniela.torneo}</Text>
         <Text style={styles.subText}>
-          Código de activación: {this.props.quiniela.codigoq}
+          Código del grupo: {this.props.quiniela.codigoq}
         </Text>
       </View>
     )
